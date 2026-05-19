@@ -1,0 +1,10 @@
+packages:
+  - .
+
+# Override global min-release-age (24h): Rspack/module-federation lack registry "time" metadata
+minimumReleaseAge: 0
+resolutionMode: highest
+
+allowBuilds:
+  "@swc/core": true
+  core-js: true
