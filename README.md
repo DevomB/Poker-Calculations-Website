@@ -1,41 +1,31 @@
-# Website
+# Poker Calculations — docs site
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+Static site for [poker-calculator.devomb.com](https://poker-calculator.devomb.com/) (Docusaurus 3).
 
-## Installation
+Visual identity and tokens: [`BRAND.md`](BRAND.md), [`src/css/tokens.css`](src/css/tokens.css), and [`src/css/custom.css`](src/css/custom.css).
 
-```bash
-yarn
-```
-
-## Local Development
+## Commands
 
 ```bash
-yarn start
+pnpm install
+pnpm start          # dev server
+pnpm run build      # output in `build/`
+pnpm run gen-docs   # regenerate `docs/api/**` from `../NPM/index.d.ts` + `../NPM/FEATURES_ADDED.md`
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+## Generated `.docusaurus` (authoritative for routing)
 
-## Build
+After **`pnpm run build`** or **`pnpm start`**, Docusaurus writes a cache under [`.docusaurus/`](.docusaurus/). **Do not edit it** (see `DONT-EDIT-THIS-FOLDER`). Use it when you need to verify framework output:
 
-```bash
-yarn build
-```
+| File | Use it to confirm |
+|------|-------------------|
+| [`.docusaurus/docusaurus.config.mjs`](.docusaurus/docusaurus.config.mjs) | **Resolved** site config (presets, merged theme options, plugins). |
+| [`.docusaurus/globalData.json`](.docusaurus/globalData.json) | **Doc IDs** (e.g. `api/index` for navbar `docId`), paths, and which **sidebar** each doc uses (`apiSidebar`). |
+| [`.docusaurus/routes.js`](.docusaurus/routes.js) | **URL paths** and `sidebar` props for each route. |
+| [`.docusaurus/registry.js`](.docusaurus/registry.js) | Webpack component registry for lazy-loaded pages. |
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+Example: navbar `docId: 'api/index'` must match `globalData.json` → `docusaurus-plugin-content-docs` → `versions[0].docs` entry with `"id": "api/index"`.
 
-## Deployment
+## Local search
 
-Using SSH:
-
-```bash
-USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```bash
-GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+Search is provided by `@easyops-cn/docusaurus-search-local` (see `themes` in [`docusaurus.config.ts`](docusaurus.config.ts)). The index file is emitted to `build/search-index.json` at the end of `pnpm run build`.

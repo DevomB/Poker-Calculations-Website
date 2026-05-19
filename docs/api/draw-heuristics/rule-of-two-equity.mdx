@@ -1,0 +1,43 @@
+---
+title: ruleOfTwoEquity
+sidebar_label: ruleOfTwoEquity
+description: "Out-count × 2% cap heuristic (one card)."
+---
+
+## Summary
+
+Out-count × 2% cap heuristic (one card).
+
+## Signature
+
+```ts
+ruleOfTwoEquity(outs: number): number;
+```
+
+## Implementation notes
+
+```text
+_See TypeScript types in the repository._
+```
+
+## When to use
+
+Use for quick draw math: rule of 2/4, flop-to-union hit models, runner-runner patterns, duplication heuristics, and exact straight-or-better flop-to-river probabilities when you already modeled outs.
+
+**Concrete trigger:** Out-count × 2% cap heuristic (one card).
+
+**Skip this export** when you need full multi-street game trees, opponent-specific ranges, or browser-side execution without the native addon—this library is Node + N-API.
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+// ruleOfTwoEquity(...) — see signature above
+```
+
+Browse grouped samples under [`NPM/examples/`](https://github.com/DevomB/Poker-Calculations/tree/main/NPM/examples).
+
+## See also
+
+- [API index](/docs/api)
+- Type definitions: [`NPM/index.d.ts`](https://github.com/DevomB/Poker-Calculations/blob/main/NPM/index.d.ts)

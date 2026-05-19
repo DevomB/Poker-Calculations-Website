@@ -1,47 +1,51 @@
 ---
 sidebar_position: 1
+title: Introduction
 ---
 
-# Tutorial Intro
+# poker-calculations
 
-Let's discover **Docusaurus in less than 5 minutes**.
+**poker-calculations** is a Node.js library (N-API + C++20) for NL hold'em: hand evaluation, Monte Carlo and exact equity, pot and rake math, ICM, side pots, draw heuristics, toy GTO-style frequencies, statistics, and more.
 
-## Getting Started
-
-Get started by **creating a new site**.
-
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
-
-### What you'll need
-
-- [Node.js](https://nodejs.org/en/download/) version 20.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
+## Install
 
 ```bash
-npm init docusaurus@latest my-website classic
+npm install poker-calculations
 ```
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+Requires **Node 18+**. Prebuilt binaries ship for common platforms; see the [npm package](https://www.npmjs.com/package/poker-calculations) and [repository README](https://github.com/DevomB/Poker-Calculations/blob/main/NPM/README.md).
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+## Quick start
 
-## Start your site
+```js
+const poker = require('poker-calculations');
 
-Run the development server:
-
-```bash
-cd my-website
-npm run start
+console.log(poker.evaluateBestHand(['Ah', 'Kh', 'Qh', 'Jh', 'Th']));
+console.log(poker.potOddsRatio(100, 50));
 ```
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+## Documentation on this site
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
+- **[API reference](/docs/api)** — all **96** exported functions, grouped by topic with signatures from TypeScript, implementation notes from JSDoc, and when-to-use guidance.
+- **Examples** — runnable scripts live in [`NPM/examples/`](https://github.com/DevomB/Poker-Calculations/tree/main/NPM/examples) in the repo.
 
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+Use the **search bar** in the navbar to jump to any export by name.
+
+## Hand rank labels {#hand-rank-labels}
+
+[`evaluateHandCategory`](/docs/api/hand-evaluation/evaluate-hand-category) returns one of these string labels (lowercase camelCase). Use [`handRankCategoryOrder`](/docs/api/hand-evaluation/hand-rank-category-order) for a numeric sort key `0` … `9`.
+
+| Order | Label |
+| --- | --- |
+| 0 | `highCard` |
+| 1 | `onePair` |
+| 2 | `twoPair` |
+| 3 | `threeOfAKind` |
+| 4 | `straight` |
+| 5 | `flush` |
+| 6 | `fullHouse` |
+| 7 | `fourOfAKind` |
+| 8 | `straightFlush` |
+| 9 | `royalFlush` |
+
+See also the [package feature inventory](https://github.com/DevomB/Poker-Calculations/blob/main/NPM/FEATURES_ADDED.md#hand-rank-labels) in the repo.

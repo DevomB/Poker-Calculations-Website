@@ -1,0 +1,43 @@
+---
+title: effectiveStack
+sidebar_label: effectiveStack
+description: "Minimum stack; empty → `0`."
+---
+
+## Summary
+
+Minimum stack; empty → `0`.
+
+## Signature
+
+```ts
+effectiveStack(...stacks: number[]): number;
+```
+
+## Implementation notes
+
+```text
+_See TypeScript types in the repository._
+```
+
+## When to use
+
+Use for SPR, blinds-relative stack metrics, Harrington M/Q, orbit cost, NL minimum raise toy sizing, and human-readable pot-odds strings—anything that turns chips into ratios for HUDs or notes.
+
+**Concrete trigger:** Minimum stack; empty → `0`.
+
+**Skip this export** when you need full multi-street game trees, opponent-specific ranges, or browser-side execution without the native addon—this library is Node + N-API.
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+// effectiveStack(...) — see signature above
+```
+
+Browse grouped samples under [`NPM/examples/`](https://github.com/DevomB/Poker-Calculations/tree/main/NPM/examples).
+
+## See also
+
+- [API index](/docs/api)
+- Type definitions: [`NPM/index.d.ts`](https://github.com/DevomB/Poker-Calculations/blob/main/NPM/index.d.ts)

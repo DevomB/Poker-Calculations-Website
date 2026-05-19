@@ -1,66 +1,48 @@
-import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import prismVelvet from './src/theme/prism-velvet';
+import prismMidnight from './src/theme/prism-midnight';
 
-// This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
-
+/**
+ * Docusaurus merges presets, themes, and defaults into `.docusaurus/docusaurus.config.mjs`
+ * on `pnpm start` / `pnpm run build`. Inspect that file (and `globalData.json`) when unsure
+ * about final plugin options, doc IDs for `navbar.docId`, or resolved paths.
+ */
 const config: Config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
-  favicon: 'img/favicon.ico',
+  title: 'Poker Calculations',
+  tagline: "NL hold'em math for Node — hand evaluation, equity, ICM, pot geometry, and more (N-API + C++).",
+  favicon: 'img/logo.svg',
 
-  // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
-  future: {
-    v4: true, // Improve compatibility with the upcoming Docusaurus v4
-  },
-
-  // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
+  url: 'https://poker-calculator.devomb.com',
   baseUrl: '/',
+  /** Matches emitted HTML paths so local search indexes docs (undefined trailingSlash broke route ↔ permalink matching). */
+  trailingSlash: false,
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'DevomB',
+  projectName: 'Poker-Calculations',
 
   onBrokenLinks: 'throw',
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
   },
+
+  stylesheets: [
+    'https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap',
+  ],
 
   presets: [
     [
       'classic',
       {
         docs: {
+          routeBasePath: 'docs',
           sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/DevomB/Poker-Calculations/tree/main/Website/',
         },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ['rss', 'atom'],
-            xslt: true,
-          },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-          // Useful options to enforce blogging best practices
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
-        },
+        blog: false,
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -68,28 +50,57 @@ const config: Config = {
     ],
   ],
 
+  // Local search ships as a *theme* (not a plugin). See upstream README and
+  // `.docusaurus/docusaurus.config.mjs` after `pnpm run build` for the merged config.
+  themes: [
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      {
+        // `hashed: true` caused ENOENT on `build/search-index.json` mid-build (Docusaurus 3.10.1).
+        // Merged options appear under `.docusaurus/docusaurus.config.mjs` after `pnpm run build`.
+        hashed: false,
+        language: ['en'],
+        indexDocs: true,
+        indexBlog: false,
+        indexPages: false,
+        docsRouteBasePath: 'docs',
+        highlightSearchTermsOnTargetPage: false,
+      },
+    ],
+  ],
+
   themeConfig: {
-    // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
     colorMode: {
+      defaultMode: 'light',
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'My Site',
+      title: 'Poker Calculations',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Poker Calculations',
         src: 'img/logo.svg',
+        srcDark: 'img/logo-dark.svg',
       },
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          sidebarId: 'apiSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Docs',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/facebook/docusaurus',
+          type: 'doc',
+          docId: 'api/index',
+          position: 'left',
+          label: 'API',
+        },
+        {
+          href: 'https://www.npmjs.com/package/poker-calculations',
+          label: 'npm',
+          position: 'right',
+        },
+        {
+          href: 'https://github.com/DevomB/Poker-Calculations',
           label: 'GitHub',
           position: 'right',
         },
@@ -102,47 +113,34 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Tutorial',
+              label: 'Introduction',
               to: '/docs/intro',
             },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
+              label: 'API reference',
+              to: '/docs/api',
             },
           ],
         },
         {
-          title: 'More',
+          title: 'Package',
           items: [
             {
-              label: 'Blog',
-              to: '/blog',
+              label: 'npm',
+              href: 'https://www.npmjs.com/package/poker-calculations',
             },
             {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              label: 'Source',
+              href: 'https://github.com/DevomB/Poker-Calculations',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Poker Calculations. Built with Docusaurus.`,
     },
     prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
+      theme: prismVelvet,
+      darkTheme: prismMidnight,
     },
   } satisfies Preset.ThemeConfig,
 };

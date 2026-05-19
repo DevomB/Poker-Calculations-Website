@@ -1,6 +1,7 @@
 import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
+import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
 type FeatureItem = {
@@ -11,32 +12,44 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Hand evaluation',
+    Svg: require('@site/static/img/feature-hand.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Best five of up to seven cards, strength encoding, categories, and card
+        parsing helpers — see{' '}
+        <Link to="/docs/api/hand-evaluation/evaluate-best-hand">
+          <code>evaluateBestHand</code>
+        </Link>{' '}
+        and related docs.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: 'Equity (MC + exact)',
+    Svg: require('@site/static/img/feature-equity.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Monte Carlo vs random villains, threaded simulation, and exact HU equity
+        on a fixed board — start with{' '}
+        <Link to="/docs/api/monte-carlo-equity/simulate-hand-outcome">
+          <code>simulateHandOutcome</code>
+        </Link>
+        .
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: 'Chips, ICM, side pots',
+    Svg: require('@site/static/img/feature-chips.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Pot odds, rake-aware breakevens, Harrington metrics, Harville ICM, and
+        side-pot ladders — browse{' '}
+        <Link to="/docs/api">
+          <strong>API reference</strong>
+        </Link>
+        .
       </>
     ),
   },
@@ -45,12 +58,16 @@ const FeatureList: FeatureItem[] = [
 function Feature({title, Svg, description}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
-      </div>
-      <div className="text--center padding-horiz--md">
-        <Heading as="h3">{title}</Heading>
-        <p>{description}</p>
+      <div className={styles.featureCard}>
+        <div className={styles.featureIconWrap}>
+          <Svg className={styles.featureSvg} role="img" aria-hidden />
+        </div>
+        <div className={styles.featureBody}>
+          <Heading as="h3" className={styles.featureTitle}>
+            {title}
+          </Heading>
+          <p className={styles.featureText}>{description}</p>
+        </div>
       </div>
     </div>
   );

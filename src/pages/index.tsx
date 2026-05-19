@@ -10,18 +10,43 @@ import styles from './index.module.css';
 
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
+  const taglineParts = siteConfig.tagline.split(' — ');
+  const lead = taglineParts[0] ?? siteConfig.tagline;
+  const rest = taglineParts.slice(1).join(' — ') || null;
+
   return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
+    <header className={clsx('hero', styles.heroBanner)}>
+      <div className={styles.heroTexture} aria-hidden />
       <div className="container">
-        <Heading as="h1" className="hero__title">
+        <Heading as="h1" className={clsx('hero__title', styles.heroTitle)}>
           {siteConfig.title}
         </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <p className={clsx('hero__subtitle', styles.heroSubtitle)}>
+          <span className={styles.heroSubtitleLead}>{lead}</span>
+          {rest ? (
+            <>
+              <span className={styles.heroSubtitleSep}> — </span>
+              <span className={styles.heroSubtitleRest}>{rest}</span>
+            </>
+          ) : null}
+        </p>
+        <p className={styles.heroStats} aria-label="Package highlights">
+          <span>96 API exports</span>
+          <span className={styles.heroStatsDot} aria-hidden>
+            ·
+          </span>
+          <span>N-API</span>
+          <span className={styles.heroStatsDot} aria-hidden>
+            ·
+          </span>
+          <span>Node 18+</span>
+        </p>
         <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
+          <Link className="button button--primary button--lg" to="/docs/intro">
+            Get started
+          </Link>
+          <Link className="button button--secondary button--lg" to="/docs/api">
+            API reference
           </Link>
         </div>
       </div>
@@ -33,8 +58,8 @@ export default function Home(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={siteConfig.title}
+      description="NL hold'em math for Node: hand evaluation, Monte Carlo and exact equity, pot and rake math, ICM, side pots, and 96 documented API exports.">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

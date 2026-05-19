@@ -1,0 +1,43 @@
+---
+title: bluffToValueRatio
+sidebar_label: bluffToValueRatio
+description: "Polarized river combo ratio `bet / (pot + 2×bet)`."
+---
+
+## Summary
+
+Polarized river combo ratio `bet / (pot + 2×bet)`.
+
+## Signature
+
+```ts
+bluffToValueRatio(potBeforeBet: number, betSize: number): number;
+```
+
+## Implementation notes
+
+```text
+_See TypeScript types in the repository._
+```
+
+## When to use
+
+Use for toy polarized-river frequency ratios (MDF, alpha, bluff:value) derived from pot geometry only. These are teaching aids, not full equilibrium solvers.
+
+**Concrete trigger:** Polarized river combo ratio `bet / (pot + 2×bet)`.
+
+**Skip this export** when you need full multi-street game trees, opponent-specific ranges, or browser-side execution without the native addon—this library is Node + N-API.
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+// bluffToValueRatio(...) — see signature above
+```
+
+Browse grouped samples under [`NPM/examples/`](https://github.com/DevomB/Poker-Calculations/tree/main/NPM/examples).
+
+## See also
+
+- [API index](/docs/api)
+- Type definitions: [`NPM/index.d.ts`](https://github.com/DevomB/Poker-Calculations/blob/main/NPM/index.d.ts)

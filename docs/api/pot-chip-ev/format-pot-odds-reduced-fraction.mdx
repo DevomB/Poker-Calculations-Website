@@ -1,0 +1,313 @@
+---
+title: formatPotOddsReducedFraction
+sidebar_label: formatPotOddsReducedFraction
+description: "Reduced integer ratio string `pot : to_call` (e.g. `100`,`50`→`2:1`); `toCall=0`→`∞:1`."
+---
+
+## Summary
+
+Reduced integer ratio string `pot : to_call` (e.g. `100`,`50`→`2:1`); `toCall=0`→`∞:1`.
+
+## Signature
+
+```ts
+formatPotOddsReducedFraction(potBeforeCall: number, toCall: number): string;
+```
+
+## Implementation notes
+
+```text
+Serialized game state (camelCase) passed to `decideAction`. */
+
+export interface NativePokerState {
+
+players: Array<{
+
+name?: string;
+
+holeCards: string[];
+
+stack?: number;
+
+committedThisStreet?: number;
+
+totalCommittedHand?: number;
+
+folded?: boolean;
+
+seat?: number;
+
+}>;
+
+communityCards: string[];
+
+phase: string;
+
+pot?: number;
+
+currentBet?: number;
+
+buttonSeat?: number;
+
+smallBlind?: number;
+
+bigBlind?: number;
+
+actingIndex?: number;
+
+lastRaiseIncrement?: number;
+
+streetOpeningIndex?: number;
+
+actedThisStreet: boolean[];
+
+}
+
+export interface NativeBotConfig {
+
+aggressionThreshold?: number;
+
+riskTolerance?: number;
+
+monteCarloSimulations?: number;
+
+monteCarloVillains?: number;
+
+raisePotFraction?: number;
+
+opponentAggressionWeight?: number;
+
+rngSeed?: number;
+
+}
+
+export interface NativeOpponentModel {
+
+aggressionFactor?: number;
+
+callFrequency?: number;
+
+foldFrequency?: number;
+
+}
+
+export interface HandEvalResult {
+
+rank: string;
+
+kickers: number[];
+
+}
+
+export interface DecisionResult {
+
+action: 'fold' | 'call' | 'raise' | 'check';
+
+raiseBy: number;
+
+}
+
+export interface WilsonScoreInterval {
+
+lower: number;
+
+upper: number;
+
+}
+
+export interface BetaBinomialFoldPosterior {
+
+alpha: number;
+
+beta: number;
+
+posteriorMean: number;
+
+}
+
+export interface SidePotLayer {
+
+potChips: number;
+
+playerCapContribution: number[];
+
+}
+
+/** N-API addon: NLHE hand engine, equity (MC + exact), strategy, chip/pot/rake math, ICM, side pots, heuristics, GTO-style frequencies, statistics, and related helpers (all implemented in C++). */
+
+export interface PokerCalculations {
+
+evaluateBestHand(cards: string[]): HandEvalResult;
+
+evaluateHandStrength(holeCards: string[], board: string[]): string;
+
+evaluateHandCategory(holeCards: string[], board: string[]): string;
+
+/** `true` if `card` parses as a single card (`Ah`, `10c`, …). */
+
+validateCardString(card: string): boolean;
+
+/**
+
+`true` if any two strings map to the same card. Throws if any entry is not a valid card string.
+
+/
+
+cardStringsHaveDuplicate(cards: string[]): boolean;
+
+/** Canonical two-character form (`Th`, `Ac`, …); throws if invalid. */
+
+canonicalCardString(card: string): string;
+
+/**
+
+Parse concatenated or whitespace-separated cards (`AhKh`, `Ah Kh`, `10hKd`); throws on invalid
+
+token or duplicate cards.
+
+/
+
+parseCompactCardList(text: string): string[];
+
+/**
+
+Compare best 1–7 card lists; returns `-1` / `0` / `1`. Throws on overlap between lists or invalid cards.
+
+/
+
+compareBestHands(cardsA: string[], cardsB: string[]): number;
+
+simulateHandOutcome(
+
+holeCards: string[],
+
+board: string[],
+
+numSimulations: number,
+
+seed: number,
+
+villains?: number
+
+): number;
+
+parallelHandSimulation(
+
+holeCards: string[],
+
+board: string[],
+
+numSimulations: number,
+
+baseSeed: number,
+
+villains: number,
+
+numThreads: number
+
+): number;
+
+decideAction(
+
+state: NativePokerState,
+
+config: NativeBotConfig,
+
+opponentModel?: NativeOpponentModel | null,
+
+heroSeat?: number
+
+): DecisionResult;
+
+potOddsRatio(pot: number, toCall: number): number;
+
+/** Chip EV of calling once vs folding (0); same semantics as C++ `expected_value_call`. */
+
+expectedValueCall(equity: number, pot: number, toCall: number): number;
+
+/**
+
+Chip EV of calling vs folding when the final heads-up pot (after call) pays rake like
+
+`breakevenCallEquityWithRake`.
+
+/
+
+expectedValueCallWithRake(
+
+equity: number,
+
+potBeforeCall: number,
+
+toCall: number,
+
+rakeFraction: number,
+
+rakeCap: number
+
+): number;
+
+/** Same fraction as `potOddsRatio(potBeforeCall, toCall)` for chip calls. */
+
+breakevenCallEquity(potBeforeCall: number, toCall: number): number;
+
+spr(potChips: number, effectiveStackChips: number): number;
+
+effectiveStack(...stacks: number[]): number;
+
+/** Each stack divided by the sum of stacks (tournament chip share; not Harville ICM). */
+
+normalizedStackFractions(stacks: number[]): number[];
+
+minimumDefenseFrequency(potBeforeOpponentBet: number, opponentBetSize: number): number;
+
+stackInBigBlinds(stackChips: number, bigBlind: number): number;
+
+potOddsRatioDisplay(potBeforeCall: number, toCall: number): number;
+
+formatPotOdds(potBeforeCall: number, toCall: number, decimals?: number): string;
+
+/**
+
+Breakeven call equity from `potOddsRatioDisplay` ratio `R = potBeforeCall / toCall`: `1 / (1 + R)`.
+
+`0` when `R` is `+Infinity`.
+
+/
+
+breakevenCallEquityFromPotOddsDisplayRatio(displayPotToCallRatio: number): number;
+
+/**
+
+Inverse of `breakevenCallEquityFromPotOddsDisplayRatio`: `(1 - e) / e` for `e` in `(0,1]`; `Infinity`
+
+when `e === 0`; `0` when `e === 1`.
+
+/
+
+potOddsDisplayRatioFromBreakevenCallEquity(breakevenEquity: number): number;
+
+/** Reduced integer `pot : to_call` string (e.g. `100`, `50` → `"2:1"`); `toCall === 0` → `∞:1`.
+```
+
+## When to use
+
+Use for single-street chip EV and breakeven math around calls, pot odds, rake on the final pot, and book-style odds conversion—ideal for study sheets and post-hand EV checks.
+
+**Concrete trigger:** Reduced integer ratio string `pot : to_call` (e.g. `100`,`50`→`2:1`); `toCall=0`→`∞:1`.
+
+**Skip this export** when you need full multi-street game trees, opponent-specific ranges, or browser-side execution without the native addon—this library is Node + N-API.
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+// formatPotOddsReducedFraction(...) — see signature above
+```
+
+Browse grouped samples under [`NPM/examples/`](https://github.com/DevomB/Poker-Calculations/tree/main/NPM/examples).
+
+## See also
+
+- [API index](/docs/api)
+- Type definitions: [`NPM/index.d.ts`](https://github.com/DevomB/Poker-Calculations/blob/main/NPM/index.d.ts)
