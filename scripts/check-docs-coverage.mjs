@@ -1,8 +1,12 @@
-import {readFileSync, readdirSync, existsSync} from 'node:fs';
+import {createRequire} from 'node:module';
+import {readFileSync, readdirSync} from 'node:fs';
 import {join, dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+const require = createRequire(join(root, 'package.json'));
+const indexDtsPath = require.resolve('poker-calculations/index.d.ts');
+
 const apiRoot = join(root, 'docs/reference/api');
 
 const categories = readdirSync(apiRoot, {withFileTypes: true})
@@ -19,12 +23,26 @@ for (const cat of categories) {
   }
 }
 
-const bindingPath = join(root, '../NPM/native/binding.cpp');
-const binding = readFileSync(bindingPath, 'utf8');
-const exportNames = [
-  ...binding.matchAll(/exports\.Set\(Napi::String::New\(env,\s*"([^"]+)"/g),
-].map((m) => m[1]);
-const unique = [...new Set(exportNames)].sort();
+function exportNamesFromIndexDts(dts) {
+  const marker = 'export interface PokerCalculations {';
+  const start = dts.indexOf(marker);
+  if (start < 0) {
+    throw new Error('PokerCalculations interface not found in index.d.ts');
+  }
+  let i = dts.indexOf('{', start) + 1;
+  let depth = 1;
+  const begin = i;
+  while (i < dts.length && depth > 0) {
+    const ch = dts[i++];
+    if (ch === '{') depth++;
+    else if (ch === '}') depth--;
+  }
+  const body = dts.slice(begin, i - 1);
+  const names = [...body.matchAll(/^\s{2}([a-zA-Z][a-zA-Z0-9]*)\s*\(/gm)].map((m) => m[1]);
+  return [...new Set(names)].sort();
+}
+
+const unique = exportNamesFromIndexDts(readFileSync(indexDtsPath, 'utf8'));
 
 function toSlug(name) {
   return name.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '');

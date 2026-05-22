@@ -32,9 +32,10 @@ No environment variables required.
 
 When the NPM package adds or renames an export:
 
-1. Update [`NPM/native/binding.cpp`](../NPM/native/binding.cpp) and [`index.d.ts`](../NPM/index.d.ts).
-2. Hand-write `docs/reference/api/<category>/<slug>.mdx` (Import / When to use / How to use).
-3. Run `pnpm check:docs`.
+1. Publish a new `poker-calculations` release (update `index.d.ts` in the package).
+2. Bump the `poker-calculations` devDependency in this folder and run `pnpm install`.
+3. Hand-write `docs/reference/api/<category>/<slug>.mdx` (Import / When to use / How to use).
+4. Run `pnpm check:docs` (reads `index.d.ts` from the `poker-calculations` package on npm).
 
 ## Brand assets
 
