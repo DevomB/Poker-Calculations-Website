@@ -1,0 +1,74 @@
+---
+title: decideAction guide
+---
+
+# decideAction
+
+Rule-based action from serialized table state, Monte Carlo equity (or strength fallback when sim count is 0), pot odds, and call EV.
+
+## State shape
+
+See [NativePokerState](/docs/reference/types/native-poker-state).
+
+| Field | Required | Notes |
+| --- | --- | --- |
+| `players[]` | yes | Each player needs `holeCards: string[]` |
+| `communityCards` | yes | Board strings |
+| `phase` | yes | `preflop`, `flop`, `turn`, `river`, `showdown`, `handcomplete` (case variants accepted) |
+| `actedThisStreet` | yes | One boolean per player |
+| `pot`, `currentBet`, blinds, seats | optional | Table geometry |
+
+**Hero seat:** pass `heroSeat` explicitly, or the engine uses the acting player’s seat, or seat `0`.
+
+## Config
+
+See [NativeBotConfig](/docs/reference/types/native-bot-config) and optional [NativeOpponentModel](/docs/reference/types/native-opponent-model).
+
+When `monteCarloSimulations` is `0`, strategy falls back to encoded hand strength instead of simulated equity.
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+
+const state = {
+  players: [
+    {
+      name: 'Hero',
+      holeCards: ['Ah', 'Kh'],
+      stack: 200,
+      committedThisStreet: 0,
+      seat: 0,
+    },
+    {
+      name: 'Villain',
+      holeCards: ['Qc', 'Qd'],
+      stack: 180,
+      committedThisStreet: 10,
+      seat: 1,
+    },
+  ],
+  communityCards: ['Qh', 'Jh', '2c'],
+  phase: 'flop',
+  pot: 30,
+  currentBet: 10,
+  smallBlind: 1,
+  bigBlind: 2,
+  buttonSeat: 0,
+  actingIndex: 0,
+  actedThisStreet: [false, true],
+};
+
+const config = {
+  monteCarloSimulations: 2000,
+  monteCarloVillains: 1,
+  rngSeed: 42,
+};
+
+const decision = poker.decideAction(state, config, null, 0);
+console.log(decision.action, decision.raiseBy);
+```
+
+## API reference
+
+Full **Import / When / How** for [`decideAction`](/docs/reference/api/strategy/decide-action).

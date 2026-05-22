@@ -1,0 +1,30 @@
+---
+title: canonicalCardString
+sidebar_position: 8
+---
+
+# `canonicalCardString`
+
+Canonical two-character form (`Th`, `Ac`, …). Throws if invalid.
+
+<div className="apiSignature">{`canonicalCardString(card: string): string`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use to normalize user input (`10h` → `Th`) before storage or deduplication.
+
+## How to use
+
+```js
+const card = poker.canonicalCardString('10h'); // "Th"
+```
+
+## See also
+
+[`validateCardString`](/docs/reference/api/hands-and-equity/validate-card-string)

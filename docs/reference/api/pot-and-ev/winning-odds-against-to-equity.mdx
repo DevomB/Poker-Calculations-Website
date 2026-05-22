@@ -1,0 +1,51 @@
+---
+title: winningOddsAgainstToEquity
+sidebar_position: 9
+---
+
+# `winningOddsAgainstToEquity`
+
+Convert book-style **winning odds against** back to equity: `1 / (1 + oddsAgainst)` for `oddsAgainst >= 0`. Returns `0` when `oddsAgainst` is `+Infinity`.
+
+<div className="apiSignature"><code>winningOddsAgainstToEquity(oddsAgainst: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when the user or a book states **odds against** (e.g. “4:1 against” → `oddsAgainst = 4`) and you need equity for comparison to [`breakevenCallEquity`](/docs/reference/api/pot-and-ev/breakeven-call-equity) or [`expectedValueCall`](/docs/reference/api/pot-and-ev/expected-value-call).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const oddsAgainst = 3; // 3:1 against → 25% equity
+const equity = poker.winningOddsAgainstToEquity(oddsAgainst);
+console.log(equity); // 0.25
+
+// Match equityToWinningOddsAgainst
+const again = poker.equityToWinningOddsAgainst(equity);
+console.log(again); // 3
+
+// Impossible win line
+console.log(poker.winningOddsAgainstToEquity(Number.POSITIVE_INFINITY)); // 0
+```
+
+**Returns** `number` — `1 / (1 + oddsAgainst)` for non-negative finite `oddsAgainst`; `0` when `oddsAgainst` is `+Infinity`. Throws if `oddsAgainst` is invalid (negative finite, NaN, etc.).
+
+## See also
+
+[`equityToWinningOddsAgainst`](/docs/reference/api/pot-and-ev/equity-to-winning-odds-against) · [`expectedValueCall`](/docs/reference/api/pot-and-ev/expected-value-call) · [Pot & EV index](/docs/reference/api/pot-and-ev/)

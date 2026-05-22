@@ -1,0 +1,46 @@
+---
+title: alphaFrequency
+sidebar_position: 1
+---
+
+# `alphaFrequency`
+
+Alpha frequency: 1 − MDF = bet / (pot + bet) (exploit weight if hero never defends).
+
+<div className="apiSignature"><code>alphaFrequency(potBeforeBet: number, betSize: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Polarized **betting study**: how much of villain’s betting range can be bluffs if you never call—complement of minimum defense frequency. Toy GTO geometry from pot and bet size before hero acts.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const potBeforeBet = 100;
+const betSize = 75;
+
+const alpha = poker.alphaFrequency(potBeforeBet, betSize);
+const mdf = poker.minimumDefenseFrequency(potBeforeBet, betSize);
+
+console.log({ alpha, mdf, sum: alpha + mdf });
+```
+
+## Returns
+
+`number` — alpha = 1 − MDF = betSize / (potBeforeBet + betSize), in `[0, 1]` for valid positive sizes.

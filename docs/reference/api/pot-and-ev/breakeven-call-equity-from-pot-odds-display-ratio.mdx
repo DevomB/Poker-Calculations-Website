@@ -1,0 +1,54 @@
+---
+title: breakevenCallEquityFromPotOddsDisplayRatio
+sidebar_position: 5
+---
+
+# `breakevenCallEquityFromPotOddsDisplayRatio`
+
+Convert a **display** pot-odds ratio `R = potBeforeCall / toCall` (the “2:1” number) into breakeven equity: `1 / (1 + R)`.
+
+<div className="apiSignature"><code>breakevenCallEquityFromPotOddsDisplayRatio(displayPotToCallRatio: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when your UI or notes already express odds as **pot : call** (e.g. user entered “2:1” meaning the pot is twice the call) and you need the equity threshold without re-entering chip counts. Inverse of [`potOddsDisplayRatioFromBreakevenCallEquity`](/docs/reference/api/pot-and-ev/pot-odds-display-ratio-from-breakeven-call-equity).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+// Villain offers 2:1 — pot before your call is twice what you must put in
+const displayRatio = 2; // potBeforeCall / toCall
+const need = poker.breakevenCallEquityFromPotOddsDisplayRatio(displayRatio);
+console.log(need); // 1 / (1 + 2) ≈ 0.333...
+
+// Same threshold from chips
+const fromChips = poker.breakevenCallEquity(100, 50);
+console.log(fromChips);
+
+// Free call line (R = +Infinity) → 0
+console.log(
+  poker.breakevenCallEquityFromPotOddsDisplayRatio(Number.POSITIVE_INFINITY),
+);
+```
+
+**Returns** `number` — `1 / (1 + R)` for finite non-negative `R`; `0` when `R` is `+Infinity`. Throws if `R` is invalid (negative finite, NaN, etc.).
+
+## See also
+
+[`potOddsDisplayRatioFromBreakevenCallEquity`](/docs/reference/api/pot-and-ev/pot-odds-display-ratio-from-breakeven-call-equity) · [`breakevenCallEquity`](/docs/reference/api/pot-and-ev/breakeven-call-equity) · [`formatPotOddsReducedFraction`](/docs/reference/api/pot-and-ev/format-pot-odds-reduced-fraction)

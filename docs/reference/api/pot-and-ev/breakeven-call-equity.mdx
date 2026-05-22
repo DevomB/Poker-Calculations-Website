@@ -1,0 +1,53 @@
+---
+title: breakevenCallEquity
+sidebar_position: 4
+---
+
+# `breakevenCallEquity`
+
+Minimum equity to break even on a one-street call from chip counts: `toCall / (potBeforeCall + toCall)`. Same fraction as [`potOddsRatio`](/docs/reference/api/pot-and-ev/pot-odds-ratio) for valid calls.
+
+<div className="apiSignature"><code>breakevenCallEquity(potBeforeCall: number, toCall: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use in trainers, HUDs, or scripts where you have **pot before call** and **to call** and need a quick threshold (e.g. “need 33%”). Prefer [`breakevenCallEquityFromPotOddsDisplayRatio`](/docs/reference/api/pot-and-ev/breakeven-call-equity-from-pot-odds-display-ratio) when the user already thinks in **pot : call** display odds (e.g. 2:1).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const potBeforeCall = 100;
+const toCall = 50;
+
+const need = poker.breakevenCallEquity(potBeforeCall, toCall);
+console.log(need); // 1/3
+
+// Same number via potOddsRatio (parameter name `pot` = pot before call)
+console.log(poker.potOddsRatio(potBeforeCall, toCall));
+
+// Compare to Monte Carlo or exact equity
+const myEquity = 0.42;
+console.log(myEquity >= need ? 'call' : 'fold');
+```
+
+**Returns** `number` — `toCall / (potBeforeCall + toCall)` when `toCall > 0` and the denominator is positive; `0` when `toCall === 0` or `potBeforeCall + toCall ≤ 0`.
+
+## See also
+
+[`potOddsRatio`](/docs/reference/api/pot-and-ev/pot-odds-ratio) · [`breakevenCallEquityFromPotOddsDisplayRatio`](/docs/reference/api/pot-and-ev/breakeven-call-equity-from-pot-odds-display-ratio) · [`expectedValueCall`](/docs/reference/api/pot-and-ev/expected-value-call)

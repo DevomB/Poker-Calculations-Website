@@ -1,0 +1,44 @@
+---
+title: flopToRiverAtLeastOneHitUnionThreeCategories
+sidebar_position: 10
+---
+
+# `flopToRiverAtLeastOneHitUnionThreeCategories`
+
+Three categories; union = `oa+ob+oc - sab - sac - sbc + sabc`.
+
+<div className="apiSignature"><code>flopToRiverAtLeastOneHitUnionThreeCategories(unseenAfterFlop: number, outsA: number, outsB: number, outsC: number, sharedAb: number, sharedAc: number, sharedBc: number, sharedAbc: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Three-way out overlap (e.g. flush + straight + pair outs) needs **inclusion–exclusion on card counts** before applying the flop→river formula. Pass pairwise and triple intersection sizes as actual cards, not combo counts.
+
+## How to use
+
+```js
+const p = poker.flopToRiverAtLeastOneHitUnionThreeCategories(
+  47, // unseen after flop
+  9, 4, 3, // outs A, B, C
+  1, 0, 0, // shared AB, AC, BC
+  0         // shared ABC
+);
+console.log(p);
+```
+
+## See also
+
+[`flopToRiverAtLeastOneHitUnionTwoCategories`](/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-union-two-categories) · [`flopToRiverAtLeastOneHitUnionFourCategories`](/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-union-four-categories)

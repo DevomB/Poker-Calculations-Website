@@ -1,0 +1,49 @@
+---
+title: formatPotOddsReducedFraction
+sidebar_position: 7
+---
+
+# `formatPotOddsReducedFraction`
+
+Reduced integer **`pot : to_call`** string from chip counts (e.g. `100`, `50` → `"2:1"`). `toCall === 0` → `"∞:1"`.
+
+<div className="apiSignature"><code>formatPotOddsReducedFraction(potBeforeCall: number, toCall: number): string</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use to show **human-readable pot odds** in UIs, flashcards, or logs after rounding real chip amounts. Unlike decimal `formatPotOdds`, this gcd-reduces rounded integers so `100`/`50` becomes `2:1` instead of `2.00:1`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+console.log(poker.formatPotOddsReducedFraction(100, 50)); // "2:1"
+console.log(poker.formatPotOddsReducedFraction(90, 30)); // "3:1"
+console.log(poker.formatPotOddsReducedFraction(200, 0)); // "∞:1"
+
+// From breakeven equity → display ratio → label
+const ratio = poker.potOddsDisplayRatioFromBreakevenCallEquity(0.25);
+const label = poker.formatPotOddsReducedFraction(300, 100);
+console.log({ ratio, label });
+```
+
+**Returns** `string` — reduced `"p:c"` (e.g. `100`, `50` → `"2:1"`). When `toCall === 0`, `"∞:1"`. Chip inputs are rounded to integers before gcd; throws if rounded `toCall` is not positive.
+
+## See also
+
+[`potOddsDisplayRatioFromBreakevenCallEquity`](/docs/reference/api/pot-and-ev/pot-odds-display-ratio-from-breakeven-call-equity) · [`breakevenCallEquity`](/docs/reference/api/pot-and-ev/breakeven-call-equity) · [Pot & EV index](/docs/reference/api/pot-and-ev/)

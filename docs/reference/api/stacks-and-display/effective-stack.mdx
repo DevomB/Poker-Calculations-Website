@@ -1,0 +1,41 @@
+---
+title: effectiveStack
+sidebar_position: 2
+---
+
+# `effectiveStack`
+
+Minimum stack; empty → `0`.
+
+<div className="apiSignature"><code>effectiveStack(...stacks: number[]): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Heads-up or multiway, the **smallest relevant stack** caps how much can go in. Pass every live stack in the pot to get the effective stack for SPR and commitment math.
+
+## How to use
+
+```js
+const eff = poker.effectiveStack(420, 180, 950);
+console.log(eff); // 180
+
+console.log(poker.spr(60, eff)); // SPR vs shortest stack
+```
+
+## See also
+
+[`spr`](/docs/reference/api/stacks-and-display/spr) · [`stackInBigBlinds`](/docs/reference/api/stacks-and-display/stack-in-big-blinds)

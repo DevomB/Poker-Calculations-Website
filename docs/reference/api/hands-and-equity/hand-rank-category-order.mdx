@@ -1,0 +1,30 @@
+---
+title: handRankCategoryOrder
+sidebar_position: 11
+---
+
+# `handRankCategoryOrder`
+
+Integer order `0..9` for `evaluateHandCategory` labels. Throws if unknown.
+
+<div className="apiSignature">{`handRankCategoryOrder(category: string): number`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when sorting categories or building charts that need numeric ordering instead of string labels.
+
+## How to use
+
+```js
+const order = poker.handRankCategoryOrder('flush'); // 5
+```
+
+## See also
+
+[Hand rank labels](/docs/concepts/hand-rank-labels)

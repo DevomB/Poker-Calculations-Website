@@ -1,0 +1,43 @@
+---
+title: hypergeometricOneCardHitProbability
+sidebar_position: 6
+---
+
+# `hypergeometricOneCardHitProbability`
+
+One-card hypergeometric hit rate `outs/unseenCards`.
+
+<div className="apiSignature"><code>hypergeometricOneCardHitProbability(outs: number, unseenCards: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Exact **single-card** hit probability when outs are disjoint and unseen deck size is known (one street remaining). Foundation for comparing rule-of-two estimates to math.
+
+## How to use
+
+```js
+const outs = 9;
+const unseen = 46; // turn card only
+const p = poker.hypergeometricOneCardHitProbability(outs, unseen);
+console.log(p); // 9/46 ≈ 0.1957
+
+console.log(poker.ruleOfTwoEquity(outs)); // heuristic ~18–20% depending on cap
+```
+
+## See also
+
+[`ruleOfTwoEquity`](/docs/reference/api/heuristics-and-draws/rule-of-two-equity) · [`flopToRiverAtLeastOneHitProbability`](/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-probability)

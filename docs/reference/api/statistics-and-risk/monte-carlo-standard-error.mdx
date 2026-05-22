@@ -1,0 +1,48 @@
+---
+title: monteCarloStandardError
+sidebar_position: 1
+---
+
+# `monteCarloStandardError`
+
+Binomial standard error for a Monte Carlo proportion estimate: √(p̂(1−p̂)/n).
+
+<div className="apiSignature"><code>monteCarloStandardError(pHat: number, nTrials: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+After a Monte Carlo equity or win-rate run, quantify **sampling uncertainty** on the estimated proportion `pHat`. Use the result to report error bars, compare runs, or decide whether more trials are needed (pair with `monteCarloTrialsForStandardErrorBound`).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const pHat = 0.412;
+const nTrials = 20000;
+
+const se = poker.monteCarloStandardError(pHat, nTrials);
+console.log(`equity ${(pHat * 100).toFixed(1)}% ± ${(se * 100).toFixed(2)}% (1 SE)`);
+
+// Plan trials for a target SE (requires 0 < pHat < 1)
+const nNeeded = poker.monteCarloTrialsForStandardErrorBound(pHat, 0.005);
+console.log('trials for SE ≤ 0.5%:', nNeeded);
+```
+
+## Returns
+
+`number` — standard error of the binomial proportion: √(p̂(1−p̂)/nTrials). Assumes independent trials and uses the plug-in estimate p̂ at the observed rate.

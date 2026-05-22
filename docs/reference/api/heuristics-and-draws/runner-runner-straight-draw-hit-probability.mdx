@@ -1,0 +1,43 @@
+---
+title: runnerRunnerStraightDrawHitProbability
+sidebar_position: 13
+---
+
+# `runnerRunnerStraightDrawHitProbability`
+
+Runner–runner straight draw: `straightKind` `0` gutshot (4) / `1` OESD / `2` double-belly (8), minus dead among pattern outs.
+
+<div className="apiSignature"><code>runnerRunnerStraightDrawHitProbability(straightKind: 0 | 1 | 2, deadAmongPatternOuts: number, unseenAfterFlop: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Structured **runner–runner straight** patterns (gutshot, open-ender, double belly buster) when you know how many pattern outs are dead. For full-card straight-or-better equity use `straightMadeFlopToRiverExactProbability` under Monte Carlo.
+
+## How to use
+
+```js
+// Open-ended straight draw pattern, 1 dead among pattern outs, 47 unseen
+const p = poker.runnerRunnerStraightDrawHitProbability(1, 1, 47);
+console.log(p);
+
+// Gutshot pattern
+console.log(poker.runnerRunnerStraightDrawHitProbability(0, 0, 47));
+```
+
+## See also
+
+[`straightMadeFlopToRiverExactProbability`](/docs/reference/api/monte-carlo/straight-made-flop-to-river-exact-probability) · [`runnerRunnerBackdoorFlushTwoCardProbability`](/docs/reference/api/heuristics-and-draws/runner-runner-backdoor-flush-two-card-probability)

@@ -1,0 +1,40 @@
+---
+title: harringtonMEffectiveActiveAntes
+sidebar_position: 10
+---
+
+# `harringtonMEffectiveActiveAntes`
+
+**Effective M** with **per-seat antes** for active players only. Denominator: `smallBlind + bigBlind + sum(antesFromActiveSeats)`.
+
+<div className="apiSignature"><code>harringtonMEffectiveActiveAntes(stackChips: number, smallBlind: number, bigBlind: number, antesFromActiveSeats: number[]): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when active seats post **different ante amounts** (bounty events, uneven structures)—matches [`harringtonM`](/docs/reference/api/stacks-and-display/harrington-m) when the array sums to `totalAntes`.
+
+## How to use
+
+```js
+const m = poker.harringtonMEffectiveActiveAntes(400, 1, 2, [1, 2, 1]);
+// Equivalent to harringtonM(400, 1, 2, 4) when total antes = 4
+console.log(m);
+```
+
+## See also
+
+[`harringtonMEffective`](/docs/reference/api/stacks-and-display/harrington-m-effective) · [`orbitCostChips`](/docs/reference/api/stacks-and-display/orbit-cost-chips)

@@ -1,0 +1,46 @@
+---
+title: impliedBreakevenFutureWin
+sidebar_position: 5
+---
+
+# `impliedBreakevenFutureWin`
+
+Average extra future win needed for a neutral call; `+∞` if equity ≤ 0.
+
+<div className="apiSignature"><code>impliedBreakevenFutureWin(potBeforeCall: number, toCall: number, equity: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Quantify **how much extra you must win on later streets** when your current-street call equity alone is below breakeven—implied odds in chip terms. Compare the result to realistic future winnings when chasing draws.
+
+## How to use
+
+```js
+const pot = 80;
+const toCall = 40;
+const equity = 0.18; // below breakeven now
+
+const need = poker.impliedBreakevenFutureWin(pot, toCall, equity);
+console.log('extra future win needed:', need);
+
+const be = poker.breakevenCallEquity(pot, toCall);
+console.log('breakeven without implied:', be);
+```
+
+## See also
+
+[`breakevenCallEquity`](/docs/reference/api/pot-and-ev/breakeven-call-equity) · [`reverseImpliedOddsMaxFutureLoss`](/docs/reference/api/reverse-implied/reverse-implied-odds-max-future-loss)

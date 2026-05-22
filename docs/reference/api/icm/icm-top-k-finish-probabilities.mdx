@@ -1,0 +1,51 @@
+---
+title: icmTopKFinishProbabilities
+sidebar_position: 3
+---
+
+# `icmTopKFinishProbabilities`
+
+Per-player probability of finishing in one of the first **`k`** places (sum of first `k` columns of the Harville placement matrix).
+
+<div className="apiSignature"><code>icmTopKFinishProbabilities(stacks: number[], k: number): number[]</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+**Bubble and payout-ladder** math when prizes extend beyond first place—e.g. `k = 2` for top-two money, or `k` equal to paid places. `k` must be in `1..stacks.length`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const stacks = [9000, 7000, 5000, 3000];
+
+const top1 = poker.icmTopKFinishProbabilities(stacks, 1);
+const top2 = poker.icmTopKFinishProbabilities(stacks, 2);
+const top3 = poker.icmTopKFinishProbabilities(stacks, 3);
+
+console.log({ top1, top2, top3 });
+
+const win = poker.icmWinProbabilitiesHarville(stacks);
+console.log({ top1MatchesWin: top1.every((p, i) => p === win[i]) });
+```
+
+**Returns** `number[]` — length `stacks.length`; each entry in `[0, 1]`, non-decreasing in `k` per player.
+
+## See also
+
+[`icmHarvillePlacementProbabilities`](/docs/reference/api/icm/icm-harville-placement-probabilities) · [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) · [`icmLastPlaceProbabilitiesHarville`](/docs/reference/api/icm/icm-last-place-probabilities-harville)

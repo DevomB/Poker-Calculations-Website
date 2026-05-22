@@ -1,0 +1,53 @@
+---
+title: equityToWinningOddsAgainst
+sidebar_position: 8
+---
+
+# `equityToWinningOddsAgainst`
+
+Book-style **winning odds against**: `(1 − equity) / equity`. Returns `Infinity` at `equity === 0`; `0` at `equity === 1`. Equity is clamped to `[0, 1]`.
+
+<div className="apiSignature"><code>equityToWinningOddsAgainst(equity: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when a study tool or book quote gives **equity** but you want “3:1 against” style numbers (lose : win), or to label draw strength next to pot-odds display ratios. Pair with [`winningOddsAgainstToEquity`](/docs/reference/api/pot-and-ev/winning-odds-against-to-equity) to round-trip.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const equity = 0.25; // 25% to win
+const against = poker.equityToWinningOddsAgainst(equity);
+console.log(against); // 3 — often read as "3:1 against"
+
+// Round-trip
+const back = poker.winningOddsAgainstToEquity(against);
+console.log(back); // 0.25
+
+console.log(poker.equityToWinningOddsAgainst(0)); // Infinity
+console.log(poker.equityToWinningOddsAgainst(1)); // 0
+```
+
+Not the same as **pot** odds (`potBeforeCall / toCall`); this is purely equity ↔ book odds.
+
+**Returns** `number` — `(1 − equity) / equity` for equity in `(0, 1)`; `Infinity` at `equity === 0`; `0` at `equity === 1`. Input is clamped to `[0, 1]`.
+
+## See also
+
+[`winningOddsAgainstToEquity`](/docs/reference/api/pot-and-ev/winning-odds-against-to-equity) · [`breakevenCallEquity`](/docs/reference/api/pot-and-ev/breakeven-call-equity) · [`potOddsDisplayRatioFromBreakevenCallEquity`](/docs/reference/api/pot-and-ev/pot-odds-display-ratio-from-breakeven-call-equity)

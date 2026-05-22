@@ -1,0 +1,33 @@
+---
+title: cardStringsHaveDuplicate
+sidebar_position: 7
+---
+
+# `cardStringsHaveDuplicate`
+
+`true` if any two entries parse to the same card. Throws if any string is invalid.
+
+<div className="apiSignature">{`cardStringsHaveDuplicate(cards: string[]): boolean`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use before simulations or comparisons when cards come from user input or multiple sources.
+
+## How to use
+
+```js
+const hole = ['Ah', 'Ad'];
+if (poker.cardStringsHaveDuplicate(hole)) {
+  console.log('Duplicate cards in hole');
+}
+```
+
+## See also
+
+[`parseCompactCardList`](/docs/reference/api/hands-and-equity/parse-compact-card-list)

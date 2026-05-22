@@ -1,0 +1,21 @@
+---
+title: ICM
+sidebar_position: 14
+---
+
+# ICM
+
+**Harville** placement probabilities, finish-rank summaries, expected prize payouts, and pairwise **bubble factors** from stack vectors and payout ladders. Chip-share normalization (`normalizedStackFractions`) is not ICM—that is under [Stacks & display](/docs/reference/api/stacks-and-display/).
+
+Use this group for MTT study tools, deal-making approximations, and bubble-pressure metrics when you already have stacks and a prize structure.
+
+| Export | Summary |
+| --- | --- |
+| [`icmWinProbabilitiesHarville`](./icm-win-probabilities-harville) | Harville first-place probabilities. |
+| [`icmHarvillePlacementProbabilities`](./icm-harville-placement-probabilities) | Full `n×n` Harville placement matrix. |
+| [`icmTopKFinishProbabilities`](./icm-top-k-finish-probabilities) | Probability of finishing in top `k` places. |
+| [`icmLastPlaceProbabilitiesHarville`](./icm-last-place-probabilities-harville) | Harville last-place probabilities. |
+| [`icmExpectedPayouts`](./icm-expected-payouts) | Expected payout per seat. |
+| [`icmPairwiseBubbleFactor`](./icm-pairwise-bubble-factor) | Pairwise bubble factor from payout finite differences. |
+
+Side-pot chip EV when stacks are unequal is under [Side pots](/docs/reference/api/side-pots/).

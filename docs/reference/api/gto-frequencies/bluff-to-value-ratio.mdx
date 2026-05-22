@@ -1,0 +1,46 @@
+---
+title: bluffToValueRatio
+sidebar_position: 2
+---
+
+# `bluffToValueRatio`
+
+Polarized river bluff-to-value combo ratio: bet / (pot + 2×bet).
+
+<div className="apiSignature"><code>bluffToValueRatio(potBeforeBet: number, betSize: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Balance **bluff combos vs value combos** on a polarized river bet in toy GTO math (before hero’s bet). Ratio is bluff combos per value combo when villain’s calling range is MDF-correct.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const pot = 100;
+const bet = 75;
+
+const btv = poker.bluffToValueRatio(pot, bet);
+const vtb = poker.valueToBluffRatio(pot, bet);
+
+console.log({ bluffToValue: btv, valueToBluff: vtb });
+```
+
+## Returns
+
+`number` — bluff combos per value combo: betSize / (potBeforeBet + 2 × betSize).

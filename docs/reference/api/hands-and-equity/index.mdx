@@ -1,0 +1,18 @@
+---
+title: 'Hands & equity'
+sidebar_position: 1
+---
+
+# Hands & equity
+
+- [`evaluateBestHand`](./evaluate-best-hand) — Best five of **1–7** cards; returns `{ rank, kickers }` (`HandEvalResult`).
+- [`evaluateHandStrength`](./evaluate-hand-strength) — Encoded strength: decimal string of `uint64` (rank in high bits + five kicker nibbles); comparable across spots.
+- [`evaluateHandStrengthFast`](./evaluate-hand-strength-fast) — Same encoding as `evaluateHandStrength`; uses in-house **forge** stack evaluator (`src/fast_evaluator.cpp`).
+- [`benchmarkEvaluatorThroughput`](./benchmark-evaluator-throughput) — `{ legacyEvalsPerSecond, fastEvalsPerSecond, implementation }` for legacy vs forge paths.
+- [`evaluateHandCategory`](./evaluate-hand-category) — Category label only (`highCard` … `royalFlush`); see [Hand rank labels](/docs/concepts/hand-rank-labels).
+- [`validateCardString`](./validate-card-string) — `true` if `card` parses as one card (`Ah`, `10c`, …).
+- [`cardStringsHaveDuplicate`](./card-strings-have-duplicate) — `true` if two entries parse to the same card; throws if any string is invalid.
+- [`canonicalCardString`](./canonical-card-string) — Canonical two-character card (`Th`, `Ac`, …); throws if invalid.
+- [`parseCompactCardList`](./parse-compact-card-list) — Parse concatenated or whitespace-separated cards (`AhKh`, `10h Kd`); throws on duplicate or invalid token.
+- [`compareBestHands`](./compare-best-hands) — `-1` / `0` / `1` best-hand order; throws on overlap or invalid cards.
+- [`handRankCategoryOrder`](./hand-rank-category-order) — Integer order `0..9` for `evaluateHandCategory` labels (`highCard` … `royalFlush`).

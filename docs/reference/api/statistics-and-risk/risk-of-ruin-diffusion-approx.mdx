@@ -1,0 +1,52 @@
+---
+title: riskOfRuinDiffusionApprox
+sidebar_position: 7
+---
+
+# `riskOfRuinDiffusionApprox`
+
+Diffusion-style risk of ruin: exp(−2μB/σ²) when drift μ > 0.
+
+<div className="apiSignature"><code>riskOfRuinDiffusionApprox(driftPerHand: number, variancePerHand: number, bankroll: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Rough **bankroll survival** modeling from per-hand drift (expected chip change) and variance, treated as a diffusion approximation. Study tool only—not a substitute for full bankroll simulation. Pair with `bankrollForTargetRorDiffusion` to size bankroll for a target ruin probability.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const driftPerHand = 0.8; // bb/hand EV
+const variancePerHand = 120; // bb²/hand
+const bankrollBb = 200;
+
+const ror = poker.riskOfRuinDiffusionApprox(driftPerHand, variancePerHand, bankrollBb);
+console.log('approx risk of ruin:', (ror * 100).toFixed(2) + '%');
+
+const bankrollNeeded = poker.bankrollForTargetRorDiffusion(
+  driftPerHand,
+  variancePerHand,
+  0.01,
+);
+console.log('bb for 1% ROR:', bankrollNeeded);
+```
+
+## Returns
+
+`number` — approximate probability of ruin in `(0, 1]` when driftPerHand > 0; returns `1` when driftPerHand ≤ 0 (non-positive edge).

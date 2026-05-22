@@ -1,0 +1,39 @@
+---
+title: harringtonMEffective
+sidebar_position: 9
+---
+
+# `harringtonMEffective`
+
+**Effective M**: stack divided by blinds plus antes from **active players only** — denominator `smallBlind + bigBlind + antePerActivePlayer * numActivePlayers`.
+
+<div className="apiSignature"><code>harringtonMEffective(stackChips: number, smallBlind: number, bigBlind: number, antePerActivePlayer: number, numActivePlayers: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when antes are **uniform per active seat** but not every seat is in the hand—tighter M than full-table [`harringtonM`](/docs/reference/api/stacks-and-display/harrington-m) when players are sitting out.
+
+## How to use
+
+```js
+// 400 stack, 1/2, 1 ante per active seat, 4 active → same as total antes 4 with harringtonM
+console.log(poker.harringtonMEffective(400, 1, 2, 1, 4));
+```
+
+## See also
+
+[`harringtonMEffectiveActiveAntes`](/docs/reference/api/stacks-and-display/harrington-m-effective-active-antes) · [`harringtonM`](/docs/reference/api/stacks-and-display/harrington-m)

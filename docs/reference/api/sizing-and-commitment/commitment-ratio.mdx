@@ -1,0 +1,47 @@
+---
+title: commitmentRatio
+sidebar_position: 3
+---
+
+# `commitmentRatio`
+
+Fraction of effective stack required to call.
+
+<div className="apiSignature"><code>commitmentRatio(toCall: number, effectiveStackBeforeCall: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Measure how **committed** a call is relative to the remaining stack (pot-committed thresholds, study charts, bot heuristics). Complements SPR helpers when the decision is call-or-fold rather than jam geometry.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const toCall = 85;
+const stack = 100;
+
+const commitment = poker.commitmentRatio(toCall, stack);
+console.log(`${(commitment * 100).toFixed(0)}% of stack to call`);
+
+const sprIfCall = poker.sprAfterCall(120, toCall, stack);
+console.log({ commitment, sprIfCall });
+```
+
+## Returns
+
+`number` — toCall / effectiveStackBeforeCall. Returns `0` when effectiveStackBeforeCall is `0`.

@@ -1,0 +1,47 @@
+---
+title: duplicationAdjustedOuts
+sidebar_position: 14
+---
+
+# `duplicationAdjustedOuts`
+
+Heuristic `outs / (1 + weight × villains)`.
+
+<div className="apiSignature"><code>duplicationAdjustedOuts(outs: number, numVillains: number, duplicationWeight: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Multiway pots **discount outs** when villains may share your winners. Tunable `duplicationWeight` lets study tools model light vs heavy duplication without a full enumeration.
+
+## How to use
+
+```js
+const rawOuts = 9;
+const villains = 2;
+const weight = 0.5;
+
+const adj = poker.duplicationAdjustedOuts(rawOuts, villains, weight);
+console.log(adj); // 9 / (1 + 0.5*2) = 4.5
+
+console.log(
+  poker.flopToRiverAtLeastOneHitProbability(adj, 47)
+);
+```
+
+## See also
+
+[`multiwaySymmetricBreakevenCallEquity`](/docs/reference/api/multiway/multiway-symmetric-breakeven-call-equity) · [`flopToRiverAtLeastOneHitProbability`](/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-probability)

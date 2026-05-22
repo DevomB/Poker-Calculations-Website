@@ -1,0 +1,21 @@
+.wrap h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.signature {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.9rem;
+  background: #0a0a0a;
+  border: 1px solid #333333;
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.body :global(h2) {
+  margin-top: 2rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}

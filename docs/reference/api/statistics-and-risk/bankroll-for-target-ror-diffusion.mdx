@@ -1,0 +1,55 @@
+---
+title: bankrollForTargetRorDiffusion
+sidebar_position: 8
+---
+
+# `bankrollForTargetRorDiffusion`
+
+Bankroll B that achieves target risk of ruin under the diffusion approximation.
+
+<div className="apiSignature"><code>bankrollForTargetRorDiffusion(driftPerHand: number, variancePerHand: number, targetRor: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Inverse of `riskOfRuinDiffusionApprox`: given per-hand **drift and variance**, find how large a bankroll must be for a chosen ruin probability (e.g. 1% or 5%). Useful for spreadsheets and study charts, not live bankroll advice.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const driftPerHand = 1.2;
+const variancePerHand = 150;
+const targetRor = 0.05;
+
+const bankroll = poker.bankrollForTargetRorDiffusion(
+  driftPerHand,
+  variancePerHand,
+  targetRor,
+);
+
+const check = poker.riskOfRuinDiffusionApprox(
+  driftPerHand,
+  variancePerHand,
+  bankroll,
+);
+console.log({ bankroll, checkRor: check });
+```
+
+## Returns
+
+`number` — bankroll size B such that `riskOfRuinDiffusionApprox(driftPerHand, variancePerHand, B)` ≈ targetRor (same diffusion model as P13).

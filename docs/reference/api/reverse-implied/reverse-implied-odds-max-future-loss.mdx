@@ -1,0 +1,67 @@
+---
+title: reverseImpliedOddsMaxFutureLoss
+sidebar_position: 1
+---
+
+# `reverseImpliedOddsMaxFutureLoss`
+
+P6: toy reverse-implied ceiling (max future loss when losing).
+
+<div className="apiSignature"><code>reverseImpliedOddsMaxFutureLoss(potBeforeCall: number, toCall: number, equity: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Estimate a **ceiling on extra chips you might lose on future streets** when you are behind but the call is still non-negative EV today—reverse implied odds in chip terms. The model assumes you win `potBeforeCall + toCall` if you win the hand now and lose an extra `L` on later streets when you lose, while keeping total call EV ≥ 0. Compare the result to remaining stack depth before calling dominated or reverse-implied-heavy lines.
+
+Pair with [`impliedBreakevenFutureWin`](/docs/reference/api/heuristics-and-draws/implied-breakeven-future-win) (implied ceiling on future *wins* needed) for the same pot, call, and equity inputs.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const potBeforeCall = 100;
+const toCall = 50;
+const equity = 0.32;
+
+const maxLoss = poker.reverseImpliedOddsMaxFutureLoss(
+  potBeforeCall,
+  toCall,
+  equity,
+);
+console.log('max future loss ceiling:', maxLoss);
+
+const impliedNeed = poker.impliedBreakevenFutureWin(potBeforeCall, toCall, 0.22);
+console.log('implied win needed at 22%:', impliedNeed);
+
+const be = poker.breakevenCallEquity(potBeforeCall, toCall);
+console.log('breakeven call equity:', be);
+```
+
+`potBeforeCall` and `toCall` must be finite and ≥ 0. `equity` is clamped to `[0, 1]`. If the call is already −EV with zero future loss (`equity` too low for the pot odds), the function returns `0`.
+
+## Returns
+
+`number` — maximum extra future loss `L` (chips) such that call EV with that loss model stays ≥ 0:
+
+`max(0, (equity × (potBeforeCall + toCall)) / (1 − equity) − toCall)`.
+
+Returns `0` when `equity ≤ 0`, when the call is −EV even with `L = 0`, or when the formula is negative. Returns `Infinity` when `equity ≥ 1`.
+
+## See also
+
+[`impliedBreakevenFutureWin`](/docs/reference/api/heuristics-and-draws/implied-breakeven-future-win) · [`expectedValueCall`](/docs/reference/api/pot-and-ev/expected-value-call) · [`breakevenCallEquity`](/docs/reference/api/pot-and-ev/breakeven-call-equity)

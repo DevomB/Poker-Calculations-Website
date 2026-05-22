@@ -1,0 +1,39 @@
+---
+title: nlMinimumRaiseToTotal
+sidebar_position: 13
+---
+
+# `nlMinimumRaiseToTotal`
+
+NLHE **toy** rule: minimum **total** wager after a raise is `currentMaxWager + max(lastRaiseIncrement, bigBlind)`.
+
+<div className="apiSignature"><code>nlMinimumRaiseToTotal(currentMaxWager: number, lastRaiseIncrement: number, bigBlind: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use in **trainers or validators** that need the next legal minimum raise-to total—not a full betting-tree engine, but the standard “increment at least the BB” NL pattern.
+
+## How to use
+
+```js
+console.log(poker.nlMinimumRaiseToTotal(2, 2, 2));   // 4
+console.log(poker.nlMinimumRaiseToTotal(10, 8, 2)); // 18 — max(8, 2) added to 10
+```
+
+## See also
+
+[`betAsPotFraction`](/docs/reference/api/sizing-and-commitment/bet-as-pot-fraction)

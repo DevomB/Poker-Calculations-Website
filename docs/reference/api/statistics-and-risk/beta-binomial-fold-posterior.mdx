@@ -1,0 +1,53 @@
+---
+title: betaBinomialFoldPosterior
+sidebar_position: 9
+---
+
+# `betaBinomialFoldPosterior`
+
+Conjugate Beta–Binomial update on fold frequency.
+
+<div className="apiSignature"><code>betaBinomialFoldPosterior(priorAlpha: number, priorBeta: number, folds: number, calls: number): BetaBinomialFoldPosterior</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Maintain a **Bayesian belief** about how often a player (or population) folds, updating as you observe folds and calls. Prior is Beta(priorAlpha, priorBeta); observations add folds to α and calls to β.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const priorAlpha = 2;
+const priorBeta = 2;
+const foldsObserved = 7;
+const callsObserved = 3;
+
+const post = poker.betaBinomialFoldPosterior(
+  priorAlpha,
+  priorBeta,
+  foldsObserved,
+  callsObserved,
+);
+
+console.log(post);
+// { alpha: 9, beta: 5, posteriorMean: 9/14 }
+```
+
+## Returns
+
+`BetaBinomialFoldPosterior` — `{ alpha: number, beta: number, posteriorMean: number }` where posteriorMean = alpha / (alpha + beta) after the conjugate update.

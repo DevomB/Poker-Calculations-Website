@@ -1,0 +1,39 @@
+---
+title: orbitCostChips
+sidebar_position: 12
+---
+
+# `orbitCostChips`
+
+One **orbit** of posted cost in chips: `smallBlind + bigBlind + sum(antesFromSeats)`.
+
+<div className="apiSignature"><code>orbitCostChips(smallBlind: number, bigBlind: number, antesFromSeats: number[]): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use as the **denominator building block** for Harrington M, survival estimates, or “how many orbits until I blind out” without recomputing sb + bb + antes.
+
+## How to use
+
+```js
+console.log(poker.orbitCostChips(1, 2, []));           // 3
+console.log(poker.orbitCostChips(1, 2, [0.5, 0.5])); // 4
+```
+
+## See also
+
+[`harringtonM`](/docs/reference/api/stacks-and-display/harrington-m) · [`stackInBigBlinds`](/docs/reference/api/stacks-and-display/stack-in-big-blinds)

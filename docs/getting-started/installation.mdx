@@ -1,0 +1,21 @@
+---
+title: Installation
+---
+
+# Installation
+
+**Requirements:** Node.js **18+** (Node **20+** recommended for the docs site toolchain).
+
+```bash
+npm install poker-calculations
+```
+
+Published tarballs ship **prebuilt N-API** binaries under `prebuilds/<platform>-<arch>/`, so `npm install` does not compile C++ on the installing machine.
+
+## Linux musl (Alpine)
+
+On **linux-x64** / **linux-arm64**, musl builds install as `node.napi.musl.node` in the same folder—useful for Alpine and many serverless images.
+
+## Next
+
+[Quick start](/docs/getting-started/quick-start) — first `require` and sample calls.

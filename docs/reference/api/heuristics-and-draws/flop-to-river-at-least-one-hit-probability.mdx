@@ -1,0 +1,43 @@
+---
+title: flopToRiverAtLeastOneHitProbability
+sidebar_position: 8
+---
+
+# `flopToRiverAtLeastOneHitProbability`
+
+Flop→river at least one hit from disjoint out count.
+
+<div className="apiSignature"><code>flopToRiverAtLeastOneHitProbability(outs: number, unseenAfterFlop: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Standard **9-out flush draw on the flop**: probability of hitting by the river with one combined out count and no overlap between out types. More accurate than rule-of-four for study tools.
+
+## How to use
+
+```js
+const outs = 9;
+const unseen = 47;
+const p = poker.flopToRiverAtLeastOneHitProbability(outs, unseen);
+console.log(p); // 1 - C(38,2)/C(47,2) ≈ 0.35
+
+console.log(poker.ruleOfFourEquity(outs)); // quick ~36% heuristic
+```
+
+## See also
+
+[`flopToRiverAtLeastOneHitUnionTwoCategories`](/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-union-two-categories) · [`duplicationAdjustedOuts`](/docs/reference/api/heuristics-and-draws/duplication-adjusted-outs)

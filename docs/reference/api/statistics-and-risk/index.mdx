@@ -1,0 +1,22 @@
+---
+title: 'Statistics & risk'
+sidebar_position: 8
+---
+
+# Statistics & risk
+
+Confidence intervals for observed frequencies, Monte Carlo trial sizing, diffusion-style **risk of ruin**, and a Beta–Binomial fold-frequency updater.
+
+Use this group when calibrating sim sample sizes, reporting HUD stats with error bars, or rough bankroll planning—not as a substitute for full stochastic poker modeling.
+
+| Export | Summary |
+| --- | --- |
+| [`monteCarloStandardError`](./monte-carlo-standard-error) | Binomial SE `√(p̂(1−p̂)/n)`. |
+| [`monteCarloTrialsForStandardErrorBound`](./monte-carlo-trials-for-standard-error-bound) | Smallest `n` with SE ≤ target. |
+| [`wilsonScoreInterval`](./wilson-score-interval) | Wilson interval `{ lower, upper }`. |
+| [`agrestiCoullInterval`](./agresti-coull-interval) | Agresti–Coull interval. |
+| [`normalWaldBinomialInterval`](./normal-wald-binomial-interval) | Wald `p̂ ± z·SE` clamped to `[0,1]`. |
+| [`monteCarloTrialsForHoeffdingBound`](./monte-carlo-trials-for-hoeffding-bound) | Hoeffding trial count for ε, δ. |
+| [`riskOfRuinDiffusionApprox`](./risk-of-ruin-diffusion-approx) | Diffusion-style ROR. |
+| [`bankrollForTargetRorDiffusion`](./bankroll-for-target-ror-diffusion) | Bankroll for target ROR. |
+| [`betaBinomialFoldPosterior`](./beta-binomial-fold-posterior) | Beta update on fold frequency. |

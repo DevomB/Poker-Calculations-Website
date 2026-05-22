@@ -1,0 +1,46 @@
+---
+title: exactHuEquityVsRandomHand
+sidebar_position: 3
+---
+
+# `exactHuEquityVsRandomHand`
+
+Exact HU equity vs uniform random villain hand; board must have **3–5** cards.
+
+<div className="apiSignature">{`exactHuEquityVsRandomHand(heroHoleCards: string[], boardCards: string[]): number`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use on flop, turn, or river when you need exact equity vs a random unknown hand—jam/fold toys, study spots, or feeding [`chubukovMaxSymmetricJamStackBinarySearch`](/docs/reference/api/kelly-and-jam/chubukov-max-symmetric-jam-stack-binary-search). Prefer MC only when the board is not yet 3+ cards.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const equity = poker.exactHuEquityVsRandomHand(
+  ['Ah', 'Kd'],
+  ['Qh', 'Jc', '2s', '9d'],
+);
+console.log(equity);
+```
+
+Throws if cards overlap or the board has fewer than three or more than five cards.
+
+## See also
+
+[`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome) · [`chubukovMaxSymmetricJamStackFromHandBinarySearch`](/docs/reference/api/kelly-and-jam/chubukov-max-symmetric-jam-stack-from-hand-binary-search)

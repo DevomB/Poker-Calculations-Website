@@ -1,0 +1,46 @@
+---
+title: flopToRiverAtLeastOneHitUnionFourCategories
+sidebar_position: 11
+---
+
+# `flopToRiverAtLeastOneHitUnionFourCategories`
+
+Four out categories; inclusion–exclusion on **card counts** (pair/triple/four-way intersection sizes).
+
+<div className="apiSignature"><code>flopToRiverAtLeastOneHitUnionFourCategories(unseenAfterFlop: number, outsA: number, outsB: number, outsC: number, outsD: number, s01: number, s02: number, s03: number, s12: number, s13: number, s23: number, s012: number, s013: number, s023: number, s123: number, fourWay: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Maximum structured overlap case: four out families with all pairwise, triple, and four-way **shared card counts**. Pair indices follow `(0,1)(0,2)(0,3)(1,2)(1,3)(2,3)` as documented in `index.d.ts`.
+
+## How to use
+
+```js
+// Toy: four small categories, mostly disjoint
+const p = poker.flopToRiverAtLeastOneHitUnionFourCategories(
+  47,
+  4, 4, 3, 2,       // outs A–D
+  0, 0, 0, 0, 0, 0, // pairwise shared
+  0, 0, 0, 0,       // triple shared
+  0                 // four-way shared
+);
+console.log(p);
+```
+
+## See also
+
+[`flopToRiverAtLeastOneHitUnionThreeCategories`](/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-union-three-categories) · [`flopToRiverAtLeastOneHitDisjointOutsSum`](/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-disjoint-outs-sum)

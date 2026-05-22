@@ -1,0 +1,63 @@
+---
+title: expectedValueCallWithRake
+sidebar_position: 3
+---
+
+# `expectedValueCallWithRake`
+
+Chip EV of calling vs folding when the **final heads-up pot** (after your call) pays rake under the same model as [`breakevenCallEquityWithRake`](/docs/reference/api/pot-and-ev/breakeven-call-equity-with-rake).
+
+<div className="apiSignature"><code>expectedValueCallWithRake(equity: number, potBeforeCall: number, toCall: number, rakeFraction: number, rakeCap: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use for **raked cash** call/fold decisions on one street: you know equity, pot before call, call size, and room rake (`fraction` of final pot, capped). Pairs with [`rakeFromPot`](/docs/reference/api/pot-and-ev/rake-from-pot) and breakeven-with-rake for thresholds vs EV.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const equity = 0.38;
+const potBeforeCall = 90;
+const toCall = 30;
+const rakeFraction = 0.05;
+const rakeCap = 3;
+
+const ev = poker.expectedValueCallWithRake(
+  equity,
+  potBeforeCall,
+  toCall,
+  rakeFraction,
+  rakeCap,
+);
+console.log(ev);
+
+const need = poker.breakevenCallEquityWithRake(
+  potBeforeCall,
+  toCall,
+  rakeFraction,
+  rakeCap,
+);
+console.log({ need, call: equity > need, ev });
+```
+
+**Returns** `number` — chip EV of calling with rake on the final pot `potBeforeCall + 2 × toCall`: `equity × (potBeforeCall + toCall − rake) − (1 − equity) × toCall`, where `rake = rakeFromPot(finalPot, rakeFraction, rakeCap)`. Equity is clamped to `[0, 1]`.
+
+## See also
+
+[`breakevenCallEquityWithRake`](/docs/reference/api/pot-and-ev/breakeven-call-equity-with-rake) · [`rakeFromPot`](/docs/reference/api/pot-and-ev/rake-from-pot) · [`expectedValueCall`](/docs/reference/api/pot-and-ev/expected-value-call)

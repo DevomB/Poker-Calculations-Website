@@ -1,0 +1,47 @@
+---
+title: agrestiCoullInterval
+sidebar_position: 4
+---
+
+# `agrestiCoullInterval`
+
+Agresti–Coull confidence interval for a binomial proportion.
+
+<div className="apiSignature"><code>agrestiCoullInterval(successes: number, nTrials: number, z: number): WilsonScoreInterval</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Alternative to `wilsonScoreInterval` for HUD-style **proportion confidence bands**. Adjusts the effective sample size toward the center; same `{ lower, upper }` return shape as Wilson and Wald helpers.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const folds = 18;
+const spots = 40;
+const z = 1.96;
+
+const ac = poker.agrestiCoullInterval(folds, spots, z);
+const wilson = poker.wilsonScoreInterval(folds, spots, z);
+
+console.log({ agrestiCoull: ac, wilson });
+```
+
+## Returns
+
+`WilsonScoreInterval` — `{ lower: number, upper: number }` for the observed rate folds/spots (or any success/trial pair). Bounds are clamped to `[0, 1]`.

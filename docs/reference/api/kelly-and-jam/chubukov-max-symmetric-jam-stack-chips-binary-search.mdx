@@ -1,0 +1,51 @@
+---
+title: chubukovMaxSymmetricJamStackChipsBinarySearch
+sidebar_position: 4
+---
+
+# `chubukovMaxSymmetricJamStackChipsBinarySearch`
+
+Largest integer jam stack in [1, max] with nonnegative symmetric-jam EV for fixed equity.
+
+<div className="apiSignature"><code>chubukovMaxSymmetricJamStackChipsBinarySearch(equity: number, deadMoneyChips: number, maxStackChips: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+You already have **equity** (from MC, exact HU, or a model) and want the maximum integer jam size that still has nonnegative `chubukovSymmetricJamEv` within a stack cap. Composition with `exactHuEquityVsRandomHand` is left to the caller.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const equity = 0.48;
+const deadMoney = 100;
+const maxStack = 400;
+
+const maxJam = poker.chubukovMaxSymmetricJamStackChipsBinarySearch(
+  equity,
+  deadMoney,
+  maxStack,
+);
+
+const evAtMax = poker.chubukovSymmetricJamEv(maxJam, deadMoney, equity);
+console.log({ maxJam, evAtMax });
+```
+
+## Returns
+
+`number` — largest integer jam stack in `[1, maxStackChips]` with `chubukovSymmetricJamEv(stack, deadMoneyChips, equity) ≥ 0`. Returns `0` if no positive stack in range is nonnegative EV.

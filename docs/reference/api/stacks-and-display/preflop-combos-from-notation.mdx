@@ -1,0 +1,40 @@
+---
+title: preflopCombosFromNotation
+sidebar_position: 14
+---
+
+# `preflopCombosFromNotation`
+
+NLHE **combo count** from shorthand notation: `AA` → 6, `AKs` → 4, `AKo` → 12. Throws on invalid notation.
+
+<div className="apiSignature"><code>preflopCombosFromNotation(notation: string): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when a range cell or study note uses **standard preflop labels** and you need how many combos that cell represents before weighting or blocking.
+
+## How to use
+
+```js
+console.log(poker.preflopCombosFromNotation('AA'));  // 6
+console.log(poker.preflopCombosFromNotation('AKs')); // 4
+console.log(poker.preflopCombosFromNotation('AKo')); // 12
+```
+
+## See also
+
+[`preflopCombosFromNotationsList`](/docs/reference/api/stacks-and-display/preflop-combos-from-notations-list)

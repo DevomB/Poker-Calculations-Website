@@ -1,0 +1,48 @@
+---
+title: monteCarloTrialsForStandardErrorBound
+sidebar_position: 2
+---
+
+# `monteCarloTrialsForStandardErrorBound`
+
+Smallest trial count so binomial SE at `pHat` is at most `targetSe`.
+
+<div className="apiSignature"><code>monteCarloTrialsForStandardErrorBound(pHat: number, targetSe: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+**Before** running a long Monte Carlo job, pick how many trials you need so `monteCarloStandardError(pHat, n)` stays below a tolerance. Uses the interior proportion `pHat` (strictly between 0 and 1) via ceil(p(1−p)/targetSe²).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const pHat = 0.45; // planning estimate or pilot run
+const targetSe = 0.0025; // 0.25 percentage points
+
+const n = poker.monteCarloTrialsForStandardErrorBound(pHat, targetSe);
+console.log('run at least', n, 'trials');
+
+// After the run, verify
+const actualSe = poker.monteCarloStandardError(pHat, n);
+console.log('SE at plan:', actualSe);
+```
+
+## Returns
+
+`number` — smallest integer `n` such that `monteCarloStandardError(pHat, n) ≤ targetSe`. Requires `pHat` strictly between `0` and `1`; throws on invalid inputs.

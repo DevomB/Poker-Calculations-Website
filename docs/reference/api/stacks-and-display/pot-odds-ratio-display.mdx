@@ -1,0 +1,44 @@
+---
+title: potOddsRatioDisplay
+sidebar_position: 6
+---
+
+# `potOddsRatioDisplay`
+
+Display ratio `pot : to_call` (e.g. `3.5` means 3.5:1).
+
+<div className="apiSignature"><code>potOddsRatioDisplay(potBeforeCall: number, toCall: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Present pot odds the way players say them aloud—**pot divided by price to call**. Pair with `breakevenCallEquityFromPotOddsDisplayRatio` for equity thresholds, or `formatPotOdds` for strings.
+
+## How to use
+
+```js
+const pot = 140;
+const toCall = 40;
+const r = poker.potOddsRatioDisplay(pot, toCall);
+console.log(r); // 3.5 → "3.5:1"
+
+const be = poker.breakevenCallEquityFromPotOddsDisplayRatio(r);
+console.log(be);
+```
+
+## See also
+
+[`formatPotOdds`](/docs/reference/api/stacks-and-display/format-pot-odds) · [`potOddsRatio`](/docs/reference/api/pot-and-ev/pot-odds-ratio)

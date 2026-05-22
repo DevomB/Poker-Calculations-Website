@@ -1,0 +1,52 @@
+---
+title: expectedValueCall
+sidebar_position: 2
+---
+
+# `expectedValueCall`
+
+Chip EV of calling once vs folding (fold EV = `0`). No future streets or implied odds.
+
+<div className="apiSignature"><code>expectedValueCall(equity: number, pot: number, toCall: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you have a **single-street** win probability and want chip EV of call minus fold. Positive EV means call is better than folding immediately. For live cash games with rake on the final pot, use [`expectedValueCallWithRake`](/docs/reference/api/pot-and-ev/expected-value-call-with-rake) instead.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const equity = 0.4;
+const potBeforeCall = 90;
+const toCall = 30;
+
+const evCall = poker.expectedValueCall(equity, potBeforeCall, toCall);
+const evFold = 0;
+console.log({ evCall, profitable: evCall > evFold });
+
+// Breakeven equity for the same spot
+const need = poker.breakevenCallEquity(potBeforeCall, toCall);
+console.log({ need, hasEdge: equity > need });
+```
+
+**Returns** `number` — chip EV of calling: `equity × (pot + toCall) − (1 − equity) × toCall` when `toCall > 0`; if `toCall ≤ 0`, `equity × pot`.
+
+## See also
+
+[`breakevenCallEquity`](/docs/reference/api/pot-and-ev/breakeven-call-equity) · [`expectedValueCallWithRake`](/docs/reference/api/pot-and-ev/expected-value-call-with-rake) · [`potOddsRatio`](/docs/reference/api/pot-and-ev/pot-odds-ratio)

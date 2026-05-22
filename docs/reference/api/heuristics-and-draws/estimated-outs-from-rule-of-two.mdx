@@ -1,0 +1,41 @@
+---
+title: estimatedOutsFromRuleOfTwo
+sidebar_position: 3
+---
+
+# `estimatedOutsFromRuleOfTwo`
+
+Uncapped inverse-style estimate `equity×unseen/2` clamped to `[0, unseen]` (not exact inverse of capped rule-of-two).
+
+<div className="apiSignature"><code>estimatedOutsFromRuleOfTwo(equity: number, unseenCards: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Back-solve approximate out counts from a one-street equity target—rough inverse of the rule-of-two line, not a perfect inverse of capped [`ruleOfTwoEquity`](/docs/reference/api/heuristics-and-draws/rule-of-two-equity).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const outs = poker.estimatedOutsFromRuleOfTwo(0.32, 47);
+console.log(outs);
+```
+
+## See also
+
+[`ruleOfTwoEquity`](/docs/reference/api/heuristics-and-draws/rule-of-two-equity) · [`estimatedOutsFromRuleOfFour`](/docs/reference/api/heuristics-and-draws/estimated-outs-from-rule-of-four)

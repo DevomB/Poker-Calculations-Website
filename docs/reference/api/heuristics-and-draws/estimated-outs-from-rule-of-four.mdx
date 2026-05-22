@@ -1,0 +1,42 @@
+---
+title: estimatedOutsFromRuleOfFour
+sidebar_position: 4
+---
+
+# `estimatedOutsFromRuleOfFour`
+
+Same for two streets vs the rule-of-four line: `equity * unseen / 4` clamped to `[0, unseen]`.
+
+<div className="apiSignature"><code>estimatedOutsFromRuleOfFour(equity: number, unseenCards: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Convert **flop→river equity** into an implied out count for teaching or UI sliders. Clamped to valid out counts; not guaranteed to match `ruleOfFourEquity` in reverse because the forward rule is capped.
+
+## How to use
+
+```js
+const equity = 0.35;
+const unseenAfterFlop = 47;
+console.log(poker.estimatedOutsFromRuleOfFour(equity, unseenAfterFlop));
+
+console.log(poker.flopToRiverAtLeastOneHitProbability(9, unseenAfterFlop));
+```
+
+## See also
+
+[`ruleOfFourEquity`](/docs/reference/api/heuristics-and-draws/rule-of-four-equity) · [`estimatedOutsFromRuleOfTwo`](/docs/reference/api/heuristics-and-draws/estimated-outs-from-rule-of-two)

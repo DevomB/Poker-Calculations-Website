@@ -1,0 +1,41 @@
+---
+title: ruleOfTwoEquity
+sidebar_position: 2
+---
+
+# `ruleOfTwoEquity`
+
+Out-count × 2% cap heuristic (one card).
+
+<div className="apiSignature"><code>ruleOfTwoEquity(outs: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Facing **one card to come** (turn only, or river only), multiply outs by 2% for a fast equity estimate. Pair with `hypergeometricOneCardHitProbability` when you want the exact one-card rate.
+
+## How to use
+
+```js
+const outs = 8;
+console.log(poker.ruleOfTwoEquity(outs)); // ~0.16
+
+console.log(poker.hypergeometricOneCardHitProbability(outs, 46));
+```
+
+## See also
+
+[`hypergeometricOneCardHitProbability`](/docs/reference/api/heuristics-and-draws/hypergeometric-one-card-hit-probability) · [`estimatedOutsFromRuleOfTwo`](/docs/reference/api/heuristics-and-draws/estimated-outs-from-rule-of-two)

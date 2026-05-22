@@ -1,0 +1,43 @@
+---
+title: normalizedStackFractions
+sidebar_position: 3
+---
+
+# `normalizedStackFractions`
+
+Each stack divided by the sum of stacks (tournament chip share; not Harville ICM).
+
+<div className="apiSignature"><code>normalizedStackFractions(stacks: number[]): number[]</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Show **chip share of the table** (who owns what fraction of total chips). This is raw chip normalization, not ICM dollar equity—use Harville exports when payouts matter.
+
+## How to use
+
+```js
+const stacks = [12000, 8000, 5000];
+const shares = poker.normalizedStackFractions(stacks);
+console.log(shares); // [0.48, 0.32, 0.2] — sum to 1
+
+const icm = poker.icmExpectedPayouts(stacks, [5000, 3000, 2000]);
+console.log(icm);
+```
+
+## See also
+
+[`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) · [`harringtonQ`](/docs/reference/api/stacks-and-display/harrington-q)

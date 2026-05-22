@@ -1,0 +1,60 @@
+---
+title: breakevenFoldEquityFirstStreetPureBluff
+sidebar_position: 8
+---
+
+# `breakevenFoldEquityFirstStreetPureBluff`
+
+Breakeven **first-street** fold equity for a two-street pure bluff, given `foldEquityStreet2` on the second barrel.
+
+<div className="apiSignature"><code>breakevenFoldEquityFirstStreetPureBluff(potBeforeStreet1: number, betStreet1: number, betStreet2: number, foldEquityStreet2: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Plan a **double-barrel** from the second street backward: if you expect fold rate `foldEquityStreet2` on the river bet, what first-street fold rate makes the full line breakeven? May lie outside `[0, 1]`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const potBeforeStreet1 = 50;
+const betStreet1 = 30;
+const betStreet2 = 70;
+const foldEquityStreet2 = 0.4;
+
+const fe1Breakeven = poker.breakevenFoldEquityFirstStreetPureBluff(
+  potBeforeStreet1,
+  betStreet1,
+  betStreet2,
+  foldEquityStreet2,
+);
+console.log(fe1Breakeven);
+
+const sameBoth = poker.twoStreetPureBluffSameFoldEquity(
+  potBeforeStreet1,
+  betStreet1,
+  betStreet2,
+);
+console.log({ fe1GivenFe2: fe1Breakeven, sameFeBothStreets: sameBoth });
+```
+
+**Returns** `number` — breakeven `foldEquityStreet1`; not clamped to `[0, 1]`.
+
+## See also
+
+[`breakevenFoldEquitySecondStreetPureBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-second-street-pure-bluff) · [`twoStreetPureBluffEv`](/docs/reference/api/fold-equity/two-street-pure-bluff-ev) · [`twoStreetPureBluffSameFoldEquity`](/docs/reference/api/fold-equity/two-street-pure-bluff-same-fold-equity)

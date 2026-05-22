@@ -1,0 +1,40 @@
+---
+title: minimumDefenseFrequency
+sidebar_position: 4
+---
+
+# `minimumDefenseFrequency`
+
+**MDF** from pot geometry before the opponent’s bet: `potBeforeOpponentBet / (potBeforeOpponentBet + opponentBetSize)`. Complements [`alphaFrequency`](/docs/reference/api/gto-frequencies/alpha-frequency) (`1 - MDF`).
+
+<div className="apiSignature"><code>minimumDefenseFrequency(potBeforeOpponentBet: number, opponentBetSize: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when a villain bets into a pot and you need the **minimum defend frequency** that makes their bluffs break even—study charts, GTO trainers, or quick MDF labels.
+
+## How to use
+
+```js
+const mdf = poker.minimumDefenseFrequency(100, 50);
+// 100/150 — hero must defend at least this fraction vs a pure bluff
+console.log(mdf + poker.alphaFrequency(100, 50)); // 1
+```
+
+## See also
+
+[`alphaFrequency`](/docs/reference/api/gto-frequencies/alpha-frequency) · [`bluffToValueRatio`](/docs/reference/api/gto-frequencies/bluff-to-value-ratio)

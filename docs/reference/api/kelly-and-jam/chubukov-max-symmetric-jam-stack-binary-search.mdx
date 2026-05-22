@@ -1,0 +1,53 @@
+---
+title: chubukovMaxSymmetricJamStackBinarySearch
+sidebar_position: 5
+---
+
+# `chubukovMaxSymmetricJamStackBinarySearch`
+
+Max nonnegative jam stack using exact HU equity vs a random hand (board 3–5).
+
+<div className="apiSignature"><code>chubukovMaxSymmetricJamStackBinarySearch(heroHoleCards: string[], boardCards: string[], deadMoneyChips: number, maxStackChips: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Push/fold on **flop or later** when equity should come from `exactHuEquityVsRandomHand` (exact enumeration vs a random villain hand), then search the largest jam with nonnegative symmetric-jam EV. Board must have 3–5 cards; `maxStackChips` is a double clamped to native int range.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const hero = ['Ah', 'Kd'];
+const board = ['Qh', '7c', '2s'];
+const deadMoney = 100;
+const maxStack = 400;
+
+const equity = poker.exactHuEquityVsRandomHand(hero, board);
+const maxJam = poker.chubukovMaxSymmetricJamStackBinarySearch(
+  hero,
+  board,
+  deadMoney,
+  maxStack,
+);
+
+console.log({ equity, maxJam });
+```
+
+## Returns
+
+`number` — largest integer jam stack in `[1, maxStackChips]` with nonnegative `chubukovSymmetricJamEv` after equity is computed via `exactHuEquityVsRandomHand(heroHoleCards, boardCards)`.

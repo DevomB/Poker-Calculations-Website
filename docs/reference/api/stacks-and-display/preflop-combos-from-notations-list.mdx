@@ -1,0 +1,39 @@
+---
+title: preflopCombosFromNotationsList
+sidebar_position: 15
+---
+
+# `preflopCombosFromNotationsList`
+
+Sum of [`preflopCombosFromNotation`](/docs/reference/api/stacks-and-display/preflop-combos-from-notation) over a list of labels. **Empty list → `0`.**
+
+<div className="apiSignature"><code>preflopCombosFromNotationsList(notations: string[]): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when a **range is several cells** (e.g. `['AA', 'AKs']`) and you need total combo count for range mass or blocker math without looping in application code.
+
+## How to use
+
+```js
+console.log(poker.preflopCombosFromNotationsList(['AA', 'AKs'])); // 10
+console.log(poker.preflopCombosFromNotationsList([]));            // 0
+```
+
+## See also
+
+[`preflopCombosFromNotation`](/docs/reference/api/stacks-and-display/preflop-combos-from-notation)

@@ -1,0 +1,48 @@
+---
+title: chubukovSymmetricJamEv
+sidebar_position: 3
+---
+
+# `chubukovSymmetricJamEv`
+
+Symmetric jam toy EV in chips: equity × (2·jam + dead) − jam.
+
+<div className="apiSignature"><code>chubukovSymmetricJamEv(jamStackChips: number, deadMoneyChips: number, equity: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Evaluate **chip EV of a symmetric jam** in the Chubukov toy (both players jam the same stack, dead money fixed, equity known). Compare stacks, scan ranges, or feed the binary-search max-jam helpers.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const jamStack = 120;
+const deadMoney = 80;
+const equity = 0.52;
+
+const ev = poker.chubukovSymmetricJamEv(jamStack, deadMoney, equity);
+console.log('jam EV (chips):', ev);
+
+const be = poker.chubukovSymmetricJamBreakevenStack(deadMoney, equity);
+console.log('breakeven stack:', be);
+```
+
+## Returns
+
+`number` — chip EV of jamming jamStackChips: equity × (2 × jamStackChips + deadMoneyChips) − jamStackChips.

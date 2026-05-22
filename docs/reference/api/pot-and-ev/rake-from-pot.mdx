@@ -1,0 +1,57 @@
+---
+title: rakeFromPot
+sidebar_position: 10
+---
+
+# `rakeFromPot`
+
+Rake under the package’s standard model: `min(rakeFraction × potChips, rakeCap)`.
+
+<div className="apiSignature"><code>rakeFromPot(potChips: number, rakeFraction: number, rakeCap: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use to show rake dollars in a breakdown, or to sanity-check [`breakevenCallEquityWithRake`](/docs/reference/api/pot-and-ev/breakeven-call-equity-with-rake) and [`expectedValueCallWithRake`](/docs/reference/api/pot-and-ev/expected-value-call-with-rake) (those apply rake to the **final** pot after a call). `rakeFraction` must not exceed `1` for this model.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const finalPot = 150; // e.g. 90 + 2×30 after HU call
+const rakeFraction = 0.05;
+const rakeCap = 3;
+
+const rake = poker.rakeFromPot(finalPot, rakeFraction, rakeCap);
+console.log(rake); // min(7.5, 3) = 3
+
+const potBeforeCall = 90;
+const toCall = 30;
+const need = poker.breakevenCallEquityWithRake(
+  potBeforeCall,
+  toCall,
+  rakeFraction,
+  rakeCap,
+);
+console.log({ rake, need });
+```
+
+**Returns** `number` — `min(rakeFraction × potChips, rakeCap)`. All chip arguments must be finite and non-negative; `rakeFraction` must not exceed `1`.
+
+## See also
+
+[`breakevenCallEquityWithRake`](/docs/reference/api/pot-and-ev/breakeven-call-equity-with-rake) · [`expectedValueCallWithRake`](/docs/reference/api/pot-and-ev/expected-value-call-with-rake) · [Pot & EV index](/docs/reference/api/pot-and-ev/)

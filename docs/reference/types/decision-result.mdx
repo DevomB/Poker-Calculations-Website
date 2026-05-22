@@ -1,0 +1,14 @@
+---
+title: DecisionResult
+---
+
+# DecisionResult
+
+Return type of [`decideAction`](/docs/reference/api/strategy/decide-action).
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `action` | `'fold' \| 'call' \| 'raise' \| 'check'` | Chosen action for the acting seat |
+| `raiseBy` | `number` | Additional chips to put in when `action === 'raise'` (0 otherwise) |
+
+Map `raiseBy` to your engine’s raise-to or increment semantics before applying to real table state.

@@ -1,46 +1,52 @@
+import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
-import prismVelvet from './src/theme/prism-velvet';
-import prismMidnight from './src/theme/prism-midnight';
+import {readFileSync} from 'node:fs';
+import {resolve} from 'node:path';
 
-/**
- * Docusaurus merges presets, themes, and defaults into `.docusaurus/docusaurus.config.mjs`
- * on `pnpm start` / `pnpm run build`. Inspect that file (and `globalData.json`) when unsure
- * about final plugin options, doc IDs for `navbar.docId`, or resolved paths.
- */
+const npmPkg = JSON.parse(
+  readFileSync(resolve(__dirname, '../NPM/package.json'), 'utf8'),
+) as {version: string; name: string};
+
 const config: Config = {
   title: 'Poker Calculations',
-  tagline: "NL hold'em math for Node — hand evaluation, equity, ICM, pot geometry, and more (N-API + C++).",
+  tagline: 'NL Hold’em engine, equity, and chip math for Node.js',
   favicon: 'img/logo.svg',
+
+  future: {
+    v4: true,
+  },
 
   url: 'https://poker-calculator.devomb.com',
   baseUrl: '/',
-  /** Matches emitted HTML paths so local search indexes docs (undefined trailingSlash broke route ↔ permalink matching). */
-  trailingSlash: false,
 
   organizationName: 'DevomB',
   projectName: 'Poker-Calculations',
 
   onBrokenLinks: 'throw',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
 
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
   },
 
-  stylesheets: [
-    'https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap',
-  ],
-
   presets: [
     [
       'classic',
       {
         docs: {
-          routeBasePath: 'docs',
           sidebarPath: './sidebars.ts',
-          editUrl:
-            'https://github.com/DevomB/Poker-Calculations/tree/main/Website/',
+          routeBasePath: 'docs',
+        },
+        sitemap: {
+          changefreq: 'weekly',
+          priority: 0.5,
+          filename: 'sitemap.xml',
         },
         blog: false,
         theme: {
@@ -50,49 +56,39 @@ const config: Config = {
     ],
   ],
 
-  // Local search ships as a *theme* (not a plugin). See upstream README and
-  // `.docusaurus/docusaurus.config.mjs` after `pnpm run build` for the merged config.
-  themes: [
+  plugins: [
     [
       require.resolve('@easyops-cn/docusaurus-search-local'),
       {
-        // `hashed: true` caused ENOENT on `build/search-index.json` mid-build (Docusaurus 3.10.1).
-        // Merged options appear under `.docusaurus/docusaurus.config.mjs` after `pnpm run build`.
-        hashed: false,
+        hashed: true,
         language: ['en'],
         indexDocs: true,
         indexBlog: false,
-        indexPages: false,
+        indexPages: true,
         docsRouteBasePath: 'docs',
-        highlightSearchTermsOnTargetPage: false,
       },
     ],
   ],
 
   themeConfig: {
+    image: 'img/social-card.svg',
     colorMode: {
-      defaultMode: 'light',
-      respectPrefersColorScheme: true,
+      defaultMode: 'dark',
+      disableSwitch: true,
     },
     navbar: {
       title: 'Poker Calculations',
-      logo: {
-        alt: 'Poker Calculations',
-        src: 'img/logo.svg',
-        srcDark: 'img/logo-dark.svg',
-      },
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'apiSidebar',
+          sidebarId: 'docsSidebar',
           position: 'left',
           label: 'Docs',
         },
         {
-          type: 'doc',
-          docId: 'api/index',
-          position: 'left',
+          to: '/docs/reference/api',
           label: 'API',
+          position: 'left',
         },
         {
           href: 'https://www.npmjs.com/package/poker-calculations',
@@ -104,22 +100,18 @@ const config: Config = {
           label: 'GitHub',
           position: 'right',
         },
+        {type: 'search', position: 'right'},
       ],
     },
     footer: {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Documentation',
           items: [
-            {
-              label: 'Introduction',
-              to: '/docs/intro',
-            },
-            {
-              label: 'API reference',
-              to: '/docs/api',
-            },
+            {label: 'Introduction', to: '/docs/intro'},
+            {label: 'API Reference', to: '/docs/reference/api'},
+            {label: 'Installation', to: '/docs/getting-started/installation'},
           ],
         },
         {
@@ -130,19 +122,32 @@ const config: Config = {
               href: 'https://www.npmjs.com/package/poker-calculations',
             },
             {
-              label: 'Source',
+              label: 'GitHub',
               href: 'https://github.com/DevomB/Poker-Calculations',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Poker Calculations. Built with Docusaurus.`,
+      copyright: `© ${new Date().getFullYear()} Poker Calculations · v${npmPkg.version}`,
     },
     prism: {
-      theme: prismVelvet,
-      darkTheme: prismMidnight,
+      theme: prismThemes.dracula,
+      darkTheme: prismThemes.dracula,
+      additionalLanguages: ['bash'],
     },
+    metadata: [
+      {
+        name: 'description',
+        content:
+          'Official documentation for poker-calculations: hand evaluation, Monte Carlo equity, decideAction, pot odds, ICM, and more.',
+      },
+      {name: 'keywords', content: 'poker, holdem, equity, ICM, node, npm'},
+    ],
   } satisfies Preset.ThemeConfig,
+
+  customFields: {
+    packageVersion: npmPkg.version,
+  },
 };
 
 export default config;

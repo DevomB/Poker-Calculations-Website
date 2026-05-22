@@ -1,0 +1,29 @@
+---
+title: Quick start
+---
+
+# Quick start
+
+```js
+const poker = require('poker-calculations');
+
+const hand = poker.evaluateBestHand(['Ah', 'Ac', 'Kd', 'Ks', 'Qh']);
+console.log(hand.rank);
+
+const equity = poker.simulateHandOutcome(
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', 'Th'],
+  2000,
+  42,
+  1,
+);
+
+console.log('Equity:', equity);
+console.log('SPR:', poker.spr(90, 270));
+```
+
+Cards use strings like `"Ah"`, `"Td"` (ten may be `"10h"`).
+
+## Explore the API
+
+Browse the full [API reference](/docs/reference/api)—every export documents **Import**, **When to use**, and **How to use**.

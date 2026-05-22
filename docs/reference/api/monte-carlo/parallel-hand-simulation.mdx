@@ -1,0 +1,50 @@
+---
+title: parallelHandSimulation
+sidebar_position: 2
+---
+
+# `parallelHandSimulation`
+
+Same with worker threads and distinct seeds per chunk.
+
+<div className="apiSignature">{`parallelHandSimulation(holeCards: string[], board: string[], numSimulations: number, baseSeed: number, villains: number, numThreads: number): number`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use on multi-core servers when `simulateHandOutcome` is CPU-bound and you want the same MC model with higher throughput. Each thread advances `baseSeed` so chunks stay independent.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const equity = poker.parallelHandSimulation(
+  ['As', 'Ks'],
+  [],
+  200_000,
+  9001,
+  1,
+  4,
+);
+console.log(equity.toFixed(4));
+```
+
+Board length may be 0–5; known cards must not overlap between hero and board.
+
+## See also
+
+[`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome) · [`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand)

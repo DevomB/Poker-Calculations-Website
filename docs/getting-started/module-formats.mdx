@@ -1,0 +1,21 @@
+---
+title: Module formats
+---
+
+# Module formats
+
+## CommonJS
+
+```js
+const poker = require('poker-calculations');
+```
+
+## ESM
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+The package publishes a CommonJS entry (`index.js`); use `createRequire` in native ESM projects.

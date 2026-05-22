@@ -1,0 +1,49 @@
+---
+title: simulateHandOutcome
+sidebar_position: 1
+---
+
+# `simulateHandOutcome`
+
+Estimated equity vs one or more random villain hands (default `villains = 1`).
+
+<div className="apiSignature">{`simulateHandOutcome(holeCards: string[], board: string[], numSimulations: number, seed: number, villains?: number): number`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need fast equity estimates on partial or full boards and exact enumeration would be too slow—trainers, bots, and range studies. Fix `seed` (and `numSimulations`) when you need reproducible numbers across runs.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const equity = poker.simulateHandOutcome(
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', '2c'],
+  8000,
+  42,
+  1,
+);
+console.log(equity.toFixed(4));
+```
+
+Increase `numSimulations` until the standard error is acceptable; pair with [`monteCarloStandardError`](/docs/reference/api/statistics-and-risk/monte-carlo-standard-error).
+
+## See also
+
+[`parallelHandSimulation`](/docs/reference/api/monte-carlo/parallel-hand-simulation) · [Monte Carlo equity guide](/docs/guides/monte-carlo-equity)

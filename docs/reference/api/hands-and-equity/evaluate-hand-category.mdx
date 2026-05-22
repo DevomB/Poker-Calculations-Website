@@ -1,0 +1,33 @@
+---
+title: evaluateHandCategory
+sidebar_position: 5
+---
+
+# `evaluateHandCategory`
+
+Category label only (`highCard` … `royalFlush`) for hole cards + board.
+
+<div className="apiSignature">{`evaluateHandCategory(holeCards: string[], board: string[]): string`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use for UI labels, study charts, or filters when you do not need full kicker detail from [`evaluateBestHand`](/docs/reference/api/hands-and-equity/evaluate-best-hand).
+
+## How to use
+
+```js
+const category = poker.evaluateHandCategory(['Ah', 'Kh'], ['Qh', 'Jh', 'Th']);
+console.log(category); // e.g. straight
+```
+
+Labels match [`handRankCategoryOrder`](/docs/reference/api/hands-and-equity/hand-rank-category-order).
+
+## See also
+
+[Hand rank labels](/docs/concepts/hand-rank-labels)

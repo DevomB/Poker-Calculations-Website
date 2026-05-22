@@ -1,0 +1,43 @@
+---
+title: runnerRunnerBackdoorFlushTwoCardProbability
+sidebar_position: 7
+---
+
+# `runnerRunnerBackdoorFlushTwoCardProbability`
+
+`C(s,2)/C(u,2)` for two-card runner flush.
+
+<div className="apiSignature"><code>runnerRunnerBackdoorFlushTwoCardProbability(suitCardsRemaining: number, unseenCards: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Backdoor flush draws need **both** remaining cards of the suit. Pass how many cards of that suit remain in the deck and how many unseen cards total (usually 47 on the flop).
+
+## How to use
+
+```js
+// Two hearts left in deck, 47 unseen on flop
+const p = poker.runnerRunnerBackdoorFlushTwoCardProbability(2, 47);
+console.log(p); // C(2,2)/C(47,2) = 1/1081 ≈ 0.000925
+
+// Four hearts remain
+console.log(poker.runnerRunnerBackdoorFlushTwoCardProbability(4, 47));
+```
+
+## See also
+
+[`flopToRiverAtLeastOneHitProbability`](/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-probability) · [`runnerRunnerStraightDrawHitProbability`](/docs/reference/api/heuristics-and-draws/runner-runner-straight-draw-hit-probability)

@@ -1,0 +1,11 @@
+---
+title: Monte Carlo equity
+---
+
+# Monte Carlo equity
+
+- [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome) — single-threaded estimate vs random villain(s)
+- [`parallelHandSimulation`](/docs/reference/api/monte-carlo/parallel-hand-simulation) — chunked workers with distinct seeds
+- [`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand) — exact enumeration (board 3–5 cards)
+
+Use a fixed `seed` for reproducible research; increase `numSimulations` until [`monteCarloStandardError`](/docs/reference/api/statistics-and-risk/monte-carlo-standard-error) is acceptable.

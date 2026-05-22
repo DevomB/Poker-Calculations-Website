@@ -1,0 +1,38 @@
+---
+title: stackInBigBlinds
+sidebar_position: 5
+---
+
+# `stackInBigBlinds`
+
+Stack size expressed in **big blinds**: `stackChips / bigBlind`. `bigBlind` must be positive.
+
+<div className="apiSignature"><code>stackInBigBlinds(stackChips: number, bigBlind: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when stacks are stored in **chips** but you want BB-normalized depth—tournament HUDs, push/fold charts, or comparing stacks across blind levels.
+
+## How to use
+
+```js
+console.log(poker.stackInBigBlinds(15000, 500)); // 30 BB
+```
+
+## See also
+
+[`harringtonM`](/docs/reference/api/stacks-and-display/harrington-m) · [`orbitCostChips`](/docs/reference/api/stacks-and-display/orbit-cost-chips)

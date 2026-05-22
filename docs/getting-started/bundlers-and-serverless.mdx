@@ -1,0 +1,9 @@
+---
+title: 'Bundlers & serverless'
+---
+
+# Bundlers and serverless
+
+Load **poker-calculations** from **runtime** code paths (for example a lazy `require()` inside a route handler) if your bundler or `next build` evaluates server modules statically. That avoids optional build-time native resolution issues.
+
+You still need a **prebuild that matches** the deployment OS and libc (glibc vs musl). Linux glibc binaries are linked with static libstdc++/libgcc where applicable to reduce `GLIBCXX_*` errors on older images.

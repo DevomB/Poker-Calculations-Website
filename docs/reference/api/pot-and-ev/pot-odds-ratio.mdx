@@ -1,0 +1,49 @@
+---
+title: potOddsRatio
+sidebar_position: 1
+---
+
+# `potOddsRatio`
+
+Breakeven call equity from chip counts: `toCall / (pot + toCall)`. Returns `0` when `toCall <= 0` or the denominator is non-positive.
+
+<div className="apiSignature"><code>potOddsRatio(pot: number, toCall: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you know the pot size **before** your call and the amount you must put in, and want the minimum equity fraction to break even on a one-street call (no rake, no implied odds). Same numeric result as [`breakevenCallEquity`](/docs/reference/api/pot-and-ev/breakeven-call-equity); this name matches older C++ / trainer wording.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+// Pot 100, facing a 50 call → need 50 / 150 ≈ 33.3% equity
+const need = poker.potOddsRatio(100, 50);
+console.log(need);
+
+// Free call (toCall 0) → 0 (use display helpers for ∞:1 labels)
+console.log(poker.potOddsRatio(100, 0));
+```
+
+Pass **pot before your call** (not including the chips you are about to put in). Compare your estimated win probability against this fraction to decide call vs fold.
+
+**Returns** `number` — `toCall / (pot + toCall)` when `toCall > 0` and `pot + toCall > 0`; otherwise `0`.
+
+## See also
+
+[`breakevenCallEquity`](/docs/reference/api/pot-and-ev/breakeven-call-equity) · [`expectedValueCall`](/docs/reference/api/pot-and-ev/expected-value-call) · [`formatPotOddsReducedFraction`](/docs/reference/api/pot-and-ev/format-pot-odds-reduced-fraction)

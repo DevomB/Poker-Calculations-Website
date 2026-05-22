@@ -1,0 +1,58 @@
+---
+title: breakevenFoldEquityPureBluffWithRake
+sidebar_position: 4
+---
+
+# `breakevenFoldEquityPureBluffWithRake`
+
+Pure-bluff breakeven fold equity when the **shipped** pot on a fold (`potBeforeHeroBet + heroBetOrCallSize`) is raked via [`rakeFromPot`](/docs/reference/api/pot-and-ev/rake-from-pot).
+
+<div className="apiSignature"><code>breakevenFoldEquityPureBluffWithRake(potBeforeHeroBet: number, heroBetOrCallSize: number, rakeFraction: number, rakeCap: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Raked **cash** pure bluffs—parallel to [`breakevenFoldEquitySemiBluffWithRake`](/docs/reference/api/fold-equity/breakeven-fold-equity-semi-bluff-with-rake) on the called-pot side. Fold win is net shipped pot after rake; denominator includes rake-adjusted win plus risk.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const potBeforeHeroBet = 100;
+const heroBet = 50;
+const rakeFraction = 0.05;
+const rakeCap = 3;
+
+const fe = poker.breakevenFoldEquityPureBluffWithRake(
+  potBeforeHeroBet,
+  heroBet,
+  rakeFraction,
+  rakeCap,
+);
+const noRake = poker.breakevenFoldEquityPureBluff(potBeforeHeroBet, heroBet);
+console.log({ noRake, withRake: fe });
+
+const shipped = potBeforeHeroBet + heroBet;
+const rake = poker.rakeFromPot(shipped, rakeFraction, rakeCap);
+console.log({ shipped, rake, netWin: shipped - rake });
+```
+
+**Returns** `number` in `[0, 1]` when defined. Throws if rake leaves non-positive `winNet + heroBetOrCallSize`.
+
+## See also
+
+[`breakevenFoldEquityPureBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-pure-bluff) · [`breakevenFoldEquitySemiBluffWithRake`](/docs/reference/api/fold-equity/breakeven-fold-equity-semi-bluff-with-rake) · [`rakeFromPot`](/docs/reference/api/pot-and-ev/rake-from-pot)

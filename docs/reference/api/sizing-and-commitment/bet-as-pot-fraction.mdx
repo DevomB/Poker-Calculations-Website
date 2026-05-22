@@ -1,0 +1,47 @@
+---
+title: betAsPotFraction
+sidebar_position: 1
+---
+
+# `betAsPotFraction`
+
+Bet size as a fraction of the pot before the bet.
+
+<div className="apiSignature"><code>betAsPotFraction(potBeforeBet: number, betSize: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Label or filter bet sizes as **pot fractions** (half-pot, 75%, 2× pot) in HUDs, replay tools, and study sheets. Pairs with pot-geometry helpers that reason about matched pot fractions across streets.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const potBeforeBet = 100;
+const betSize = 75;
+
+const fraction = poker.betAsPotFraction(potBeforeBet, betSize);
+console.log(`${(fraction * 100).toFixed(0)}% pot`);
+
+// pot 0, positive bet → Infinity
+console.log(poker.betAsPotFraction(0, 50));
+```
+
+## Returns
+
+`number` — betSize / potBeforeBet. If potBeforeBet is `0` and betSize > 0, returns `Infinity`.

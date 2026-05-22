@@ -1,0 +1,32 @@
+---
+title: validateCardString
+sidebar_position: 6
+---
+
+# `validateCardString`
+
+Returns `true` if a single card string parses (`Ah`, `10c`, …).
+
+<div className="apiSignature">{`validateCardString(card: string): boolean`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use at form boundaries before calling evaluators or simulators—cheaper than try/catch on heavier APIs.
+
+## How to use
+
+```js
+if (!poker.validateCardString(userInput)) {
+  throw new Error('Invalid card');
+}
+```
+
+## See also
+
+[`canonicalCardString`](/docs/reference/api/hands-and-equity/canonical-card-string) · [Card notation](/docs/concepts/card-notation)

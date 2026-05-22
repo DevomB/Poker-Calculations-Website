@@ -1,0 +1,34 @@
+---
+title: compareBestHands
+sidebar_position: 10
+---
+
+# `compareBestHands`
+
+Compare best 1–7 card lists; returns `-1` / `0` / `1`. Throws on overlap or invalid cards.
+
+<div className="apiSignature">{`compareBestHands(cardsA: string[], cardsB: string[]): number`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use for showdown ordering when each side may have a different number of known cards (partial boards).
+
+## How to use
+
+```js
+const cmp = poker.compareBestHands(
+  ['Ah', 'Kh', 'Qh', 'Jh', 'Th'],
+  ['As', 'Ks', 'Qs', 'Js', '9h'],
+);
+// cmp < 0 → first hand wins; 0 → tie; > 0 → second wins
+```
+
+## See also
+
+[`evaluateBestHand`](/docs/reference/api/hands-and-equity/evaluate-best-hand)

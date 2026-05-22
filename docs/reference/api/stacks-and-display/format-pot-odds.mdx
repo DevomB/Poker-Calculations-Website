@@ -1,0 +1,40 @@
+---
+title: formatPotOdds
+sidebar_position: 7
+---
+
+# `formatPotOdds`
+
+Human-readable `"x:1"` string.
+
+<div className="apiSignature"><code>formatPotOdds(potBeforeCall: number, toCall: number, decimals?: number): string</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Render pot odds in the UI without hand-formatting floats. Optional `decimals` controls rounding of the leading number in the `x:1` display.
+
+## How to use
+
+```js
+console.log(poker.formatPotOdds(175, 50));        // "3.5:1"
+console.log(poker.formatPotOdds(175, 50, 0));    // "4:1" with 0 decimals
+console.log(poker.formatPotOddsReducedFraction(100, 50)); // "2:1" integer form
+```
+
+## See also
+
+[`potOddsRatioDisplay`](/docs/reference/api/stacks-and-display/pot-odds-ratio-display) · [`formatPotOddsReducedFraction`](/docs/reference/api/pot-and-ev/format-pot-odds-reduced-fraction)

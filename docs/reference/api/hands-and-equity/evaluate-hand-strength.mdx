@@ -1,0 +1,32 @@
+---
+title: evaluateHandStrength
+sidebar_position: 2
+---
+
+# `evaluateHandStrength`
+
+Encoded strength as a decimal string (`uint64`: rank in high bits + five kicker nibbles). Comparable across spots.
+
+<div className="apiSignature">{`evaluateHandStrength(holeCards: string[], board: string[]): string`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need a single sortable scalar for hero vs board—range ordering, fast filters, or bot heuristics when Monte Carlo count is zero.
+
+## How to use
+
+```js
+const strength = poker.evaluateHandStrength(['Ah', 'Kh'], ['Qh', 'Jh', 'Th']);
+// Decimal string — compare with locale-independent numeric compare if needed
+console.log(strength);
+```
+
+## See also
+
+[`evaluateHandStrengthFast`](/docs/reference/api/hands-and-equity/evaluate-hand-strength-fast) · [`evaluateHandCategory`](/docs/reference/api/hands-and-equity/evaluate-hand-category)

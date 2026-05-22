@@ -1,0 +1,47 @@
+---
+title: sprAfterCall
+sidebar_position: 2
+---
+
+# `sprAfterCall`
+
+Stack-to-pot ratio after a heads-up single call.
+
+<div className="apiSignature"><code>sprAfterCall(potBeforeCall: number, toCall: number, effectiveStackBeforeCall: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Compute **SPR after you call** in a heads-up spot: remaining stack divided by the new pot. Assumes one caller matching `toCall` so new pot = potBeforeCall + 2×toCall. Throws if `toCall` exceeds effective stack.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const potBeforeCall = 90;
+const toCall = 30;
+const stack = 200;
+
+const sprAfter = poker.sprAfterCall(potBeforeCall, toCall, stack);
+const sprBefore = poker.spr(potBeforeCall, stack);
+
+console.log({ sprBefore, sprAfter });
+```
+
+## Returns
+
+`number` — (effectiveStackBeforeCall − toCall) / (potBeforeCall + 2 × toCall). Throws if toCall > effectiveStackBeforeCall.

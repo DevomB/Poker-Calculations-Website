@@ -1,0 +1,47 @@
+---
+title: sidePotLayersTotalChips
+sidebar_position: 3
+---
+
+# `sidePotLayersTotalChips`
+
+Sum of `potChips` over all layers from [`sidePotLadderFromCommitments`](/docs/reference/api/side-pots/side-pot-ladder-from-commitments).
+
+<div className="apiSignature"><code>sidePotLayersTotalChips(layers: SidePotLayer[]): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+**Sanity-check** layered pots against total committed chips without summing `potChips` in application code—quick invariant before [`layeredPotChipEvFromEquities`](/docs/reference/api/side-pots/layered-pot-chip-ev-from-equities).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const committedChips = [100, 250, 250];
+const layers = poker.sidePotLadderFromCommitments(committedChips);
+const total = poker.sidePotLayersTotalChips(layers);
+
+const manual = layers.reduce((sum, layer) => sum + layer.potChips, 0);
+console.log({ total, manual, match: total === manual });
+```
+
+**Returns** `number` — total chips contestable across all layers.
+
+## See also
+
+[`sidePotLadderFromCommitments`](/docs/reference/api/side-pots/side-pot-ladder-from-commitments) · [`layeredPotChipEvFromEquities`](/docs/reference/api/side-pots/layered-pot-chip-ev-from-equities)

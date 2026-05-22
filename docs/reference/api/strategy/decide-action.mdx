@@ -1,0 +1,61 @@
+---
+title: decideAction
+sidebar_position: 1
+---
+
+# `decideAction`
+
+Rule-based action using MC equity (or strength fallback when sim count is 0), pot odds, call EV; see [decideAction contract](/docs/reference/types/native-poker-state).
+
+<div className="apiSignature">{`decideAction(state: NativePokerState, config: NativeBotConfig, opponentModel?: NativeOpponentModel | null, heroSeat?: number): DecisionResult`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Wire a rule-based villain or research bot in your own engine—automated opponents in simulators, not live assistance on third-party sites. Pass a complete `NativePokerState` snapshot each decision.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const state = {
+  players: [
+    { holeCards: ['Ah', 'Kh'], stack: 200, seat: 0, committedThisStreet: 0 },
+    { holeCards: ['7c', '7d'], stack: 180, seat: 1, folded: false },
+  ],
+  communityCards: ['Qh', 'Jh', '2c'],
+  phase: 'flop',
+  pot: 30,
+  currentBet: 10,
+  smallBlind: 1,
+  bigBlind: 2,
+  actedThisStreet: [false, true],
+};
+
+const decision = poker.decideAction(
+  state,
+  { monteCarloSimulations: 2000, rngSeed: 1, aggressionThreshold: 0.55 },
+  null,
+  0,
+);
+
+console.log(decision.action, decision.raiseBy);
+```
+
+## See also
+
+[decideAction guide](/docs/guides/decide-action) · [`NativeBotConfig`](/docs/reference/types/native-bot-config)

@@ -1,0 +1,54 @@
+---
+title: geometricPotAfterMatchedPotFractions
+sidebar_position: 2
+---
+
+# `geometricPotAfterMatchedPotFractions`
+
+P7: pot after `nRounds` of matched pot-fraction betting heads-up.
+
+<div className="apiSignature"><code>geometricPotAfterMatchedPotFractions(pot0: number, fraction: number, nRounds: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Model **geometric pot growth** when both players bet the same fraction `fraction` of the current pot each round and both call (heads-up, matched sizing). After each round the pot multiplies by `(1 + 2 × fraction)` because each player adds `fraction × pot` to the middle. Use when teaching deep-stack pot geometry, planning stack-off lines, or illustrating how repeated pot-sized bets balloon the pot over multiple streets—not as a full betting-tree solver.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const pot0 = 10;
+const fraction = 0.75; // each player bets 0.75× pot; both call each round
+const nRounds = 3;
+
+const pot = poker.geometricPotAfterMatchedPotFractions(pot0, fraction, nRounds);
+console.log(pot); // 10 × (1 + 2×0.75)^3 = 10 × 2.5^3 = 156.25
+
+const asFraction = poker.betAsPotFraction(pot0, pot0 * fraction);
+console.log('bet as pot fraction:', asFraction);
+```
+
+`pot0` must be finite and ≥ 0 (`0` stays `0`). `fraction` must be finite and ≥ 0. `nRounds` must be a non-negative integer (round count, not street names).
+
+## Returns
+
+`number` — pot after `nRounds` matched rounds: `pot0 × (1 + 2 × fraction)^nRounds`.
+
+## See also
+
+[`betAsPotFraction`](/docs/reference/api/sizing-and-commitment/bet-as-pot-fraction) · [`sprAfterCall`](/docs/reference/api/sizing-and-commitment/spr-after-call)

@@ -1,0 +1,46 @@
+---
+title: kellyCriterionBinary
+sidebar_position: 1
+---
+
+# `kellyCriterionBinary`
+
+Full Kelly fraction for a binary bet: (p·b − (1−p)) / b.
+
+<div className="apiSignature"><code>kellyCriterionBinary(winProbability: number, netOdds: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Compute the **optimal bankroll fraction** for a single binary wager with known win probability and net odds (net profit per 1 unit staked when you win). For study, simulators, and bankroll math—not live staking advice on third-party sites.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const winProbability = 0.55;
+const netOdds = 1.2; // win 1.2 units per unit risked
+
+const fullKelly = poker.kellyCriterionBinary(winProbability, netOdds);
+const halfKelly = fullKelly / 2;
+
+console.log({ fullKelly, halfKelly });
+```
+
+## Returns
+
+`number` — full Kelly fraction f = (p·b − (1−p)) / b where p is winProbability and b is netOdds. Can be negative when the bet has negative expectation.

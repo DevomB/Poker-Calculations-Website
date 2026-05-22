@@ -1,0 +1,47 @@
+---
+title: straightMadeFlopToRiverExactProbability
+sidebar_position: 4
+---
+
+# `straightMadeFlopToRiverExactProbability`
+
+Exact probability of straight or better in hero’s best 7 after uniform random unordered turn+river from remaining deck.
+
+<div className="apiSignature">{`straightMadeFlopToRiverExactProbability(heroHoleCards: string[], flopThree: string[], knownDead: string[]): number`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when a pattern-based runner model is not enough and you need the exact flop→river chance that hero’s best seven-card hand is a straight or straight flush. Pass villain/blocker cards in `knownDead` so they are removed from the deck.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const pStraight = poker.straightMadeFlopToRiverExactProbability(
+  ['9h', '8h'],
+  ['7h', '6d', '2c'],
+  ['Kh', '5s'],
+);
+console.log(pStraight);
+```
+
+`flopThree` must be length 3; `knownDead` may be empty.
+
+## See also
+
+[`runnerRunnerStraightDrawHitProbability`](/docs/reference/api/heuristics-and-draws/runner-runner-straight-draw-hit-probability) · [`flopToRiverAtLeastOneHitProbability`](/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-probability)

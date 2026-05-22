@@ -1,0 +1,60 @@
+---
+title: twoStreetPureBluffSameFoldEquity
+sidebar_position: 5
+---
+
+# `twoStreetPureBluffSameFoldEquity`
+
+Breakeven fold equity **both streets** for a two-barrel pure-bluff line (zero equity if called through).
+
+<div className="apiSignature"><code>twoStreetPureBluffSameFoldEquity(potBeforeStreet1: number, betStreet1: number, betStreet2: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Plan a **double-barrel air** line assuming the same fold rate on street 1 and street 2. Pair with [`twoStreetPureBluffEv`](/docs/reference/api/fold-equity/two-street-pure-bluff-ev) when you have separate FE estimates per street.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const potBeforeStreet1 = 50;
+const betStreet1 = 30;
+const betStreet2 = 70;
+
+const fe = poker.twoStreetPureBluffSameFoldEquity(
+  potBeforeStreet1,
+  betStreet1,
+  betStreet2,
+);
+console.log(fe);
+
+const ev = poker.twoStreetPureBluffEv(
+  potBeforeStreet1,
+  betStreet1,
+  betStreet2,
+  fe,
+  fe,
+);
+console.log({ sameFeBothStreets: fe, evAtBreakeven: ev });
+```
+
+**Returns** `number` — may be `NaN` if no root in `[0, 1]` exists for the line geometry.
+
+## See also
+
+[`twoStreetPureBluffEv`](/docs/reference/api/fold-equity/two-street-pure-bluff-ev) · [`breakevenFoldEquityFirstStreetPureBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-first-street-pure-bluff) · [`breakevenFoldEquitySecondStreetPureBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-second-street-pure-bluff)

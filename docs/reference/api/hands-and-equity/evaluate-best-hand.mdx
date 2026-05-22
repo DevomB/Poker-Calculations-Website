@@ -1,0 +1,42 @@
+---
+title: evaluateBestHand
+sidebar_position: 1
+---
+
+# `evaluateBestHand`
+
+Best five of **1–7** cards; returns `{ rank, kickers }` (`HandEvalResult`).
+
+<div className="apiSignature">{`evaluateBestHand(cards: string[]): HandEvalResult`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need the made hand at showdown or on a partial board—hand history tools, showdown validators, or comparing seven-card combinations without Monte Carlo noise.
+
+## How to use
+
+```js
+const hand = poker.evaluateBestHand(['Ah', 'Ac', 'Kd', 'Ks', 'Qh', 'Jc', '2d']);
+console.log(hand.rank);    // e.g. twoPair
+console.log(hand.kickers); // length 5 — internal tie-break encoding
+```
+
+Throws if any card string is invalid or duplicated.
+
+## See also
+
+[`compareBestHands`](/docs/reference/api/hands-and-equity/compare-best-hands) · [`evaluateHandCategory`](/docs/reference/api/hands-and-equity/evaluate-hand-category)

@@ -1,0 +1,46 @@
+---
+title: monteCarloTrialsForHoeffdingBound
+sidebar_position: 6
+---
+
+# `monteCarloTrialsForHoeffdingBound`
+
+Hoeffding trial count for uniform MC proportion error bound (any underlying p).
+
+<div className="apiSignature"><code>monteCarloTrialsForHoeffdingBound(epsilon: number, delta: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Plan Monte Carlo sample size when you need a **distribution-free** guarantee: with probability at least 1−δ, the estimate differs from the true proportion by at most ε, regardless of the unknown p. More conservative than `monteCarloTrialsForStandardErrorBound`, which assumes a planning value for p̂.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const epsilon = 0.01; // ±1 percentage point
+const delta = 0.05; // 5% failure probability
+
+const nHoeffding = poker.monteCarloTrialsForHoeffdingBound(epsilon, delta);
+const nSe = poker.monteCarloTrialsForStandardErrorBound(0.5, epsilon);
+
+console.log({ nHoeffding, nSeAtPHalf: nSe });
+```
+
+## Returns
+
+`number` — smallest integer n with n ≥ ln(2/δ) / (2ε²) (Hoeffding bound for a proportion in [0, 1]).

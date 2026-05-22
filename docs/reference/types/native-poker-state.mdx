@@ -1,0 +1,42 @@
+---
+title: NativePokerState
+---
+
+# NativePokerState
+
+Serialized no-limit Hold’em table state (camelCase JSON) passed to [`decideAction`](/docs/reference/api/strategy/decide-action).
+
+## Shape
+
+```ts
+interface NativePokerState {
+  players: Array<{
+    name?: string;
+    holeCards: string[];       // required per active player
+    stack?: number;
+    committedThisStreet?: number;
+    totalCommittedHand?: number;
+    folded?: boolean;
+    seat?: number;
+  }>;
+  communityCards: string[];
+  phase: string;               // PreFlop, flop, turn, river, Showdown, …
+  pot?: number;
+  currentBet?: number;
+  buttonSeat?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  actingIndex?: number;
+  lastRaiseIncrement?: number;
+  streetOpeningIndex?: number;
+  actedThisStreet: boolean[];  // required — one flag per seat
+}
+```
+
+## Notes
+
+- `holeCards` must be valid card strings for every non-folded player you want evaluated.
+- `phase` is case-insensitive in native code (`preflop`, `flop`, `turn`, `river`, `showdown`, `handcomplete`).
+- Pair with [NativeBotConfig](/docs/reference/types/native-bot-config) and optional [NativeOpponentModel](/docs/reference/types/native-opponent-model).
+
+Guide: [decideAction](/docs/guides/decide-action).

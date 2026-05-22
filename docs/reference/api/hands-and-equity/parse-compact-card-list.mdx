@@ -1,0 +1,31 @@
+---
+title: parseCompactCardList
+sidebar_position: 9
+---
+
+# `parseCompactCardList`
+
+Parse concatenated or whitespace-separated cards (`AhKh`, `Ah Kh`, `10hKd`). Throws on invalid token or duplicate.
+
+<div className="apiSignature">{`parseCompactCardList(text: string): string[]`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when importing compact hand histories or HUD paste buffers instead of splitting strings yourself.
+
+## How to use
+
+```js
+const cards = poker.parseCompactCardList('AhKh QdJc');
+console.log(cards); // ['Ah','Kh','Qd','Jc'] canonical forms
+```
+
+## See also
+
+[Card notation](/docs/concepts/card-notation)

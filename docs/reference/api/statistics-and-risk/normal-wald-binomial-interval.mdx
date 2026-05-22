@@ -1,0 +1,47 @@
+---
+title: normalWaldBinomialInterval
+sidebar_position: 5
+---
+
+# `normalWaldBinomialInterval`
+
+Normal (Wald) interval p̂ ± z·SE, clamped to [0, 1].
+
+<div className="apiSignature"><code>normalWaldBinomialInterval(successes: number, nTrials: number, z: number): WilsonScoreInterval</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Quick **normal approximation** bands when n is moderately large and the proportion is not extremely close to 0 or 1. Prefer `wilsonScoreInterval` or `agrestiCoullInterval` for small n or edge proportions.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const successes = 250;
+const nTrials = 500;
+const z = 1.96;
+
+const wald = poker.normalWaldBinomialInterval(successes, nTrials, z);
+const wilson = poker.wilsonScoreInterval(successes, nTrials, z);
+
+console.log({ wald, wilson, pHat: successes / nTrials });
+```
+
+## Returns
+
+`WilsonScoreInterval` — `{ lower: number, upper: number }` from p̂ ± z·√(p̂(1−p̂)/nTrials), with endpoints clamped to `[0, 1]`.

@@ -1,0 +1,18 @@
+---
+title: GTO frequencies
+sidebar_position: 10
+---
+
+# GTO frequencies
+
+Toy **polarized-betting** frequencies from pot geometry: alpha (exploit weight if you never defend), bluff-to-value ratio, and value-to-bluff ratio. These are study aids tied to minimum defense frequency—not a full solver output.
+
+Use this group when explaining river polarization, MDF complements, or how much of a betting range can be bluffs if the defender folds everything.
+
+| Export | Summary |
+| --- | --- |
+| [`alphaFrequency`](./alpha-frequency) | `1 - MDF` = `bet / (pot + bet)`. |
+| [`bluffToValueRatio`](./bluff-to-value-ratio) | Polarized river combo ratio `bet / (pot + 2×bet)`. |
+| [`valueToBluffRatio`](./value-to-bluff-ratio) | Reciprocal; `Infinity` when bet is 0. |
+
+[`minimumDefenseFrequency`](/docs/reference/api/stacks-and-display/minimum-defense-frequency) lives under [Stacks & display](/docs/reference/api/stacks-and-display/). Fold-equity breakeven helpers are under [Fold equity](/docs/reference/api/fold-equity/).

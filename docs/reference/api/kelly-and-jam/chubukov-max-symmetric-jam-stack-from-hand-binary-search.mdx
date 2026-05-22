@@ -1,0 +1,59 @@
+---
+title: chubukovMaxSymmetricJamStackFromHandBinarySearch
+sidebar_position: 6
+---
+
+# `chubukovMaxSymmetricJamStackFromHandBinarySearch`
+
+Same max jam search as `chubukovMaxSymmetricJamStackBinarySearch`; `maxStackChips` uses int32 coercion in native code.
+
+<div className="apiSignature"><code>chubukovMaxSymmetricJamStackFromHandBinarySearch(heroHoleCards: string[], boardCards: string[], deadMoneyChips: number, maxStackChips: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Same as `chubukovMaxSymmetricJamStackBinarySearch` when you need **int32 stack-cap semantics** in the native binding (large caps, parity with C++ int paths). Equity still comes from exact HU vs random hand; board 3–5 cards.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const hero = ['Js', 'Jd'];
+const board = ['Tc', '9h', '2d', 'Kh'];
+const deadMoney = 60;
+const maxStack = 250;
+
+const maxJamHand = poker.chubukovMaxSymmetricJamStackFromHandBinarySearch(
+  hero,
+  board,
+  deadMoney,
+  maxStack,
+);
+
+const maxJamDouble = poker.chubukovMaxSymmetricJamStackBinarySearch(
+  hero,
+  board,
+  deadMoney,
+  maxStack,
+);
+
+console.log({ maxJamHand, maxJamDouble });
+```
+
+## Returns
+
+`number` — largest integer jam stack with nonnegative symmetric-jam EV (equity from `exactHuEquityVsRandomHand`, then the same binary search as `chubukovMaxSymmetricJamStackChipsBinarySearch`). Result should match the other hand-based export when caps are in range; differs only in how `maxStackChips` is read in native code.

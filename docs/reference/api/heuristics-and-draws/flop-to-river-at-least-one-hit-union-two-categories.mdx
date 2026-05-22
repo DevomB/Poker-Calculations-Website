@@ -1,0 +1,49 @@
+---
+title: flopToRiverAtLeastOneHitUnionTwoCategories
+sidebar_position: 9
+---
+
+# `flopToRiverAtLeastOneHitUnionTwoCategories`
+
+Two out categories with card-level overlap; `sharedAb` = intersection size.
+
+<div className="apiSignature"><code>flopToRiverAtLeastOneHitUnionTwoCategories(unseenAfterFlop: number, outsA: number, outsB: number, sharedAb: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Combine **flush outs and straight outs** when some cards count toward both (overlap). Union size is `outsA + outsB - sharedAb` before the two-street hit formula runs.
+
+## How to use
+
+```js
+const unseen = 47;
+const flushOuts = 9;
+const straightOuts = 4;
+const shared = 1; // one card is both flush and straight out
+
+const p = poker.flopToRiverAtLeastOneHitUnionTwoCategories(
+  unseen,
+  flushOuts,
+  straightOuts,
+  shared
+);
+console.log(p);
+```
+
+## See also
+
+[`flopToRiverAtLeastOneHitProbability`](/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-probability) · [`flopToRiverAtLeastOneHitUnionThreeCategories`](/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-union-three-categories)

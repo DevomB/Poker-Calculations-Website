@@ -1,0 +1,26 @@
+---
+title: 'Pot & EV'
+sidebar_position: 4
+---
+
+# Pot & EV
+
+Chip-level pot odds, breakeven equity, call EV, rake adjustments, and book-style winning odds. These helpers assume a single call decision on the current street—no future-street modeling beyond what rake on the final pot implies.
+
+Use this group when you are building call/fold trainers, HUD overlays, or server-side spot analysis where you already have equity and need to compare it to the price of a call.
+
+| Export | Summary |
+| --- | --- |
+| [`potOddsRatio`](./pot-odds-ratio) | `toCall / (pot + toCall)` when valid; else `0`. |
+| [`expectedValueCall`](./expected-value-call) | Chip EV of calling once vs folding (0); no future streets. |
+| [`expectedValueCallWithRake`](./expected-value-call-with-rake) | Call EV when the final HU pot pays rake. |
+| [`breakevenCallEquity`](./breakeven-call-equity) | Same fraction as `potOddsRatio` for chip calls. |
+| [`breakevenCallEquityFromPotOddsDisplayRatio`](./breakeven-call-equity-from-pot-odds-display-ratio) | `1/(1+R)` from display ratio `R`; `0` when `R` is `+∞`. |
+| [`potOddsDisplayRatioFromBreakevenCallEquity`](./pot-odds-display-ratio-from-breakeven-call-equity) | Inverse `(1−e)/e`; `+∞` when `e=0`; `0` when `e=1`. |
+| [`formatPotOddsReducedFraction`](./format-pot-odds-reduced-fraction) | Reduced integer `pot : to_call` string. |
+| [`equityToWinningOddsAgainst`](./equity-to-winning-odds-against) | Book-style `(1−p)/p`; `+∞` at `p=0`. |
+| [`winningOddsAgainstToEquity`](./winning-odds-against-to-equity) | `1/(1+o)` for `o≥0`; `0` when `o=+∞`. |
+| [`rakeFromPot`](./rake-from-pot) | Rake `min(fraction×pot, cap)`. |
+| [`breakevenCallEquityWithRake`](./breakeven-call-equity-with-rake) | Breakeven equity when the final pot pays rake. |
+
+Display-oriented pot odds (`potOddsRatioDisplay`, `formatPotOdds`) live under [Stacks & display](/docs/reference/api/stacks-and-display/).

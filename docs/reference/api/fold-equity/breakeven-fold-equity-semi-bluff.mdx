@@ -1,0 +1,56 @@
+---
+title: breakevenFoldEquitySemiBluff
+sidebar_position: 2
+---
+
+# `breakevenFoldEquitySemiBluff`
+
+Two-outcome breakeven fold equity: fold wins `potBeforeHeroBet`, call wins `equityWhenCalled × totalPotIfCalled − heroBetSize`.
+
+<div className="apiSignature"><code>breakevenFoldEquitySemiBluff(potBeforeHeroBet: number, heroBetSize: number, equityWhenCalled: number, totalPotIfCalled: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+**Semi-bluffs** and value-heavy bets where you have equity when called. `totalPotIfCalled` is the full pot after your bet is called (including your bet). May exceed `1` if the line is −EV even when villain always folds; returns `0` when called EV is already nonnegative.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const potBeforeHeroBet = 80;
+const heroBetSize = 60;
+const equityWhenCalled = 0.32;
+const totalPotIfCalled = 200;
+
+const fe = poker.breakevenFoldEquitySemiBluff(
+  potBeforeHeroBet,
+  heroBetSize,
+  equityWhenCalled,
+  totalPotIfCalled,
+);
+console.log(fe);
+
+const pure = poker.breakevenFoldEquityPureBluff(potBeforeHeroBet, heroBetSize);
+console.log({ semiBluffFe: fe, pureBluffFe: pure });
+```
+
+**Returns** `number` — clamped equity in `[0, 1]` internally; throws on degenerate denominators or non-positive `totalPotIfCalled`.
+
+## See also
+
+[`breakevenFoldEquityPureBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-pure-bluff) · [`breakevenFoldEquitySemiBluffWithRake`](/docs/reference/api/fold-equity/breakeven-fold-equity-semi-bluff-with-rake)

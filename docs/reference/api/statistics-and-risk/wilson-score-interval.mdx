@@ -1,0 +1,51 @@
+---
+title: wilsonScoreInterval
+sidebar_position: 3
+---
+
+# `wilsonScoreInterval`
+
+Wilson score confidence interval for a binomial proportion.
+
+<div className="apiSignature"><code>wilsonScoreInterval(successes: number, nTrials: number, z: number): WilsonScoreInterval</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Show **confidence bands** on observed rates (fold to cbet, WTSD, MC win rate buckets) when sample size is small or the point estimate is near 0 or 1. Wilson intervals behave better than a naive normal approximation in those cases.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const successes = 42;
+const nTrials = 100;
+const z = 1.96; // ~95% normal critical value
+
+const interval = poker.wilsonScoreInterval(successes, nTrials, z);
+const pHat = successes / nTrials;
+
+console.log({
+  point: pHat,
+  lower: interval.lower,
+  upper: interval.upper,
+});
+```
+
+## Returns
+
+`WilsonScoreInterval` — `{ lower: number, upper: number }` with both bounds in `[0, 1]` for the success proportion successes/nTrials at critical value `z`.

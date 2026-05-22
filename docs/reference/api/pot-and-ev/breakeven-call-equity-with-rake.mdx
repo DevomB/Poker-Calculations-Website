@@ -1,0 +1,65 @@
+---
+title: breakevenCallEquityWithRake
+sidebar_position: 11
+---
+
+# `breakevenCallEquityWithRake`
+
+Breakeven call equity when the **final** heads-up pot (`potBeforeCall + 2 × toCall`) pays rake via [`rakeFromPot`](/docs/reference/api/pot-and-ev/rake-from-pot): `toCall / (potBeforeCall + 2 × toCall − rake)`.
+
+<div className="apiSignature"><code>breakevenCallEquityWithRake(potBeforeCall: number, toCall: number, rakeFraction: number, rakeCap: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use for **raked NLHE** call thresholds on one street when rake is taken from the pot you win (typical online cash). Higher than [`breakevenCallEquity`](/docs/reference/api/pot-and-ev/breakeven-call-equity) at the same sizes. Use with [`expectedValueCallWithRake`](/docs/reference/api/pot-and-ev/expected-value-call-with-rake) for the same rake semantics.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const potBeforeCall = 100;
+const toCall = 50;
+const rakeFraction = 0.05;
+const rakeCap = 4;
+
+const need = poker.breakevenCallEquityWithRake(
+  potBeforeCall,
+  toCall,
+  rakeFraction,
+  rakeCap,
+);
+console.log(need);
+
+const noRake = poker.breakevenCallEquity(potBeforeCall, toCall);
+console.log({ noRake, withRake: need, rakeRaisesThreshold: need > noRake });
+
+const ev = poker.expectedValueCallWithRake(
+  0.4,
+  potBeforeCall,
+  toCall,
+  rakeFraction,
+  rakeCap,
+);
+console.log(ev);
+```
+
+**Returns** `number` — `toCall / (potBeforeCall + 2 × toCall − rake)` on final pot `potBeforeCall + 2 × toCall`. Throws if rake leaves no positive pot; `0` when `toCall === 0`.
+
+## See also
+
+[`expectedValueCallWithRake`](/docs/reference/api/pot-and-ev/expected-value-call-with-rake) · [`rakeFromPot`](/docs/reference/api/pot-and-ev/rake-from-pot) · [`breakevenCallEquity`](/docs/reference/api/pot-and-ev/breakeven-call-equity)

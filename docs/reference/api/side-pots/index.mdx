@@ -1,0 +1,18 @@
+---
+title: Side pots
+sidebar_position: 15
+---
+
+# Side pots
+
+Build a **side-pot ladder** from per-player commitments, compute **layered chip EV** from per-layer equities, and sum layer pot sizes. Each layer is a `{ potChips, playerCapContribution[] }` object (`SidePotLayer`).
+
+Use this group when all-in runouts create multiple pots and you need EV per seat by layer—not for Harville ICM (see [ICM](/docs/reference/api/icm/)).
+
+| Export | Summary |
+| --- | --- |
+| [`sidePotLadderFromCommitments`](./side-pot-ladder-from-commitments) | Main + side layers from committed chips. |
+| [`layeredPotChipEvFromEquities`](./layered-pot-chip-ev-from-equities) | Chip EV from layer pots and per-layer equities. |
+| [`sidePotLayersTotalChips`](./side-pot-layers-total-chips) | Sum of `potChips` across layers. |
+
+Multiway breakeven call equity (symmetric callers) is under [Multiway](/docs/reference/api/multiway/).

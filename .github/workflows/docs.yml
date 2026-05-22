@@ -1,0 +1,34 @@
+name: Documentation site
+
+on:
+  push:
+    paths:
+      - 'Website/**'
+      - 'NPM/native/binding.cpp'
+      - 'NPM/index.d.ts'
+  pull_request:
+    paths:
+      - 'Website/**'
+      - 'NPM/native/binding.cpp'
+      - 'NPM/index.d.ts'
+
+defaults:
+  run:
+    working-directory: Website
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: Website/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check:docs
+      - run: pnpm build

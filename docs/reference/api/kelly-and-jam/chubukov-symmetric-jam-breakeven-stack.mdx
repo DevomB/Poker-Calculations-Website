@@ -1,0 +1,47 @@
+---
+title: chubukovSymmetricJamBreakevenStack
+sidebar_position: 2
+---
+
+# `chubukovSymmetricJamBreakevenStack`
+
+Toy heads-up symmetric jam: breakeven stack from dead money and equity.
+
+<div className="apiSignature"><code>chubukovSymmetricJamBreakevenStack(deadMoneyChips: number, equity: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Push/fold **study**: smallest symmetric jam stack (each player puts in S) that is breakeven given dead money already in the pot and your win equity. Toy model only—assumes symmetric stacks and a single jam decision.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const deadMoney = 150;
+const equity = 0.38;
+
+const breakevenStack = poker.chubukovSymmetricJamBreakevenStack(deadMoney, equity);
+console.log('breakeven jam stack (chips):', breakevenStack);
+
+const evAtStack = poker.chubukovSymmetricJamEv(breakevenStack, deadMoney, equity);
+console.log('EV at breakeven (≈0):', evAtStack);
+```
+
+## Returns
+
+`number` — breakeven jam stack S in chips. For equity < 0.5: S = equity·dead/(1−2·equity). For equity > 0.5 the line is +EV at any stack (returns positive infinity). At equity = 0.5, behavior follows the native edge-case rules.

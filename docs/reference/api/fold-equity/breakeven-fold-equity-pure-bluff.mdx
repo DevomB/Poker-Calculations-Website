@@ -1,0 +1,49 @@
+---
+title: breakevenFoldEquityPureBluff
+sidebar_position: 1
+---
+
+# `breakevenFoldEquityPureBluff`
+
+Minimum fold frequency when called equity is **0**: `heroBet / (potBeforeHeroBet + heroBet)`.
+
+<div className="apiSignature"><code>breakevenFoldEquityPureBluff(potBeforeHeroBet: number, heroBetOrCallSize: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Heads-up **pure bluff** sizing: villain must fold at least this often for a bet with no equity when called. Compare to [`alphaFrequency`](/docs/reference/api/gto-frequencies/alpha-frequency) (`bet / (pot + bet)`) for the same geometry.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const potBeforeHeroBet = 100;
+const heroBet = 50;
+
+const fe = poker.breakevenFoldEquityPureBluff(potBeforeHeroBet, heroBet);
+console.log(fe);
+
+const alpha = poker.alphaFrequency(potBeforeHeroBet, heroBet);
+console.log({ breakevenFoldEquity: fe, alphaFrequency: alpha });
+```
+
+**Returns** `number` in `[0, 1]` — `0` when `potBeforeHeroBet + heroBetOrCallSize` is `0`. Non-finite or negative inputs throw.
+
+## See also
+
+[`breakevenFoldEquitySemiBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-semi-bluff) · [`breakevenFoldEquityPureBluffWithRake`](/docs/reference/api/fold-equity/breakeven-fold-equity-pure-bluff-with-rake) · [`twoStreetPureBluffEv`](/docs/reference/api/fold-equity/two-street-pure-bluff-ev)

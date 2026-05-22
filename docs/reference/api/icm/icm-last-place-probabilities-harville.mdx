@@ -1,0 +1,49 @@
+---
+title: icmLastPlaceProbabilitiesHarville
+sidebar_position: 4
+---
+
+# `icmLastPlaceProbabilitiesHarville`
+
+Harville probability each player finishes **last** (last column of the placement matrix).
+
+<div className="apiSignature"><code>icmLastPlaceProbabilitiesHarville(stacks: number[]): number[]</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+**Bust-out risk** and short-stack survival ICM—complements win and top-k exports. Short stacks typically carry higher last-place mass under Harville.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const stacks = [12000, 8000, 5000];
+const last = poker.icmLastPlaceProbabilitiesHarville(stacks);
+console.log(last);
+
+const matrix = poker.icmHarvillePlacementProbabilities(stacks);
+const n = stacks.length;
+const fromMatrix = matrix.map((row) => row[n - 1]);
+console.log({ last, fromMatrix, match: last.every((p, i) => p === fromMatrix[i]) });
+```
+
+**Returns** `number[]` — same length as `stacks`; entries sum to `1`.
+
+## See also
+
+[`icmHarvillePlacementProbabilities`](/docs/reference/api/icm/icm-harville-placement-probabilities) · [`icmTopKFinishProbabilities`](/docs/reference/api/icm/icm-top-k-finish-probabilities) · [`icmWinProbabilitiesHarville`](/docs/reference/api/icm/icm-win-probabilities-harville)

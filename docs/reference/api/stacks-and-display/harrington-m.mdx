@@ -1,0 +1,41 @@
+---
+title: harringtonM
+sidebar_position: 8
+---
+
+# `harringtonM`
+
+Harrington **M** = `stackChips / (smallBlind + bigBlind + totalAntes)`.
+
+<div className="apiSignature"><code>harringtonM(stackChips: number, smallBlind: number, bigBlind: number, totalAntes: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use in tournament study tools to compare stack depth to the cost of one round of blinds and antes (classic Harrington zones: green / yellow / red / dead).
+
+## How to use
+
+```js
+// 12,000 stack, 100/200 blinds, 200 total antes → M = 30
+console.log(poker.harringtonM(12000, 100, 200, 200));
+```
+
+All inputs must be finite and non-negative; `smallBlind + bigBlind + totalAntes` must be **positive** or the call throws.
+
+## See also
+
+[`harringtonMEffective`](/docs/reference/api/stacks-and-display/harrington-m-effective) · [`orbitCostChips`](/docs/reference/api/stacks-and-display/orbit-cost-chips)

@@ -1,0 +1,52 @@
+---
+title: multiwaySymmetricBreakevenCallEquity
+sidebar_position: 1
+---
+
+# `multiwaySymmetricBreakevenCallEquity`
+
+Breakeven **call equity** when `symmetricExtraCallers` additional villains each match `toCall` (winner-take-all final pot).
+
+<div className="apiSignature"><code>multiwaySymmetricBreakevenCallEquity(potBefore: number, toCall: number, symmetricExtraCallers: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Facing a bet with **extra symmetric callers** who each put in `toCall`—raises the equity you need versus heads-up [`breakevenCallEquity`](/docs/reference/api/pot-and-ev/breakeven-call-equity). `symmetricExtraCallers` is the count of *other* callers beyond the bettor (not including hero).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const potBefore = 120;
+const toCall = 40;
+const extraCallers = 2;
+
+const need = poker.multiwaySymmetricBreakevenCallEquity(
+  potBefore,
+  toCall,
+  extraCallers,
+);
+const hu = poker.breakevenCallEquity(potBefore, toCall);
+console.log({ multiway: need, headsUp: hu, extraCallers });
+```
+
+**Returns** `number` — minimum hero win probability vs the field for a +EV call under symmetric geometry.
+
+## See also
+
+[`multiwaySymmetricBreakevenCallEquityWithShare`](/docs/reference/api/multiway/multiway-symmetric-breakeven-call-equity-with-share) · [`breakevenCallEquity`](/docs/reference/api/pot-and-ev/breakeven-call-equity) · [`expectedValueCall`](/docs/reference/api/pot-and-ev/expected-value-call)

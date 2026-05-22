@@ -1,0 +1,19 @@
+---
+title: NativeBotConfig
+---
+
+# NativeBotConfig
+
+Tuning object for [`decideAction`](/docs/reference/api/strategy/decide-action). All fields optional; C++ applies defaults when omitted.
+
+| Field | Type | Default (native) |
+| --- | --- | --- |
+| `aggressionThreshold` | `number` | `0.55` |
+| `riskTolerance` | `number` | `0.92` |
+| `monteCarloSimulations` | `number` | `800` |
+| `monteCarloVillains` | `number` | `1` |
+| `raisePotFraction` | `number` | `0.55` |
+| `opponentAggressionWeight` | `number` | `0.05` |
+| `rngSeed` | `number` | `2463534242` |
+
+Set `monteCarloSimulations` to `0` to use hand-strength fallback instead of Monte Carlo equity.

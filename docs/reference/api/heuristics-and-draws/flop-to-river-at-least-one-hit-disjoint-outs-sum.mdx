@@ -1,0 +1,41 @@
+---
+title: flopToRiverAtLeastOneHitDisjointOutsSum
+sidebar_position: 12
+---
+
+# `flopToRiverAtLeastOneHitDisjointOutsSum`
+
+Sum **disjoint** categories, then same two-street hit formula (categories must not share outs).
+
+<div className="apiSignature"><code>flopToRiverAtLeastOneHitDisjointOutsSum(unseenAfterFlop: number, outsPerCategory: number[]): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+You have several **non-overlapping** out buckets (e.g. overcards + gutshot blocks counted separately with no shared cards). Simpler than union helpers when overlap is zero by construction.
+
+## How to use
+
+```js
+const p = poker.flopToRiverAtLeastOneHitDisjointOutsSum(47, [6, 3, 2]);
+console.log(p); // 11 effective outs → same as flopToRiver(11, 47)
+
+console.log(poker.flopToRiverAtLeastOneHitProbability(11, 47));
+```
+
+## See also
+
+[`flopToRiverAtLeastOneHitProbability`](/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-probability) · [`flopToRiverAtLeastOneHitUnionTwoCategories`](/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-union-two-categories)

@@ -1,0 +1,43 @@
+---
+title: ruleOfFourEquity
+sidebar_position: 1
+---
+
+# `ruleOfFourEquity`
+
+Out-count × 4% cap heuristic (turn+river).
+
+<div className="apiSignature"><code>ruleOfFourEquity(outs: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+On the flop, estimate **two-card equity** quickly: multiply clean outs by 4% (capped by the native implementation). Good for live/table mental math before you run exact `flopToRiverAtLeastOneHitProbability`.
+
+## How to use
+
+```js
+const outs = 9; // flush draw
+console.log(poker.ruleOfFourEquity(outs)); // ~0.36 (36%)
+
+console.log(
+  poker.flopToRiverAtLeastOneHitProbability(outs, 47)
+); // exact two-street from 47 unseen
+```
+
+## See also
+
+[`ruleOfTwoEquity`](/docs/reference/api/heuristics-and-draws/rule-of-two-equity) · [`flopToRiverAtLeastOneHitProbability`](/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-probability)

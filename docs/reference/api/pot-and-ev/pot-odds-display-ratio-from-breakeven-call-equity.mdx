@@ -1,0 +1,50 @@
+---
+title: potOddsDisplayRatioFromBreakevenCallEquity
+sidebar_position: 6
+---
+
+# `potOddsDisplayRatioFromBreakevenCallEquity`
+
+Inverse of `breakevenCallEquityFromPotOddsDisplayRatio`: display ratio `(1 − e) / e` from breakeven equity `e`.
+
+<div className="apiSignature"><code>potOddsDisplayRatioFromBreakevenCallEquity(breakevenEquity: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when a solver or quiz gives you a **minimum equity** (e.g. “need 20%”) and you want the familiar **X:1** pot-odds label (`potBeforeCall / toCall`), or to rebuild chip labels via `formatPotOddsReducedFraction` after you pick a call size.
+
+## How to use
+
+```js
+const need = 0.25; // 25% breakeven
+const displayRatio = poker.potOddsDisplayRatioFromBreakevenCallEquity(need);
+console.log(displayRatio); // 3 — read as 3:1
+
+const toCall = 30;
+const potBeforeCall = displayRatio * toCall; // 90
+console.log(poker.formatPotOddsReducedFraction(potBeforeCall, toCall)); // "3:1"
+
+// Round-trip check
+const back = poker.breakevenCallEquityFromPotOddsDisplayRatio(displayRatio);
+console.log(back); // 0.25
+```
+
+**Returns** `number` — `(1 − e) / e` for `e` in `(0, 1]`; `Infinity` when `e === 0`; `0` when `e === 1`. Input equity is clamped to `[0, 1]`.
+
+## See also
+
+[`breakevenCallEquityFromPotOddsDisplayRatio`](/docs/reference/api/pot-and-ev/breakeven-call-equity-from-pot-odds-display-ratio) · [`formatPotOddsReducedFraction`](/docs/reference/api/pot-and-ev/format-pot-odds-reduced-fraction)
