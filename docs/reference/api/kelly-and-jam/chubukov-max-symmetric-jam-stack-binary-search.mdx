@@ -5,9 +5,9 @@ sidebar_position: 5
 
 # `chubukovMaxSymmetricJamStackBinarySearch`
 
-Max nonnegative jam stack using exact HU equity vs a random hand (board 3–5).
+Largest integer jam stack in `[1, maxStackChips]` with nonnegative symmetric-jam EV using exact HU equity vs a random hand; board 3–5.
 
-<div className="apiSignature"><code>chubukovMaxSymmetricJamStackBinarySearch(heroHoleCards: string[], boardCards: string[], deadMoneyChips: number, maxStackChips: number): number</code></div>
+<div className="apiSignature">{`chubukovMaxSymmetricJamStackBinarySearch(heroHoleCards: string[], boardCards: string[], deadMoneyChips: number, maxStackChips: number): number`}</div>
 
 ## Import
 
@@ -25,29 +25,28 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Push/fold on **flop or later** when equity should come from `exactHuEquityVsRandomHand` (exact enumeration vs a random villain hand), then search the largest jam with nonnegative symmetric-jam EV. Board must have 3–5 cards; `maxStackChips` is a double clamped to native int range.
+Push/fold study on a **concrete flop/turn/river**: equity comes from `exactHuEquityVsRandomHand`, then binary search finds max +EV jam depth. Board must have 3–5 cards.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const hero = ['As', 'Kd'];
+const board = ['2h', '7d', '9c'];
+const dead = 150;
+const maxStack = 5000;
 
-const hero = ['Ah', 'Kd'];
-const board = ['Qh', '7c', '2s'];
-const deadMoney = 100;
-const maxStack = 400;
-
-const equity = poker.exactHuEquityVsRandomHand(hero, board);
 const maxJam = poker.chubukovMaxSymmetricJamStackBinarySearch(
   hero,
   board,
-  deadMoney,
-  maxStack,
+  dead,
+  maxStack
 );
+console.log('max +EV jam:', maxJam);
 
-console.log({ equity, maxJam });
+const eq = poker.exactHuEquityVsRandomHand(hero, board);
+console.log('equity vs random:', eq);
 ```
 
-## Returns
+## See also
 
-`number` — largest integer jam stack in `[1, maxStackChips]` with nonnegative `chubukovSymmetricJamEv` after equity is computed via `exactHuEquityVsRandomHand(heroHoleCards, boardCards)`.
+[`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand) · [`chubukovMaxSymmetricJamStackFromHandBinarySearch`](/docs/reference/api/kelly-and-jam/chubukov-max-symmetric-jam-stack-from-hand-binary-search)

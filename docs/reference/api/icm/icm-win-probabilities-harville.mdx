@@ -5,9 +5,9 @@ sidebar_position: 1
 
 # `icmWinProbabilitiesHarville`
 
-Harville **first-place** win probabilities from stack sizes (each seat’s share of total chips).
+Harville first-place probabilities.
 
-<div className="apiSignature"><code>icmWinProbabilitiesHarville(stacks: number[]): number[]</code></div>
+<div className="apiSignature">{`icmWinProbabilitiesHarville(stacks: number[]): number[]`}</div>
 
 ## Import
 
@@ -25,23 +25,19 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Tournament **ICM** when you only need win probability per seat—input to [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) and [`icmPairwiseBubbleFactor`](/docs/reference/api/icm/icm-pairwise-bubble-factor). Stacks must be positive; length equals field size.
+Tournament tools need **P(win)** under Harville from current stacks—bubble decisions, deal calculators, and first-stage ICM before full placement matrix work.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const stacks = [12000, 9000, 6000, 3000];
+const pWin = poker.icmWinProbabilitiesHarville(stacks);
+console.log(pWin); // sums to 1
 
-const stacks = [12000, 8000, 5000];
-const winProb = poker.icmWinProbabilitiesHarville(stacks);
-console.log(winProb);
-
-const sum = winProb.reduce((a, b) => a + b, 0);
-console.log({ winProb, sum });
+const payouts = [10000, 6000, 4000, 2000];
+console.log(poker.icmExpectedPayouts(stacks, payouts));
 ```
-
-**Returns** `number[]` — same length as `stacks`; entries sum to `1` (Harville first place).
 
 ## See also
 
-[`icmHarvillePlacementProbabilities`](/docs/reference/api/icm/icm-harville-placement-probabilities) · [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) · [`normalizedStackFractions`](/docs/reference/api/stacks-and-display/normalized-stack-fractions)
+[`icmHarvillePlacementProbabilities`](/docs/reference/api/icm/icm-harville-placement-probabilities) · [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts)

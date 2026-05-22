@@ -5,9 +5,9 @@ sidebar_position: 2
 
 # `breakevenFoldEquitySemiBluff`
 
-Two-outcome breakeven fold equity: fold wins `potBeforeHeroBet`, call wins `equityWhenCalled × totalPotIfCalled − heroBetSize`.
+Two-outcome model; may exceed 1 if line is −EV even if villain always folds.
 
-<div className="apiSignature"><code>breakevenFoldEquitySemiBluff(potBeforeHeroBet: number, heroBetSize: number, equityWhenCalled: number, totalPotIfCalled: number): number</code></div>
+<div className="apiSignature">{`breakevenFoldEquitySemiBluff(potBeforeHeroBet: number, heroBetSize: number, equityWhenCalled: number, totalPotIfCalled: number): number`}</div>
 
 ## Import
 
@@ -25,32 +25,25 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-**Semi-bluffs** and value-heavy bets where you have equity when called. `totalPotIfCalled` is the full pot after your bet is called (including your bet). May exceed `1` if the line is −EV even when villain always folds; returns `0` when called EV is already nonnegative.
+Semi-bluffs: you win the pot when villain folds and have **nonzero equity** when called. Pass equity when called and the total pot size if called (including your bet). Result can exceed `1` if the line is losing even when villain always folds.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const potBeforeHeroBet = 80;
-const heroBetSize = 60;
+const pot = 80;
+const bet = 55;
 const equityWhenCalled = 0.32;
-const totalPotIfCalled = 200;
+const totalPotIfCalled = pot + 2 * bet; // 190
 
 const fe = poker.breakevenFoldEquitySemiBluff(
-  potBeforeHeroBet,
-  heroBetSize,
+  pot,
+  bet,
   equityWhenCalled,
-  totalPotIfCalled,
+  totalPotIfCalled
 );
-console.log(fe);
-
-const pure = poker.breakevenFoldEquityPureBluff(potBeforeHeroBet, heroBetSize);
-console.log({ semiBluffFe: fe, pureBluffFe: pure });
+console.log('breakeven fold equity:', fe);
 ```
-
-**Returns** `number` — clamped equity in `[0, 1]` internally; throws on degenerate denominators or non-positive `totalPotIfCalled`.
 
 ## See also
 
-[`breakevenFoldEquityPureBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-pure-bluff) · [`breakevenFoldEquitySemiBluffWithRake`](/docs/reference/api/fold-equity/breakeven-fold-equity-semi-bluff-with-rake)
+[`breakevenFoldEquitySemiBluffWithRake`](/docs/reference/api/fold-equity/breakeven-fold-equity-semi-bluff-with-rake) · [`breakevenFoldEquityPureBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-pure-bluff)

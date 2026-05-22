@@ -5,9 +5,9 @@ sidebar_position: 1
 
 # `breakevenFoldEquityPureBluff`
 
-Minimum fold frequency when called equity is **0**: `heroBet / (potBeforeHeroBet + heroBet)`.
+FE when equity if called is 0.
 
-<div className="apiSignature"><code>breakevenFoldEquityPureBluff(potBeforeHeroBet: number, heroBetOrCallSize: number): number</code></div>
+<div className="apiSignature">{`breakevenFoldEquityPureBluff(potBeforeHeroBet: number, heroBetOrCallSize: number): number`}</div>
 
 ## Import
 
@@ -25,25 +25,21 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Heads-up **pure bluff** sizing: villain must fold at least this often for a bet with no equity when called. Compare to [`alphaFrequency`](/docs/reference/api/gto-frequencies/alpha-frequency) (`bet / (pot + bet)`) for the same geometry.
+Pure air: how often villain must **fold** for your bet to break even if you always lose when called. Compare to population fold-to-bet stats or `betaBinomialFoldPosterior` beliefs.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const pot = 100;
+const bet = 66;
 
-const potBeforeHeroBet = 100;
-const heroBet = 50;
+const fe = poker.breakevenFoldEquityPureBluff(pot, bet);
+console.log(fe); // ≈ bet / (pot + bet)
 
-const fe = poker.breakevenFoldEquityPureBluff(potBeforeHeroBet, heroBet);
-console.log(fe);
-
-const alpha = poker.alphaFrequency(potBeforeHeroBet, heroBet);
-console.log({ breakevenFoldEquity: fe, alphaFrequency: alpha });
+const alpha = poker.alphaFrequency(pot, bet);
+console.log('alpha matches pure-bluff BE:', alpha);
 ```
-
-**Returns** `number` in `[0, 1]` — `0` when `potBeforeHeroBet + heroBetOrCallSize` is `0`. Non-finite or negative inputs throw.
 
 ## See also
 
-[`breakevenFoldEquitySemiBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-semi-bluff) · [`breakevenFoldEquityPureBluffWithRake`](/docs/reference/api/fold-equity/breakeven-fold-equity-pure-bluff-with-rake) · [`twoStreetPureBluffEv`](/docs/reference/api/fold-equity/two-street-pure-bluff-ev)
+[`breakevenFoldEquityPureBluffWithRake`](/docs/reference/api/fold-equity/breakeven-fold-equity-pure-bluff-with-rake) · [`twoStreetPureBluffEv`](/docs/reference/api/fold-equity/two-street-pure-bluff-ev)

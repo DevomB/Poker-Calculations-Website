@@ -5,19 +5,17 @@ sidebar_position: 12
 
 # Fold equity
 
-Breakeven **fold equity** for pure bluffs and semi-bluffs (with optional rake), plus two-street pure-bluff EV and paired-street breakeven FE. Models assume a single bet decision or a simple two-street bluff line—not a full game tree.
+Breakeven **fold equity** for pure bluffs and semi-bluffs (with optional rake), plus two-street pure-bluff models with independent or tied fold frequencies.
 
-Use this group when sizing bluffs, checking whether a semi-bluff is profitable if called, or studying double-barrel air with independent fold rates per street.
+Use when sizing bluffs or semi-bluffs and comparing required villain fold % to population or player-model estimates.
 
 | Export | Summary |
 | --- | --- |
 | [`breakevenFoldEquityPureBluff`](./breakeven-fold-equity-pure-bluff) | FE when equity if called is 0. |
 | [`breakevenFoldEquitySemiBluff`](./breakeven-fold-equity-semi-bluff) | Two-outcome semi-bluff model. |
-| [`breakevenFoldEquitySemiBluffWithRake`](./breakeven-fold-equity-semi-bluff-with-rake) | Semi-bluff FE with rake on `totalPotIfCalled`. |
-| [`breakevenFoldEquityPureBluffWithRake`](./breakeven-fold-equity-pure-bluff-with-rake) | Pure-bluff FE with rake on shipped pot. |
-| [`twoStreetPureBluffSameFoldEquity`](./two-street-pure-bluff-same-fold-equity) | Same FE both streets; may return `NaN`. |
-| [`twoStreetPureBluffEv`](./two-street-pure-bluff-ev) | Two-street pure-bluff chip EV. |
-| [`breakevenFoldEquitySecondStreetPureBluff`](./breakeven-fold-equity-second-street-pure-bluff) | Breakeven second-street FE given first-street FE. |
-| [`breakevenFoldEquityFirstStreetPureBluff`](./breakeven-fold-equity-first-street-pure-bluff) | Breakeven first-street FE given second-street FE. |
-
-Rake on the final pot for **calls** is under [Pot & EV](/docs/reference/api/pot-and-ev/). GTO-style alpha/MDF complements are under [GTO frequencies](/docs/reference/api/gto-frequencies/).
+| [`breakevenFoldEquitySemiBluffWithRake`](./breakeven-fold-equity-semi-bluff-with-rake) | Semi-bluff FE with rake on called pot. |
+| [`breakevenFoldEquityPureBluffWithRake`](./breakeven-fold-equity-pure-bluff-with-rake) | Pure-bluff FE with rake. |
+| [`twoStreetPureBluffSameFoldEquity`](./two-street-pure-bluff-same-fold-equity) | Same FE both streets; may be `NaN`. |
+| [`twoStreetPureBluffEv`](./two-street-pure-bluff-ev) | Two-street EV with independent FE. |
+| [`breakevenFoldEquitySecondStreetPureBluff`](./breakeven-fold-equity-second-street-pure-bluff) | Breakeven 2nd-street FE given 1st. |
+| [`breakevenFoldEquityFirstStreetPureBluff`](./breakeven-fold-equity-first-street-pure-bluff) | Breakeven 1st-street FE given 2nd. |

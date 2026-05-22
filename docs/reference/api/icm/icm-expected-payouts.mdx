@@ -5,9 +5,9 @@ sidebar_position: 5
 
 # `icmExpectedPayouts`
 
-**ICM expected prize** per player from Harville placement probabilities and a prize vector (length = players).
+ICM expected payouts (prize vector length = players).
 
-<div className="apiSignature"><code>icmExpectedPayouts(stacks: number[], payouts: number[]): number[]</code></div>
+<div className="apiSignature">{`icmExpectedPayouts(stacks: number[], payouts: number[]): number[]`}</div>
 
 ## Import
 
@@ -25,26 +25,20 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Convert stacks and a **payout ladder** into dollar (or chip-prize) equity per seat—core MTT ICM output. `payouts[i]` is the prize for finish `i+1` (first place at index `0`). Building block for [`icmPairwiseBubbleFactor`](/docs/reference/api/icm/icm-pairwise-bubble-factor).
+Convert stacks and a **fixed payout ladder** into expected dollar (or chip) equity per seat—deal making, bubble pressure, and `icmPairwiseBubbleFactor` all build on this vector.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const stacks = [10000, 7500, 5000, 2500];
+const payouts = [5000, 3000, 1500, 500];
 
-const stacks = [12000, 8000, 5000];
-const payouts = [400, 250, 150];
+const ev = poker.icmExpectedPayouts(stacks, payouts);
+console.log(ev); // expected prize per player; sum ≈ sum(payouts)
 
-const icm = poker.icmExpectedPayouts(stacks, payouts);
-console.log(icm);
-
-const prizePool = payouts.reduce((a, b) => a + b, 0);
-const icmSum = icm.reduce((a, b) => a + b, 0);
-console.log({ icm, prizePool, icmSum });
+console.log(poker.icmWinProbabilitiesHarville(stacks));
 ```
-
-**Returns** `number[]` — expected payout per player; sums to total prizes when `payouts` covers all places.
 
 ## See also
 
-[`icmWinProbabilitiesHarville`](/docs/reference/api/icm/icm-win-probabilities-harville) · [`icmHarvillePlacementProbabilities`](/docs/reference/api/icm/icm-harville-placement-probabilities) · [`icmPairwiseBubbleFactor`](/docs/reference/api/icm/icm-pairwise-bubble-factor)
+[`icmPairwiseBubbleFactor`](/docs/reference/api/icm/icm-pairwise-bubble-factor) · [`normalizedStackFractions`](/docs/reference/api/stacks-and-display/normalized-stack-fractions)

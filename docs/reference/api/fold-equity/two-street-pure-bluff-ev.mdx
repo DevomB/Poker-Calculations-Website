@@ -5,9 +5,9 @@ sidebar_position: 6
 
 # `twoStreetPureBluffEv`
 
-Chip **EV** of a two-street pure bluff with independent fold equities `foldEquityStreet1` and `foldEquityStreet2` (air if called through).
+Two-street pure-bluff chip EV with independent `fe1`, `fe2`.
 
-<div className="apiSignature"><code>twoStreetPureBluffEv(potBeforeStreet1: number, betStreet1: number, betStreet2: number, foldEquityStreet1: number, foldEquityStreet2: number): number</code></div>
+<div className="apiSignature">{`twoStreetPureBluffEv(potBeforeStreet1: number, betStreet1: number, betStreet2: number, foldEquityStreet1: number, foldEquityStreet2: number): number`}</div>
 
 ## Import
 
@@ -25,39 +25,24 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Evaluate a **double-barrel bluff** when you assign separate fold rates per street. Positive EV means the sequence beats not betting; compare breakeven FE via [`twoStreetPureBluffSameFoldEquity`](/docs/reference/api/fold-equity/two-street-pure-bluff-same-fold-equity) or street-specific breakeven helpers.
+Evaluate a **double-barrel air line** when you assign separate fold probabilities on street 1 and street 2 (e.g. from stats). Positive EV means the two-street bluff plan beats folding out both barrels.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const potBeforeStreet1 = 50;
-const betStreet1 = 30;
-const betStreet2 = 70;
-const fe1 = 0.45;
-const fe2 = 0.35;
-
 const ev = poker.twoStreetPureBluffEv(
-  potBeforeStreet1,
-  betStreet1,
-  betStreet2,
-  fe1,
-  fe2,
+  60,  // pot before flop bet
+  40,  // flop bet
+  110, // turn bet
+  0.45,
+  0.38
 );
-console.log(ev);
+console.log('two-street bluff EV:', ev);
 
-const breakevenFe2 = poker.breakevenFoldEquitySecondStreetPureBluff(
-  potBeforeStreet1,
-  betStreet1,
-  betStreet2,
-  fe1,
-);
-console.log({ ev, breakevenFe2GivenFe1: breakevenFe2 });
+const fe2 = poker.breakevenFoldEquitySecondStreetPureBluff(60, 40, 110, 0.45);
+console.log('breakeven turn FE if flop FE=45%:', fe2);
 ```
-
-**Returns** `number` — chip EV of the two-bet sequence (can be negative).
 
 ## See also
 
-[`twoStreetPureBluffSameFoldEquity`](/docs/reference/api/fold-equity/two-street-pure-bluff-same-fold-equity) · [`breakevenFoldEquitySecondStreetPureBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-second-street-pure-bluff) · [`breakevenFoldEquityFirstStreetPureBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-first-street-pure-bluff)
+[`breakevenFoldEquitySecondStreetPureBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-second-street-pure-bluff) · [`breakevenFoldEquityPureBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-pure-bluff)

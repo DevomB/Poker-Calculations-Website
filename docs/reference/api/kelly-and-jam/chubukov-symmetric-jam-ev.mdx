@@ -5,9 +5,9 @@ sidebar_position: 3
 
 # `chubukovSymmetricJamEv`
 
-Symmetric jam toy EV in chips: equity × (2·jam + dead) − jam.
+Symmetric jam toy EV in chips: `equity * (2 * jamStack + dead) - jamStack`.
 
-<div className="apiSignature"><code>chubukovSymmetricJamEv(jamStackChips: number, deadMoneyChips: number, equity: number): number</code></div>
+<div className="apiSignature">{`chubukovSymmetricJamEv(jamStackChips: number, deadMoneyChips: number, equity: number): number`}</div>
 
 ## Import
 
@@ -25,24 +25,26 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Evaluate **chip EV of a symmetric jam** in the Chubukov toy (both players jam the same stack, dead money fixed, equity known). Compare stacks, scan ranges, or feed the binary-search max-jam helpers.
+Score **jam-or-fold EV** in the Chubukov symmetric model given jam size, dead money (blinds), and your equity when called. Compare stacks before choosing push/fold in study charts.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const jamStack = 120;
-const deadMoney = 80;
+const jamStack = 4000;
+const dead = 150;
 const equity = 0.52;
 
-const ev = poker.chubukovSymmetricJamEv(jamStack, deadMoney, equity);
-console.log('jam EV (chips):', ev);
+const ev = poker.chubukovSymmetricJamEv(jamStack, dead, equity);
+console.log('jam EV:', ev); // positive → jam prints +EV in toy
 
-const be = poker.chubukovSymmetricJamBreakevenStack(deadMoney, equity);
-console.log('breakeven stack:', be);
+const maxJam = poker.chubukovMaxSymmetricJamStackChipsBinarySearch(
+  equity,
+  dead,
+  10000
+);
+console.log('max +EV jam stack:', maxJam);
 ```
 
-## Returns
+## See also
 
-`number` — chip EV of jamming jamStackChips: equity × (2 × jamStackChips + deadMoneyChips) − jamStackChips.
+[`chubukovSymmetricJamBreakevenStack`](/docs/reference/api/kelly-and-jam/chubukov-symmetric-jam-breakeven-stack) · [`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand)

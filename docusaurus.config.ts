@@ -17,7 +17,7 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://poker-calculator.devomb.com',
+  url: 'https://poker-calculations.devomb.com',
   baseUrl: '/',
 
   organizationName: 'DevomB',

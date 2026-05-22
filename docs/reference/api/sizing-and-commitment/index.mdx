@@ -1,18 +1,16 @@
 ---
-title: 'Sizing & commitment'
+title: Sizing & commitment
 sidebar_position: 11
 ---
 
 # Sizing & commitment
 
-Bet sizing as a **pot fraction**, **SPR after a call**, and **commitment ratio** (fraction of stack put in to call). `sprAfterCall` assumes a heads-up single call and throws if `toCall` exceeds the effective stack.
+Bet sizing as a **fraction of pot**, **SPR after a call**, and how much of the effective stack a call consumes. Assumes heads-up single-call geometry for `sprAfterCall`.
 
-Use this group when labeling bet sizes, checking how shallow you become after calling, or deciding if a call is “committing” relative to stack depth.
+Pair with [Pot & EV](/docs/reference/api/pot-and-ev/) for breakeven equity and with [Stacks & display](/docs/reference/api/stacks-and-display/) for pre-call SPR.
 
 | Export | Summary |
 | --- | --- |
 | [`betAsPotFraction`](./bet-as-pot-fraction) | Bet as fraction of pot. |
 | [`sprAfterCall`](./spr-after-call) | SPR after HU single call. |
 | [`commitmentRatio`](./commitment-ratio) | Fraction of stack put in to call. |
-
-Base SPR and stack helpers are under [Stacks & display](/docs/reference/api/stacks-and-display/). Call EV and breakeven equity are under [Pot & EV](/docs/reference/api/pot-and-ev/).

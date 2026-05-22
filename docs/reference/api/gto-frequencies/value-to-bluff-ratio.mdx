@@ -5,9 +5,9 @@ sidebar_position: 3
 
 # `valueToBluffRatio`
 
-Reciprocal of `bluffToValueRatio`; Infinity when bet size is 0.
+`1 / bluffToValueRatio`; `Infinity` when `betSize` is 0.
 
-<div className="apiSignature"><code>valueToBluffRatio(potBeforeBet: number, betSize: number): number</code></div>
+<div className="apiSignature">{`valueToBluffRatio(potBeforeBet: number, betSize: number): number`}</div>
 
 ## Import
 
@@ -25,25 +25,20 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Express the same polarized balance as **value combos per bluff combo**—handy when your chart is value-heavy first. Use when `bluffToValueRatio` is small and you want the inverse scale.
+Express **how many value combos per bluff** the toy polarized model needs—inverse of `bluffToValueRatio`. Returns `Infinity` when `betSize` is zero (degenerate sizing).
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const pot = 50;
+const bet = 50; // pot-sized bet
 
-const pot = 80;
-const bet = 40;
+console.log(poker.valueToBluffRatio(pot, bet));
+console.log(poker.bluffToValueRatio(pot, bet));
 
-const vtb = poker.valueToBluffRatio(pot, bet);
-const btv = poker.bluffToValueRatio(pot, bet);
-
-console.log({ valueToBluff: vtb, bluffToValue: btv });
-
-// betSize === 0 → Infinity
-console.log(poker.valueToBluffRatio(100, 0));
+console.log(poker.valueToBluffRatio(pot, 0)); // Infinity
 ```
 
-## Returns
+## See also
 
-`number` — 1 / `bluffToValueRatio(potBeforeBet, betSize)`. Returns `Infinity` when `betSize` is `0` (bluff ratio is 0).
+[`bluffToValueRatio`](/docs/reference/api/gto-frequencies/bluff-to-value-ratio) · [`betAsPotFraction`](/docs/reference/api/sizing-and-commitment/bet-as-pot-fraction)

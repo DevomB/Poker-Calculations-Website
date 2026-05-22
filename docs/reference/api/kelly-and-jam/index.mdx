@@ -1,21 +1,19 @@
 ---
-title: 'Kelly & jam'
+title: Kelly & jam toys
 sidebar_position: 9
 ---
 
-# Kelly & jam
+# Kelly & jam toys
 
-Full **Kelly** sizing for binary outcomes and **Chubukov-style** symmetric jam toys (breakeven stack, chip EV, max jam stack via binary search). The jam helpers are heads-up models with dead money—not a full push/fold solver.
+Full **Kelly** sizing for binary gambles and **Chubukov-style** symmetric jam models (breakeven stack, jam EV, max profitable jam via binary search). Hand-based jam search composes with `exactHuEquityVsRandomHand`.
 
-Use this group for bankroll math, study charts, and “how deep can I jam?” questions when you already have equity (or want equity from [`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand)).
+Toy HU models—validate against your stake structure before production push/fold charts.
 
 | Export | Summary |
 | --- | --- |
-| [`kellyCriterionBinary`](./kelly-criterion-binary) | Full Kelly `(p·b − (1−p)) / b` for net odds `b`. |
-| [`chubukovSymmetricJamBreakevenStack`](./chubukov-symmetric-jam-breakeven-stack) | Toy symmetric jam breakeven stack from dead money and equity. |
+| [`kellyCriterionBinary`](./kelly-criterion-binary) | Full Kelly for binary outcome. |
+| [`chubukovSymmetricJamBreakevenStack`](./chubukov-symmetric-jam-breakeven-stack) | Symmetric jam breakeven stack from dead money. |
 | [`chubukovSymmetricJamEv`](./chubukov-symmetric-jam-ev) | Symmetric jam toy EV in chips. |
-| [`chubukovMaxSymmetricJamStackChipsBinarySearch`](./chubukov-max-symmetric-jam-stack-chips-binary-search) | Largest integer jam stack with nonnegative EV for fixed equity. |
-| [`chubukovMaxSymmetricJamStackBinarySearch`](./chubukov-max-symmetric-jam-stack-binary-search) | Same search using exact HU equity vs random hand (board 3–5). |
-| [`chubukovMaxSymmetricJamStackFromHandBinarySearch`](./chubukov-max-symmetric-jam-stack-from-hand-binary-search) | Same search; `maxStackChips` uses int32 semantics in native code. |
-
-Exact equity and parallel MC live under [Monte Carlo](/docs/reference/api/monte-carlo/).
+| [`chubukovMaxSymmetricJamStackChipsBinarySearch`](./chubukov-max-symmetric-jam-stack-chips-binary-search) | Max jam stack for fixed equity. |
+| [`chubukovMaxSymmetricJamStackBinarySearch`](./chubukov-max-symmetric-jam-stack-binary-search) | Max jam from exact HU equity vs random. |
+| [`chubukovMaxSymmetricJamStackFromHandBinarySearch`](./chubukov-max-symmetric-jam-stack-from-hand-binary-search) | Same search; int32 `maxStackChips` in native. |

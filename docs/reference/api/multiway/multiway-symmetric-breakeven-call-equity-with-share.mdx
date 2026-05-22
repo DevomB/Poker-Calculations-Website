@@ -5,9 +5,9 @@ sidebar_position: 2
 
 # `multiwaySymmetricBreakevenCallEquityWithShare`
 
-Symmetric multiway breakeven call equity with an explicit **pot-share** when hero wins.
+Same pot geometry with explicit pot-share when hero wins.
 
-<div className="apiSignature"><code>multiwaySymmetricBreakevenCallEquityWithShare(potBefore: number, toCall: number, symmetricExtraCallers: number, shareModel: 0 | 1, heroFractionWhenWin: number): number</code></div>
+<div className="apiSignature">{`multiwaySymmetricBreakevenCallEquityWithShare(potBefore: number, toCall: number, symmetricExtraCallers: number, shareModel: 0 | 1, heroFractionWhenWin: number): number`}</div>
 
 ## Import
 
@@ -25,43 +25,25 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Same pot geometry as [`multiwaySymmetricBreakevenCallEquity`](/docs/reference/api/multiway/multiway-symmetric-breakeven-call-equity), but hero does not always capture the full pot on a win. `shareModel` `0` = winner-take-all (same as the base export). `shareModel` `1` = multiply the final pot by `heroFractionWhenWin` (chop or side-pot proxy).
+Extend symmetric multiway breakeven when hero does not take **100% of the pot** when winning—`shareModel` `0` is winner-take-all; `1` multiplies the final pot by `heroFractionWhenWin` (chop proxy, side-pot share, etc.).
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const potBefore = 120;
+const pot = 100;
 const toCall = 40;
-const extraCallers = 2;
+const extra = 1;
 
 const wta = poker.multiwaySymmetricBreakevenCallEquityWithShare(
-  potBefore,
-  toCall,
-  extraCallers,
-  0,
-  1,
+  pot, toCall, extra, 0, 1
 );
 const chop = poker.multiwaySymmetricBreakevenCallEquityWithShare(
-  potBefore,
-  toCall,
-  extraCallers,
-  1,
-  0.5,
+  pot, toCall, extra, 1, 0.5
 );
-console.log({ winnerTakeAll: wta, halfPotOnWin: chop });
-
-const base = poker.multiwaySymmetricBreakevenCallEquity(
-  potBefore,
-  toCall,
-  extraCallers,
-);
-console.log({ base, matchesWta: wta === base });
+console.log('winner-take-all BE:', wta);
+console.log('50% share when win BE:', chop); // higher equity needed
 ```
-
-**Returns** `number` — breakeven equity; higher when `heroFractionWhenWin` is below `1`.
 
 ## See also
 
-[`multiwaySymmetricBreakevenCallEquity`](/docs/reference/api/multiway/multiway-symmetric-breakeven-call-equity) · [`breakevenCallEquity`](/docs/reference/api/pot-and-ev/breakeven-call-equity)
+[`multiwaySymmetricBreakevenCallEquity`](/docs/reference/api/multiway/multiway-symmetric-breakeven-call-equity) · [`layeredPotChipEvFromEquities`](/docs/reference/api/side-pots/layered-pot-chip-ev-from-equities)

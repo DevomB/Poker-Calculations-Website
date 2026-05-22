@@ -5,9 +5,9 @@ sidebar_position: 4
 
 # `icmLastPlaceProbabilitiesHarville`
 
-Harville probability each player finishes **last** (last column of the placement matrix).
+Harville probability each player finishes last (placement matrix last column).
 
-<div className="apiSignature"><code>icmLastPlaceProbabilitiesHarville(stacks: number[]): number[]</code></div>
+<div className="apiSignature">{`icmLastPlaceProbabilitiesHarville(stacks: number[]): number[]`}</div>
 
 ## Import
 
@@ -25,25 +25,19 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-**Bust-out risk** and short-stack survival ICM—complements win and top-k exports. Short stacks typically carry higher last-place mass under Harville.
+Short stacks care about **bust-out risk** before win equity—last-place probabilities from Harville highlight who is most likely to exit next. Equivalent to the last column of `icmHarvillePlacementProbabilities`.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const stacks = [12000, 8000, 5000];
-const last = poker.icmLastPlaceProbabilitiesHarville(stacks);
-console.log(last);
+const stacks = [15000, 12000, 4000, 2000];
+const pLast = poker.icmLastPlaceProbabilitiesHarville(stacks);
+console.log(pLast);
 
 const matrix = poker.icmHarvillePlacementProbabilities(stacks);
-const n = stacks.length;
-const fromMatrix = matrix.map((row) => row[n - 1]);
-console.log({ last, fromMatrix, match: last.every((p, i) => p === fromMatrix[i]) });
+console.log('last column from matrix:', matrix.map((row) => row[stacks.length - 1]));
 ```
-
-**Returns** `number[]` — same length as `stacks`; entries sum to `1`.
 
 ## See also
 
-[`icmHarvillePlacementProbabilities`](/docs/reference/api/icm/icm-harville-placement-probabilities) · [`icmTopKFinishProbabilities`](/docs/reference/api/icm/icm-top-k-finish-probabilities) · [`icmWinProbabilitiesHarville`](/docs/reference/api/icm/icm-win-probabilities-harville)
+[`icmHarvillePlacementProbabilities`](/docs/reference/api/icm/icm-harville-placement-probabilities) · [`icmPairwiseBubbleFactor`](/docs/reference/api/icm/icm-pairwise-bubble-factor)

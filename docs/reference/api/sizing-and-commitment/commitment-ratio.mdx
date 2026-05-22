@@ -5,9 +5,9 @@ sidebar_position: 3
 
 # `commitmentRatio`
 
-Fraction of effective stack required to call.
+Fraction of stack put in to call.
 
-<div className="apiSignature"><code>commitmentRatio(toCall: number, effectiveStackBeforeCall: number): number</code></div>
+<div className="apiSignature">{`commitmentRatio(toCall: number, effectiveStackBeforeCall: number): number`}</div>
 
 ## Import
 
@@ -25,23 +25,19 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Measure how **committed** a call is relative to the remaining stack (pot-committed thresholds, study charts, bot heuristics). Complements SPR helpers when the decision is call-or-fold rather than jam geometry.
+See how **pot-committed** a call is: `toCall / effectiveStack`. High ratios warn that future fold equity is limited and stack-off decisions loom.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const toCall = 120;
+const stack = 200;
 
-const toCall = 85;
-const stack = 100;
+console.log(poker.commitmentRatio(toCall, stack)); // 0.6 — 60% of stack in
 
-const commitment = poker.commitmentRatio(toCall, stack);
-console.log(`${(commitment * 100).toFixed(0)}% of stack to call`);
-
-const sprIfCall = poker.sprAfterCall(120, toCall, stack);
-console.log({ commitment, sprIfCall });
+console.log(poker.sprAfterCall(80, toCall, stack));
 ```
 
-## Returns
+## See also
 
-`number` — toCall / effectiveStackBeforeCall. Returns `0` when effectiveStackBeforeCall is `0`.
+[`sprAfterCall`](/docs/reference/api/sizing-and-commitment/spr-after-call) · [`effectiveStack`](/docs/reference/api/stacks-and-display/effective-stack)

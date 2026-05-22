@@ -5,9 +5,9 @@ sidebar_position: 1
 
 # `kellyCriterionBinary`
 
-Full Kelly fraction for a binary bet: (p·b − (1−p)) / b.
+Full Kelly for binary outcome, `netOdds` = net profit per unit staked when you win.
 
-<div className="apiSignature"><code>kellyCriterionBinary(winProbability: number, netOdds: number): number</code></div>
+<div className="apiSignature">{`kellyCriterionBinary(winProbability: number, netOdds: number): number`}</div>
 
 ## Import
 
@@ -25,22 +25,21 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Compute the **optimal bankroll fraction** for a single binary wager with known win probability and net odds (net profit per 1 unit staked when you win). For study, simulators, and bankroll math—not live staking advice on third-party sites.
+Size **+EV binary bets** with the Kelly fraction `(p·b − (1−p)) / b` where `b` is net odds received on a winning unit stake. Education tools and bankroll simulators use this before applying fractional Kelly discipline.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const winProb = 0.55;
+const netOdds = 1.0; // even money: win 1 per 1 staked
 
-const winProbability = 0.55;
-const netOdds = 1.2; // win 1.2 units per unit risked
+const f = poker.kellyCriterionBinary(winProb, netOdds);
+console.log('Kelly fraction of bankroll:', f); // 0.1
 
-const fullKelly = poker.kellyCriterionBinary(winProbability, netOdds);
-const halfKelly = fullKelly / 2;
-
-console.log({ fullKelly, halfKelly });
+// 2:1 payout → netOdds = 2
+console.log(poker.kellyCriterionBinary(0.4, 2));
 ```
 
-## Returns
+## See also
 
-`number` — full Kelly fraction f = (p·b − (1−p)) / b where p is winProbability and b is netOdds. Can be negative when the bet has negative expectation.
+[`riskOfRuinDiffusionApprox`](/docs/reference/api/statistics-and-risk/risk-of-ruin-diffusion-approx) · [`chubukovSymmetricJamEv`](/docs/reference/api/kelly-and-jam/chubukov-symmetric-jam-ev)

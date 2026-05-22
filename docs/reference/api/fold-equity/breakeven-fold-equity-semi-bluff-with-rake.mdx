@@ -5,9 +5,9 @@ sidebar_position: 3
 
 # `breakevenFoldEquitySemiBluffWithRake`
 
-Semi-bluff breakeven fold equity when the **called** pot pays rake via [`rakeFromPot`](/docs/reference/api/pot-and-ev/rake-from-pot) on `totalPotIfCalled`.
+Semi-bluff FE with rake on `totalPotIfCalled`.
 
-<div className="apiSignature"><code>breakevenFoldEquitySemiBluffWithRake(potBeforeHeroBet: number, heroBetSize: number, equityWhenCalled: number, totalPotIfCalled: number, rakeFraction: number, rakeCap: number): number</code></div>
+<div className="apiSignature">{`breakevenFoldEquitySemiBluffWithRake(potBeforeHeroBet: number, heroBetSize: number, equityWhenCalled: number, totalPotIfCalled: number, rakeFraction: number, rakeCap: number): number`}</div>
 
 ## Import
 
@@ -25,39 +25,25 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Raked **cash** semi-bluff thresholds—same two-outcome model as [`breakevenFoldEquitySemiBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-semi-bluff), with net called win `equity × (totalPotIfCalled − rake) − heroBetSize`. Higher fold equity than the no-rake version at the same sizes.
+Same semi-bluff model as `breakevenFoldEquitySemiBluff` but **rake is taken from the pot when called** under `rakeFromPot`. Use live-game rake parameters for realistic bluff thresholds.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const potBeforeHeroBet = 80;
-const heroBetSize = 60;
-const equityWhenCalled = 0.32;
-const totalPotIfCalled = 200;
-const rakeFraction = 0.05;
-const rakeCap = 4;
-
-const withRake = poker.breakevenFoldEquitySemiBluffWithRake(
-  potBeforeHeroBet,
-  heroBetSize,
-  equityWhenCalled,
-  totalPotIfCalled,
-  rakeFraction,
-  rakeCap,
+const fe = poker.breakevenFoldEquitySemiBluffWithRake(
+  90,
+  60,
+  0.28,
+  90 + 2 * 60,
+  0.05,
+  5
 );
-const noRake = poker.breakevenFoldEquitySemiBluff(
-  potBeforeHeroBet,
-  heroBetSize,
-  equityWhenCalled,
-  totalPotIfCalled,
-);
-console.log({ noRake, withRake, rakeRaisesFe: withRake > noRake });
+console.log(fe);
+
+const noRake = poker.breakevenFoldEquitySemiBluff(90, 60, 0.28, 210);
+console.log('without rake:', noRake);
 ```
-
-**Returns** `number` — `0` when called EV is already nonnegative; may exceed `1` for −EV lines. Throws on degenerate denominators.
 
 ## See also
 
-[`breakevenFoldEquitySemiBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-semi-bluff) · [`breakevenFoldEquityPureBluffWithRake`](/docs/reference/api/fold-equity/breakeven-fold-equity-pure-bluff-with-rake) · [`rakeFromPot`](/docs/reference/api/pot-and-ev/rake-from-pot)
+[`rakeFromPot`](/docs/reference/api/pot-and-ev/rake-from-pot) · [`breakevenFoldEquitySemiBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-semi-bluff)

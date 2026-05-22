@@ -5,9 +5,9 @@ sidebar_position: 4
 
 # `breakevenFoldEquityPureBluffWithRake`
 
-Pure-bluff breakeven fold equity when the **shipped** pot on a fold (`potBeforeHeroBet + heroBetOrCallSize`) is raked via [`rakeFromPot`](/docs/reference/api/pot-and-ev/rake-from-pot).
+Pure-bluff breakeven FE when fold wins `pot+bet` minus rake on shipped pot.
 
-<div className="apiSignature"><code>breakevenFoldEquityPureBluffWithRake(potBeforeHeroBet: number, heroBetOrCallSize: number, rakeFraction: number, rakeCap: number): number</code></div>
+<div className="apiSignature">{`breakevenFoldEquityPureBluffWithRake(potBeforeHeroBet: number, heroBetOrCallSize: number, rakeFraction: number, rakeCap: number): number`}</div>
 
 ## Import
 
@@ -25,34 +25,27 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Raked **cash** pure bluffs—parallel to [`breakevenFoldEquitySemiBluffWithRake`](/docs/reference/api/fold-equity/breakeven-fold-equity-semi-bluff-with-rake) on the called-pot side. Fold win is net shipped pot after rake; denominator includes rake-adjusted win plus risk.
+Pure bluffs in **raked** games need slightly more fold equity because the pot you steal is reduced by rake on the shipped pot. Parallel to `breakevenFoldEquityPureBluff` with the same rake model as call-EV helpers.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const potBeforeHeroBet = 100;
-const heroBet = 50;
+const pot = 100;
+const bet = 70;
 const rakeFraction = 0.05;
-const rakeCap = 3;
+const rakeCap = 4;
 
 const fe = poker.breakevenFoldEquityPureBluffWithRake(
-  potBeforeHeroBet,
-  heroBet,
+  pot,
+  bet,
   rakeFraction,
-  rakeCap,
+  rakeCap
 );
-const noRake = poker.breakevenFoldEquityPureBluff(potBeforeHeroBet, heroBet);
-console.log({ noRake, withRake: fe });
+console.log(fe);
 
-const shipped = potBeforeHeroBet + heroBet;
-const rake = poker.rakeFromPot(shipped, rakeFraction, rakeCap);
-console.log({ shipped, rake, netWin: shipped - rake });
+console.log(poker.breakevenFoldEquityPureBluff(pot, bet));
 ```
-
-**Returns** `number` in `[0, 1]` when defined. Throws if rake leaves non-positive `winNet + heroBetOrCallSize`.
 
 ## See also
 
-[`breakevenFoldEquityPureBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-pure-bluff) · [`breakevenFoldEquitySemiBluffWithRake`](/docs/reference/api/fold-equity/breakeven-fold-equity-semi-bluff-with-rake) · [`rakeFromPot`](/docs/reference/api/pot-and-ev/rake-from-pot)
+[`breakevenFoldEquityPureBluff`](/docs/reference/api/fold-equity/breakeven-fold-equity-pure-bluff) · [`breakevenCallEquityWithRake`](/docs/reference/api/pot-and-ev/breakeven-call-equity-with-rake)

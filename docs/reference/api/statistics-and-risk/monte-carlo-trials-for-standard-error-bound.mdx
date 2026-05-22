@@ -5,9 +5,9 @@ sidebar_position: 2
 
 # `monteCarloTrialsForStandardErrorBound`
 
-Smallest trial count so binomial SE at `pHat` is at most `targetSe`.
+Smallest integer `n` so `monteCarloStandardError(pHat, n) <= targetSe` (ceil of `p(1-p)/targetSe²`).
 
-<div className="apiSignature"><code>monteCarloTrialsForStandardErrorBound(pHat: number, targetSe: number): number</code></div>
+<div className="apiSignature">{`monteCarloTrialsForStandardErrorBound(pHat: number, targetSe: number): number`}</div>
 
 ## Import
 
@@ -25,24 +25,26 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-**Before** running a long Monte Carlo job, pick how many trials you need so `monteCarloStandardError(pHat, n)` stays below a tolerance. Uses the interior proportion `pHat` (strictly between 0 and 1) via ceil(p(1−p)/targetSe²).
+Pick a Monte Carlo trial count **before** running equity sims so standard error stays below a target. Requires interior `pHat` strictly between `0` and `1` (use a pilot estimate or 0.5 as conservative planning value).
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const pilotEquity = 0.38;
+const targetSe = 0.003; // 0.3 percentage points
 
-const pHat = 0.45; // planning estimate or pilot run
-const targetSe = 0.0025; // 0.25 percentage points
-
-const n = poker.monteCarloTrialsForStandardErrorBound(pHat, targetSe);
+const n = poker.monteCarloTrialsForStandardErrorBound(pilotEquity, targetSe);
 console.log('run at least', n, 'trials');
 
-// After the run, verify
-const actualSe = poker.monteCarloStandardError(pHat, n);
-console.log('SE at plan:', actualSe);
+const equity = poker.simulateHandOutcome(
+  ['Ah', 'Kh'],
+  ['2h', '7d', '9c'],
+  n,
+  42
+);
+console.log('equity:', equity);
 ```
 
-## Returns
+## See also
 
-`number` — smallest integer `n` such that `monteCarloStandardError(pHat, n) ≤ targetSe`. Requires `pHat` strictly between `0` and `1`; throws on invalid inputs.
+[`monteCarloStandardError`](/docs/reference/api/statistics-and-risk/monte-carlo-standard-error) · [`monteCarloTrialsForHoeffdingBound`](/docs/reference/api/statistics-and-risk/monte-carlo-trials-for-hoeffding-bound)

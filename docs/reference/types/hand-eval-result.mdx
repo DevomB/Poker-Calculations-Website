@@ -8,4 +8,7 @@ Return type of [`evaluateBestHand`](/docs/reference/api/hands-and-equity/evaluat
 
 | Field | Type | Meaning |
 | --- | --- | --- |
-| `rank` | `string` | Category label (`twoPair`, `flush`, …) — see [hand rank la
+| `rank` | `string` | Category label (`twoPair`, `flush`, …) — see [hand rank labels](/docs/concepts/hand-rank-labels) |
+| `kickers` | `number[]` | Five encoded kicker values for tie-breaking within the category |
+
+For category only (no kickers), use [`evaluateHandCategory`](/docs/reference/api/hands-and-equity/evaluate-hand-category).

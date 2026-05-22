@@ -5,13 +5,11 @@ sidebar_position: 13
 
 # Multiway
 
-Symmetric **multiway call** breakeven equity: extra callers each match `toCall`, and an optional pot-share model when the hero wins. Assumes identical call sizes and no side-pot geometry beyond the stated pot-share tweak.
+Symmetric **multiway call** breakeven equity when extra callers each match the hero’s call size, with optional pot-share when hero wins.
 
-Use this group when a facing bet is not heads-up and you need a quick equity threshold before calling, or when modeling chops via `heroFractionWhenWin`.
+Chip breakeven only—combine with duplicated-out heuristics and sim equity for full multiway spots.
 
 | Export | Summary |
 | --- | --- |
-| [`multiwaySymmetricBreakevenCallEquity`](./multiway-symmetric-breakeven-call-equity) | `k` extra symmetric callers each matching `toCall`. |
-| [`multiwaySymmetricBreakevenCallEquityWithShare`](./multiway-symmetric-breakeven-call-equity-with-share) | Same geometry; winner-take-all or hero pot fraction when winning. |
-
-Heads-up breakeven and rake are under [Pot & EV](/docs/reference/api/pot-and-ev/). Out duplication heuristics are under [Heuristics & draws](/docs/reference/api/heuristics-and-draws/).
+| [`multiwaySymmetricBreakevenCallEquity`](./multiway-symmetric-breakeven-call-equity) | `k` extra symmetric callers. |
+| [`multiwaySymmetricBreakevenCallEquityWithShare`](./multiway-symmetric-breakeven-call-equity-with-share) | Winner-take-all or fractional pot share. |

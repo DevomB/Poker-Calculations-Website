@@ -5,9 +5,9 @@ sidebar_position: 6
 
 # `icmPairwiseBubbleFactor`
 
-**Pairwise bubble factor**: ICM loss from losing a pot vs ICM gain from winning it, for hero vs one villain (finite differences on [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts)).
+Pairwise bubble factor (finite differences on `icmExpectedPayouts`).
 
-<div className="apiSignature"><code>icmPairwiseBubbleFactor(stacks: number[], payouts: number[], heroIndex: number, villainIndex: number, potChips: number): number</code></div>
+<div className="apiSignature">{`icmPairwiseBubbleFactor(stacks: number[], payouts: number[], heroIndex: number, villainIndex: number, potChips: number): number`}</div>
 
 ## Import
 
@@ -25,34 +25,30 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Tournament **pressure** vs chip EV: compare how much ICM equity hero loses when busting/losing `potChips` to villain versus ICM gained when hero wins the same pot. Values above `1` mean ICM cost of losing exceeds chip-EV-normalized gain from winning.
+Compare **ICM cost of losing vs gain from winning** a pot against one opponent—classic bubble-factor analysis for tournament all-ins. Uses finite differences on `icmExpectedPayouts` when stacks shift by `potChips`.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const stacks = [12000, 8000, 5000];
-const payouts = [400, 250, 150];
-const heroIndex = 0;
-const villainIndex = 1;
-const potChips = 2000;
+const stacks = [9000, 8500, 3000];
+const payouts = [6000, 3600, 2400];
+const hero = 0;
+const villain = 2;
+const pot = 3000;
 
 const bf = poker.icmPairwiseBubbleFactor(
   stacks,
   payouts,
-  heroIndex,
-  villainIndex,
-  potChips,
+  hero,
+  villain,
+  pot
 );
-console.log(bf);
+console.log('bubble factor vs seat 2:', bf); // loss/gain ratio > 1 means ICM pressure
 
-const icmBefore = poker.icmExpectedPayouts(stacks, payouts);
-console.log({ heroIcm: icmBefore[heroIndex], bubbleFactor: bf });
+const evBefore = poker.icmExpectedPayouts(stacks, payouts);
+console.log('hero ICM EV:', evBefore[hero]);
 ```
-
-**Returns** `number` — loss/gain ratio from stack perturbations; `heroIndex` and `villainIndex` must be valid indices.
 
 ## See also
 
-[`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) · [`icmWinProbabilitiesHarville`](/docs/reference/api/icm/icm-win-probabilities-harville) · [`normalizedStackFractions`](/docs/reference/api/stacks-and-display/normalized-stack-fractions)
+[`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) · [`multiwaySymmetricBreakevenCallEquity`](/docs/reference/api/multiway/multiway-symmetric-breakeven-call-equity)

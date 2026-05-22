@@ -24,7 +24,7 @@ pnpm serve
 1. Import the repository.
 2. Set **Root Directory** to `Website`.
 3. Build uses `vercel.json` (`check:docs`, `build`).
-4. Attach custom domain **poker-calculator.devomb.com**.
+4. Attach custom domain **poker-calculations.devomb.com**.
 
 No environment variables required.
 

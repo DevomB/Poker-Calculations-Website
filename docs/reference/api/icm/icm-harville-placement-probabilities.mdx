@@ -5,9 +5,9 @@ sidebar_position: 2
 
 # `icmHarvillePlacementProbabilities`
 
-Full Harville **placement matrix** `[player][finishRank]`; rank `0` is first place.
+Full Harville placement matrix `[player][finishRank]` (rank 0 = first).
 
-<div className="apiSignature"><code>icmHarvillePlacementProbabilities(stacks: number[]): number[][]</code></div>
+<div className="apiSignature">{`icmHarvillePlacementProbabilities(stacks: number[]): number[][]`}</div>
 
 ## Import
 
@@ -25,25 +25,20 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Full **finish-order distribution** for MTT ICM study—each row is one player, each column a finish rank. Feeds [`icmTopKFinishProbabilities`](/docs/reference/api/icm/icm-top-k-finish-probabilities) and [`icmLastPlaceProbabilitiesHarville`](/docs/reference/api/icm/icm-last-place-probabilities-harville).
+You need the full **finish distribution** per player (1st through nth) for custom payout structures or visualization. Row `i` is player `i`; column `0` is first place.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const stacks = [10000, 6000, 4000];
+const stacks = [5000, 5000, 2500];
 const matrix = poker.icmHarvillePlacementProbabilities(stacks);
 
-console.log(matrix[0][0]);
-console.log(matrix[0].reduce((a, b) => a + b, 0));
+console.log('P(player 0 wins):', matrix[0][0]);
+console.log('P(player 2 last):', matrix[2][2]);
 
-const winOnly = poker.icmWinProbabilitiesHarville(stacks);
-console.log({ firstPlaceCol: matrix.map((row) => row[0]), winOnly });
+console.log(poker.icmTopKFinishProbabilities(stacks, 2));
 ```
-
-**Returns** `number[][]` — `n × n` for `n` players; each row sums to `1`.
 
 ## See also
 
-[`icmWinProbabilitiesHarville`](/docs/reference/api/icm/icm-win-probabilities-harville) · [`icmTopKFinishProbabilities`](/docs/reference/api/icm/icm-top-k-finish-probabilities) · [`icmLastPlaceProbabilitiesHarville`](/docs/reference/api/icm/icm-last-place-probabilities-harville)
+[`icmTopKFinishProbabilities`](/docs/reference/api/icm/icm-top-k-finish-probabilities) · [`icmLastPlaceProbabilitiesHarville`](/docs/reference/api/icm/icm-last-place-probabilities-harville)

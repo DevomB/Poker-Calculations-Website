@@ -5,9 +5,9 @@ sidebar_position: 1
 
 # `betAsPotFraction`
 
-Bet size as a fraction of the pot before the bet.
+Bet as fraction of pot.
 
-<div className="apiSignature"><code>betAsPotFraction(potBeforeBet: number, betSize: number): number</code></div>
+<div className="apiSignature">{`betAsPotFraction(potBeforeBet: number, betSize: number): number`}</div>
 
 ## Import
 
@@ -25,23 +25,19 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Label or filter bet sizes as **pot fractions** (half-pot, 75%, 2× pot) in HUDs, replay tools, and study sheets. Pairs with pot-geometry helpers that reason about matched pot fractions across streets.
+Label bets as **pot fractions** (half-pot, 75%, pot, overbet) in replays and solvers. Input is pot before the bet and the bet size in chips.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const pot = 120;
+const bet = 90;
+console.log(poker.betAsPotFraction(pot, bet)); // 0.75 — 75% pot bet
 
-const potBeforeBet = 100;
-const betSize = 75;
-
-const fraction = poker.betAsPotFraction(potBeforeBet, betSize);
-console.log(`${(fraction * 100).toFixed(0)}% pot`);
-
-// pot 0, positive bet → Infinity
-console.log(poker.betAsPotFraction(0, 50));
+console.log(poker.bluffToValueRatio(pot, bet));
+console.log(poker.alphaFrequency(pot, bet));
 ```
 
-## Returns
+## See also
 
-`number` — betSize / potBeforeBet. If potBeforeBet is `0` and betSize > 0, returns `Infinity`.
+[`geometricPotAfterMatchedPotFractions`](/docs/reference/api/reverse-implied/geometric-pot-after-matched-pot-fractions) · [`minimumDefenseFrequency`](/docs/reference/api/stacks-and-display/minimum-defense-frequency)

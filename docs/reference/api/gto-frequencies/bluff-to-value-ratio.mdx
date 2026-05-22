@@ -5,9 +5,9 @@ sidebar_position: 2
 
 # `bluffToValueRatio`
 
-Polarized river bluff-to-value combo ratio: bet / (pot + 2×bet).
+Polarized river combo ratio `bet / (pot + 2×bet)`.
 
-<div className="apiSignature"><code>bluffToValueRatio(potBeforeBet: number, betSize: number): number</code></div>
+<div className="apiSignature">{`bluffToValueRatio(potBeforeBet: number, betSize: number): number`}</div>
 
 ## Import
 
@@ -25,22 +25,21 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Balance **bluff combos vs value combos** on a polarized river bet in toy GTO math (before hero’s bet). Ratio is bluff combos per value combo when villain’s calling range is MDF-correct.
+Balance **bluff combos vs value combos** on a polarized river bet in the toy model. Ratio increases with bet size relative to pot—study charts use this to explain why overbets need fewer bluffs per value hand.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
 const pot = 100;
 const bet = 75;
 
-const btv = poker.bluffToValueRatio(pot, bet);
-const vtb = poker.valueToBluffRatio(pot, bet);
+const b2v = poker.bluffToValueRatio(pot, bet);
+console.log('bluff:value combo ratio', b2v);
 
-console.log({ bluffToValue: btv, valueToBluff: vtb });
+const v2b = poker.valueToBluffRatio(pot, bet);
+console.log('value:bluff', v2b);
 ```
 
-## Returns
+## See also
 
-`number` — bluff combos per value combo: betSize / (potBeforeBet + 2 × betSize).
+[`valueToBluffRatio`](/docs/reference/api/gto-frequencies/value-to-bluff-ratio) · [`alphaFrequency`](/docs/reference/api/gto-frequencies/alpha-frequency)

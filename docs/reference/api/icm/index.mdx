@@ -5,17 +5,15 @@ sidebar_position: 14
 
 # ICM
 
-**Harville** placement probabilities, finish-rank summaries, expected prize payouts, and pairwise **bubble factors** from stack vectors and payout ladders. Chip-share normalization (`normalizedStackFractions`) is not ICM—that is under [Stacks & display](/docs/reference/api/stacks-and-display/).
+**Harville** placement and win probabilities, expected payouts from a prize vector, top-k and last-place conveniences, and pairwise **bubble factors** from payout finite differences.
 
-Use this group for MTT study tools, deal-making approximations, and bubble-pressure metrics when you already have stacks and a prize structure.
+Stack inputs are chip counts; payouts length must match player count. Not the same as `normalizedStackFractions` (raw chip share only).
 
 | Export | Summary |
 | --- | --- |
-| [`icmWinProbabilitiesHarville`](./icm-win-probabilities-harville) | Harville first-place probabilities. |
-| [`icmHarvillePlacementProbabilities`](./icm-harville-placement-probabilities) | Full `n×n` Harville placement matrix. |
-| [`icmTopKFinishProbabilities`](./icm-top-k-finish-probabilities) | Probability of finishing in top `k` places. |
-| [`icmLastPlaceProbabilitiesHarville`](./icm-last-place-probabilities-harville) | Harville last-place probabilities. |
-| [`icmExpectedPayouts`](./icm-expected-payouts) | Expected payout per seat. |
-| [`icmPairwiseBubbleFactor`](./icm-pairwise-bubble-factor) | Pairwise bubble factor from payout finite differences. |
-
-Side-pot chip EV when stacks are unequal is under [Side pots](/docs/reference/api/side-pots/).
+| [`icmWinProbabilitiesHarville`](./icm-win-probabilities-harville) | First-place probabilities. |
+| [`icmHarvillePlacementProbabilities`](./icm-harville-placement-probabilities) | Full `n×n` placement matrix. |
+| [`icmTopKFinishProbabilities`](./icm-top-k-finish-probabilities) | P(finish in top `k`). |
+| [`icmLastPlaceProbabilitiesHarville`](./icm-last-place-probabilities-harville) | P(finish last). |
+| [`icmExpectedPayouts`](./icm-expected-payouts) | Expected $ per seat. |
+| [`icmPairwiseBubbleFactor`](./icm-pairwise-bubble-factor) | Loss/gain ratio on payouts. |

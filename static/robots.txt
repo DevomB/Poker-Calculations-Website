@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://poker-calculator.devomb.com/sitemap.xml
+Sitemap: https://poker-calculations.devomb.com/sitemap.xml

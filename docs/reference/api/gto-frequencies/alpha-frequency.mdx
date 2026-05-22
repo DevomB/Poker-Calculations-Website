@@ -5,9 +5,9 @@ sidebar_position: 1
 
 # `alphaFrequency`
 
-Alpha frequency: 1 − MDF = bet / (pot + bet) (exploit weight if hero never defends).
+`1 - minimumDefenseFrequency` = `bet / (pot + bet)`.
 
-<div className="apiSignature"><code>alphaFrequency(potBeforeBet: number, betSize: number): number</code></div>
+<div className="apiSignature">{`alphaFrequency(potBeforeBet: number, betSize: number): number`}</div>
 
 ## Import
 
@@ -25,22 +25,22 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Polarized **betting study**: how much of villain’s betting range can be bluffs if you never call—complement of minimum defense frequency. Toy GTO geometry from pot and bet size before hero acts.
+**Alpha** is how often villain must fold for a pure bluff to break even if you never get called. Teaching tools pair alpha with estimated fold frequency from population stats.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const pot = 80;
+const bet = 60;
 
-const potBeforeBet = 100;
-const betSize = 75;
+const alpha = poker.alphaFrequency(pot, bet);
+const mdf = poker.minimumDefenseFrequency(pot, bet);
+console.log(alpha, mdf, alpha + mdf); // alpha + mdf = 1
 
-const alpha = poker.alphaFrequency(potBeforeBet, betSize);
-const mdf = poker.minimumDefenseFrequency(potBeforeBet, betSize);
-
-console.log({ alpha, mdf, sum: alpha + mdf });
+const beFe = poker.breakevenFoldEquityPureBluff(pot, bet);
+console.log('breakeven FE (pure bluff):', beFe);
 ```
 
-## Returns
+## See also
 
-`number` — alpha = 1 − MDF = betSize / (potBeforeBet + betSize), in `[0, 1]` for valid positive sizes.
+[`minimumDefenseFrequency`](/docs/reference/api/stacks-and-display/minimum-defense-frequency) · [`bluffToValueRatio`](/docs/reference/api/gto-frequencies/bluff-to-value-ratio)
