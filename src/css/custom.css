@@ -1,46 +1,124 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
 
+/* =============================================================================
+ * POKER PALETTE
+ * Casino felt + chip gold + suit red on deep ink.
+ * Full guidance lives in /color.md at the repo root.
+ * ============================================================================= */
+
 :root {
-  --poker-white: #ffffff;
-  --poker-black: #000000;
-  --poker-red: #cc0000;
-  --poker-gray: #333333;
-  --poker-blue: #083fd1;
-  --poker-muted: #b3b3b3;
+  /* Felt (casino table green) — primary brand surface */
+  --poker-felt-50: #e8f5ed;
+  --poker-felt-100: #c3e3ce;
+  --poker-felt-300: #4ea676;
+  --poker-felt-500: #1a9457;
+  --poker-felt-600: #0e6b3a;
+  --poker-felt-700: #0a5530;
+  --poker-felt-800: #073d22;
+  --poker-felt-900: #042415;
 
-  --ifm-color-primary: var(--poker-red);
-  --ifm-color-primary-dark: #b30000;
-  --ifm-color-primary-darker: #990000;
-  --ifm-color-primary-darkest: #800000;
-  --ifm-color-primary-light: #e60000;
-  --ifm-color-primary-lighter: #ff1a1a;
-  --ifm-color-primary-lightest: #ff4d4d;
+  /* Gold (casino chip / luxury accent) — call-to-action and highlights */
+  --poker-gold-300: #f5e0a5;
+  --poker-gold-400: #f5c843;
+  --poker-gold-500: #d4af37;
+  --poker-gold-600: #a8821e;
+  --poker-gold-700: #7a5d12;
 
-  --ifm-background-color: var(--poker-black);
-  --ifm-background-surface-color: var(--poker-gray);
-  --ifm-font-color-base: var(--poker-white);
-  --ifm-font-color-secondary: var(--poker-muted);
-  --ifm-link-color: var(--poker-blue);
-  --ifm-link-hover-color: #3d6ef5;
-  --ifm-navbar-background-color: var(--poker-gray);
-  --ifm-footer-background-color: var(--poker-black);
-  --ifm-menu-color: var(--poker-muted);
-  --ifm-menu-color-active: var(--poker-white);
+  /* Suit red (hearts / diamonds) — danger, losses, suit-styled accents */
+  --poker-red-400: #ff5a5f;
+  --poker-red-500: #e63946;
+  --poker-red-600: #c8102e;
+  --poker-red-700: #8b0a1f;
+
+  /* Ink (rich blacks with a faint green undertone) — backgrounds & surfaces */
+  --poker-ink-900: #0a0e0c;
+  --poker-ink-800: #0f1512;
+  --poker-ink-700: #141a17;
+  --poker-ink-600: #1d2520;
+  --poker-ink-500: #2a352f;
+  --poker-ink-400: #4a564f;
+
+  /* Chip (cream / ivory) — readable text on dark felt */
+  --poker-chip-300: #8a948f;
+  --poker-chip-200: #c4ccc7;
+  --poker-chip-100: #e8ebe9;
+  --poker-chip-50: #f5f1e8;
+
+  /* Semantic aliases (consume these in components) */
+  --poker-bg: var(--poker-ink-900);
+  --poker-bg-elevated: var(--poker-ink-700);
+  --poker-bg-raised: var(--poker-ink-600);
+  --poker-border: var(--poker-ink-500);
+  --poker-border-strong: var(--poker-ink-400);
+  --poker-text: var(--poker-chip-50);
+  --poker-text-muted: var(--poker-chip-300);
+  --poker-primary: var(--poker-gold-500);
+  --poker-primary-hover: var(--poker-gold-400);
+  --poker-accent: var(--poker-felt-500);
+  --poker-danger: var(--poker-red-600);
+
+  /* Suit-ink helpers (for cards, glyphs, tag chips) */
+  --poker-suit-red: var(--poker-red-600);
+  --poker-suit-black: var(--poker-ink-900);
+
+  /* ---------------------------------------------------------------------
+   * Legacy aliases kept for backward-compat with the rest of the site
+   * (older selectors reference --poker-white / --poker-red / etc).
+   * These will be removed when the next agent finishes the site sweep.
+   * --------------------------------------------------------------------- */
+  --poker-white: var(--poker-chip-50);
+  --poker-black: var(--poker-ink-900);
+  --poker-red: var(--poker-red-600);
+  --poker-gray: var(--poker-ink-600);
+  --poker-blue: var(--poker-gold-500); /* re-route old "blue" to gold accent */
+  --poker-muted: var(--poker-chip-300);
+
+  /* ---------------------------------------------------------------------
+   * Infima (Docusaurus) mapping
+   * Primary = casino gold so CTAs read as "chips".
+   * --------------------------------------------------------------------- */
+  --ifm-color-primary: var(--poker-gold-500);
+  --ifm-color-primary-dark: var(--poker-gold-600);
+  --ifm-color-primary-darker: #9c771a;
+  --ifm-color-primary-darkest: var(--poker-gold-700);
+  --ifm-color-primary-light: var(--poker-gold-400);
+  --ifm-color-primary-lighter: #f7d05a;
+  --ifm-color-primary-lightest: var(--poker-gold-300);
+
+  --ifm-background-color: var(--poker-bg);
+  --ifm-background-surface-color: var(--poker-bg-elevated);
+  --ifm-font-color-base: var(--poker-text);
+  --ifm-font-color-secondary: var(--poker-text-muted);
+  --ifm-link-color: var(--poker-gold-400);
+  --ifm-link-hover-color: var(--poker-gold-300);
+  --ifm-navbar-background-color: var(--poker-ink-800);
+  --ifm-footer-background-color: var(--poker-ink-900);
+  --ifm-menu-color: var(--poker-chip-200);
+  --ifm-menu-color-active: var(--poker-chip-50);
   --ifm-code-font-size: 95%;
   --ifm-font-family-base: 'DM Sans', system-ui, sans-serif;
   --ifm-heading-font-family: 'DM Sans', system-ui, sans-serif;
-  --ifm-global-radius: 8px;
-  --docusaurus-highlighted-code-line-bg: rgba(204, 0, 0, 0.15);
+  --ifm-global-radius: 10px;
+  --docusaurus-highlighted-code-line-bg: rgba(212, 175, 55, 0.14);
 }
 
 html[data-theme='dark'] {
-  --ifm-background-color: var(--poker-black);
-  --ifm-background-surface-color: var(--poker-gray);
+  --ifm-background-color: var(--poker-bg);
+  --ifm-background-surface-color: var(--poker-bg-elevated);
 }
 
+html,
+body {
+  background: var(--poker-bg);
+}
+
+/* =============================================================================
+ * CHROME (navbar, sidebar, footer)
+ * ============================================================================= */
+
 .navbar {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: none;
+  border-bottom: 1px solid var(--poker-border);
+  box-shadow: 0 1px 0 rgba(212, 175, 55, 0.06);
 }
 
 .navbar__title {
@@ -50,17 +128,21 @@ html[data-theme='dark'] {
 
 .navbar__link--active,
 .menu__link--active {
-  color: var(--poker-white) !important;
+  color: var(--poker-chip-50) !important;
 }
 
 .menu__link--active:not(.menu__link--sublist) {
-  border-left: 3px solid var(--poker-red);
-  background: rgba(204, 0, 0, 0.08);
+  border-left: 3px solid var(--poker-gold-500);
+  background: rgba(212, 175, 55, 0.08);
 }
 
 .theme-doc-sidebar-container {
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  border-right: 1px solid var(--poker-border);
 }
+
+/* =============================================================================
+ * CONTENT
+ * ============================================================================= */
 
 article {
   max-width: 52rem;
@@ -73,14 +155,13 @@ h3 {
 }
 
 pre {
-  border: 1px solid var(--poker-gray);
-  background: #0a0a0a !important;
+  border: 1px solid var(--poker-border);
+  background: var(--poker-ink-800) !important;
 }
 
-/* Prism (dracula) — accent strings with poker red */
 :root :where(pre) .token.string,
 :root :where(pre) .token.attr-value {
-  color: #ff6b6b;
+  color: var(--poker-gold-300);
 }
 
 table {
@@ -89,12 +170,12 @@ table {
 }
 
 table th {
-  background: var(--poker-gray);
-  border-color: rgba(255, 255, 255, 0.1);
+  background: var(--poker-ink-600);
+  border-color: var(--poker-border);
 }
 
 table td {
-  border-color: rgba(255, 255, 255, 0.08);
+  border-color: var(--poker-border);
 }
 
 .admonition {
@@ -102,9 +183,15 @@ table td {
   border-width: 1px;
 }
 
+/* =============================================================================
+ * HERO — global Docusaurus `.hero` (mostly unused now; landing uses module)
+ * ============================================================================= */
+
 .hero {
-  background: linear-gradient(180deg, #0a0a0a 0%, var(--poker-black) 100%);
-  border-bottom: 1px solid var(--poker-gray);
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(26, 148, 87, 0.18) 0%, transparent 60%),
+    linear-gradient(180deg, var(--poker-ink-800) 0%, var(--poker-ink-900) 100%);
+  border-bottom: 1px solid var(--poker-border);
 }
 
 .hero__title {
@@ -113,31 +200,49 @@ table td {
 }
 
 .hero__subtitle {
-  color: var(--poker-muted);
+  color: var(--poker-text-muted);
   font-size: 1.25rem;
 }
 
+/* =============================================================================
+ * BUTTONS
+ * ============================================================================= */
+
 .button--primary {
-  background: var(--poker-red);
-  border-color: var(--poker-red);
+  background: var(--poker-gold-500);
+  border-color: var(--poker-gold-500);
+  color: var(--poker-ink-900);
+  font-weight: 600;
 }
 
 .button--primary:hover {
-  background: #e60000;
-  border-color: #e60000;
+  background: var(--poker-gold-400);
+  border-color: var(--poker-gold-400);
+  color: var(--poker-ink-900);
 }
 
 .button--secondary {
-  border-color: var(--poker-blue);
-  color: var(--poker-blue);
+  border-color: var(--poker-felt-500);
+  color: var(--poker-felt-500);
+  background: transparent;
 }
 
+.button--secondary:hover {
+  background: rgba(26, 148, 87, 0.12);
+  color: var(--poker-chip-50);
+  border-color: var(--poker-felt-300);
+}
+
+/* =============================================================================
+ * GENERIC CARD (legacy — the landing now uses its own module)
+ * ============================================================================= */
+
 .categoryCard {
-  background: var(--poker-gray);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--poker-bg-elevated);
+  border: 1px solid var(--poker-border);
   border-radius: var(--ifm-global-radius);
   padding: 1.25rem;
-  transition: border-color 0.2s, transform 0.2s;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
   text-decoration: none !important;
   color: inherit !important;
   display: block;
@@ -145,27 +250,33 @@ table td {
 }
 
 .categoryCard:hover {
-  border-color: var(--poker-red);
+  border-color: var(--poker-gold-500);
   transform: translateY(-2px);
+  box-shadow: 0 6px 24px -12px rgba(212, 175, 55, 0.35);
 }
 
 .categoryCard h3 {
   margin: 0 0 0.5rem;
-  color: var(--poker-white);
+  color: var(--poker-chip-50);
   font-size: 1.1rem;
 }
 
 .categoryCard p {
   margin: 0;
-  color: var(--poker-muted);
+  color: var(--poker-chip-300);
   font-size: 0.9rem;
 }
+
+/* =============================================================================
+ * API REFERENCE
+ * ============================================================================= */
 
 .apiSignature {
   font-family: var(--ifm-font-family-monospace);
   font-size: 0.9rem;
-  background: #0a0a0a;
-  border: 1px solid var(--poker-gray);
+  background: var(--poker-ink-800);
+  border: 1px solid var(--poker-border);
+  border-left: 3px solid var(--poker-gold-500);
   border-radius: var(--ifm-global-radius);
   padding: 1rem;
   margin-bottom: 1.5rem;
@@ -176,33 +287,38 @@ table td {
   margin-top: 2rem;
 }
 
+/* =============================================================================
+ * FOOTER
+ * ============================================================================= */
+
 .footer--dark {
-  border-top: 1px solid var(--poker-gray);
+  border-top: 1px solid var(--poker-border);
 }
 
-/* No "Built with Docusaurus" — footer content comes only from themeConfig */
 .footer__link-item[href*='docusaurus.io'],
 .footer__link-item[href*='docusaurus'] {
   display: none !important;
 }
 
-/* Skip link */
+/* =============================================================================
+ * MISC
+ * ============================================================================= */
+
 .skipToContent_fXgn:focus {
-  outline: 2px solid var(--poker-blue);
+  outline: 2px solid var(--poker-gold-500);
   outline-offset: 2px;
 }
 
-/* Local search */
 .dsla-search-wrapper {
   margin-left: 1rem;
 }
 
 .DocSearch-Button {
-  border-color: rgba(255, 255, 255, 0.15) !important;
+  border-color: var(--poker-border) !important;
 }
 
 [data-theme='dark'] .DocSearch-Button {
-  background: #0a0a0a;
+  background: var(--poker-ink-800);
 }
 
 @media (max-width: 996px) {
