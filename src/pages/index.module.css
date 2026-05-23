@@ -31,7 +31,7 @@
       rgba(7, 61, 34, 0.55) 0%,
       transparent 70%
     ),
-    linear-gradient(180deg, #0c1410 0%, #070b08 100%);
+    linear-gradient(180deg, var(--poker-ink-800) 0%, var(--poker-ink-900) 100%);
 }
 
 /* Fine grain on top of the felt so it never looks flat */
@@ -290,7 +290,7 @@
   width: 7.5rem;
   height: 10.5rem;
   border-radius: 12px;
-  background: linear-gradient(160deg, #fdfaf2 0%, #ece6d4 100%);
+  background: linear-gradient(160deg, var(--poker-card-face) 0%, var(--poker-card-face-shade) 100%);
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.8) inset,
     0 30px 60px -20px rgba(0, 0, 0, 0.7),
@@ -584,7 +584,7 @@
 }
 
 .codeFunc {
-  color: #b9e3cb;
+  color: var(--poker-code-func);
 }
 
 .codeComment {

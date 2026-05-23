@@ -1,21 +1,26 @@
 .wrap h1 {
   font-size: 2rem;
   margin-bottom: 0.5rem;
+  color: var(--poker-chip-50);
+  letter-spacing: -0.02em;
 }
 
 .signature {
   font-family: var(--ifm-font-family-monospace);
   font-size: 0.9rem;
-  background: #0a0a0a;
-  border: 1px solid #333333;
-  border-radius: 8px;
+  background: var(--poker-ink-800);
+  border: 1px solid var(--poker-border);
+  border-left: 3px solid var(--poker-gold-500);
+  border-radius: var(--ifm-global-radius);
   padding: 1rem;
   overflow-x: auto;
   margin-bottom: 1.5rem;
+  color: var(--poker-chip-100);
 }
 
 .body :global(h2) {
   margin-top: 2rem;
   padding-top: 0.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid var(--poker-border);
+  color: var(--poker-chip-50);
 }

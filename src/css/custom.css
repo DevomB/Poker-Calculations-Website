@@ -44,6 +44,13 @@
   --poker-chip-100: #e8ebe9;
   --poker-chip-50: #f5f1e8;
 
+  /* Card-paper (physical playing-card face — chip cream, slightly cooler) */
+  --poker-card-face: #fdfaf2;
+  --poker-card-face-shade: #ece6d4;
+
+  /* Prism: function name (warm felt tint, see color.md §3 table) */
+  --poker-code-func: #b9e3cb;
+
   /* Semantic aliases (consume these in components) */
   --poker-bg: var(--poker-ink-900);
   --poker-bg-elevated: var(--poker-ink-700);
@@ -60,18 +67,6 @@
   /* Suit-ink helpers (for cards, glyphs, tag chips) */
   --poker-suit-red: var(--poker-red-600);
   --poker-suit-black: var(--poker-ink-900);
-
-  /* ---------------------------------------------------------------------
-   * Legacy aliases kept for backward-compat with the rest of the site
-   * (older selectors reference --poker-white / --poker-red / etc).
-   * These will be removed when the next agent finishes the site sweep.
-   * --------------------------------------------------------------------- */
-  --poker-white: var(--poker-chip-50);
-  --poker-black: var(--poker-ink-900);
-  --poker-red: var(--poker-red-600);
-  --poker-gray: var(--poker-ink-600);
-  --poker-blue: var(--poker-gold-500); /* re-route old "blue" to gold accent */
-  --poker-muted: var(--poker-chip-300);
 
   /* ---------------------------------------------------------------------
    * Infima (Docusaurus) mapping
@@ -93,6 +88,10 @@
   --ifm-link-hover-color: var(--poker-gold-300);
   --ifm-navbar-background-color: var(--poker-ink-800);
   --ifm-footer-background-color: var(--poker-ink-900);
+  --ifm-footer-color: var(--poker-chip-200);
+  --ifm-footer-link-color: var(--poker-gold-400);
+  --ifm-footer-link-hover-color: var(--poker-gold-300);
+  --ifm-footer-title-color: var(--poker-chip-50);
   --ifm-menu-color: var(--poker-chip-200);
   --ifm-menu-color-active: var(--poker-chip-50);
   --ifm-code-font-size: 95%;
@@ -159,9 +158,50 @@ pre {
   background: var(--poker-ink-800) !important;
 }
 
+/* Prism token coloring — full coverage per color.md §3 */
 :root :where(pre) .token.string,
-:root :where(pre) .token.attr-value {
+:root :where(pre) .token.attr-value,
+:root :where(pre) .token.char,
+:root :where(pre) .token.regex {
   color: var(--poker-gold-300);
+}
+
+:root :where(pre) .token.keyword,
+:root :where(pre) .token.operator,
+:root :where(pre) .token.tag,
+:root :where(pre) .token.deleted,
+:root :where(pre) .token.important {
+  color: var(--poker-red-400);
+}
+
+:root :where(pre) .token.number,
+:root :where(pre) .token.boolean,
+:root :where(pre) .token.constant,
+:root :where(pre) .token.symbol,
+:root :where(pre) .token.inserted {
+  color: var(--poker-felt-300);
+}
+
+:root :where(pre) .token.function,
+:root :where(pre) .token.class-name {
+  color: var(--poker-code-func);
+}
+
+:root :where(pre) .token.comment,
+:root :where(pre) .token.prolog,
+:root :where(pre) .token.doctype,
+:root :where(pre) .token.cdata {
+  color: var(--poker-ink-400);
+  font-style: italic;
+}
+
+/* Inline code (outside <pre>) */
+:not(pre) > code {
+  background: rgba(212, 175, 55, 0.10);
+  color: var(--poker-gold-300);
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  padding: 0.1rem 0.4rem;
+  border-radius: 6px;
 }
 
 table {
@@ -172,15 +212,46 @@ table {
 table th {
   background: var(--poker-ink-600);
   border-color: var(--poker-border);
+  color: var(--poker-chip-50);
 }
 
 table td {
   border-color: var(--poker-border);
 }
 
-.admonition {
+/* =============================================================================
+ * ADMONITIONS
+ * ============================================================================= */
+
+.admonition,
+.theme-admonition {
   border-radius: var(--ifm-global-radius);
   border-width: 1px;
+}
+
+.theme-admonition-note {
+  border-color: var(--poker-border-strong);
+  background: rgba(74, 86, 79, 0.10);
+}
+
+.theme-admonition-tip {
+  border-color: var(--poker-gold-500);
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.theme-admonition-info {
+  border-color: var(--poker-felt-500);
+  background: rgba(26, 148, 87, 0.10);
+}
+
+.theme-admonition-warning {
+  border-color: var(--poker-gold-400);
+  background: rgba(245, 200, 67, 0.10);
+}
+
+.theme-admonition-danger {
+  border-color: var(--poker-red-500);
+  background: rgba(230, 57, 70, 0.10);
 }
 
 /* =============================================================================
@@ -289,10 +360,61 @@ table td {
 
 /* =============================================================================
  * FOOTER
+ * Background = ink-900, titles = cream, links = gold → gold-300 hover,
+ * copyright = muted chip-300. Mirrors the hero's gold "stitched rail".
  * ============================================================================= */
 
+.footer,
 .footer--dark {
+  background: var(--poker-bg);
+  color: var(--poker-chip-200);
   border-top: 1px solid var(--poker-border);
+  position: relative;
+}
+
+.footer--dark::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.0),
+    rgba(212, 175, 55, 0.45),
+    rgba(212, 175, 55, 0.0),
+    transparent
+  );
+  pointer-events: none;
+}
+
+.footer__title {
+  color: var(--poker-chip-50);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.footer__link-item {
+  color: var(--poker-gold-400);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footer__link-item:hover,
+.footer__link-item:focus-visible {
+  color: var(--poker-gold-300);
+  text-decoration: none;
+}
+
+.footer__item {
+  color: var(--poker-chip-200);
+}
+
+.footer__copyright {
+  color: var(--poker-text-muted);
+  font-size: 0.85rem;
 }
 
 .footer__link-item[href*='docusaurus.io'],
@@ -301,13 +423,130 @@ table td {
 }
 
 /* =============================================================================
- * MISC
+ * GLOBAL CHROME — selection, scrollbar, focus
  * ============================================================================= */
+
+::selection {
+  background: rgba(212, 175, 55, 0.30);
+  color: var(--poker-chip-50);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--poker-ink-900);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--poker-ink-500);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--poker-ink-400);
+}
+
+:focus-visible {
+  outline: 2px solid var(--poker-gold-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
 
 .skipToContent_fXgn:focus {
   outline: 2px solid var(--poker-gold-500);
   outline-offset: 2px;
 }
+
+/* =============================================================================
+ * PAGINATION (prev / next at doc footer)
+ * ============================================================================= */
+
+.pagination-nav__link {
+  background: var(--poker-bg-elevated);
+  border: 1px solid var(--poker-border);
+  border-radius: var(--ifm-global-radius);
+}
+
+.pagination-nav__link:hover {
+  border-color: var(--poker-gold-600);
+  background: var(--poker-bg-raised);
+}
+
+.pagination-nav__sublabel {
+  color: var(--poker-text-muted);
+}
+
+.pagination-nav__label {
+  color: var(--poker-chip-50);
+}
+
+/* =============================================================================
+ * BREADCRUMBS
+ * ============================================================================= */
+
+.breadcrumbs__link {
+  color: var(--poker-text-muted);
+}
+
+.breadcrumbs__link:hover {
+  color: var(--poker-chip-50);
+}
+
+.breadcrumbs__item--active .breadcrumbs__link {
+  color: var(--poker-chip-50);
+  background: var(--poker-bg-raised);
+}
+
+.breadcrumbs__item:not(:last-child)::after {
+  background: var(--poker-ink-400);
+}
+
+/* =============================================================================
+ * TABLE OF CONTENTS (right rail)
+ * ============================================================================= */
+
+.table-of-contents {
+  border-left-color: var(--poker-border);
+}
+
+.table-of-contents__link {
+  color: var(--poker-text-muted);
+}
+
+.table-of-contents__link:hover {
+  color: var(--poker-chip-100);
+}
+
+.table-of-contents__link--active {
+  color: var(--poker-gold-400);
+  font-weight: 600;
+}
+
+/* =============================================================================
+ * TABS
+ * ============================================================================= */
+
+.tabs__item {
+  color: var(--poker-chip-200);
+}
+
+.tabs__item:hover {
+  background: var(--poker-bg-raised);
+  color: var(--poker-chip-50);
+}
+
+.tabs__item--active {
+  color: var(--poker-chip-50);
+  border-bottom-color: var(--poker-gold-500);
+  border-bottom-width: 2px;
+}
+
+/* =============================================================================
+ * DOCSEARCH (modal)
+ * ============================================================================= */
 
 .dsla-search-wrapper {
   margin-left: 1rem;
@@ -319,6 +558,39 @@ table td {
 
 [data-theme='dark'] .DocSearch-Button {
   background: var(--poker-ink-800);
+}
+
+.DocSearch-Modal {
+  background: var(--poker-ink-800);
+  border: 1px solid var(--poker-border);
+}
+
+.DocSearch-SearchBar {
+  background: var(--poker-ink-900);
+}
+
+.DocSearch-Hit-source {
+  color: var(--poker-gold-400);
+}
+
+.DocSearch-Hit--Result,
+.DocSearch-Hit a {
+  background: var(--poker-ink-700);
+}
+
+.DocSearch-Hit[aria-selected='true'] a {
+  background: var(--poker-bg-raised);
+}
+
+.DocSearch-Hit-title,
+.DocSearch-Hit-path {
+  color: var(--poker-chip-50);
+}
+
+.DocSearch-Hit-title mark,
+.DocSearch-Hit-path mark {
+  color: var(--poker-gold-300);
+  background: transparent;
 }
 
 @media (max-width: 996px) {
