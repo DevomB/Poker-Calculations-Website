@@ -1,0 +1,34 @@
+---
+title: benchmarkEvaluatorThroughput
+sidebar_position: 4
+---
+
+# `benchmarkEvaluatorThroughput`
+
+Benchmark legacy vs forge evaluator throughput on random seven-card spots.
+
+<div className="apiSignature">{`benchmarkEvaluatorThroughput(iterations?: number): { legacyEvalsPerSecond: number; fastEvalsPerSecond: number; implementation: string }`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when tuning server hardware or choosing between `evaluateHandStrength` and [`evaluateHandStrengthFast`](./evaluate-hand-strength-fast) in production. Optional `iterations` defaults in native code when omitted; must be `>= 1` when provided.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const bench = poker.benchmarkEvaluatorThroughput(50_000);
+console.log(bench);
+// { legacyEvalsPerSecond, fastEvalsPerSecond, implementation }
+```
+
+## See also
+
+[`evaluateHandStrengthFast`](./evaluate-hand-strength-fast) · [`evaluateHandStrength`](./evaluate-hand-strength)

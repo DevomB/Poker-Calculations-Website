@@ -6,9 +6,9 @@ title: Card notation
 
 | Part | Values |
 | --- | --- |
-| Rank | `2`–`9`, `T`, `J`, `Q`, `K`, `A`, or `10` |
+| Rank | `2`–`9`, `J`, `Q`, `K`, `A`; ten as `T` or `10` (not both in one card) |
 | Suit | `c`, `d`, `h`, `s` |
 
-Examples: `Ah`, `Td`, `10c`. Canonical two-character form uses `T` for ten (`Th`).
+Examples: `Ah`, `Th`, `10c` (same card as `Tc`). After parsing, [`canonicalCardString`](/docs/reference/api/hands-and-equity/canonical-card-string) always uses `T` for ten (`Th`, not `10h`).
 
 Helpers: [`validateCardString`](/docs/reference/api/hands-and-equity/validate-card-string), [`canonicalCardString`](/docs/reference/api/hands-and-equity/canonical-card-string), [`parseCompactCardList`](/docs/reference/api/hands-and-equity/parse-compact-card-list).

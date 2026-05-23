@@ -1,0 +1,35 @@
+---
+title: evaluateHandStrengthFast
+sidebar_position: 3
+---
+
+# `evaluateHandStrengthFast`
+
+Same encoded strength string as [`evaluateHandStrength`](./evaluate-hand-strength), using the in-house **forge** stack evaluator (`poker-calculations-forge`) on Monte Carlo and exact-equity hot paths.
+
+<div className="apiSignature">{`evaluateHandStrengthFast(holeCards: string[], board: string[]): string`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need the same sortable strength scalar as `evaluateHandStrength` but want the faster evaluator (for example high-volume sims or batch ranking). Compare paths with [`benchmarkEvaluatorThroughput`](./benchmark-evaluator-throughput) on your hardware.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const fast = poker.evaluateHandStrengthFast(['Ah', 'Kh'], ['Qh', 'Jh', 'Th']);
+const legacy = poker.evaluateHandStrength(['Ah', 'Kh'], ['Qh', 'Jh', 'Th']);
+// Same encoding; values should match for valid spots
+console.log(fast, legacy);
+```
+
+## See also
+
+[`evaluateHandStrength`](./evaluate-hand-strength) · [`benchmarkEvaluatorThroughput`](./benchmark-evaluator-throughput) · [`evaluateHandCategory`](./evaluate-hand-category)
