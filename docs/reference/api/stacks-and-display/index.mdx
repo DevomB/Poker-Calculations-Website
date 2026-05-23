@@ -11,20 +11,20 @@ Use these exports for HUD labels, tournament push/fold charts, and preflop range
 
 | Export | Summary |
 | --- | --- |
-| [`spr`](./spr) | Stack-to-pot ratio. |
-| [`effectiveStack`](./effective-stack) | Minimum stack; empty → `0`. |
-| [`normalizedStackFractions`](./normalized-stack-fractions) | Each stack / sum(stacks) (chip shares). |
-| [`minimumDefenseFrequency`](./minimum-defense-frequency) | MDF from pot geometry. |
-| [`stackInBigBlinds`](./stack-in-big-blinds) | Stack size in big blinds. |
-| [`potOddsRatioDisplay`](./pot-odds-ratio-display) | Display ratio `pot : to_call`. |
-| [`formatPotOdds`](./format-pot-odds) | Human-readable `"x:1"` string. |
-| [`harringtonM`](./harrington-m) | Harrington **M** = stack / (sb + bb + antes). |
-| [`harringtonMEffective`](./harrington-m-effective) | Effective M with active antes. |
-| [`harringtonMEffectiveActiveAntes`](./harrington-m-effective-active-antes) | Effective M with per-seat antes. |
-| [`harringtonQ`](./harrington-q) | Hero stack / mean(table stacks). |
-| [`orbitCostChips`](./orbit-cost-chips) | One orbit: sb + bb + sum(antes). |
-| [`nlMinimumRaiseToTotal`](./nl-minimum-raise-to-total) | NL minimum **total** wager after a raise. |
-| [`preflopCombosFromNotation`](./preflop-combos-from-notation) | Combo count from `AA`, `AKs`, `AKo`. |
-| [`preflopCombosFromNotationsList`](./preflop-combos-from-notations-list) | Sum of combo counts over a list. |
+| [`spr`](/docs/reference/api/stacks-and-display/spr) | Stack-to-pot ratio. |
+| [`effectiveStack`](/docs/reference/api/stacks-and-display/effective-stack) | Minimum stack; empty → `0`. |
+| [`normalizedStackFractions`](/docs/reference/api/stacks-and-display/normalized-stack-fractions) | Each stack / sum(stacks) (chip shares). |
+| [`minimumDefenseFrequency`](/docs/reference/api/stacks-and-display/minimum-defense-frequency) | MDF from pot geometry. |
+| [`stackInBigBlinds`](/docs/reference/api/stacks-and-display/stack-in-big-blinds) | Stack size in big blinds. |
+| [`potOddsRatioDisplay`](/docs/reference/api/stacks-and-display/pot-odds-ratio-display) | Display ratio `pot : to_call`. |
+| [`formatPotOdds`](/docs/reference/api/stacks-and-display/format-pot-odds) | Human-readable `"x:1"` string. |
+| [`harringtonM`](/docs/reference/api/stacks-and-display/harrington-m) | Harrington **M** = stack / (sb + bb + antes). |
+| [`harringtonMEffective`](/docs/reference/api/stacks-and-display/harrington-m-effective) | Effective M with active antes. |
+| [`harringtonMEffectiveActiveAntes`](/docs/reference/api/stacks-and-display/harrington-m-effective-active-antes) | Effective M with per-seat antes. |
+| [`harringtonQ`](/docs/reference/api/stacks-and-display/harrington-q) | Hero stack / mean(table stacks). |
+| [`orbitCostChips`](/docs/reference/api/stacks-and-display/orbit-cost-chips) | One orbit: sb + bb + sum(antes). |
+| [`nlMinimumRaiseToTotal`](/docs/reference/api/stacks-and-display/nl-minimum-raise-to-total) | NL minimum **total** wager after a raise. |
+| [`preflopCombosFromNotation`](/docs/reference/api/stacks-and-display/preflop-combos-from-notation) | Combo count from `AA`, `AKs`, `AKo`. |
+| [`preflopCombosFromNotationsList`](/docs/reference/api/stacks-and-display/preflop-combos-from-notations-list) | Sum of combo counts over a list. |
 
 Rake-aware and chip-EV breakeven helpers are under [Pot & EV](/docs/reference/api/pot-and-ev/).

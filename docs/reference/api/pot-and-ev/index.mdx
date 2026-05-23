@@ -11,16 +11,16 @@ Use this group when you are building call/fold trainers, HUD overlays, or server
 
 | Export | Summary |
 | --- | --- |
-| [`potOddsRatio`](./pot-odds-ratio) | `toCall / (pot + toCall)` when valid; else `0`. |
-| [`expectedValueCall`](./expected-value-call) | Chip EV of calling once vs folding (0); no future streets. |
-| [`expectedValueCallWithRake`](./expected-value-call-with-rake) | Call EV when the final HU pot pays rake. |
-| [`breakevenCallEquity`](./breakeven-call-equity) | Same fraction as `potOddsRatio` for chip calls. |
-| [`breakevenCallEquityFromPotOddsDisplayRatio`](./breakeven-call-equity-from-pot-odds-display-ratio) | `1/(1+R)` from display ratio `R`; `0` when `R` is `+∞`. |
-| [`potOddsDisplayRatioFromBreakevenCallEquity`](./pot-odds-display-ratio-from-breakeven-call-equity) | Inverse `(1−e)/e`; `+∞` when `e=0`; `0` when `e=1`. |
-| [`formatPotOddsReducedFraction`](./format-pot-odds-reduced-fraction) | Reduced integer `pot : to_call` string. |
-| [`equityToWinningOddsAgainst`](./equity-to-winning-odds-against) | Book-style `(1−p)/p`; `+∞` at `p=0`. |
-| [`winningOddsAgainstToEquity`](./winning-odds-against-to-equity) | `1/(1+o)` for `o≥0`; `0` when `o=+∞`. |
-| [`rakeFromPot`](./rake-from-pot) | Rake `min(fraction×pot, cap)`. |
-| [`breakevenCallEquityWithRake`](./breakeven-call-equity-with-rake) | Breakeven equity when the final pot pays rake. |
+| [`potOddsRatio`](/docs/reference/api/pot-and-ev/pot-odds-ratio) | `toCall / (pot + toCall)` when valid; else `0`. |
+| [`expectedValueCall`](/docs/reference/api/pot-and-ev/expected-value-call) | Chip EV of calling once vs folding (0); no future streets. |
+| [`expectedValueCallWithRake`](/docs/reference/api/pot-and-ev/expected-value-call-with-rake) | Call EV when the final HU pot pays rake. |
+| [`breakevenCallEquity`](/docs/reference/api/pot-and-ev/breakeven-call-equity) | Same fraction as `potOddsRatio` for chip calls. |
+| [`breakevenCallEquityFromPotOddsDisplayRatio`](/docs/reference/api/pot-and-ev/breakeven-call-equity-from-pot-odds-display-ratio) | `1/(1+R)` from display ratio `R`; `0` when `R` is `+∞`. |
+| [`potOddsDisplayRatioFromBreakevenCallEquity`](/docs/reference/api/pot-and-ev/pot-odds-display-ratio-from-breakeven-call-equity) | Inverse `(1−e)/e`; `+∞` when `e=0`; `0` when `e=1`. |
+| [`formatPotOddsReducedFraction`](/docs/reference/api/pot-and-ev/format-pot-odds-reduced-fraction) | Reduced integer `pot : to_call` string. |
+| [`equityToWinningOddsAgainst`](/docs/reference/api/pot-and-ev/equity-to-winning-odds-against) | Book-style `(1−p)/p`; `+∞` at `p=0`. |
+| [`winningOddsAgainstToEquity`](/docs/reference/api/pot-and-ev/winning-odds-against-to-equity) | `1/(1+o)` for `o≥0`; `0` when `o=+∞`. |
+| [`rakeFromPot`](/docs/reference/api/pot-and-ev/rake-from-pot) | Rake `min(fraction×pot, cap)`. |
+| [`breakevenCallEquityWithRake`](/docs/reference/api/pot-and-ev/breakeven-call-equity-with-rake) | Breakeven equity when the final pot pays rake. |
 
 Display-oriented pot odds (`potOddsRatioDisplay`, `formatPotOdds`) live under [Stacks & display](/docs/reference/api/stacks-and-display/).
