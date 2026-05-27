@@ -12,7 +12,7 @@ const npmPkg = require('poker-calculations/package.json') as {
 const config: Config = {
   title: 'Poker Calculations',
   tagline: 'NL Hold’em engine, equity, and chip math for Node.js',
-  favicon: 'img/logo.svg',
+  favicon: 'img/favicon.ico',
 
   future: {
     v4: true,
