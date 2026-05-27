@@ -16,6 +16,13 @@ Published tarballs ship **prebuilt N-API** binaries under `prebuilds/<platform>-
 
 On **linux-x64** / **linux-arm64**, musl builds install as `node.napi.musl.node` in the same folder—useful for Alpine and many serverless images.
 
+## Subpath: `poker-calculations/encode`
+
+```js
+const encode = require('poker-calculations/encode');
+// packCards, unpackCards, packPokerState, unpackPokerState
+```
+
 ## Next
 
 [Quick start](/docs/getting-started/quick-start) — first `require` and sample calls.

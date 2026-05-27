@@ -8,12 +8,12 @@ Rule-based action from serialized table state, Monte Carlo equity (or strength f
 
 ## State shape
 
-See [NativePokerState](/docs/reference/types/native-poker-state).
+See [NativePokerState](/docs/reference/types/native-poker-state). You may pass PKST `Uint8Array` from [`encodePokerState`](/docs/reference/api/strategy/encode-poker-state) or [`packPokerState`](/docs/concepts/packed-poker-state) instead of a live object—see [Packed poker state](/docs/concepts/packed-poker-state).
 
 | Field | Required | Notes |
 | --- | --- | --- |
-| `players[]` | yes | Each player needs `holeCards: string[]` |
-| `communityCards` | yes | Board strings |
+| `players[]` | yes | Each player needs `holeCards: CardInput` (`string[]` or packed `Uint8Array`) |
+| `communityCards` | yes | Board cards (`CardInput`) |
 | `phase` | yes | `preflop`, `flop`, `turn`, `river`, `showdown`, `handcomplete` (case variants accepted) |
 | `actedThisStreet` | yes | One boolean per player |
 | `pot`, `currentBet`, blinds, seats | optional | Table geometry |

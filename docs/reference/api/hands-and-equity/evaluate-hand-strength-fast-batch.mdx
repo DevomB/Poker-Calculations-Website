@@ -1,0 +1,38 @@
+---
+title: evaluateHandStrengthFastBatch
+sidebar_position: 13
+---
+
+# `evaluateHandStrengthFastBatch`
+
+<div className="apiSignature">{`evaluateHandStrengthFastBatch(holes: Uint8Array, boards: Uint8Array, boardCards?: number, out?: Float64Array): Float64Array`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Sort or filter many hands using the forge strength encoding in one crossing.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const strengths = poker.evaluateHandStrengthFastBatch(holes, boards, 5);
+```
+
+## See also
+
+[`evaluateHandStrengthFast`](./evaluate-hand-strength-fast) · [Batch equity guide](/docs/guides/batch-equity)

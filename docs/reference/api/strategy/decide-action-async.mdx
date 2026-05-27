@@ -1,0 +1,38 @@
+---
+title: decideActionAsync
+sidebar_position: 2
+---
+
+# `decideActionAsync`
+
+<div className="apiSignature">{`decideActionAsync(state: NativePokerState | PokerStateBytes, config: NativeBotConfig, opponentModel?: NativeOpponentModel | null, heroSeat?: number): Promise<DecisionResult>`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Bots and simulators that call `decideAction` often and must keep the JS thread responsive.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const d = await poker.decideActionAsync(state, { monteCarloSimulations: 2000 }, null, 0);
+```
+
+## See also
+
+[`decideAction`](./decide-action) · [decideAction guide](/docs/guides/decide-action)

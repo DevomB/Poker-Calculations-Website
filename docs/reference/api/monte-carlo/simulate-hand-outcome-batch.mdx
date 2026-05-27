@@ -1,0 +1,39 @@
+---
+title: simulateHandOutcomeBatch
+sidebar_position: 9
+---
+
+# `simulateHandOutcomeBatch`
+
+<div className="apiSignature">{`simulateHandOutcomeBatch(specs: SimBatchSpec[], out?: Float64Array): Float64Array`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Range builders and dashboards that need many MC equities in one native call—amortizes N-API and card-parse overhead vs looping `simulateHandOutcome`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const specs = [{ holeCards: ['Ah','Kh'], board: ['Qh','Jh','2c'], numSimulations: 5000, seed: 42, villains: 1 }];
+const out = poker.simulateHandOutcomeBatch(specs);
+```
+
+## See also
+
+[Batch equity guide](/docs/guides/batch-equity) · [`simulateHandOutcomeBatchPacked`](./simulate-hand-outcome-batch-packed)

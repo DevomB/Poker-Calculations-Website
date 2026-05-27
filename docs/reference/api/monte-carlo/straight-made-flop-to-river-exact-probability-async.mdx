@@ -1,0 +1,38 @@
+---
+title: straightMadeFlopToRiverExactProbabilityAsync
+sidebar_position: 8
+---
+
+# `straightMadeFlopToRiverExactProbabilityAsync`
+
+<div className="apiSignature">{`straightMadeFlopToRiverExactProbabilityAsync(heroHoleCards: CardInput, flopThree: CardInput, knownDead: CardInput): Promise<number>`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Async sibling of [`straightMadeFlopToRiverExactProbability`](./straight-made-flop-to-river-exact-probability).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const p = await poker.straightMadeFlopToRiverExactProbabilityAsync(hole, flop, dead);
+```
+
+## See also
+
+[`straightMadeFlopToRiverExactProbability`](./straight-made-flop-to-river-exact-probability)

@@ -7,7 +7,9 @@ sidebar_position: 5
 
 Category label only (`highCard` … `royalFlush`) for hole cards + board.
 
-<div className="apiSignature">{`evaluateHandCategory(holeCards: string[], board: string[]): string`}</div>
+<div className="apiSignature">{`evaluateHandCategory(holeCards: CardInput, board: CardInput): string`}</div>
+
+`CardInput` is `string[]` or `Uint8Array` of deck ids `0..51`. Returns a category label string (`highCard` … `royalFlush`), not encoded strength.
 
 ## Import
 

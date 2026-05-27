@@ -1,0 +1,39 @@
+---
+title: encodePokerState
+sidebar_position: 3
+---
+
+# `encodePokerState`
+
+<div className="apiSignature">{`encodePokerState(state: NativePokerState): PokerStateBytes`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Cache or transmit table snapshots without re-parsing nested JS objects on every `decideAction` call.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const bytes = poker.encodePokerState(state);
+// or: const bytes = require('poker-calculations/encode').packPokerState(state);
+```
+
+## See also
+
+[Packed poker state](/docs/concepts/packed-poker-state) · [`decodePokerState`](./decode-poker-state)

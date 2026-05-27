@@ -5,4 +5,6 @@ sidebar_position: 3
 
 # Strategy
 
-- [`decideAction`](/docs/reference/api/strategy/decide-action) — Rule-based action using MC equity (or strength fallback when sim count is 0), pot odds, call EV; see [`NativePokerState`](/docs/reference/types/native-poker-state).
+- [`decideAction`](/docs/reference/api/strategy/decide-action) — Rule-based action; state may be [`NativePokerState`](/docs/reference/types/native-poker-state) or PKST [`Uint8Array`](/docs/concepts/packed-poker-state).
+- [`decideActionAsync`](/docs/reference/api/strategy/decide-action-async) — Non-blocking `decideAction`.
+- [`encodePokerState`](/docs/reference/api/strategy/encode-poker-state) · [`decodePokerState`](/docs/reference/api/strategy/decode-poker-state) — PKST v1 binary snapshots.

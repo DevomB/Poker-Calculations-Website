@@ -1,0 +1,38 @@
+---
+title: exactHuEquityVsRandomHandBatch
+sidebar_position: 11
+---
+
+# `exactHuEquityVsRandomHandBatch`
+
+<div className="apiSignature">{`exactHuEquityVsRandomHandBatch(holes: Uint8Array, boards: Uint8Array, boardCards: number, out?: Float64Array): Float64Array`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Many exact HU spots with packed cards; `boardCards` is 3–5 per row.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const eq = poker.exactHuEquityVsRandomHandBatch(holesPacked, boardsPacked, 3);
+```
+
+## See also
+
+[`exactHuEquityVsRandomHand`](./exact-hu-equity-vs-random-hand) · [Batch equity guide](/docs/guides/batch-equity)

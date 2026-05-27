@@ -27,6 +27,9 @@ const sidebars: SidebarsConfig = {
       label: 'Concepts',
       items: [
         'concepts/card-notation',
+        'concepts/packed-card-input',
+        'concepts/packed-poker-state',
+        'concepts/float64-icm-input',
         'concepts/hand-rank-labels',
         'concepts/errors-and-validation',
       ],
@@ -37,6 +40,7 @@ const sidebars: SidebarsConfig = {
       items: [
         'guides/decide-action',
         'guides/monte-carlo-equity',
+        'guides/batch-equity',
         'guides/icm-and-side-pots',
       ],
     },
@@ -56,6 +60,8 @@ const sidebars: SidebarsConfig = {
             'reference/types/wilson-score-interval',
             'reference/types/beta-binomial-fold-posterior',
             'reference/types/side-pot-layer',
+            'reference/types/sim-batch-spec',
+            'reference/types/evaluator-benchmark-result',
           ],
         },
         {

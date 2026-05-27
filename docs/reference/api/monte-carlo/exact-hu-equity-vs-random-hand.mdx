@@ -7,7 +7,9 @@ sidebar_position: 3
 
 Exact HU equity vs uniform random villain hand; board must have **3–5** cards.
 
-<div className="apiSignature">{`exactHuEquityVsRandomHand(heroHoleCards: string[], boardCards: string[]): number`}</div>
+<div className="apiSignature">{`exactHuEquityVsRandomHand(heroHoleCards: CardInput, boardCards: CardInput): number`}</div>
+
+`CardInput` is `string[]` or `Uint8Array` of deck ids `0..51`. See [Card notation](/docs/concepts/card-notation).
 
 ## Import
 

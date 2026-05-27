@@ -5,7 +5,17 @@ sidebar_position: 2
 
 # Monte Carlo
 
+Hole, board, and dead-card arguments use **`CardInput`**: `string[]` or packed `Uint8Array` (deck ids `0..51`). See [Card notation](/docs/concepts/card-notation).
+
 - [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome) — Estimated equity vs one or more random villain hands (default `villains = 1`).
-- [`parallelHandSimulation`](/docs/reference/api/monte-carlo/parallel-hand-simulation) — Same with worker threads and distinct seeds per chunk.
+- [`simulateHandOutcomeAsync`](/docs/reference/api/monte-carlo/simulate-hand-outcome-async) — Non-blocking MC equity (libuv thread pool).
+- [`parallelHandSimulation`](/docs/reference/api/monte-carlo/parallel-hand-simulation) — Same with C++ worker threads and distinct seeds per chunk.
+- [`parallelHandSimulationAsync`](/docs/reference/api/monte-carlo/parallel-hand-simulation-async) — Non-blocking parallel MC.
+- [`simulateHandOutcomeBatch`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch) — Many MC spots in one call → `Float64Array`.
+- [`simulateHandOutcomeBatchPacked`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch-packed) — Packed holes/boards/meta batch.
 - [`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand) — Exact HU equity vs uniform random villain hand; board must have **3–5** cards.
+- [`exactHuEquityVsRandomHandAsync`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand-async) · [`exactHuEquityVsRandomHandBatch`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand-batch)
 - [`straightMadeFlopToRiverExactProbability`](/docs/reference/api/monte-carlo/straight-made-flop-to-river-exact-probability) — Exact probability of straight or better in hero’s best 7 after uniform random unordered turn+river from remaining deck.
+- [`straightMadeFlopToRiverExactProbabilityAsync`](/docs/reference/api/monte-carlo/straight-made-flop-to-river-exact-probability-async)
+
+See [Batch equity](/docs/guides/batch-equity).

@@ -6,4 +6,6 @@ title: 'Errors & validation'
 
 Invalid or duplicate cards throw `Error` from native code. Overlapping card sets between two hands throw on [`compareBestHands`](/docs/reference/api/hands-and-equity/compare-best-hands).
 
-Use [`validateCardString`](/docs/reference/api/hands-and-equity/validate-card-string) and [`cardStringsHaveDuplicate`](/docs/reference/api/hands-and-equity/card-strings-have-duplicate) before building larger pipelines.
+For **packed** `Uint8Array` / Node `Buffer` input, each byte must be a deck id **`0..51`**; invalid bytes include an index in the message (for example `invalid packed card at index 2`).
+
+Use [`validateCardString`](/docs/reference/api/hands-and-equity/validate-card-string) and [`cardStringsHaveDuplicate`](/docs/reference/api/hands-and-equity/card-strings-have-duplicate) (accepts `CardInput`) before building larger pipelines.

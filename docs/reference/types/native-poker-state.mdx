@@ -9,17 +9,19 @@ Serialized no-limit Hold’em table state (camelCase JSON) passed to [`decideAct
 ## Shape
 
 ```ts
+type CardInput = string[] | Uint8Array;
+
 interface NativePokerState {
   players: Array<{
     name?: string;
-    holeCards: string[];       // required per active player
+    holeCards: CardInput;       // required per active player
     stack?: number;
     committedThisStreet?: number;
     totalCommittedHand?: number;
     folded?: boolean;
     seat?: number;
   }>;
-  communityCards: string[];
+  communityCards: CardInput;
   phase: string;               // PreFlop, flop, turn, river, Showdown, …
   pot?: number;
   currentBet?: number;
@@ -35,7 +37,7 @@ interface NativePokerState {
 
 ## Notes
 
-- `holeCards` must be valid card strings for every non-folded player you want evaluated.
+- `holeCards` and `communityCards` accept canonical card strings or packed `Uint8Array` (deck ids `0..51`). See [Packed card input](/docs/concepts/packed-card-input).
 - `phase` is case-insensitive in native code (`preflop`, `flop`, `turn`, `river`, `showdown`, `handcomplete`).
 - Pair with [NativeBotConfig](/docs/reference/types/native-bot-config) and optional [NativeOpponentModel](/docs/reference/types/native-opponent-model).
 

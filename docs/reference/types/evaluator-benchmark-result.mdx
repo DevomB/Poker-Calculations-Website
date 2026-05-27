@@ -1,0 +1,15 @@
+---
+title: EvaluatorBenchmarkResult
+---
+
+# `EvaluatorBenchmarkResult`
+
+Return type of [`benchmarkEvaluatorThroughput`](/docs/reference/api/hands-and-equity/benchmark-evaluator-throughput) and [`benchmarkEvaluatorThroughputAsync`](/docs/reference/api/hands-and-equity/benchmark-evaluator-throughput-async).
+
+```ts
+interface EvaluatorBenchmarkResult {
+  legacyEvalsPerSecond: number;
+  fastEvalsPerSecond: number;
+  implementation: string;
+}
+```

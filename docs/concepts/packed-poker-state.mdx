@@ -1,0 +1,47 @@
+---
+title: Packed poker state (PKST)
+---
+
+# Packed poker state (PKST v1)
+
+`decideAction` and `decideActionAsync` accept either a **`NativePokerState` object** or **`Uint8Array`** PKST bytes from [`encodePokerState`](/docs/reference/api/strategy/encode-poker-state).
+
+:::info[Why pack state]
+Object snapshots repeat UTF-8 parsing and property walks on every bot tick. PKST bytes are a fixed layout the native layer decodes once per call.
+:::
+
+## Encode / decode
+
+```js
+const poker = require('poker-calculations');
+
+const bytes = poker.encodePokerState(state);
+const roundTrip = poker.decodePokerState(bytes);
+
+const decision = poker.decideAction(bytes, { monteCarloSimulations: 2000 });
+```
+
+## `encode.js` helpers
+
+```js
+const { packPokerState, unpackPokerState } = require('poker-calculations/encode');
+
+const bytes = packPokerState(state);
+const obj = unpackPokerState(bytes);
+```
+
+## Layout (summary)
+
+| Field | Notes |
+| --- | --- |
+| Magic | `PKST` (4 bytes) |
+| Version | `1` |
+| Players | Up to 10; per player: hole cards as deck ids, stack/commit flags |
+| Community | Up to 5 cards |
+| Pot / blinds / phase | Little-endian `int32` fields |
+
+Full layout is documented in the npm package (`include/poker/state_codec.hpp`).
+
+## See also
+
+[decideAction guide](/docs/guides/decide-action) · [`NativePokerState`](/docs/reference/types/native-poker-state)

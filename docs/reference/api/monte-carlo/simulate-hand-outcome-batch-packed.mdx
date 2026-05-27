@@ -1,0 +1,39 @@
+---
+title: simulateHandOutcomeBatchPacked
+sidebar_position: 10
+---
+
+# `simulateHandOutcomeBatchPacked`
+
+<div className="apiSignature">{`simulateHandOutcomeBatchPacked(holes: Uint8Array, boards: Uint8Array, meta: Uint32Array, out?: Float64Array): Float64Array`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Same as batch specs, but holes/boards/meta are packed: `holes` length `2×n`, `boards` `5×n`, `meta` `Uint32Array` with `[numSim, seed, villains]` per row.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const meta = new Uint32Array([5000, 42, 1]);
+const eq = poker.simulateHandOutcomeBatchPacked(packCards(hole), packCards(board), meta);
+```
+
+## See also
+
+[Batch equity guide](/docs/guides/batch-equity) · [Packed card input](/docs/concepts/packed-card-input)

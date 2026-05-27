@@ -5,7 +5,8 @@ import {fileURLToPath} from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(join(root, 'package.json'));
-const indexDtsPath = require.resolve('poker-calculations/index.d.ts');
+const pkgMain = require.resolve('poker-calculations');
+const indexDtsPath = join(dirname(pkgMain), 'index.d.ts');
 
 const apiRoot = join(root, 'docs/reference/api');
 
@@ -49,6 +50,12 @@ function toSlug(name) {
 }
 
 const missing = [];
+/** MDX stub pages for removed exports; not in index.d.ts */
+const ALLOWED_EXTRA_DOC_SLUGS = new Set([
+  'evaluate-hand-strength-scalar',
+  'evaluate-hand-strength-fast-scalar',
+]);
+
 const extra = [];
 for (const name of unique) {
   const slug = toSlug(name);
@@ -56,7 +63,7 @@ for (const name of unique) {
 }
 for (const slug of docSlugs) {
   const expected = unique.find((n) => toSlug(n) === slug);
-  if (!expected) extra.push(slug);
+  if (!expected && !ALLOWED_EXTRA_DOC_SLUGS.has(slug)) extra.push(slug);
 }
 
 if (missing.length || extra.length) {

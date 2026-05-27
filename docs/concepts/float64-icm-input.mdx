@@ -1,0 +1,47 @@
+---
+title: Float64 ICM input
+---
+
+# Float64 ICM and stack vectors
+
+Several tournament and stack helpers accept **`F64VectorInput`**: `number[]` or **`Float64Array`**.
+
+:::info[Default unchanged]
+If you omit `returnFormat`, you get `number[]` in and `number[]` out.
+:::
+
+## Float64 output
+
+Pass `'float64'` as the last argument (or `returnFormat` where documented) to receive a **`Float64Array`**:
+
+```js
+const stacks = new Float64Array([12000, 9000, 6000, 3000]);
+
+const pWin = poker.icmWinProbabilitiesHarville(stacks, 'float64');
+const ev = poker.icmExpectedPayouts(stacks, payoutsF64, 'float64');
+
+const placement = poker.icmHarvillePlacementProbabilities(stacks, 'float64');
+// flat n×n row-major when returnFormat is float64
+```
+
+## Covered exports
+
+- `icmWinProbabilitiesHarville`
+- `icmHarvillePlacementProbabilities`
+- `icmTopKFinishProbabilities`
+- `icmLastPlaceProbabilitiesHarville`
+- `icmExpectedPayouts`
+- `normalizedStackFractions`
+- `layeredPotChipEvFromEquities` (flat equity matrix: pass `cols` before `returnFormat`)
+- `sidePotLadderFromCommitments` (input only)
+- `harringtonMEffectiveActiveAntes` (antes vector)
+
+## TypeScript
+
+```ts
+import type { F64VectorInput, F64ReturnFormat } from 'poker-calculations';
+```
+
+## See also
+
+[ICM guide](/docs/guides/icm-and-side-pots) · [`icmWinProbabilitiesHarville`](/docs/reference/api/icm/icm-win-probabilities-harville)

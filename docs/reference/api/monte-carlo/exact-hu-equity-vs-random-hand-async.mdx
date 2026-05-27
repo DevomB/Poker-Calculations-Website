@@ -1,0 +1,38 @@
+---
+title: exactHuEquityVsRandomHandAsync
+sidebar_position: 7
+---
+
+# `exactHuEquityVsRandomHandAsync`
+
+<div className="apiSignature">{`exactHuEquityVsRandomHandAsync(heroHoleCards: CardInput, boardCards: CardInput): Promise<number>`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Async exact HU equity when enumeration would block the main thread.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const eq = await poker.exactHuEquityVsRandomHandAsync(['Ah', 'Kd'], ['Qh', 'Jc', '2s']);
+```
+
+## See also
+
+[`exactHuEquityVsRandomHand`](./exact-hu-equity-vs-random-hand)

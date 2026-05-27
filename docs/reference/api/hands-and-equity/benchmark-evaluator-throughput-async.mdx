@@ -1,0 +1,38 @@
+---
+title: benchmarkEvaluatorThroughputAsync
+sidebar_position: 12
+---
+
+# `benchmarkEvaluatorThroughputAsync`
+
+<div className="apiSignature">{`benchmarkEvaluatorThroughputAsync(iterations?: number): Promise<EvaluatorBenchmarkResult>`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Run evaluator benchmarks without blocking the event loop.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const bench = await poker.benchmarkEvaluatorThroughputAsync(50_000);
+```
+
+## See also
+
+[`benchmarkEvaluatorThroughput`](./benchmark-evaluator-throughput)

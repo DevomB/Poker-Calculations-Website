@@ -1,0 +1,48 @@
+---
+title: Packed card input
+---
+
+# Packed card input (`CardInput`)
+
+Most APIs that take hole cards, board cards, or dead cards accept **`CardInput`**:
+
+- **`string[]`** — canonical card strings (`Ah`, `Th`, `10c`, …)
+- **`Uint8Array`** — one byte per card, each byte a **deck id** `0..51` (Node **`Buffer`** works as a byte view)
+
+## Deck id encoding
+
+`index = rank * 4 + suit`
+
+| | Values |
+| --- | --- |
+| **rank** `0..12` | `2`, `3`, …, `T`, `J`, `Q`, `K`, `A` |
+| **suit** `0..3` | `c`, `d`, `h`, `s` |
+
+Example: `Ah` → rank 12 (Ace), suit 2 (hearts) → `12 * 4 + 2 = **50**`.
+
+This matches the internal layout used by exact-equity enumeration in the native core.
+
+## Helpers (`poker-calculations/encode`)
+
+```js
+const encode = require('poker-calculations/encode');
+
+const packed = encode.packCards(['Ah', 'Kh', 'Qh']);
+const strings = encode.unpackCards(packed);
+const id = encode.cardStringToDeckIndex('Ah'); // 50
+const card = encode.deckIndexToCardString(50); // 'Ah'
+const stateBytes = encode.packPokerState(gameState);
+const stateObj = encode.unpackPokerState(stateBytes);
+```
+
+Pre-pack once in your app, then pass `Uint8Array` into hot paths (`simulateHandOutcome`, `evaluateHandStrength`, `exactHuEquityVsRandomHand`, `decideAction` state, etc.) to avoid per-card string parsing at the N-API boundary.
+
+## TypeScript
+
+```ts
+import type { CardInput, Card52 } from 'poker-calculations';
+```
+
+## See also
+
+[Card notation](/docs/concepts/card-notation) · [Packed poker state](/docs/concepts/packed-poker-state)

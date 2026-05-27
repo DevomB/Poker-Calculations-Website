@@ -19,3 +19,13 @@ const poker = require('poker-calculations');
 ```
 
 The package publishes a CommonJS entry (`index.js`); use `createRequire` in native ESM projects.
+
+## Optional encode subpath
+
+```js
+const encode = require('poker-calculations/encode');
+const packed = encode.packCards(['Ah', 'Kh']);
+const stateBytes = encode.packPokerState(gameState);
+```
+
+Types: `import type { Card52 } from 'poker-calculations'`; encode helpers are documented under [Packed card input](/docs/concepts/packed-card-input).

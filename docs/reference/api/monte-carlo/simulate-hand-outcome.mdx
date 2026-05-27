@@ -7,7 +7,9 @@ sidebar_position: 1
 
 Estimated equity vs one or more random villain hands (default `villains = 1`).
 
-<div className="apiSignature">{`simulateHandOutcome(holeCards: string[], board: string[], numSimulations: number, seed: number, villains?: number): number`}</div>
+<div className="apiSignature">{`simulateHandOutcome(holeCards: CardInput, board: CardInput, numSimulations: number, seed: number, villains?: number): number`}</div>
+
+`CardInput` is `string[]` or `Uint8Array` of deck ids `0..51`. See [Card notation](/docs/concepts/card-notation).
 
 ## Import
 

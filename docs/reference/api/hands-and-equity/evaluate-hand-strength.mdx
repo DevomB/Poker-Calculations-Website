@@ -5,9 +5,11 @@ sidebar_position: 2
 
 # `evaluateHandStrength`
 
-Encoded strength as a decimal string (`uint64`: rank in high bits + five kicker nibbles). Comparable across spots.
+Encoded strength as a JavaScript `number` (`uint64` bit layout: rank in high bits + five kicker nibbles). Comparable across spots; exact integer in IEEE double for sort/compare loops.
 
-<div className="apiSignature">{`evaluateHandStrength(holeCards: string[], board: string[]): string`}</div>
+<div className="apiSignature">{`evaluateHandStrength(holeCards: CardInput, board: CardInput): number`}</div>
+
+`CardInput` is `string[]` or `Uint8Array` of deck ids `0..51`. See [Card notation](/docs/concepts/card-notation).
 
 ## Import
 
@@ -17,16 +19,20 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need a single sortable scalar for hero vs board—range ordering, fast filters, or bot heuristics when Monte Carlo count is zero.
+Use when you need a single sortable scalar for hero vs board—range ordering, fast filters, or bot heuristics when Monte Carlo count is zero. For high-volume paths, prefer [`evaluateHandStrengthFast`](./evaluate-hand-strength-fast) or pack cards once with [`poker-calculations/encode`](/docs/concepts/packed-card-input#helpers-poker-calculationsencode).
 
 ## How to use
 
 ```js
 const strength = poker.evaluateHandStrength(['Ah', 'Kh'], ['Qh', 'Jh', 'Th']);
-// Decimal string — compare with locale-independent numeric compare if needed
-console.log(strength);
+// number — use >, <, sort((a, b) => a - b)
+
+const { packCards } = require('poker-calculations/encode');
+const hole = packCards(['Ah', 'Kh']);
+const board = packCards(['Qh', 'Jh', 'Th']);
+const packed = poker.evaluateHandStrength(hole, board);
 ```
 
 ## See also
 
-[`evaluateHandStrengthFast`](/docs/reference/api/hands-and-equity/evaluate-hand-strength-fast) · [`benchmarkEvaluatorThroughput`](/docs/reference/api/hands-and-equity/benchmark-evaluator-throughput) · [`evaluateHandCategory`](/docs/reference/api/hands-and-equity/evaluate-hand-category)
+[`evaluateHandStrengthFast`](./evaluate-hand-strength-fast) · [`benchmarkEvaluatorThroughput`](./benchmark-evaluator-throughput) · [`evaluateHandCategory`](./evaluate-hand-category) · [Card notation](/docs/concepts/card-notation)

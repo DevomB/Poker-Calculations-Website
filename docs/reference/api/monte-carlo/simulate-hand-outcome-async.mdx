@@ -1,0 +1,38 @@
+---
+title: simulateHandOutcomeAsync
+sidebar_position: 5
+---
+
+# `simulateHandOutcomeAsync`
+
+<div className="apiSignature">{`simulateHandOutcomeAsync(holeCards: CardInput, board: CardInput, numSimulations: number, seed: number, villains?: number): Promise<number>`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Same as [`simulateHandOutcome`](./simulate-hand-outcome), but the work runs on the libuv thread pool so your event loop stays responsive—HTTP servers, Electron, and batch UIs.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const equity = await poker.simulateHandOutcomeAsync(['Ah', 'Kh'], ['Qh', 'Jh', '2c'], 8000, 42, 1);
+```
+
+## See also
+
+[`simulateHandOutcome`](./simulate-hand-outcome) · [Monte Carlo equity guide](/docs/guides/monte-carlo-equity)

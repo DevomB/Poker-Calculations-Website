@@ -4,6 +4,8 @@ title: Card notation
 
 # Card notation
 
+## String form
+
 | Part | Values |
 | --- | --- |
 | Rank | `2`–`9`, `J`, `Q`, `K`, `A`; ten as `T` or `10` (not both in one card) |
@@ -12,3 +14,25 @@ title: Card notation
 Examples: `Ah`, `Th`, `10c` (same card as `Tc`). After parsing, [`canonicalCardString`](/docs/reference/api/hands-and-equity/canonical-card-string) always uses `T` for ten (`Th`, not `10h`).
 
 Helpers: [`validateCardString`](/docs/reference/api/hands-and-equity/validate-card-string), [`canonicalCardString`](/docs/reference/api/hands-and-equity/canonical-card-string), [`parseCompactCardList`](/docs/reference/api/hands-and-equity/parse-compact-card-list).
+
+## Packed form (`CardInput`, v2+)
+
+Most card-list APIs also accept **`CardInput`**: a **`Uint8Array`** (or Node **`Buffer`**) of deck ids (`Card52`, bytes `0..51`):
+
+| Field | Meaning |
+| --- | --- |
+| Index | `rank * 4 + suit` |
+| rank | `0` = `2` … `12` = `A` |
+| suit | `0` = `c`, `1` = `d`, `2` = `h`, `3` = `s` |
+
+Example: `Ah` → `50`, `Kh` → `48`.
+
+Pack strings once, then pass bytes to hot paths (`evaluateHandStrength`, `simulateHandOutcome`, `decideAction`, …):
+
+```js
+const { packCards, unpackCards } = require('poker-calculations/encode');
+const hole = packCards(['Ah', 'Kh']); // Uint8Array
+unpackCards(hole); // ['Ah', 'Kh']
+```
+
+TypeScript: `CardInput = string[] | Uint8Array`, `Card52 = number` (see package `index.d.ts`). Full details: [Packed card input](/docs/concepts/packed-card-input).

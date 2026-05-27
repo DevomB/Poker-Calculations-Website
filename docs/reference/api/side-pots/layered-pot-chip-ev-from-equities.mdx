@@ -7,7 +7,9 @@ sidebar_position: 2
 
 Chip EV from per-layer pot sizes and per-player per-layer equities (columns sum to 1).
 
-<div className="apiSignature">{`layeredPotChipEvFromEquities(layerPotChips: number[], equityPlayerByLayer: number[][]): number[]`}</div>
+<div className="apiSignature">{`layeredPotChipEvFromEquities(layerPotChips: F64VectorInput, equityPlayerByLayer: number[][] | Float64Array, colsOrReturnFormat?: number | F64ReturnFormat, returnFormat?: F64ReturnFormat): number[] | Float64Array`}</div>
+
+For a flat equity matrix, pass `Float64Array` and `cols` (column count). See [Float64 ICM input](/docs/concepts/float64-icm-input).
 
 ## Import
 

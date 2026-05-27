@@ -1,0 +1,38 @@
+---
+title: parallelHandSimulationAsync
+sidebar_position: 6
+---
+
+# `parallelHandSimulationAsync`
+
+<div className="apiSignature">{`parallelHandSimulationAsync(holeCards: CardInput, board: CardInput, numSimulations: number, baseSeed: number, villains: number, numThreads: number): Promise<number>`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Non-blocking version of [`parallelHandSimulation`](./parallel-hand-simulation).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const eq = await poker.parallelHandSimulationAsync(hole, board, 20_000, 99, 1, 4);
+```
+
+## See also
+
+[`parallelHandSimulation`](./parallel-hand-simulation)

@@ -1,0 +1,57 @@
+---
+title: Batch equity
+---
+
+# Batch equity
+
+When you need equity or strength for **many spots**, batch exports cross the N-API boundary once instead of looping sync calls.
+
+:::tip[When to batch]
+Use batch APIs for range grids, sim dashboards, and prefetch pipelines where JS would otherwise call `simulateHandOutcome` hundreds of times.
+:::
+
+## Object batch — Monte Carlo
+
+```js
+const poker = require('poker-calculations');
+
+const specs = [
+  { holeCards: ['Ah', 'Kh'], board: ['Qh', 'Jh', '2c'], numSimulations: 8000, seed: 42, villains: 1 },
+  { holeCards: ['9s', '9d'], board: ['Qh', 'Jh', '2c'], numSimulations: 8000, seed: 43, villains: 1 },
+];
+
+const equities = poker.simulateHandOutcomeBatch(specs);
+// Float64Array — same values as looping simulateHandOutcome per spec
+```
+
+Optional preallocated output:
+
+```js
+const out = new Float64Array(specs.length);
+poker.simulateHandOutcomeBatch(specs, out);
+```
+
+## Packed batch
+
+```js
+const encode = require('poker-calculations/encode');
+
+const holes = encode.packCards(['Ah', 'Kh']);
+const boards = encode.packCards(['Qh', 'Jh', '2c', '9d', '4s']);
+const meta = new Uint32Array([8000, 42, 1]); // numSim, seed, villains
+
+const eq = poker.simulateHandOutcomeBatchPacked(holes, boards, meta);
+```
+
+For `n` spots: `holes` length `2n`, `boards` length `5n`, `meta` length `3n`.
+
+## Strength and exact HU batches
+
+```js
+const strengths = poker.evaluateHandStrengthFastBatch(holesPacked, boardsPacked, 5);
+const exact = poker.exactHuEquityVsRandomHandBatch(holesPacked, boardsPacked, 3);
+```
+
+## See also
+
+[`simulateHandOutcomeBatch`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch) · [`simulateHandOutcomeBatchPacked`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch-packed) · [Packed card input](/docs/concepts/packed-card-input)

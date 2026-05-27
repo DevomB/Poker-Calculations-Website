@@ -195,25 +195,33 @@ export default function Home(): React.ReactNode {
               </div>
               <pre className={styles.codeBlock} aria-label="Example usage">
                 <code>
-                  <span className={styles.codeComment}>{`// Equity vs. random opponent on the flop`}</span>
+                  <span className={styles.codeComment}>{`// Equity vs. random villain on the flop`}</span>
                   {`\n`}
-                  <span className={styles.codeKeyword}>import</span>
-                  {` { monteCarloEquity } `}
-                  <span className={styles.codeKeyword}>from</span>
-                  {` `}
-                  <span className={styles.codeString}>{`'poker-calculations'`}</span>
-                  {`;\n\n`}
                   <span className={styles.codeKeyword}>const</span>
-                  {` equity = `}
-                  <span className={styles.codeFunc}>monteCarloEquity</span>
-                  {`({\n  hero: `}
-                  <span className={styles.codeString}>{`'As Ks'`}</span>
-                  {`,\n  board: `}
-                  <span className={styles.codeString}>{`'Qd Jh 2c'`}</span>
-                  {`,\n  iterations: `}
+                  {` poker = `}
+                  <span className={styles.codeFunc}>require</span>
+                  {`(`}
+                  <span className={styles.codeString}>{`'poker-calculations'`}</span>
+                  {`);\n\n`}
+                  <span className={styles.codeKeyword}>const</span>
+                  {` equity = poker.`}
+                  <span className={styles.codeFunc}>simulateHandOutcome</span>
+                  {`(\n  [`}
+                  <span className={styles.codeString}>{`'As'`}</span>
+                  {`, `}
+                  <span className={styles.codeString}>{`'Ks'`}</span>
+                  {`],\n  [`}
+                  <span className={styles.codeString}>{`'Qd'`}</span>
+                  {`, `}
+                  <span className={styles.codeString}>{`'Jh'`}</span>
+                  {`, `}
+                  <span className={styles.codeString}>{`'2c'`}</span>
+                  {`],\n  `}
                   <span className={styles.codeNumber}>50_000</span>
-                  {`,\n});\n\n`}
-                  <span className={styles.codeComment}>{`// → { win: 0.71, tie: 0.01, lose: 0.28 }`}</span>
+                  {`,\n  `}
+                  <span className={styles.codeNumber}>42</span>
+                  {`,\n);\n\n`}
+                  <span className={styles.codeComment}>{`// → 0.71 (estimated win rate)`}</span>
                 </code>
               </pre>
             </div>

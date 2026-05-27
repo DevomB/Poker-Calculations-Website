@@ -1,0 +1,19 @@
+---
+title: SimBatchSpec
+---
+
+# `SimBatchSpec`
+
+Object shape for [`simulateHandOutcomeBatch`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch).
+
+```ts
+interface SimBatchSpec {
+  holeCards: CardInput;
+  board: CardInput;
+  numSimulations: number;
+  seed: number;
+  villains?: number;
+}
+```
+
+`CardInput` is `string[]` or packed `Uint8Array`. See [Batch equity](/docs/guides/batch-equity).

@@ -4,13 +4,17 @@ on:
   push:
     paths:
       - 'Website/**'
-      - 'NPM/native/binding.cpp'
+      - 'NPM/native/**'
       - 'NPM/index.d.ts'
+      - 'NPM/encode.js'
+      - 'NPM/encode.d.ts'
   pull_request:
     paths:
       - 'Website/**'
-      - 'NPM/native/binding.cpp'
+      - 'NPM/native/**'
       - 'NPM/index.d.ts'
+      - 'NPM/encode.js'
+      - 'NPM/encode.d.ts'
 
 defaults:
   run:

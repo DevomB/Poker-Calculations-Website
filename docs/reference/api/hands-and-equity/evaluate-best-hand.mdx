@@ -7,7 +7,7 @@ sidebar_position: 1
 
 Best five of **1–7** cards; returns `{ rank, kickers }` (`HandEvalResult`).
 
-<div className="apiSignature">{`evaluateBestHand(cards: string[]): HandEvalResult`}</div>
+<div className="apiSignature">{`evaluateBestHand(cards: CardInput): HandEvalResult`}</div>
 
 ## Import
 
@@ -35,8 +35,8 @@ console.log(hand.rank);    // e.g. twoPair
 console.log(hand.kickers); // length 5 — internal tie-break encoding
 ```
 
-Throws if any card string is invalid or duplicated.
+Throws if any card is invalid or duplicated. Accepts packed `Uint8Array` via `CardInput` — see [Card notation](/docs/concepts/card-notation).
 
 ## See also
 
-[`compareBestHands`](/docs/reference/api/hands-and-equity/compare-best-hands) · [`evaluateHandCategory`](/docs/reference/api/hands-and-equity/evaluate-hand-category)
+[`compareBestHands`](/docs/reference/api/hands-and-equity/compare-best-hands) · [`evaluateHandCategory`](/docs/reference/api/hands-and-equity/evaluate-hand-category) · [Card notation](/docs/concepts/card-notation)

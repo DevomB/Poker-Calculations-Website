@@ -4,8 +4,15 @@ title: Monte Carlo equity
 
 # Monte Carlo equity
 
+Card lists accept **`CardInput`** (`string[]` or packed `Uint8Array`) — see [Packed card input](/docs/concepts/packed-card-input).
+
 - [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome) — single-threaded estimate vs random villain(s)
+- [`simulateHandOutcomeAsync`](/docs/reference/api/monte-carlo/simulate-hand-outcome-async) — same, non-blocking
 - [`parallelHandSimulation`](/docs/reference/api/monte-carlo/parallel-hand-simulation) — chunked workers with distinct seeds
+- [`parallelHandSimulationAsync`](/docs/reference/api/monte-carlo/parallel-hand-simulation-async) — non-blocking parallel MC
+- [`simulateHandOutcomeBatch`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch) — many spots → `Float64Array`
 - [`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand) — exact enumeration (board 3–5 cards)
+
+See [Batch equity](/docs/guides/batch-equity) for packed batch layouts.
 
 Use a fixed `seed` for reproducible research; increase `numSimulations` until [`monteCarloStandardError`](/docs/reference/api/statistics-and-risk/monte-carlo-standard-error) is acceptable.

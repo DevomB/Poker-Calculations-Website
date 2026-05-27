@@ -7,7 +7,7 @@ sidebar_position: 10
 
 Compare best 1–7 card lists; returns `-1` / `0` / `1`. Throws on overlap or invalid cards.
 
-<div className="apiSignature">{`compareBestHands(cardsA: string[], cardsB: string[]): number`}</div>
+<div className="apiSignature">{`compareBestHands(cardsA: CardInput, cardsB: CardInput): number`}</div>
 
 ## Import
 
@@ -28,6 +28,8 @@ const cmp = poker.compareBestHands(
 );
 // cmp < 0 → first hand wins; 0 → tie; > 0 → second wins
 ```
+
+Both sides accept `CardInput` (`string[]` or packed `Uint8Array`). See [Packed card input](/docs/concepts/packed-card-input).
 
 ## See also
 

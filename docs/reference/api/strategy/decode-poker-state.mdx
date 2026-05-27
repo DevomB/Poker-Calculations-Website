@@ -1,0 +1,38 @@
+---
+title: decodePokerState
+sidebar_position: 4
+---
+
+# `decodePokerState`
+
+<div className="apiSignature">{`decodePokerState(bytes: PokerStateBytes): NativePokerState`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Inspect PKST bytes or round-trip for debugging.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const state = poker.decodePokerState(bytes);
+```
+
+## See also
+
+[`encodePokerState`](./encode-poker-state) · [Packed poker state](/docs/concepts/packed-poker-state)

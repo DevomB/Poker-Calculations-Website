@@ -7,7 +7,9 @@ sidebar_position: 1
 
 Rule-based action using MC equity (or strength fallback when sim count is 0), pot odds, call EV; see [decideAction contract](/docs/reference/types/native-poker-state).
 
-<div className="apiSignature">{`decideAction(state: NativePokerState, config: NativeBotConfig, opponentModel?: NativeOpponentModel | null, heroSeat?: number): DecisionResult`}</div>
+<div className="apiSignature">{`decideAction(state: NativePokerState | PokerStateBytes, config: NativeBotConfig, opponentModel?: NativeOpponentModel | null, heroSeat?: number): DecisionResult`}</div>
+
+`PokerStateBytes` is PKST v1 from [`encodePokerState`](./encode-poker-state). See [Packed poker state](/docs/concepts/packed-poker-state).
 
 ## Import
 
@@ -58,4 +60,4 @@ console.log(decision.action, decision.raiseBy);
 
 ## See also
 
-[decideAction guide](/docs/guides/decide-action) · [`NativeBotConfig`](/docs/reference/types/native-bot-config)
+[decideAction guide](/docs/guides/decide-action) · [`decideActionAsync`](./decide-action-async) · [`NativeBotConfig`](/docs/reference/types/native-bot-config)

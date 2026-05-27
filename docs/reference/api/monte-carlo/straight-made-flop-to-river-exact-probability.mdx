@@ -7,7 +7,9 @@ sidebar_position: 4
 
 Exact probability of straight or better in hero’s best 7 after uniform random unordered turn+river from remaining deck.
 
-<div className="apiSignature">{`straightMadeFlopToRiverExactProbability(heroHoleCards: string[], flopThree: string[], knownDead: string[]): number`}</div>
+<div className="apiSignature">{`straightMadeFlopToRiverExactProbability(heroHoleCards: CardInput, flopThree: CardInput, knownDead: CardInput): number`}</div>
+
+All three card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
 
 ## Import
 
