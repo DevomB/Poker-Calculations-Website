@@ -3,6 +3,7 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import path from 'node:path';
 import {createRequire} from 'node:module';
+import {npmDownloadsFormatted} from './src/generated/npm-downloads';
 
 const require = createRequire(__filename);
 const pokerPkgRoot = path.dirname(require.resolve('poker-calculations'));
@@ -156,6 +157,7 @@ const config: Config = {
 
   customFields: {
     packageVersion: npmPkg.version,
+    npmDownloadsFormatted,
   },
 };
 

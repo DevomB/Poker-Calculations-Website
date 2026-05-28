@@ -1,6 +1,6 @@
 {
   "installCommand": "pnpm install",
-  "buildCommand": "pnpm check:docs && pnpm validate:snippets && pnpm build",
+  "buildCommand": "pnpm fetch:downloads && pnpm check:docs && pnpm validate:snippets && pnpm build",
   "outputDirectory": "build",
   "framework": null,
   "redirects": [

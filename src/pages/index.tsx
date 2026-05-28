@@ -93,8 +93,12 @@ function PlayingCard({
 
 export default function Home(): React.ReactNode {
   const {siteConfig} = useDocusaurusContext();
-  const version =
-    (siteConfig.customFields as {packageVersion?: string})?.packageVersion ?? '';
+  const customFields = siteConfig.customFields as {
+    packageVersion?: string;
+    npmDownloadsFormatted?: string;
+  };
+  const version = customFields?.packageVersion ?? '';
+  const npmDownloadsFormatted = customFields?.npmDownloadsFormatted ?? '1.6k';
 
   return (
     <Layout
@@ -154,7 +158,7 @@ export default function Home(): React.ReactNode {
               <span>dependencies</span>
             </li>
             <li>
-              <strong>1.6k</strong>
+              <strong>{npmDownloadsFormatted}</strong>
               <span>Downloads</span>
             </li>
             <li>
