@@ -16,13 +16,13 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Build
 
 ```bash
-pnpm fetch:downloads   # optional locally; Vercel runs this before build
+pnpm fetch:downloads   # refresh hero download stat (optional locally)
 pnpm check:docs
 pnpm build
 pnpm serve
 ```
 
-`fetch:downloads` calls the npm downloads API and writes `src/generated/npm-downloads.ts` (committed so `pnpm start` works offline). Vercel runs it via `vercel.json` before each deploy.
+`fetch:downloads` calls the npm downloads API and writes `src/data/downloads.json` (committed so `pnpm start` works offline). Vercel runs it via `vercel.json` before each deploy.
 
 ## Deploy on Vercel
 

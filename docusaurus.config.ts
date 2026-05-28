@@ -1,9 +1,9 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import fs from 'node:fs';
 import path from 'node:path';
 import {createRequire} from 'node:module';
-import {npmDownloadsFormatted} from './src/generated/npm-downloads';
 
 const require = createRequire(__filename);
 const pokerPkgRoot = path.dirname(require.resolve('poker-calculations'));
@@ -11,6 +11,19 @@ const npmPkg = require(path.join(pokerPkgRoot, 'package.json')) as {
   version: string;
   name: string;
 };
+
+const downloadsPath = path.join(__dirname, 'src/data/downloads.json');
+let downloadsFormatted = '1.6k';
+try {
+  const data = JSON.parse(fs.readFileSync(downloadsPath, 'utf8')) as {
+    formatted?: string;
+  };
+  if (data.formatted) {
+    downloadsFormatted = data.formatted;
+  }
+} catch {
+  // missing on first clone — fallback
+}
 
 const config: Config = {
   title: 'Poker Calculations',
@@ -157,7 +170,7 @@ const config: Config = {
 
   customFields: {
     packageVersion: npmPkg.version,
-    npmDownloadsFormatted,
+    downloadsFormatted,
   },
 };
 

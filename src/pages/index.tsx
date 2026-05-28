@@ -95,10 +95,10 @@ export default function Home(): React.ReactNode {
   const {siteConfig} = useDocusaurusContext();
   const customFields = siteConfig.customFields as {
     packageVersion?: string;
-    npmDownloadsFormatted?: string;
+    downloadsFormatted?: string;
   };
   const version = customFields?.packageVersion ?? '';
-  const npmDownloadsFormatted = customFields?.npmDownloadsFormatted ?? '1.6k';
+  const downloadsFormatted = customFields?.downloadsFormatted ?? '1.6k';
 
   return (
     <Layout
@@ -158,7 +158,7 @@ export default function Home(): React.ReactNode {
               <span>dependencies</span>
             </li>
             <li>
-              <strong>{npmDownloadsFormatted}</strong>
+              <strong>{downloadsFormatted}</strong>
               <span>Downloads</span>
             </li>
             <li>
