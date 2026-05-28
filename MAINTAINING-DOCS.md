@@ -2,7 +2,7 @@
 
 API pages under `docs/reference/api/` are **hand-written MDX**. Do not generate doc content from `index.d.ts` or `binding.cpp`.
 
-**Do not add migration guides** (`migrating-v2`, `MIGRATION_v2.md`, versioned upgrade pages, or “added in vX” labels). Document current behavior only. Removed exports may keep a short unlisted stub page (see below).
+**Do not add migration guides** (`migrating-v2`, `MIGRATION_v2.md`, versioned upgrade pages, or “added in vX” labels). Document current behavior only. Do not keep stub pages for removed exports—delete the MDX and update `check:docs` if needed.
 
 When the NPM package adds or renames an export:
 
@@ -16,4 +16,4 @@ When the NPM package adds or renames an export:
    pnpm build
    ```
 
-`check:docs` verifies every `PokerCalculations` export in `index.d.ts` has a corresponding MDX slug. Removed exports may keep a short stub page listed in `ALLOWED_EXTRA_DOC_SLUGS` in `scripts/check-docs-coverage.mjs`.
+`check:docs` verifies every `PokerCalculations` export in `index.d.ts` has a corresponding MDX slug, and that every API MDX page maps to a current export.

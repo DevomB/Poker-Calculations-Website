@@ -50,12 +50,6 @@ function toSlug(name) {
 }
 
 const missing = [];
-/** MDX stub pages for removed exports; not in index.d.ts */
-const ALLOWED_EXTRA_DOC_SLUGS = new Set([
-  'evaluate-hand-strength-scalar',
-  'evaluate-hand-strength-fast-scalar',
-]);
-
 const extra = [];
 for (const name of unique) {
   const slug = toSlug(name);
@@ -63,7 +57,7 @@ for (const name of unique) {
 }
 for (const slug of docSlugs) {
   const expected = unique.find((n) => toSlug(n) === slug);
-  if (!expected && !ALLOWED_EXTRA_DOC_SLUGS.has(slug)) extra.push(slug);
+  if (!expected) extra.push(slug);
 }
 
 if (missing.length || extra.length) {
@@ -73,6 +67,33 @@ if (missing.length || extra.length) {
   if (extra.length) {
     console.error('Extra doc slugs without export:', extra.join(', '));
   }
+  process.exit(1);
+}
+
+const countsByCategory = Object.fromEntries(
+  categories.map((cat) => [
+    cat,
+    readdirSync(join(apiRoot, cat)).filter((f) => f.endsWith('.mdx') && f !== 'index.mdx').length,
+  ]),
+);
+
+const overviewPath = join(apiRoot, 'index.mdx');
+const overview = readFileSync(overviewPath, 'utf8');
+const countMismatches = [];
+for (const m of overview.matchAll(
+  /\|\s*\[([^\]]+)\]\(\/docs\/reference\/api\/([^)]+)\)\s*\|\s*(\d+)\s*\|/g,
+)) {
+  const slug = m[2];
+  const claimed = Number(m[3]);
+  const actual = countsByCategory[slug];
+  if (actual === undefined) {
+    countMismatches.push(`unknown category slug in overview: ${slug}`);
+  } else if (actual !== claimed) {
+    countMismatches.push(`${slug}: overview says ${claimed}, folder has ${actual}`);
+  }
+}
+if (countMismatches.length) {
+  console.error('API overview export counts mismatch:', countMismatches.join('; '));
   process.exit(1);
 }
 

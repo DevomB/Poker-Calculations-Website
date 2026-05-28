@@ -4,7 +4,7 @@ title: 'Errors & validation'
 
 # Errors and validation
 
-Invalid or duplicate cards throw `Error` from native code. Overlapping card sets between two hands throw on [`compareBestHands`](/docs/reference/api/hands-and-equity/compare-best-hands).
+Invalid or duplicate cards throw `Error` from native code. Overlapping card sets between two hands throw on [`compareBestHands`](/docs/reference/api/hands-and-equity/compare-best-hands) unless you pass `{ assumeDisjoint: true }` and **guarantee** the two lists share no deck ids (within-hand duplicates are still rejected; wrong overlap guarantees produce incorrect comparison results).
 
 For **packed** `Uint8Array` / Node `Buffer` input, each byte must be a deck id **`0..51`**; invalid bytes include an index in the message (for example `invalid packed card at index 2`).
 

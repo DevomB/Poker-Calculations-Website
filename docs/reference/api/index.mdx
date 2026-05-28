@@ -12,8 +12,8 @@ slug: /reference/api
 | [Hands & equity](/docs/reference/api/hands-and-equity) | 13 |
 | [Monte Carlo](/docs/reference/api/monte-carlo) | 11 |
 | [Strategy](/docs/reference/api/strategy) | 4 |
-| [Pot & EV](/docs/reference/api/pot-and-ev) | 12 |
-| [Stacks & display](/docs/reference/api/stacks-and-display) | 14 |
+| [Pot & EV](/docs/reference/api/pot-and-ev) | 11 |
+| [Stacks & display](/docs/reference/api/stacks-and-display) | 15 |
 | [Heuristics & draws](/docs/reference/api/heuristics-and-draws) | 14 |
 | [Reverse implied](/docs/reference/api/reverse-implied) | 2 |
 | [Statistics & risk](/docs/reference/api/statistics-and-risk) | 9 |
@@ -26,3 +26,7 @@ slug: /reference/api
 | [Side pots](/docs/reference/api/side-pots) | 3 |
 
 [TypeScript types](/docs/reference/types/native-poker-state) for `decideAction` and result objects. [`AsyncOptions`](/docs/reference/types/async-options) documents optional `AbortSignal` cancellation on all `*Async` exports.
+
+## `poker-calculations/encode` subpath
+
+Six pure-JS helpers (`packCards`, `unpackCards`, `cardStringToDeckIndex`, `deckIndexToCardString`, `packPokerState`, `unpackPokerState`) ship on the optional subpath—no extra native exports. See [Packed card input](/docs/concepts/packed-card-input#helpers-poker-calculationsencode) and [Packed poker state](/docs/concepts/packed-poker-state#encodejs-helpers).

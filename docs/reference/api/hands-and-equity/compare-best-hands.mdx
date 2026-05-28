@@ -5,9 +5,9 @@ sidebar_position: 10
 
 # `compareBestHands`
 
-Compare best 1–7 card lists; returns `-1` / `0` / `1`. Throws on overlap or invalid cards.
+Compare best 1–7 card lists; returns `-1` / `0` / `1`. Throws on overlap or invalid cards (unless `assumeDisjoint: true`).
 
-<div className="apiSignature">{`compareBestHands(cardsA: CardInput, cardsB: CardInput): number`}</div>
+<div className="apiSignature">{`compareBestHands(cardsA: CardInput, cardsB: CardInput, options?: { assumeDisjoint?: boolean }): number`}</div>
 
 ## Import
 
@@ -30,6 +30,12 @@ const cmp = poker.compareBestHands(
 ```
 
 Both sides accept `CardInput` (`string[]` or packed `Uint8Array`). See [Packed card input](/docs/concepts/packed-card-input).
+
+When you know the two lists cannot share a card (e.g. pre-partitioned deck ids), pass `{ assumeDisjoint: true }` to skip the overlap check. Within-hand duplicates are still rejected; passing overlapping hands with this flag produces incorrect results.
+
+```js
+const cmpFast = poker.compareBestHands(packA, packB, { assumeDisjoint: true });
+```
 
 ## See also
 
