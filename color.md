@@ -93,7 +93,7 @@ consume tokens, never hard-code hex values in components.**
 | `--poker-border`            | `--poker-ink-500`      | Hairlines between surfaces — default border.        |
 | `--poker-border-strong`     | `--poker-ink-400`      | Form-control borders, the ghost button.             |
 | `--poker-text`              | `--poker-chip-50`      | Headings & primary copy.                            |
-| `--poker-text-muted`        | `--poker-chip-300`     | Helper, captions, "98 exports" counts.              |
+| `--poker-text-muted`        | `--poker-chip-300`     | Helper, captions, export counts.                    |
 | `--poker-primary`           | `--poker-gold-500`     | The single brand accent — CTAs, brand mark.         |
 | `--poker-primary-hover`     | `--poker-gold-400`     | Hover state of the above.                           |
 | `--poker-accent`            | `--poker-felt-500`     | Secondary accent (success, prompt, OK).             |
