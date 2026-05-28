@@ -2,6 +2,8 @@
 
 Official docs for [`poker-calculations`](https://www.npmjs.com/package/poker-calculations), built with Docusaurus.
 
+**Agents:** Read [AGENTS.md](./AGENTS.md) before changing dependencies — this site deploys separately from the npm package repo; do not use `file:../NPM` in committed `package.json` / lockfile.
+
 ## Development
 
 ```bash

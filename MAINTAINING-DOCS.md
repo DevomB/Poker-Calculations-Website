@@ -1,5 +1,7 @@
 # Maintaining documentation
 
+**Cross-repo / CI:** See [AGENTS.md](./AGENTS.md) — do not commit `file:../NPM` or other local path dependencies; use a published `poker-calculations` version and an updated `pnpm-lock.yaml`.
+
 API pages under `docs/reference/api/` are **hand-written MDX**. Do not generate doc content from `index.d.ts` or `binding.cpp`.
 
 **Do not add migration guides** (`migrating-v2`, `MIGRATION_v2.md`, versioned upgrade pages, or “added in vX” labels). Document current behavior only. Do not keep stub pages for removed exports—delete the MDX and update `check:docs` if needed.

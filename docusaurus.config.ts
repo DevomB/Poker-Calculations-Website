@@ -1,10 +1,12 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import path from 'node:path';
 import {createRequire} from 'node:module';
 
 const require = createRequire(__filename);
-const npmPkg = require('poker-calculations/package.json') as {
+const pokerPkgRoot = path.dirname(require.resolve('poker-calculations'));
+const npmPkg = require(path.join(pokerPkgRoot, 'package.json')) as {
   version: string;
   name: string;
 };
