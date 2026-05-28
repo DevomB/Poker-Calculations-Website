@@ -61,6 +61,12 @@ const config: Config = {
 
   plugins: [
     [
+      'vercel-analytics',
+      {
+        mode: 'auto',
+      },
+    ],
+    [
       require.resolve('@easyops-cn/docusaurus-search-local'),
       {
         hashed: true,
