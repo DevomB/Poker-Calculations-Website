@@ -21,6 +21,8 @@ const poker = require('poker-calculations');
 
 Use when you need the same sortable strength scalar as `evaluateHandStrength` but want the faster evaluator (for example high-volume sims or batch ranking). Compare paths with [`benchmarkEvaluatorThroughput`](./benchmark-evaluator-throughput) on your hardware.
 
+Combined hole and board must be **at most 7** cards (standard Hold'em). With more than seven cards total, [`evaluateHandStrength`](./evaluate-hand-strength) still picks the best five from the full list; the fast path uses only the **first seven** (all hole cards, then board cards in order).
+
 ## How to use
 
 ```js

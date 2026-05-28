@@ -44,6 +44,16 @@ const chipEv = poker.layeredPotChipEvFromEquities(layerPots, equities);
 console.log(chipEv); // expected chips per player
 ```
 
+Flat `Float64Array` (row-major, `players × layers`):
+
+```js
+// 3 players × 2 layers — same numbers as the nested array above
+const flat = new Float64Array([0.55, 0.10, 0.30, 0.60, 0.15, 0.30]);
+const chipEvFlat = poker.layeredPotChipEvFromEquities(layerPots, flat, 2);
+```
+
+See [Float64 ICM input](/docs/concepts/float64-icm-input) for `returnFormat: 'float64'` on the result.
+
 ## See also
 
 [`sidePotLadderFromCommitments`](/docs/reference/api/side-pots/side-pot-ladder-from-commitments) · [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome)
