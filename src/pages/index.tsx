@@ -124,7 +124,7 @@ export default function Home(): React.ReactNode {
 
           <ul className={styles.heroStats}>
             <li>
-              <strong>98</strong>
+              <strong>110</strong>
               <span>functions</span>
             </li>
             <li>
@@ -132,8 +132,8 @@ export default function Home(): React.ReactNode {
               <span>dependencies</span>
             </li>
             <li>
-              <strong>TS</strong>
-              <span>first-class types</span>
+              <strong>1.6k</strong>
+              <span>Downloads</span>
             </li>
             <li>
               <strong>MIT</strong>
