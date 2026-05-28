@@ -1,0 +1,30 @@
+---
+title: AsyncOptions
+---
+
+# `AsyncOptions`
+
+Optional trailing argument on all six `*Async` exports for cooperative cancellation.
+
+```ts
+interface AsyncOptions {
+  signal?: AbortSignal;
+}
+```
+
+When `signal` is aborted before or during work, the Promise rejects with `AbortError` (`DOMException` on Node 18+). Long-running C++ paths (Monte Carlo, exact enumeration, evaluator benchmark, `decideAction` MC) poll the signal and stop promptly.
+
+```js
+const ac = new AbortController();
+const pending = poker.simulateHandOutcomeAsync(
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', '2c'],
+  500_000,
+  42,
+  1,
+  { signal: ac.signal },
+);
+// ac.abort(); // rejects pending with AbortError
+```
+
+Applies to: [`simulateHandOutcomeAsync`](/docs/reference/api/monte-carlo/simulate-hand-outcome-async), [`parallelHandSimulationAsync`](/docs/reference/api/monte-carlo/parallel-hand-simulation-async), [`exactHuEquityVsRandomHandAsync`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand-async), [`straightMadeFlopToRiverExactProbabilityAsync`](/docs/reference/api/monte-carlo/straight-made-flop-to-river-exact-probability-async), [`decideActionAsync`](/docs/reference/api/strategy/decide-action-async), [`benchmarkEvaluatorThroughputAsync`](/docs/reference/api/hands-and-equity/benchmark-evaluator-throughput-async).

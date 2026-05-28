@@ -5,7 +5,7 @@ sidebar_position: 5
 
 # `simulateHandOutcomeAsync`
 
-<div className="apiSignature">{`simulateHandOutcomeAsync(holeCards: CardInput, board: CardInput, numSimulations: number, seed: number, villains?: number): Promise<number>`}</div>
+<div className="apiSignature">{`simulateHandOutcomeAsync(holeCards: CardInput, board: CardInput, numSimulations: number, seed: number, villains?: number, options?: AsyncOptions): Promise<number>`}</div>
 
 ## Import
 
@@ -25,14 +25,27 @@ const poker = require('poker-calculations');
 
 Same as [`simulateHandOutcome`](./simulate-hand-outcome), but the work runs on the libuv thread pool so your event loop stays responsive—HTTP servers, Electron, and batch UIs.
 
+Pass optional [`AsyncOptions`](/docs/reference/types/async-options) to cancel long runs via `AbortSignal`.
+
 ## How to use
 
 ```js
 const poker = require('poker-calculations');
 
 const equity = await poker.simulateHandOutcomeAsync(['Ah', 'Kh'], ['Qh', 'Jh', '2c'], 8000, 42, 1);
+
+const ac = new AbortController();
+const pending = poker.simulateHandOutcomeAsync(
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', '2c'],
+  500_000,
+  42,
+  1,
+  { signal: ac.signal },
+);
+// ac.abort(); // Promise rejects with AbortError
 ```
 
 ## See also
 
-[`simulateHandOutcome`](./simulate-hand-outcome) · [Monte Carlo equity guide](/docs/guides/monte-carlo-equity)
+[`simulateHandOutcome`](./simulate-hand-outcome) · [Monte Carlo equity guide](/docs/guides/monte-carlo-equity) · [`AsyncOptions`](/docs/reference/types/async-options)

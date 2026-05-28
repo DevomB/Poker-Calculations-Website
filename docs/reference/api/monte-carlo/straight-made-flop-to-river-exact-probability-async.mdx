@@ -5,7 +5,7 @@ sidebar_position: 8
 
 # `straightMadeFlopToRiverExactProbabilityAsync`
 
-<div className="apiSignature">{`straightMadeFlopToRiverExactProbabilityAsync(heroHoleCards: CardInput, flopThree: CardInput, knownDead: CardInput): Promise<number>`}</div>
+<div className="apiSignature">{`straightMadeFlopToRiverExactProbabilityAsync(heroHoleCards: CardInput, flopThree: CardInput, knownDead: CardInput, options?: AsyncOptions): Promise<number>`}</div>
 
 ## Import
 
@@ -23,7 +23,7 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Async sibling of [`straightMadeFlopToRiverExactProbability`](./straight-made-flop-to-river-exact-probability).
+Async sibling of [`straightMadeFlopToRiverExactProbability`](./straight-made-flop-to-river-exact-probability). Optional [`AsyncOptions`](/docs/reference/types/async-options) for `AbortSignal` cancellation.
 
 ## How to use
 
@@ -31,8 +31,14 @@ Async sibling of [`straightMadeFlopToRiverExactProbability`](./straight-made-flo
 const poker = require('poker-calculations');
 
 const p = await poker.straightMadeFlopToRiverExactProbabilityAsync(hole, flop, dead);
+
+const ac = new AbortController();
+const pending = poker.straightMadeFlopToRiverExactProbabilityAsync(hole, flop, dead, {
+  signal: ac.signal,
+});
+// ac.abort(); // Promise rejects with AbortError
 ```
 
 ## See also
 
-[`straightMadeFlopToRiverExactProbability`](./straight-made-flop-to-river-exact-probability)
+[`straightMadeFlopToRiverExactProbability`](./straight-made-flop-to-river-exact-probability) · [`AsyncOptions`](/docs/reference/types/async-options)

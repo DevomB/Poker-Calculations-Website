@@ -5,7 +5,7 @@ sidebar_position: 12
 
 # `benchmarkEvaluatorThroughputAsync`
 
-<div className="apiSignature">{`benchmarkEvaluatorThroughputAsync(iterations?: number): Promise<EvaluatorBenchmarkResult>`}</div>
+<div className="apiSignature">{`benchmarkEvaluatorThroughputAsync(iterations?: number, options?: AsyncOptions): Promise<EvaluatorBenchmarkResult>`}</div>
 
 ## Import
 
@@ -23,7 +23,7 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Run evaluator benchmarks without blocking the event loop.
+Run evaluator benchmarks without blocking the event loop. Optional [`AsyncOptions`](/docs/reference/types/async-options) cancel via `AbortSignal`. You may pass only `{ signal }` when `iterations` is omitted (defaults to 200000).
 
 ## How to use
 
@@ -31,8 +31,12 @@ Run evaluator benchmarks without blocking the event loop.
 const poker = require('poker-calculations');
 
 const bench = await poker.benchmarkEvaluatorThroughputAsync(50_000);
+
+const ac = new AbortController();
+const pending = poker.benchmarkEvaluatorThroughputAsync(500_000, { signal: ac.signal });
+// ac.abort(); // Promise rejects with AbortError
 ```
 
 ## See also
 
-[`benchmarkEvaluatorThroughput`](./benchmark-evaluator-throughput)
+[`benchmarkEvaluatorThroughput`](./benchmark-evaluator-throughput) · [`AsyncOptions`](/docs/reference/types/async-options)

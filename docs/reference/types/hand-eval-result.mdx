@@ -4,11 +4,15 @@ title: HandEvalResult
 
 # HandEvalResult
 
-Return type of [`evaluateBestHand`](/docs/reference/api/hands-and-equity/evaluate-best-hand).
+Return type of [`evaluateBestHand`](/docs/reference/api/hands-and-equity/evaluate-best-hand) when `format` is omitted or `'full'`.
 
 | Field | Type | Meaning |
 | --- | --- | --- |
-| `rank` | `string` | Category label (`twoPair`, `flush`, …) — see [hand rank labels](/docs/concepts/hand-rank-labels) |
+| `rank` | `string` | Category label (`twoPair`, `flush`, …) — interned at module load; see [hand rank labels](/docs/concepts/hand-rank-labels) |
+| `rankCategory` | `number` | Integer `0..9` — same order as [`handRankCategoryOrder`](/docs/reference/api/hands-and-equity/hand-rank-category-order) |
+| `strength` | `number` | Encoded strength — same bit layout as [`evaluateHandStrength`](/docs/reference/api/hands-and-equity/evaluate-hand-strength) |
 | `kickers` | `number[]` | Five encoded kicker values for tie-breaking within the category |
 
-For category only (no kickers), use [`evaluateHandCategory`](/docs/reference/api/hands-and-equity/evaluate-hand-category).
+For category + strength only (no `rank` string or `kickers` array), pass `{ format: 'slim' }` — see [`HandEvalResultSlim`](/docs/reference/types/hand-eval-result-slim).
+
+For category label only (no kickers), use [`evaluateHandCategory`](/docs/reference/api/hands-and-equity/evaluate-hand-category).

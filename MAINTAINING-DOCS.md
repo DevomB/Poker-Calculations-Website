@@ -2,6 +2,8 @@
 
 API pages under `docs/reference/api/` are **hand-written MDX**. Do not generate doc content from `index.d.ts` or `binding.cpp`.
 
+**Do not add migration guides** (`migrating-v2`, `MIGRATION_v2.md`, versioned upgrade pages, or “added in vX” labels). Document current behavior only. Removed exports may keep a short unlisted stub page (see below).
+
 When the NPM package adds or renames an export:
 
 1. Update `NPM/index.d.ts` and native bindings (`NPM/native/binding_register.cpp` registers exports).

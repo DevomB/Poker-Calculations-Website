@@ -13,9 +13,9 @@ title: Card notation
 
 Examples: `Ah`, `Th`, `10c` (same card as `Tc`). After parsing, [`canonicalCardString`](/docs/reference/api/hands-and-equity/canonical-card-string) always uses `T` for ten (`Th`, not `10h`).
 
-Helpers: [`validateCardString`](/docs/reference/api/hands-and-equity/validate-card-string), [`canonicalCardString`](/docs/reference/api/hands-and-equity/canonical-card-string), [`parseCompactCardList`](/docs/reference/api/hands-and-equity/parse-compact-card-list).
+Helpers: [`validateCardString`](/docs/reference/api/hands-and-equity/validate-card-string), [`canonicalCardString`](/docs/reference/api/hands-and-equity/canonical-card-string), [`parseCompactCardList`](/docs/reference/api/hands-and-equity/parse-compact-card-list) (default `string[]`, or `{ outFormat: 'packed' }` for `Uint8Array`).
 
-## Packed form (`CardInput`, v2+)
+## Packed form (`CardInput`)
 
 Most card-list APIs also accept **`CardInput`**: a **`Uint8Array`** (or Node **`Buffer`**) of deck ids (`Card52`, bytes `0..51`):
 

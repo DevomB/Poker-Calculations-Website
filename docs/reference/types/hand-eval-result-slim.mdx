@@ -1,0 +1,14 @@
+---
+title: HandEvalResultSlim
+---
+
+# HandEvalResultSlim
+
+Return type of [`evaluateBestHand`](/docs/reference/api/hands-and-equity/evaluate-best-hand) when `format` is `'slim'`.
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `rankCategory` | `number` | Integer `0..9` — same order as [`handRankCategoryOrder`](/docs/reference/api/hands-and-equity/hand-rank-category-order) |
+| `strength` | `number` | Encoded strength — same bit layout as [`evaluateHandStrength`](/docs/reference/api/hands-and-equity/evaluate-hand-strength) |
+
+Use this shape in hot loops (hand-history analyzers, batch comparators) when you do not need the category string or kicker array.

@@ -69,6 +69,17 @@ const decision = poker.decideAction(state, config, null, 0);
 console.log(decision.action, decision.raiseBy);
 ```
 
+## Non-blocking and cancellation
+
+[`decideActionAsync`](/docs/reference/api/strategy/decide-action-async) runs the same logic on the libuv thread pool. When `monteCarloSimulations > 0`, pass [`AsyncOptions`](/docs/reference/types/async-options) to abort in-flight Monte Carlo:
+
+```js
+const ac = new AbortController();
+const pending = poker.decideActionAsync(state, config, null, 0, { signal: ac.signal });
+// ac.abort(); // Promise rejects with AbortError
+const decision = await pending;
+```
+
 ## API reference
 
-Full **Import / When / How** for [`decideAction`](/docs/reference/api/strategy/decide-action).
+Full **Import / When / How** for [`decideAction`](/docs/reference/api/strategy/decide-action) and [`decideActionAsync`](/docs/reference/api/strategy/decide-action-async).

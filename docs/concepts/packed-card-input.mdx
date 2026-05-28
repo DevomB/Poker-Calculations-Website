@@ -37,6 +37,13 @@ const stateObj = encode.unpackPokerState(stateBytes);
 
 Pre-pack once in your app, then pass `Uint8Array` into hot paths (`simulateHandOutcome`, `evaluateHandStrength`, `exactHuEquityVsRandomHand`, `decideAction` state, etc.) to avoid per-card string parsing at the N-API boundary.
 
+You can also obtain packed bytes directly from compact text:
+
+```js
+const poker = require('poker-calculations');
+const packed = poker.parseCompactCardList('AhKhQh', { outFormat: 'packed' });
+```
+
 ## TypeScript
 
 ```ts

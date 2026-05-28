@@ -7,7 +7,9 @@ sidebar_position: 9
 
 Parse concatenated or whitespace-separated cards (`AhKh`, `Ah Kh`, `10hKd`). Throws on invalid token or duplicate.
 
-<div className="apiSignature">{`parseCompactCardList(text: string): string[]`}</div>
+Default returns canonical `string[]`. Pass `{ outFormat: 'packed' }` to get a `Uint8Array` of deck ids (`0..51`) for simulators and other `CardInput` APIs without an extra pack step.
+
+<div className="apiSignature">{`parseCompactCardList(text: string, options?: { outFormat?: 'strings' | 'packed' }): string[] | Uint8Array`}</div>
 
 ## Import
 
@@ -17,15 +19,24 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when importing compact hand histories or HUD paste buffers instead of splitting strings yourself.
+Use when importing compact hand histories or HUD paste buffers instead of splitting strings yourself. Use packed output when feeding Monte Carlo or strength helpers directly.
 
 ## How to use
 
 ```js
 const cards = poker.parseCompactCardList('AhKh QdJc');
 console.log(cards); // ['Ah','Kh','Qd','Jc'] canonical forms
+
+const packed = poker.parseCompactCardList('AhKh QdJc', { outFormat: 'packed' });
+const equity = poker.simulateHandOutcome(
+  packed.subarray(0, 2),
+  packed.subarray(2),
+  10_000,
+  42,
+  1
+);
 ```
 
 ## See also
 
-[Card notation](/docs/concepts/card-notation)
+[Card notation](/docs/concepts/card-notation) · [Packed card input](/docs/concepts/packed-card-input)

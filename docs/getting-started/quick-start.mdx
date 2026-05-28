@@ -22,7 +22,22 @@ console.log('Equity:', equity);
 console.log('SPR:', poker.spr(90, 270));
 ```
 
-Cards use strings like `"Ah"`, `"Td"` (ten may be `"10h"`). In v2+, hot APIs also accept packed `Uint8Array` deck ids — see [Card notation](/docs/concepts/card-notation).
+For long Monte Carlo runs without blocking the event loop, use [`simulateHandOutcomeAsync`](/docs/reference/api/monte-carlo/simulate-hand-outcome-async). Pass optional [`AsyncOptions`](/docs/reference/types/async-options) to cancel via `AbortSignal`—the Promise rejects with `AbortError`:
+
+```js
+const ac = new AbortController();
+const pending = poker.simulateHandOutcomeAsync(
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', 'Th'],
+  100_000,
+  42,
+  1,
+  { signal: ac.signal },
+);
+// ac.abort(); // rejects with AbortError
+```
+
+Cards use strings like `"Ah"`, `"Td"` (ten may be `"10h"`). Most card-list APIs also accept packed `Uint8Array` deck ids — see [Card notation](/docs/concepts/card-notation).
 
 ## Explore the API
 

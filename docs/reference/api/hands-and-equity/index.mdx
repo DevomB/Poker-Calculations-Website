@@ -7,16 +7,16 @@ sidebar_position: 1
 
 Card lists use **`CardInput`**: `string[]` or packed `Uint8Array` (deck ids `0..51`). See [Card notation](/docs/concepts/card-notation).
 
-- [`evaluateBestHand`](/docs/reference/api/hands-and-equity/evaluate-best-hand) — Best five of **1–7** cards; returns `{ rank, kickers }` (`HandEvalResult`).
+- [`evaluateBestHand`](/docs/reference/api/hands-and-equity/evaluate-best-hand) — Best five of **1–7** cards; returns `HandEvalResult` (`rank`, `rankCategory`, `strength`, `kickers`) or slim `{ rankCategory, strength }`.
 - [`evaluateHandStrength`](/docs/reference/api/hands-and-equity/evaluate-hand-strength) — Encoded strength as `number` (`uint64`: rank in high bits + five kicker nibbles); comparable across spots.
 - [`evaluateHandStrengthFast`](/docs/reference/api/hands-and-equity/evaluate-hand-strength-fast) — Same encoding as `evaluateHandStrength`; forge stack evaluator used on MC / exact hot paths.
 - [`benchmarkEvaluatorThroughput`](/docs/reference/api/hands-and-equity/benchmark-evaluator-throughput) — `{ legacyEvalsPerSecond, fastEvalsPerSecond, implementation }` for legacy vs forge paths.
-- [`benchmarkEvaluatorThroughputAsync`](/docs/reference/api/hands-and-equity/benchmark-evaluator-throughput-async) — Non-blocking benchmark.
+- [`benchmarkEvaluatorThroughputAsync`](/docs/reference/api/hands-and-equity/benchmark-evaluator-throughput-async) — Non-blocking benchmark; optional [`AbortSignal`](/docs/reference/types/async-options).
 - [`evaluateHandStrengthFastBatch`](/docs/reference/api/hands-and-equity/evaluate-hand-strength-fast-batch) — Packed batch strength encoding.
 - [`evaluateHandCategory`](/docs/reference/api/hands-and-equity/evaluate-hand-category) — Category label only (`highCard` … `royalFlush`); see [Hand rank labels](/docs/concepts/hand-rank-labels).
 - [`validateCardString`](/docs/reference/api/hands-and-equity/validate-card-string) — `true` if `card` parses as one card (`Ah`, `10c`, …).
 - [`cardStringsHaveDuplicate`](/docs/reference/api/hands-and-equity/card-strings-have-duplicate) — `true` if two entries map to the same card; accepts `string[]` or packed `Uint8Array`; throws if invalid.
 - [`canonicalCardString`](/docs/reference/api/hands-and-equity/canonical-card-string) — Canonical two-character card (`Th`, `Ac`, …); throws if invalid.
-- [`parseCompactCardList`](/docs/reference/api/hands-and-equity/parse-compact-card-list) — Parse concatenated or whitespace-separated cards (`AhKh`, `10h Kd`); throws on duplicate or invalid token.
+- [`parseCompactCardList`](/docs/reference/api/hands-and-equity/parse-compact-card-list) — Parse compact card text; default `string[]`, optional `{ outFormat: 'packed' }` → `Uint8Array`.
 - [`compareBestHands`](/docs/reference/api/hands-and-equity/compare-best-hands) — `-1` / `0` / `1` best-hand order; throws on overlap or invalid cards.
 - [`handRankCategoryOrder`](/docs/reference/api/hands-and-equity/hand-rank-category-order) — Integer order `0..9` for `evaluateHandCategory` labels (`highCard` … `royalFlush`).

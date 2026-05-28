@@ -4,7 +4,7 @@ title: Packed poker state (PKST)
 
 # Packed poker state (PKST v1)
 
-`decideAction` and `decideActionAsync` accept either a **`NativePokerState` object** or **`Uint8Array`** PKST bytes from [`encodePokerState`](/docs/reference/api/strategy/encode-poker-state).
+`decideAction` and [`decideActionAsync`](/docs/reference/api/strategy/decide-action-async) accept either a **`NativePokerState` object** or **`Uint8Array`** PKST bytes from [`encodePokerState`](/docs/reference/api/strategy/encode-poker-state). The async export also accepts optional [`AsyncOptions`](/docs/reference/types/async-options) to cancel in-flight Monte Carlo.
 
 :::info[Why pack state]
 Object snapshots repeat UTF-8 parsing and property walks on every bot tick. PKST bytes are a fixed layout the native layer decodes once per call.

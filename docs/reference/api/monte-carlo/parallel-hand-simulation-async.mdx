@@ -5,7 +5,7 @@ sidebar_position: 6
 
 # `parallelHandSimulationAsync`
 
-<div className="apiSignature">{`parallelHandSimulationAsync(holeCards: CardInput, board: CardInput, numSimulations: number, baseSeed: number, villains: number, numThreads: number): Promise<number>`}</div>
+<div className="apiSignature">{`parallelHandSimulationAsync(holeCards: CardInput, board: CardInput, numSimulations: number, baseSeed: number, villains: number, numThreads: number, options?: AsyncOptions): Promise<number>`}</div>
 
 ## Import
 
@@ -23,7 +23,7 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Non-blocking version of [`parallelHandSimulation`](./parallel-hand-simulation).
+Non-blocking version of [`parallelHandSimulation`](./parallel-hand-simulation). Optional [`AsyncOptions`](/docs/reference/types/async-options) cancel long runs via `AbortSignal`.
 
 ## How to use
 
@@ -31,8 +31,14 @@ Non-blocking version of [`parallelHandSimulation`](./parallel-hand-simulation).
 const poker = require('poker-calculations');
 
 const eq = await poker.parallelHandSimulationAsync(hole, board, 20_000, 99, 1, 4);
+
+const ac = new AbortController();
+const pending = poker.parallelHandSimulationAsync(hole, board, 500_000, 99, 1, 4, {
+  signal: ac.signal,
+});
+// ac.abort(); // Promise rejects with AbortError
 ```
 
 ## See also
 
-[`parallelHandSimulation`](./parallel-hand-simulation)
+[`parallelHandSimulation`](./parallel-hand-simulation) · [`AsyncOptions`](/docs/reference/types/async-options)

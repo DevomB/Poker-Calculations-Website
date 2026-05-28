@@ -5,7 +5,7 @@ sidebar_position: 7
 
 # `exactHuEquityVsRandomHandAsync`
 
-<div className="apiSignature">{`exactHuEquityVsRandomHandAsync(heroHoleCards: CardInput, boardCards: CardInput): Promise<number>`}</div>
+<div className="apiSignature">{`exactHuEquityVsRandomHandAsync(heroHoleCards: CardInput, boardCards: CardInput, options?: AsyncOptions): Promise<number>`}</div>
 
 ## Import
 
@@ -23,7 +23,7 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Async exact HU equity when enumeration would block the main thread.
+Async exact HU equity when enumeration would block the main thread. Optional [`AsyncOptions`](/docs/reference/types/async-options) cancel via `AbortSignal`.
 
 ## How to use
 
@@ -31,8 +31,14 @@ Async exact HU equity when enumeration would block the main thread.
 const poker = require('poker-calculations');
 
 const eq = await poker.exactHuEquityVsRandomHandAsync(['Ah', 'Kd'], ['Qh', 'Jc', '2s']);
+
+const ac = new AbortController();
+const pending = poker.exactHuEquityVsRandomHandAsync(['Ah', 'Kd'], ['Qh', 'Jc', '2s'], {
+  signal: ac.signal,
+});
+// ac.abort(); // Promise rejects with AbortError
 ```
 
 ## See also
 
-[`exactHuEquityVsRandomHand`](./exact-hu-equity-vs-random-hand)
+[`exactHuEquityVsRandomHand`](./exact-hu-equity-vs-random-hand) · [`AsyncOptions`](/docs/reference/types/async-options)

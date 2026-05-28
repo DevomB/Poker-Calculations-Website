@@ -5,9 +5,9 @@ sidebar_position: 1
 
 # `evaluateBestHand`
 
-Best five of **1–7** cards; returns `{ rank, kickers }` (`HandEvalResult`).
+Best five of **1–7** cards. Default return is `HandEvalResult` (`rank`, `rankCategory`, `strength`, `kickers`). Pass `{ format: 'slim' }` for `HandEvalResultSlim` (no string rank or kickers).
 
-<div className="apiSignature">{`evaluateBestHand(cards: CardInput): HandEvalResult`}</div>
+<div className="apiSignature">{`evaluateBestHand(cards: CardInput, options?: { format?: 'full' | 'slim' }): HandEvalResult | HandEvalResultSlim`}</div>
 
 ## Import
 
@@ -27,16 +27,23 @@ const poker = require('poker-calculations');
 
 Use when you need the made hand at showdown or on a partial board—hand history tools, showdown validators, or comparing seven-card combinations without Monte Carlo noise.
 
+Use `{ format: 'slim' }` when you only need `rankCategory` and `strength` for sorting or filtering.
+
 ## How to use
 
 ```js
 const hand = poker.evaluateBestHand(['Ah', 'Ac', 'Kd', 'Ks', 'Qh', 'Jc', '2d']);
-console.log(hand.rank);    // e.g. twoPair
-console.log(hand.kickers); // length 5 — internal tie-break encoding
+console.log(hand.rank);         // e.g. twoPair (interned string)
+console.log(hand.rankCategory); // e.g. 2
+console.log(hand.strength);     // same encoding as evaluateHandStrength
+console.log(hand.kickers);      // length 5 — internal tie-break encoding
+
+const slim = poker.evaluateBestHand(['Ah', 'Ac', 'Kd', 'Ks', 'Qh'], { format: 'slim' });
+console.log(slim.rankCategory, slim.strength);
 ```
 
 Throws if any card is invalid or duplicated. Accepts packed `Uint8Array` via `CardInput` — see [Card notation](/docs/concepts/card-notation).
 
 ## See also
 
-[`compareBestHands`](/docs/reference/api/hands-and-equity/compare-best-hands) · [`evaluateHandCategory`](/docs/reference/api/hands-and-equity/evaluate-hand-category) · [Card notation](/docs/concepts/card-notation)
+[`compareBestHands`](/docs/reference/api/hands-and-equity/compare-best-hands) · [`evaluateHandCategory`](/docs/reference/api/hands-and-equity/evaluate-hand-category) · [HandEvalResult](/docs/reference/types/hand-eval-result) · [Card notation](/docs/concepts/card-notation)
