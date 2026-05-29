@@ -9,7 +9,7 @@ Parse concatenated or whitespace-separated cards (`AhKh`, `Ah Kh`, `10hKd`). Thr
 
 Default returns canonical `string[]`. Pass `{ outFormat: 'packed' }` to get a `Uint8Array` of deck ids (`0..51`) for simulators and other `CardInput` APIs without an extra pack step.
 
-<div className="apiSignature">{`parseCompactCardList(text: string, options?: { outFormat?: 'strings' | 'packed' }): string[] | Uint8Array`}</div>
+<div className="apiSignature">{`parseCompactCardList(text: string, options?: ParseCompactCardListOptions): string[] | Uint8Array`}</div>
 
 ## Import
 

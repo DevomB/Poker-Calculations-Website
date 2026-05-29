@@ -15,7 +15,9 @@
     "typecheck": "tsc",
     "fetch:downloads": "node scripts/fetch-ytd-downloads.mjs",
     "check:docs": "node scripts/check-docs-coverage.mjs",
-    "validate:snippets": "node scripts/validate-snippets.mjs"
+    "lint:api-signatures": "node scripts/lint-api-signatures.mjs",
+    "validate:snippets": "node scripts/validate-snippets.mjs",
+    "check:all": "pnpm check:docs && pnpm lint:api-signatures && pnpm validate:snippets && pnpm typecheck"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.1",

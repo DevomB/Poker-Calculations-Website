@@ -5,6 +5,8 @@ sidebar_position: 7
 
 # `exactHuEquityVsRandomHandAsync`
 
+Same as [`exactHuEquityVsRandomHand`](./exact-hu-equity-vs-random-hand): board empty (preflop) or **3–5** cards.
+
 <div className="apiSignature">{`exactHuEquityVsRandomHandAsync(heroHoleCards: CardInput, boardCards: CardInput, options?: AsyncOptions): Promise<number>`}</div>
 
 ## Import
@@ -23,7 +25,7 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Async exact HU equity when enumeration would block the main thread. Optional [`AsyncOptions`](/docs/reference/types/async-options) cancel via `AbortSignal`.
+Non-blocking exact HU equity (preflop or board 3–5 cards) when enumeration would block the main thread. Optional [`AsyncOptions`](/docs/reference/types/async-options) cancel via `AbortSignal`. Board rules match the sync export.
 
 ## How to use
 

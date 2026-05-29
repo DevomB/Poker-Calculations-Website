@@ -13,3 +13,5 @@ Returned by [`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simu
 | `ciLow` | `number` | Wilson interval low |
 | `ciHigh` | `number` | Wilson interval high |
 | `n` | `number` | Trials run |
+
+Wilson bounds use [`wilsonScoreInterval`](/docs/reference/api/statistics-and-risk/wilson-score-interval) with `successes = round(estimate × n)`. See [Numerical semantics](/docs/concepts/numerical-semantics#detailed-monte-carlo-intervals).

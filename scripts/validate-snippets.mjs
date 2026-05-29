@@ -16,6 +16,8 @@ try {
   process.exit(0);
 }
 
+const encode = require('poker-calculations/encode');
+
 const tests = [
   () => {
     const h = poker.evaluateBestHand(['Ah', 'Ac', 'Kd', 'Ks', 'Qh']);
@@ -36,6 +38,20 @@ const tests = [
   () => {
     const icm = poker.icmWinProbabilitiesHarville([4000, 3000, 2000]);
     if (icm.length !== 3) throw new Error('icm length');
+  },
+  () => {
+    const packed = poker.parseCompactCardList('AhKh', {outFormat: 'packed'});
+    if (!(packed instanceof Uint8Array) || packed.length !== 2) {
+      throw new Error('parseCompactCardList packed');
+    }
+  },
+  () => {
+    const p = encode.packCards(['Ah', 'Kh']);
+    if (!(p instanceof Uint8Array) || p.length !== 2) throw new Error('encode.packCards');
+  },
+  () => {
+    const pre = poker.exactHuEquityVsRandomHand(['As', 'Ks'], []);
+    if (typeof pre !== 'number' || pre < 0 || pre > 1) throw new Error('exactHu preflop');
   },
 ];
 

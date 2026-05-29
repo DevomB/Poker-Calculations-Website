@@ -6,13 +6,14 @@ import styles from './index.module.css';
 
 type Suit = '♠' | '♥' | '♦' | '♣';
 
+// Counts must match docs/reference/api/index.mdx (verified by pnpm check:docs).
 const apiCategories: Array<{title: string; to: string; count: number; suit: Suit}> = [
-  {title: 'Hands & equity', to: '/docs/reference/api/hands-and-equity', count: 13, suit: '♠'},
-  {title: 'Monte Carlo', to: '/docs/reference/api/monte-carlo', count: 11, suit: '♥'},
+  {title: 'Hands & equity', to: '/docs/reference/api/hands-and-equity', count: 16, suit: '♠'},
+  {title: 'Monte Carlo', to: '/docs/reference/api/monte-carlo', count: 13, suit: '♥'},
   {title: 'Strategy', to: '/docs/reference/api/strategy', count: 4, suit: '♣'},
   {title: 'Pot & EV', to: '/docs/reference/api/pot-and-ev', count: 11, suit: '♦'},
   {title: 'Stacks & display', to: '/docs/reference/api/stacks-and-display', count: 15, suit: '♠'},
-  {title: 'Heuristics & draws', to: '/docs/reference/api/heuristics-and-draws', count: 14, suit: '♥'},
+  {title: 'Heuristics & draws', to: '/docs/reference/api/heuristics-and-draws', count: 15, suit: '♥'},
   {title: 'Reverse implied', to: '/docs/reference/api/reverse-implied', count: 2, suit: '♣'},
   {title: 'Statistics & risk', to: '/docs/reference/api/statistics-and-risk', count: 9, suit: '♦'},
   {title: 'Kelly & jam', to: '/docs/reference/api/kelly-and-jam', count: 6, suit: '♠'},
@@ -20,23 +21,10 @@ const apiCategories: Array<{title: string; to: string; count: number; suit: Suit
   {title: 'Sizing & commitment', to: '/docs/reference/api/sizing-and-commitment', count: 3, suit: '♣'},
   {title: 'Fold equity', to: '/docs/reference/api/fold-equity', count: 8, suit: '♦'},
   {title: 'Multiway', to: '/docs/reference/api/multiway', count: 2, suit: '♠'},
-  {title: 'ICM', to: '/docs/reference/api/icm', count: 6, suit: '♥'},
+  {title: 'ICM', to: '/docs/reference/api/icm', count: 7, suit: '♥'},
   {title: 'Side pots', to: '/docs/reference/api/side-pots', count: 3, suit: '♣'},
 ];
 
-const homepageCategoryPaths = [
-  '/docs/reference/api/hands-and-equity',
-  '/docs/reference/api/monte-carlo',
-  '/docs/reference/api/strategy',
-  '/docs/reference/api/pot-and-ev',
-  '/docs/reference/api/stacks-and-display',
-  '/docs/reference/api/heuristics-and-draws',
-  '/docs/reference/api/icm',
-  '/docs/reference/api/side-pots',
-] as const;
-
-const categoryByPath = new Map(apiCategories.map((c) => [c.to, c]));
-const homepageCategories = homepageCategoryPaths.map((to) => categoryByPath.get(to)!);
 const totalExports = apiCategories.reduce((sum, c) => sum + c.count, 0);
 
 const features: Array<{suit: Suit; title: string; body: string; to: string}> = [
@@ -61,7 +49,7 @@ const features: Array<{suit: Suit; title: string; body: string; to: string}> = [
   {
     suit: '♣',
     title: 'ICM & strategy',
-    body: 'Tournament-aware decision tooling: ICM, push/fold ranges, and stack-aware EV.',
+    body: 'ICM (Harville and Weitzman), decideAction bots, Chubukov jam study helpers, and preflop equity matrices.',
     to: '/docs/reference/api/icm',
   },
 ];
@@ -136,7 +124,7 @@ export default function Home(): React.ReactNode {
           <div className={styles.heroInstall}>
             <span className={styles.heroInstallPrompt}>$</span>
             <code>npm install poker-calculations</code>
-            <span className={styles.heroInstallHint}>node ≥ 20</span>
+            <span className={styles.heroInstallHint}>library: Node 18+</span>
           </div>
 
           <div className={styles.heroCtas}>
@@ -261,7 +249,7 @@ export default function Home(): React.ReactNode {
             <h2 className={styles.sectionTitle}>API by category.</h2>
 
             <div className={styles.categoryGrid}>
-              {homepageCategories.map((c) => (
+              {apiCategories.map((c) => (
                 <Link key={c.to} to={c.to} className={styles.categoryCard}>
                   <span
                     className={clsx(

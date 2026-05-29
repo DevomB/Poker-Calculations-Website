@@ -26,3 +26,5 @@ const poker = require('poker-calculations');
 const matrix = poker.buildPreflopEquityMatrix({ iterations: 2000, seed: 1, threads: 4 });
 console.log(matrix.length); // 169 * 169
 ```
+
+Each cell uses Monte Carlo with a fixed disjoint-suit matchup for that row/column pair. For `i ≠ j`, **`matrix[j * 169 + i] = 1 - matrix[i * 169 + j]`** (symmetry). See [Numerical semantics](/docs/concepts/numerical-semantics#preflop-equity-matrix).

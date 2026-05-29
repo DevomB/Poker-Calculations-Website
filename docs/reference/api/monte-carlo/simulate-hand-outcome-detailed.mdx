@@ -26,3 +26,5 @@ const poker = require('poker-calculations');
 const r = poker.simulateHandOutcomeDetailed(['Ah', 'Kh'], ['Qh', 'Jh', 'Th'], 10_000, 42, 1);
 console.log(r.estimate, r.ciLow, r.ciHigh);
 ```
+
+Wilson `ciLow` / `ciHigh` use [`wilsonScoreInterval`](/docs/reference/api/statistics-and-risk/wilson-score-interval) with `successes = round(estimate × n)`. See [Numerical semantics](/docs/concepts/numerical-semantics#detailed-monte-carlo-intervals).

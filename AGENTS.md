@@ -21,7 +21,7 @@ In a local monorepo checkout you may also see a sibling `NPM/` folder — **that
 **Right** for production / main branch:
 
 ```json
-"poker-calculations": "2.0.0"
+"poker-calculations": "2.1.0"
 ```
 
 Run `pnpm install` and commit **`pnpm-lock.yaml`**. CI uses a **frozen lockfile** by default — specifiers in `package.json` and the lockfile must match.

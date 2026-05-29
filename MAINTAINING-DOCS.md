@@ -6,6 +6,22 @@ API pages under `docs/reference/api/` are **hand-written MDX**. Do not generate 
 
 **Do not add migration guides** (`migrating-v2`, `MIGRATION_v2.md`, versioned upgrade pages, or “added in vX” labels). Document current behavior only. Do not keep stub pages for removed exports—delete the MDX and update `check:docs` if needed.
 
+**Do not use internal feature IDs** (`P1`, `P22`, etc.) in MDX, README, or public JSDoc—describe behavior by function name instead.
+
+## Content accuracy checklist (when adding or editing docs)
+
+1. Copy `apiSignature` and constraints from `NPM/index.d.ts` (installed `poker-calculations` in Website).
+2. Cross-check Monte Carlo, exact HU, ICM, and intervals against `NPM/NUMERICAL.md`.
+3. No “PKST v1” product wording—use **PKST packed state**; wire **layout version byte** only in the PKST concept page.
+4. Run from `Website/`:
+
+   ```bash
+   pnpm check:all
+   pnpm build
+   ```
+
+5. Before PR: `rg '\bP\d+' Website/docs NPM/index.d.ts NPM/include/poker` — expect no doc/comment hits (C++ pot variable `P0` in `poker_math.cpp` is fine).
+
 When the NPM package adds or renames an export:
 
 1. Update `NPM/index.d.ts` and native bindings (`NPM/native/binding_register.cpp` registers exports).

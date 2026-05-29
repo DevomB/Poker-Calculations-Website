@@ -1,0 +1,51 @@
+---
+title: Types overview
+sidebar_position: 0
+slug: /reference/types
+---
+
+# TypeScript types
+
+Shapes exported from `poker-calculations` for `decideAction`, Monte Carlo batches, ICM vectors, and hand evaluation. Import types with:
+
+```ts
+import type { CardInput, NativePokerState } from 'poker-calculations';
+```
+
+## Result and state objects
+
+| Type | Doc |
+| --- | --- |
+| [`NativePokerState`](/docs/reference/types/native-poker-state) | Table snapshot for `decideAction` |
+| [`NativeBotConfig`](/docs/reference/types/native-bot-config) | Bot tuning |
+| [`NativeOpponentModel`](/docs/reference/types/native-opponent-model) | Optional villain model |
+| [`DecisionResult`](/docs/reference/types/decision-result) | `decideAction` output |
+| [`HandEvalResult`](/docs/reference/types/hand-eval-result) | Full `evaluateBestHand` result |
+| [`HandEvalResultSlim`](/docs/reference/types/hand-eval-result-slim) | Slim `evaluateBestHand` result |
+| [`EvaluatorBenchmarkResult`](/docs/reference/types/evaluator-benchmark-result) | Evaluator benchmark |
+| [`McEquityDetailedResult`](/docs/reference/types/mc-equity-detailed-result) | Detailed MC + CI |
+| [`WilsonScoreInterval`](/docs/reference/types/wilson-score-interval) | Interval bounds |
+| [`BetaBinomialFoldPosterior`](/docs/reference/types/beta-binomial-fold-posterior) | Fold-rate posterior |
+| [`SidePotLayer`](/docs/reference/types/side-pot-layer) | Side-pot layer |
+
+## Options and batch specs
+
+| Type | Doc |
+| --- | --- |
+| [`AsyncOptions`](/docs/reference/types/async-options) | `AbortSignal` on `*Async` exports |
+| [`SimBatchSpec`](/docs/reference/types/sim-batch-spec) | `simulateHandOutcomeBatch` rows |
+| [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec) | Sparse villain range |
+| [`PreflopMatrixOptions`](/docs/reference/types/preflop-matrix-options) | `buildPreflopEquityMatrix` |
+
+## Aliases (concepts)
+
+| Type | Where documented |
+| --- | --- |
+| `CardInput` | [Packed card input](/docs/concepts/packed-card-input) |
+| `Card52` | [Card notation](/docs/concepts/card-notation) |
+| `F64VectorInput` | [Float64 ICM input](/docs/concepts/float64-icm-input) |
+| `F64ReturnFormat` | [Float64 ICM input](/docs/concepts/float64-icm-input) |
+| `PokerStateBytes` | [Packed poker state](/docs/concepts/packed-poker-state) |
+| `EvaluateBestHandOptions` | [`evaluateBestHand`](/docs/reference/api/hands-and-equity/evaluate-best-hand) |
+| `ParseCompactCardListOptions` | [`parseCompactCardList`](/docs/reference/api/hands-and-equity/parse-compact-card-list) |
+| `CompareBestHandsOptions` | [`compareBestHands`](/docs/reference/api/hands-and-equity/compare-best-hands) |

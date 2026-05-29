@@ -12,3 +12,5 @@ const m = poker.buildPreflopEquityMatrix({ iterations: 5000, seed: 42, threads: 
 ```
 
 Options match [`PreflopMatrixOptions`](/docs/reference/types/preflop-matrix-options): `iterations`, `seed`, and `threads` (parallel C++ workers inside the native call).
+
+For `i ≠ j`, `M[j,i] = 1 - M[i,j]` (row-major indexing). See [Numerical semantics](/docs/concepts/numerical-semantics#preflop-equity-matrix).

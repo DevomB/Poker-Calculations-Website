@@ -4,6 +4,53 @@ title: Numerical semantics
 
 # Numerical semantics
 
-RNG choice, parallel seeds, enumeration complexity, and floating-point conventions are documented in the package [`NUMERICAL.md`](https://github.com/DevomB/Poker-Calculations/blob/main/NUMERICAL.md) in the npm repository.
+Summary of RNG, showdown scoring, cancellation, and floating-point conventions. Full detail is in the package [`NUMERICAL.md`](https://github.com/DevomB/Poker-Calculations/blob/main/NUMERICAL.md).
 
-Use reproducible seeds for Monte Carlo and prefer exact APIs when the board has five cards or fewer unknowns.
+## Random number generation
+
+- Monte Carlo uses `std::mt19937` with a user-supplied `seed`.
+- [`parallelHandSimulation`](/docs/reference/api/monte-carlo/parallel-hand-simulation): worker `t` uses seed `baseSeed + t * 9743`.
+- Use fixed `seed` (and trial count) when you need reproducible research numbers.
+
+## Cooperative cancellation
+
+All six `*Async` exports accept optional [`AsyncOptions`](/docs/reference/types/async-options) with `signal?: AbortSignal`. Long native loops check the signal about every **4096** iterations and reject with `AbortError` when aborted.
+
+## Showdown equity
+
+| Mode | Hero share when tied for best |
+| --- | --- |
+| Multi-way Monte Carlo (`villains` > 1) | `1 / tiedAtBest` |
+| Heads-up exact enumeration | Win `1`, chop `0.5`, loss `0` |
+
+See [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome) and [`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand).
+
+## Exact HU board lengths
+
+[`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand) and related exact HU helpers accept an **empty** board (preflop) or **3–5** board cards. Lengths **1–2** throw.
+
+### Exact enumeration scale (heads-up vs random villain)
+
+| Board | Villain holes | Work (order of magnitude) |
+| --- | --- | --- |
+| 0 (preflop) | random 2 cards | C(50,2) × C(48,5) runouts |
+| 3 (flop) | random 2 cards | C(47,2) × C(45,2) runouts |
+| 5 (river) | random 2 cards | C(45,2) runouts |
+
+[`exactHuEquityVsRange`](/docs/reference/api/hands-and-equity/exact-hu-equity-vs-range) costs O(|range| × runouts per combo). Sparse ranges skip zero-weight combos.
+
+## Preflop equity matrix
+
+[`buildPreflopEquityMatrix`](/docs/reference/api/hands-and-equity/build-preflop-equity-matrix) fills a row-major `169×169` matrix via Monte Carlo with disjoint suit assignment per cell. For `i ≠ j`, `M[j,i] = 1 - M[i,j]`.
+
+## Detailed Monte Carlo intervals
+
+[`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome-detailed) Wilson bounds use `wilsonScoreInterval` with `successes = round(estimate × n)`.
+
+## ICM Weitzman
+
+[`icmExpectedPayoutsWeitzman`](/docs/reference/api/icm/icm-expected-payouts-weitzman) uses independent chip utility (`stack^alpha`, default `alpha = 2`). It is **not** Harville placement math.
+
+## Floating point
+
+Most APIs return `double`. Batch Monte Carlo paths may use `float` internally and widen results. Prefer exact APIs when the spot is small enough to enumerate.

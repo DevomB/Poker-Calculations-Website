@@ -56,6 +56,7 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Types',
+          link: {type: 'doc', id: 'reference/types/index'},
           items: [
             'reference/types/native-poker-state',
             'reference/types/native-bot-config',

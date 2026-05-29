@@ -46,6 +46,10 @@ console.log(equity.toFixed(4));
 
 Increase `numSimulations` until the standard error is acceptable; pair with [`monteCarloStandardError`](/docs/reference/api/statistics-and-risk/monte-carlo-standard-error).
 
+### Showdown scoring
+
+With `villains = 1`, equity is heads-up win/chop/loss style over trials. With `villains > 1`, when hero ties for the best hand, hero receives **`1 / tiedAtBest`** of the pot share for that trial. See [Numerical semantics](/docs/concepts/numerical-semantics#showdown-equity).
+
 ## See also
 
 [`parallelHandSimulation`](/docs/reference/api/monte-carlo/parallel-hand-simulation) · [Monte Carlo equity guide](/docs/guides/monte-carlo-equity)

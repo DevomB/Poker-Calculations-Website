@@ -27,21 +27,24 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use on flop, turn, or river when you need exact equity vs a random unknown hand—jam/fold toys, study spots, or feeding [`chubukovMaxSymmetricJamStackBinarySearch`](/docs/reference/api/kelly-and-jam/chubukov-max-symmetric-jam-stack-binary-search). Prefer MC only when the board is not yet 3+ cards.
+Use for **preflop** (empty `boardCards`) and for flop, turn, or river (3–5 board cards) when you need exact equity vs a random unknown hand—study spots, preflop tools, or feeding [`chubukovMaxSymmetricJamStackBinarySearch`](/docs/reference/api/kelly-and-jam/chubukov-max-symmetric-jam-stack-binary-search). Prefer [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome) when the board has **1–2** cards (incomplete board) or you need multi-villain Monte Carlo sampling.
 
 ## How to use
 
 ```js
 const poker = require('poker-calculations');
 
-const equity = poker.exactHuEquityVsRandomHand(
+const preflop = poker.exactHuEquityVsRandomHand(['Ah', 'Kd'], []);
+console.log(preflop);
+
+const turn = poker.exactHuEquityVsRandomHand(
   ['Ah', 'Kd'],
   ['Qh', 'Jc', '2s', '9d'],
 );
-console.log(equity);
+console.log(turn);
 ```
 
-Throws if cards overlap or the board has fewer than three or more than five cards.
+**Throws if** cards overlap, or board length is **1–2** or **greater than 5**. **Valid board lengths:** **0** (preflop) or **3–5**.
 
 ## See also
 

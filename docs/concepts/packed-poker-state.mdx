@@ -2,7 +2,7 @@
 title: Packed poker state (PKST)
 ---
 
-# Packed poker state (PKST v1)
+# Packed poker state (PKST)
 
 `decideAction` and [`decideActionAsync`](/docs/reference/api/strategy/decide-action-async) accept either a **`NativePokerState` object** or **`Uint8Array`** PKST bytes from [`encodePokerState`](/docs/reference/api/strategy/encode-poker-state). The async export also accepts optional [`AsyncOptions`](/docs/reference/types/async-options) to cancel in-flight Monte Carlo.
 
@@ -35,7 +35,7 @@ const obj = unpackPokerState(bytes);
 | Field | Notes |
 | --- | --- |
 | Magic | `PKST` (4 bytes) |
-| Version | `1` |
+| Layout version byte | Single byte after magic (wire format revision; not an npm release version) |
 | Players | Up to 10; per player: hole cards as deck ids, stack/commit flags |
 | Community | Up to 5 cards |
 | Pot / blinds / phase | Little-endian `int32` fields |
