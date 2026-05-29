@@ -1,0 +1,32 @@
+---
+title: exactHuEquityVsRange
+---
+
+# `exactHuEquityVsRange`
+
+Exact heads-up equity vs a weighted villain range.
+
+<div className="apiSignature">{`exactHuEquityVsRange(heroHoleCards: CardInput, boardCards: CardInput, range: Float64Array | SparseRangeSpec): number`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when villain combos and weights are known (dense 1326-vector or sparse `{ indices, weights }`). Blocked combos are removed automatically.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const range = { indices: [/* deck ids pairs */], weights: [1, 1] };
+const equity = poker.exactHuEquityVsRange(
+  ['Ah', 'Kd'],
+  ['Qh', 'Jc', '2s'],
+  range,
+);
+```

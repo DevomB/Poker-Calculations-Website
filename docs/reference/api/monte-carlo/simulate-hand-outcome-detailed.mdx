@@ -1,0 +1,28 @@
+---
+title: simulateHandOutcomeDetailed
+---
+
+# `simulateHandOutcomeDetailed`
+
+Monte Carlo equity with standard error and confidence interval in one pass.
+
+<div className="apiSignature">{`simulateHandOutcomeDetailed(holeCards, board, numSimulations, seed, villains?): McEquityDetailedResult`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need `{ estimate, se, ciLow, ciHigh, n }` without composing `monteCarloStandardError` yourself.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const r = poker.simulateHandOutcomeDetailed(['Ah', 'Kh'], ['Qh', 'Jh', 'Th'], 10_000, 42, 1);
+console.log(r.estimate, r.ciLow, r.ciHigh);
+```

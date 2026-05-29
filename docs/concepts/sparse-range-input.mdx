@@ -1,0 +1,12 @@
+---
+title: Sparse range input
+---
+
+# Sparse range input
+
+Pass a villain range as:
+
+- **Dense:** `Float64Array` of length **1326** (canonical pair index order), or
+- **Sparse:** `{ indices: number[] | Int32Array, weights: number[] | Float64Array }` with two deck indices per combo.
+
+Weights must be non-negative; zero-weight combos are skipped.

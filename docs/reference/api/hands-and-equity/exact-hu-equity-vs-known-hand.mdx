@@ -1,0 +1,32 @@
+---
+title: exactHuEquityVsKnownHand
+---
+
+# `exactHuEquityVsKnownHand`
+
+Exact heads-up equity when the villain hole cards are known.
+
+<div className="apiSignature">{`exactHuEquityVsKnownHand(heroHoleCards: CardInput, villainHoleCards: CardInput, boardCards: CardInput): number`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use for hand-vs-hand analysis on the flop, turn, or river, or preflop with an empty board (enumerates all runouts).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const equity = poker.exactHuEquityVsKnownHand(
+  ['Ah', 'Kd'],
+  ['Qc', 'Qs'],
+  ['Jh', 'Tc', '2d'],
+);
+console.log(equity);
+```

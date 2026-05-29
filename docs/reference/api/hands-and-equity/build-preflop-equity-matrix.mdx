@@ -1,0 +1,28 @@
+---
+title: buildPreflopEquityMatrix
+---
+
+# `buildPreflopEquityMatrix`
+
+Build a 169×169 preflop equity matrix (row-major `Float64Array`).
+
+<div className="apiSignature">{`buildPreflopEquityMatrix(options?: PreflopMatrixOptions): Float64Array`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use for heatmaps, correlation studies, or batch preflop analysis.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const matrix = poker.buildPreflopEquityMatrix({ iterations: 2000, seed: 1, threads: 4 });
+console.log(matrix.length); // 169 * 169
+```

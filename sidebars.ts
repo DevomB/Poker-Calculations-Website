@@ -31,6 +31,9 @@ const sidebars: SidebarsConfig = {
         'concepts/packed-poker-state',
         'concepts/float64-icm-input',
         'concepts/hand-rank-labels',
+        'concepts/range-equity',
+        'concepts/sparse-range-input',
+        'concepts/numerical-semantics',
         'concepts/errors-and-validation',
       ],
     },
@@ -42,6 +45,8 @@ const sidebars: SidebarsConfig = {
         'guides/monte-carlo-equity',
         'guides/batch-equity',
         'guides/icm-and-side-pots',
+        'guides/range-equity-exact',
+        'guides/preflop-equity-matrix',
       ],
     },
     {
@@ -64,6 +69,9 @@ const sidebars: SidebarsConfig = {
             'reference/types/sim-batch-spec',
             'reference/types/async-options',
             'reference/types/evaluator-benchmark-result',
+            'reference/types/mc-equity-detailed-result',
+            'reference/types/sparse-range-spec',
+            'reference/types/preflop-matrix-options',
           ],
         },
         {

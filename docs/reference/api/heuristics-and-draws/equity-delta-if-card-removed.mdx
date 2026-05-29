@@ -1,0 +1,32 @@
+---
+title: equityDeltaIfCardRemoved
+---
+
+# `equityDeltaIfCardRemoved`
+
+Change in exact range equity when a card is treated as dead.
+
+<div className="apiSignature">{`equityDeltaIfCardRemoved(heroHoleCards, boardCards, range, removedDeckIndex): number`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use for blocker or card-removal analysis on the turn or river.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const delta = poker.equityDeltaIfCardRemoved(
+  ['Ah', 'Kd'],
+  ['Qh', 'Jc', '2s', '9d'],
+  denseRange1326,
+  12,
+);
+```

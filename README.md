@@ -39,7 +39,7 @@ When the NPM package adds or renames an export:
 
 1. Publish a new `poker-calculations` release (update `index.d.ts` in the package).
 2. Point the `poker-calculations` devDependency at the package (`file:../NPM` for local work, or a published version) and run `pnpm install`.
-3. For **removed** exports, keep a short stub MDX page and add its slug to `ALLOWED_EXTRA_DOC_SLUGS` in `scripts/check-docs-coverage.mjs`.
+3. For **removed** exports, delete the MDX page and run `pnpm check:docs` (see [MAINTAINING-DOCS.md](./MAINTAINING-DOCS.md)).
 4. Hand-write `docs/reference/api/<category>/<slug>.mdx` (Import / When to use / How to use).
 5. Run `pnpm check:docs` (reads `index.d.ts` from the linked `poker-calculations` package).
 

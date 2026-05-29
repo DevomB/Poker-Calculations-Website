@@ -1,0 +1,15 @@
+---
+title: McEquityDetailedResult
+---
+
+# `McEquityDetailedResult`
+
+Returned by [`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome-detailed).
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `estimate` | `number` | Mean equity share |
+| `se` | `number` | Monte Carlo standard error |
+| `ciLow` | `number` | Wilson interval low |
+| `ciHigh` | `number` | Wilson interval high |
+| `n` | `number` | Trials run |

@@ -1,0 +1,14 @@
+---
+title: Range equity (exact)
+---
+
+# Range equity (exact)
+
+1. Build a sparse or dense range with blockers removed.
+2. Call `exactHuEquityVsRange(hero, board, range)`.
+3. Compare to `simulateEquityVsRange` if you need a Monte Carlo check.
+
+```js
+const poker = require('poker-calculations');
+const eq = poker.exactHuEquityVsRange(['As', 'Ah'], ['Kd', '7c', '2h'], dense1326);
+```

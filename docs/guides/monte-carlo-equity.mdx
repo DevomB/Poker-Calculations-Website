@@ -11,7 +11,11 @@ Card lists accept **`CardInput`** (`string[]` or packed `Uint8Array`) — see [P
 - [`parallelHandSimulation`](/docs/reference/api/monte-carlo/parallel-hand-simulation) — chunked workers with distinct seeds
 - [`parallelHandSimulationAsync`](/docs/reference/api/monte-carlo/parallel-hand-simulation-async) — non-blocking parallel MC; optional cancellation
 - [`simulateHandOutcomeBatch`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch) — many spots → `Float64Array`
-- [`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand) — exact enumeration (board 3–5 cards)
+- [`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand) — exact enumeration (preflop or board 3–5 cards)
+- [`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome-detailed) — equity with SE and Wilson CI in one call
+- [`simulateEquityVsRange`](/docs/reference/api/monte-carlo/simulate-equity-vs-range) — MC vs a weighted villain range
+- [`exactHuEquityVsKnownHand`](/docs/reference/api/hands-and-equity/exact-hu-equity-vs-known-hand) — exact HU when villain holes are known
+- [`exactHuEquityVsRange`](/docs/reference/api/hands-and-equity/exact-hu-equity-vs-range) — exact HU vs a weighted range (see [Range equity (exact)](/docs/guides/range-equity-exact))
 
 See [Batch equity](/docs/guides/batch-equity) for packed batch layouts.
 

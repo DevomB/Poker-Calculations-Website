@@ -1,0 +1,27 @@
+---
+title: icmExpectedPayoutsWeitzman
+---
+
+# `icmExpectedPayoutsWeitzman`
+
+Expected ICM payouts using independent Weitzman chip utility (`stack^alpha`).
+
+<div className="apiSignature">{`icmExpectedPayoutsWeitzman(stacks, payouts, alpha?, returnFormat?): number[] | Float64Array`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use as an alternative to Harville placement when you want a chip-utility model with exponent `alpha` (default `2`).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const ev = poker.icmExpectedPayoutsWeitzman([1000, 800, 600], [500, 300, 200], 2);
+```

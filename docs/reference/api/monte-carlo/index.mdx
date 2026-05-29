@@ -13,7 +13,9 @@ Hole, board, and dead-card arguments use **`CardInput`**: `string[]` or packed `
 - [`parallelHandSimulationAsync`](/docs/reference/api/monte-carlo/parallel-hand-simulation-async) — Non-blocking parallel MC; optional cancellation.
 - [`simulateHandOutcomeBatch`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch) — Many MC spots in one call → `Float64Array`.
 - [`simulateHandOutcomeBatchPacked`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch-packed) — Packed holes/boards/meta batch.
-- [`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand) — Exact HU equity vs uniform random villain hand; board must have **3–5** cards.
+- [`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand) — Exact HU equity vs uniform random villain hand; preflop or board **3–5** cards.
+- [`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome-detailed) — MC equity with SE and Wilson CI.
+- [`simulateEquityVsRange`](/docs/reference/api/monte-carlo/simulate-equity-vs-range) — MC vs weighted villain range.
 - [`exactHuEquityVsRandomHandAsync`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand-async) — Non-blocking exact HU equity; optional cancellation · [`exactHuEquityVsRandomHandBatch`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand-batch)
 - [`straightMadeFlopToRiverExactProbability`](/docs/reference/api/monte-carlo/straight-made-flop-to-river-exact-probability) — Exact probability of straight or better in hero’s best 7 after uniform random unordered turn+river from remaining deck.
 - [`straightMadeFlopToRiverExactProbabilityAsync`](/docs/reference/api/monte-carlo/straight-made-flop-to-river-exact-probability-async) — Non-blocking exact probability; optional cancellation

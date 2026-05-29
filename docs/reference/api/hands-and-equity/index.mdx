@@ -18,5 +18,8 @@ Card lists use **`CardInput`**: `string[]` or packed `Uint8Array` (deck ids `0..
 - [`cardStringsHaveDuplicate`](/docs/reference/api/hands-and-equity/card-strings-have-duplicate) — `true` if two entries map to the same card; accepts `string[]` or packed `Uint8Array`; throws if invalid.
 - [`canonicalCardString`](/docs/reference/api/hands-and-equity/canonical-card-string) — Canonical two-character card (`Th`, `Ac`, …); throws if invalid.
 - [`parseCompactCardList`](/docs/reference/api/hands-and-equity/parse-compact-card-list) — Parse compact card text; default `string[]`, optional `{ outFormat: 'packed' }` → `Uint8Array`.
-- [`compareBestHands`](/docs/reference/api/hands-and-equity/compare-best-hands) — `-1` / `0` / `1` best-hand order; throws on overlap or invalid cards.
+- [`compareBestHands`](/docs/reference/api/hands-and-equity/compare-best-hands) — `-1` / `0` / `1` best-hand order; optional `{ assumeDisjoint: true }` when lists cannot overlap.
 - [`handRankCategoryOrder`](/docs/reference/api/hands-and-equity/hand-rank-category-order) — Integer order `0..9` for `evaluateHandCategory` labels (`highCard` … `royalFlush`).
+- [`exactHuEquityVsKnownHand`](/docs/reference/api/hands-and-equity/exact-hu-equity-vs-known-hand) — Exact HU vs known villain holes.
+- [`exactHuEquityVsRange`](/docs/reference/api/hands-and-equity/exact-hu-equity-vs-range) — Exact HU vs weighted range.
+- [`buildPreflopEquityMatrix`](/docs/reference/api/hands-and-equity/build-preflop-equity-matrix) — 169×169 preflop matrix.

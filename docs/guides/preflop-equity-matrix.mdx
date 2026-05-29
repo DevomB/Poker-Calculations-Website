@@ -1,0 +1,14 @@
+---
+title: Preflop equity matrix
+---
+
+# Preflop equity matrix
+
+[`buildPreflopEquityMatrix`](/docs/reference/api/hands-and-equity/build-preflop-equity-matrix) returns a `Float64Array` of length `169 * 169` (row-major). Each cell is Monte Carlo equity for canonical preflop hands with disjoint suits.
+
+```js
+const poker = require('poker-calculations');
+const m = poker.buildPreflopEquityMatrix({ iterations: 5000, seed: 42, threads: 4 });
+```
+
+Options match [`PreflopMatrixOptions`](/docs/reference/types/preflop-matrix-options): `iterations`, `seed`, and `threads` (parallel C++ workers inside the native call).
