@@ -1,0 +1,39 @@
+---
+title: sidePotLayerTournamentEvDelta
+---
+
+# `sidePotLayerTournamentEvDelta`
+
+<div className="apiSignature">{`sidePotLayerTournamentEvDelta(tableStacks, payouts, heroIndex, committedChips, equityPlayerByLayer): SidePotLayerTournamentEvRow[]`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Per side-pot layer: chip EV from layer equity and ICM win/lose/marginal for the hero.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const rows = poker.sidePotLayerTournamentEvDelta(
+  [10000, 10000, 8000],
+  [5000, 3000, 2000],
+  0,
+  [5000, 5000, 3000],
+  [[0.6, 0.4], [0.5, 0.5], [0.3, 0.3]],
+);
+```
+
+## Return type
+
+[`SidePotLayerTournamentEvRow`](/docs/reference/types/side-pot-layer-tournament-ev-row)[] — one row per layer from [`sidePotLadderFromCommitments`](/docs/reference/api/side-pots/side-pot-ladder-from-commitments).
+
+## See also
+
+[`SidePotLayer`](/docs/reference/types/side-pot-layer)

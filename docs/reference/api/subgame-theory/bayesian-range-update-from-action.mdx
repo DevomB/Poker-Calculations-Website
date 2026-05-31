@@ -1,0 +1,38 @@
+---
+title: bayesianRangeUpdateFromAction
+---
+
+# `bayesianRangeUpdateFromAction`
+
+<div className="apiSignature">{`bayesianRangeUpdateFromAction(range, heroHoleCards, boardCards, action, alpha): MaterializedVillainRangeResult`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Reweight a villain range after observing `fold`, `call`, or `raise` with likelihood sharpness `alpha`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const updated = poker.bayesianRangeUpdateFromAction(
+  range,
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', '2c'],
+  'raise',
+  2.0,
+);
+```
+
+## Return type
+
+[`MaterializedVillainRangeResult`](/docs/reference/types/materialized-villain-range-result).

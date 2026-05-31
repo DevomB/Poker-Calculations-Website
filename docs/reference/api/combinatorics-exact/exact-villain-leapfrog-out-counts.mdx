@@ -1,0 +1,32 @@
+---
+title: exactVillainLeapfrogOutCounts
+---
+
+# `exactVillainLeapfrogOutCounts`
+
+<div className="apiSignature">{`exactVillainLeapfrogOutCounts(heroHoleCards, boardCards, knownDead?): VillainLeapfrogOutCountsResult`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+List deck indices where the next board card leapfrogs villain over hero or improves hero (3–4 card board).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const { leapfrogDeckIndices, heroImproveDeckIndices } = poker.exactVillainLeapfrogOutCounts(
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', '2c'],
+);
+```
+
+## Return type
+
+[`VillainLeapfrogOutCountsResult`](/docs/reference/types/villain-leapfrog-out-counts-result).

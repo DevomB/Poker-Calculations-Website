@@ -23,6 +23,9 @@ const apiCategories: Array<{title: string; to: string; count: number; suit: Suit
   {title: 'Multiway', to: '/docs/reference/api/multiway', count: 2, suit: '♠'},
   {title: 'ICM', to: '/docs/reference/api/icm', count: 7, suit: '♥'},
   {title: 'Side pots', to: '/docs/reference/api/side-pots', count: 3, suit: '♣'},
+  {title: 'Tournament ICM', to: '/docs/reference/api/cooperative-icm', count: 7, suit: '♦'},
+  {title: 'Exact runouts', to: '/docs/reference/api/combinatorics-exact', count: 9, suit: '♠'},
+  {title: 'Subgame & ranges', to: '/docs/reference/api/subgame-theory', count: 7, suit: '♥'},
 ];
 
 const totalExports = apiCategories.reduce((sum, c) => sum + c.count, 0);

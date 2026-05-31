@@ -1,0 +1,36 @@
+---
+title: IcmChopParetoPair
+---
+
+# `IcmChopParetoPair`
+
+Element of `paretoPairs` on [`IcmChopNegotiationAnalysisResult`](/docs/reference/types/icm-chop-negotiation-analysis-result). There is no standalone API export for this shape.
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `i` | `number` | Surplus seat index (positive chop surplus vs ICM) |
+| `j` | `number` | Deficit seat index (negative surplus) |
+| `maxTransfer` | `number` | Maximum prize-pool dollars transferable from `i` to `j` along this edge |
+
+## Semantics
+
+Each pair is a **directed** negotiation edge: player `i` has chop surplus, player `j` has chop deficit, and up to `maxTransfer` can move from `i` to `j` without pushing either player below their ICM allocation (Pareto-improving reallocation in surplus space).
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+
+const analysis = poker.icmChopNegotiationAnalysis(
+  [12000, 8000, 5000],
+  [10000, 6000, 3000],
+);
+
+for (const { i, j, maxTransfer } of analysis.paretoPairs) {
+  console.log(`Seat ${i} can pay seat ${j} up to $${maxTransfer}`);
+}
+```
+
+## See also
+
+[`IcmChopNegotiationAnalysisResult`](/docs/reference/types/icm-chop-negotiation-analysis-result) · [`icmChopNegotiationAnalysis`](/docs/reference/api/cooperative-icm/icm-chop-negotiation-analysis)

@@ -1,0 +1,32 @@
+---
+title: exactHeroEquityRunoutQuantiles
+---
+
+# `exactHeroEquityRunoutQuantiles`
+
+<div className="apiSignature">{`exactHeroEquityRunoutQuantiles(heroHoleCards, boardCards, range?): HeroEquityRunoutQuantilesResult`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Distribution of hero equity over enumerated runouts vs random or weighted villain range.
+
+More walkthroughs: [Runout equity spread](/docs/guides/tournament-runouts-and-bots#1-runout-equity-spread-exactheroequityrunoutquantiles).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const q = poker.exactHeroEquityRunoutQuantiles(['Ah', 'Kh'], ['Qh', 'Jh', '2c']);
+console.log(q.mean, q.p05, q.p95);
+```
+
+## Return type
+
+[`HeroEquityRunoutQuantilesResult`](/docs/reference/types/hero-equity-runout-quantiles-result).

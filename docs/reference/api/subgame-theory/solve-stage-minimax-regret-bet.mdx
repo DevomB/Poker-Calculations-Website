@@ -1,0 +1,30 @@
+---
+title: solveStageMinimaxRegretBet
+---
+
+# `solveStageMinimaxRegretBet`
+
+<div className="apiSignature">{`solveStageMinimaxRegretBet(potBeforeBet, betSizes, villainFoldFreq, villainCallFreq, heroEquityWhenCalled): StageMinimaxRegretBetResult`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Pick a bet size from a grid to maximize hero EV vs a fold/call mix; report regret vs checking.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const r = poker.solveStageMinimaxRegretBet(100, [33, 66, 100], 0.4, 0.6, 0.55);
+console.log(r.bestBet, r.minimaxRegret);
+```
+
+## Return type
+
+[`StageMinimaxRegretBetResult`](/docs/reference/types/stage-minimax-regret-bet-result).

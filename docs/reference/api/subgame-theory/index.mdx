@@ -1,0 +1,20 @@
+---
+title: Subgame & ranges
+sidebar_position: 18
+---
+
+# Subgame & ranges
+
+Range materialization and Bayesian updates, toy subgame solvers (polarized river, minimax regret sizing, push/fold thresholds), clairvoyant regret, and multiway independence diagnostics.
+
+Villain ranges: `Float64Array(1326)` or [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec). See [Range equity (exact)](/docs/guides/range-equity-exact) and [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots).
+
+| Export | Summary |
+| --- | --- |
+| [`materializeVillainRangeAfterBlockers`](/docs/reference/api/subgame-theory/materialize-villain-range-after-blockers) | Live combos, weight sum, entropy after blockers. |
+| [`bayesianRangeUpdateFromAction`](/docs/reference/api/subgame-theory/bayesian-range-update-from-action) | Heuristic range update from villain action. |
+| [`solveRiverPolarizedIndifferenceBet`](/docs/reference/api/subgame-theory/solve-river-polarized-indifference-bet) | Polarized river bet at MDF indifference. |
+| [`solveStageMinimaxRegretBet`](/docs/reference/api/subgame-theory/solve-stage-minimax-regret-bet) | Minimax-regret bet size vs fold/call model. |
+| [`exactInformationRegretVsClairvoyant`](/docs/reference/api/subgame-theory/exact-information-regret-vs-clairvoyant) | Clairvoyant regret vs weighted range. |
+| [`multiwayEquityIndependenceGap`](/docs/reference/api/subgame-theory/multiway-equity-independence-gap) | Exact vs independence-approximation equity gap. |
+| [`solveSymmetricPushFoldThreshold`](/docs/reference/api/subgame-theory/solve-symmetric-push-fold-threshold) | Symmetric push/fold breakeven equity. |

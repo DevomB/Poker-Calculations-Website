@@ -1,0 +1,36 @@
+---
+title: IcmShapleyValuesResult
+---
+
+# `IcmShapleyValuesResult`
+
+Returned by [`icmShapleyValues`](/docs/reference/api/cooperative-icm/icm-shapley-values).
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `values` | `number[] \| Float64Array` | Shapley fair-share **$EV** per seat (not chip chop) |
+| `method` | `string` | Echo of option, e.g. `"exact"` or `"monteCarlo"` |
+| `se` | `number[] \| Float64Array` (optional) | Per-seat Monte Carlo standard error when `method` is `monteCarlo` |
+
+## Semantics
+
+`values[i]` is player `i`'s Shapley allocation: average marginal contribution to coalition ICM prize pools over all join orders. Compare to chip-proportional chop or [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) for the full-table Harville vector.
+
+Under `exact`, `se` is omitted. Under `monteCarlo`, `se` holds per-player stderr from the permutation sampler.
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+
+const { values, method, se } = poker.icmShapleyValues(
+  [12000, 8000, 5000, 2000],
+  [10000, 6000, 3000, 1000],
+  { method: 'exact' },
+);
+console.log({ method, values, se });
+```
+
+## See also
+
+[`IcmShapleyValuesOptions`](/docs/reference/types/icm-shapley-values-options) · [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) · [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots#2-shapley-chop-vs-harville-icm-icmshapleyvalues)

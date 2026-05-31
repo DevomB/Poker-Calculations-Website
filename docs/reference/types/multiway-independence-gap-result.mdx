@@ -1,0 +1,37 @@
+---
+title: MultiwayIndependenceGapResult
+---
+
+# `MultiwayIndependenceGapResult`
+
+Returned by [`multiwayEquityIndependenceGap`](/docs/reference/api/subgame-theory/multiway-equity-independence-gap).
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `exact` | `number` | Monte Carlo multiway equity (one simulation stream, N villains) |
+| `independentApprox` | `number` | `1 − Π(1 − huEquity_j)` from separate HU sims |
+| `gap` | `number` | `exact - independentApprox` |
+| `villains` | `number` | Villain count passed to the API |
+
+## Semantics
+
+`exact` uses [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome) with the given `numSimulations`, `seed`, and `villains`. `independentApprox` runs one HU simulation per villain with seeds `seed + 1000 + j` and combines with the independence formula. The gap measures how much treating villains as independent underestimates or overestimates multiway equity. Both values are Monte Carlo estimates — increase `numSimulations` for stability (see [`McEquityDetailedResult`](/docs/reference/types/mc-equity-detailed-result) for interval tooling on single draws).
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+
+const gap = poker.multiwayEquityIndependenceGap(
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', '2c'],
+  50_000,
+  42,
+  2,
+);
+console.log(gap);
+```
+
+## See also
+
+[`multiwayEquityIndependenceGap`](/docs/reference/api/subgame-theory/multiway-equity-independence-gap) · [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome)

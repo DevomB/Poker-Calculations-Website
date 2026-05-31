@@ -28,6 +28,32 @@ import type { CardInput, NativePokerState } from 'poker-calculations';
 | [`BetaBinomialFoldPosterior`](/docs/reference/types/beta-binomial-fold-posterior) | Fold-rate posterior |
 | [`SidePotLayer`](/docs/reference/types/side-pot-layer) | Side-pot layer |
 
+## ICM and tournament
+
+| Type | Doc |
+| --- | --- |
+| [`IcmShapleyValuesOptions`](/docs/reference/types/icm-shapley-values-options) | Options for `icmShapleyValues` |
+| [`IcmShapleyValuesResult`](/docs/reference/types/icm-shapley-values-result) | Shapley fair-share $EV |
+| [`IcmFieldPressureIndexResult`](/docs/reference/types/icm-field-pressure-index-result) | Field-wide bubble pressure |
+| [`IcmChopParetoPair`](/docs/reference/types/icm-chop-pareto-pair) | Directed surplus transfer edge |
+| [`IcmChopNegotiationAnalysisResult`](/docs/reference/types/icm-chop-negotiation-analysis-result) | Chip chop vs ICM surplus |
+| [`TournamentDuelAbsorptionResult`](/docs/reference/types/tournament-duel-absorption-result) | HU absorption time and prize EV |
+| [`SidePotLayerTournamentEvRow`](/docs/reference/types/side-pot-layer-tournament-ev-row) | Per-layer chip and ICM EV |
+
+## Exact runouts and subgame
+
+| Type | Doc |
+| --- | --- |
+| [`MaterializedVillainRangeResult`](/docs/reference/types/materialized-villain-range-result) | Dense 1326 weights after blockers |
+| [`HeroRunoutVulnerabilityResult`](/docs/reference/types/hero-runout-vulnerability-result) | P(nuts), P(dominated) over runouts |
+| [`VillainLeapfrogOutCountsResult`](/docs/reference/types/villain-leapfrog-out-counts-result) | Leapfrog and hero-improve deck indices |
+| [`HeroEquityRunoutQuantilesResult`](/docs/reference/types/hero-equity-runout-quantiles-result) | Runout equity distribution |
+| [`CardRemovalGradientResult`](/docs/reference/types/card-removal-gradient-result) | 52-vector equity sensitivity |
+| [`RiverIndifferenceBetResult`](/docs/reference/types/river-indifference-bet-result) | Polarized river indifference bet |
+| [`StageMinimaxRegretBetResult`](/docs/reference/types/stage-minimax-regret-bet-result) | Minimax regret over bet grid |
+| [`PushFoldThresholdResult`](/docs/reference/types/push-fold-threshold-result) | Symmetric push/fold threshold |
+| [`MultiwayIndependenceGapResult`](/docs/reference/types/multiway-independence-gap-result) | Multiway vs independence gap |
+
 ## Options and batch specs
 
 | Type | Doc |

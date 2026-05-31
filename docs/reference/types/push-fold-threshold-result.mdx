@@ -1,0 +1,34 @@
+---
+title: PushFoldThresholdResult
+---
+
+# `PushFoldThresholdResult`
+
+Returned by [`solveSymmetricPushFoldThreshold`](/docs/reference/api/subgame-theory/solve-symmetric-push-fold-threshold).
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `thresholdEquity` | `number` | Minimum equity to jam profitably (symmetric model) |
+| `jamEvAtThreshold` | `number` | Jam EV at `thresholdEquity` (≈ 0) |
+
+## Semantics
+
+Symmetric push/fold: dead money is `smallBlind + bigBlind + 2 × antePerPlayer`. Native code binary-searches equity in `[0, 1]` where `jamEv(equity) = equity × (2 × effectiveStack + dead) - effectiveStack` crosses zero. `jamEvAtThreshold` should be numerically near zero.
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+
+const { thresholdEquity, jamEvAtThreshold } = poker.solveSymmetricPushFoldThreshold(
+  10, // effectiveStack
+  0.5, // smallBlind
+  1, // bigBlind
+  0.1, // antePerPlayer
+);
+console.log({ thresholdEquity, jamEvAtThreshold });
+```
+
+## See also
+
+[`solveSymmetricPushFoldThreshold`](/docs/reference/api/subgame-theory/solve-symmetric-push-fold-threshold)

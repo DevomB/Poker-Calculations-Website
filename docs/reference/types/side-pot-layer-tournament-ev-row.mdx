@@ -1,0 +1,43 @@
+---
+title: SidePotLayerTournamentEvRow
+---
+
+# `SidePotLayerTournamentEvRow`
+
+One element of the array returned by [`sidePotLayerTournamentEvDelta`](/docs/reference/api/cooperative-icm/side-pot-layer-tournament-ev-delta). Row order matches layers from [`sidePotLadderFromCommitments`](/docs/reference/api/side-pots/side-pot-ladder-from-commitments).
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `chipEv` | `number` | Hero chip EV in the layer (`layerEquity × potChips`) |
+| `icmEvWin` | `number` | Hero Harville $EV if hero wins the layer chips |
+| `icmEvLose` | `number` | Hero Harville $EV if hero loses the layer chips |
+| `icmMarginal` | `number` | `icmEvWin - icmEvLose` |
+
+## Semantics
+
+For each side-pot layer, native code applies hero’s layer equity from `equityPlayerByLayer[heroIndex][layerIndex]`, then recomputes ICM with hero stack increased (win) or decreased (lose) by that layer’s `potChips`. `icmMarginal` is the tournament-dollar swing from taking the layer vs losing it.
+
+Pass `equityPlayerByLayer` as `number[][]` or a flat `Float64Array` with the same layout as other matrix helpers (hero row × layer index).
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+
+const committed = [5000, 5000, 2000, 2000];
+const layers = poker.sidePotLadderFromCommitments(committed);
+const equityByLayer = [[0.6, 0.4], [0.55, 0.45], [0.5, 0.5], [0.5, 0.5]];
+
+const rows = poker.sidePotLayerTournamentEvDelta(
+  [12000, 9000, 6000, 3000],
+  [10000, 6000, 3000, 1000],
+  0,
+  committed,
+  equityByLayer,
+);
+rows.forEach((row, i) => console.log(layers[i].potChips, row));
+```
+
+## See also
+
+[`SidePotLayer`](/docs/reference/types/side-pot-layer) · [`sidePotLayerTournamentEvDelta`](/docs/reference/api/cooperative-icm/side-pot-layer-tournament-ev-delta)

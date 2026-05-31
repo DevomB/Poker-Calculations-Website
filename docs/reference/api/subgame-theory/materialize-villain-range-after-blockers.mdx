@@ -1,0 +1,37 @@
+---
+title: materializeVillainRangeAfterBlockers
+---
+
+# `materializeVillainRangeAfterBlockers`
+
+<div className="apiSignature">{`materializeVillainRangeAfterBlockers(range, heroHoleCards, boardCards, knownDead?): MaterializedVillainRangeResult`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Dense 1326 combo weights after blockers, with combo count and entropy.
+
+More walkthroughs: [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots).
+
+## How to use
+
+```js
+// poker.materializeVillainRangeAfterBlockers(...)
+```
+
+## Return type
+
+[`MaterializedVillainRangeResult`](/docs/reference/types/materialized-villain-range-result).

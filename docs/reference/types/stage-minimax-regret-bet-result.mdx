@@ -1,0 +1,38 @@
+---
+title: StageMinimaxRegretBetResult
+---
+
+# `StageMinimaxRegretBetResult`
+
+Returned by [`solveStageMinimaxRegretBet`](/docs/reference/api/subgame-theory/solve-stage-minimax-regret-bet).
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `bestBet` | `number` | Bet size (chips) with highest hero EV on the grid |
+| `minimaxRegret` | `number` | `bestEv - checkEv` |
+| `evByAction` | `number[]` | Hero EV for check, then each bet in `betSizes` order |
+
+## Semantics
+
+Villain fold and call frequencies are clamped to `[0, 1]` and renormalized to a response mix. Hero EV is evaluated at check (`evByAction[0]`) and at each entry in `betSizes` (`evByAction[1]`, …). `bestBet` is the size that maximizes hero EV (check uses size `0`). `minimaxRegret` measures uplift over checking.
+
+`evByAction.length === 1 + betSizes.length`.
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+
+const { bestBet, minimaxRegret, evByAction } = poker.solveStageMinimaxRegretBet(
+  100,
+  [0, 33, 66, 100],
+  0.4,
+  0.5,
+  0.55,
+);
+console.log({ bestBet, minimaxRegret, evByAction });
+```
+
+## See also
+
+[`solveStageMinimaxRegretBet`](/docs/reference/api/subgame-theory/solve-stage-minimax-regret-bet)

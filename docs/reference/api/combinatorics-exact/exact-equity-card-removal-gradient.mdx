@@ -1,0 +1,42 @@
+---
+title: exactEquityCardRemovalGradient
+---
+
+# `exactEquityCardRemovalGradient`
+
+<div className="apiSignature">{`exactEquityCardRemovalGradient(heroHoleCards, boardCards, range): CardRemovalGradientResult`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Exact 52-vector sensitivity of HU equity vs a range when each remaining deck card is treated as dead.
+
+More walkthroughs: [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const { gradient, baseEquity } = poker.exactEquityCardRemovalGradient(
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', '2c'],
+  range,
+);
+```
+
+## Return type
+
+[`CardRemovalGradientResult`](/docs/reference/types/card-removal-gradient-result).
+
+## See also
+
+[`equityDeltaIfCardRemoved`](/docs/reference/api/heuristics-and-draws/equity-delta-if-card-removed) · [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec)

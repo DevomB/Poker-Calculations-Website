@@ -1,0 +1,41 @@
+---
+title: MaterializedVillainRangeResult
+---
+
+# `MaterializedVillainRangeResult`
+
+Returned by [`materializeVillainRangeAfterBlockers`](/docs/reference/api/subgame-theory/materialize-villain-range-after-blockers) and [`bayesianRangeUpdateFromAction`](/docs/reference/api/subgame-theory/bayesian-range-update-from-action).
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `weights1326` | `Float64Array` | Dense combo weights (length 1326) after blockers |
+| `liveComboCount` | `number` | Combos with positive weight |
+| `weightSum` | `number` | Sum of live weights |
+| `shannonEntropy` | `number` | Shannon entropy of normalized live weights |
+
+## Semantics
+
+Hero hole cards, board, and optional `knownDead` remove combos from the prior range (dense `Float64Array(1326)` or [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec)). Remaining weights are written into `weights1326`; blocked combos are zero. Entropy uses normalized probabilities over positive entries only.
+
+`bayesianRangeUpdateFromAction` applies a strength-based likelihood update (fold / call / raise) before materializing.
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const { weights1326, liveComboCount, weightSum, shannonEntropy } =
+  poker.materializeVillainRangeAfterBlockers(
+    range,
+    ['Ah', 'Kh'],
+    ['Qh', 'Jh', '2c'],
+  );
+console.log({ liveComboCount, weightSum, shannonEntropy });
+```
+
+## See also
+
+[`SparseRangeSpec`](/docs/reference/types/sparse-range-spec) · [Range equity (exact)](/docs/guides/range-equity-exact)

@@ -1,0 +1,22 @@
+---
+title: Exact runouts
+sidebar_position: 17
+---
+
+# Exact runouts
+
+Enumerate turn/river (or full runouts) for **exact** hero equity spread, nuts/dominated rates, category joints, blocker gradients, and related combinatorics—no Monte Carlo sampling.
+
+Card arguments are [`CardInput`](/docs/concepts/packed-card-input). Optional villain ranges use dense `Float64Array(1326)` or [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec). Async variants accept [`AsyncOptions`](/docs/reference/types/async-options).
+
+| Export | Summary |
+| --- | --- |
+| [`exactHeroRunoutVulnerability`](/docs/reference/api/combinatorics-exact/exact-hero-runout-vulnerability) | P(nuts), P(dominated), runout count. |
+| [`exactHeroRunoutVulnerabilityAsync`](/docs/reference/api/combinatorics-exact/exact-hero-runout-vulnerability-async) | Non-blocking vulnerability scan. |
+| [`exactVillainLeapfrogOutCounts`](/docs/reference/api/combinatorics-exact/exact-villain-leapfrog-out-counts) | Villain leapfrog vs hero-improve deck ids. |
+| [`exactHeroCategoryJointFlopToRiver`](/docs/reference/api/combinatorics-exact/exact-hero-category-joint-flop-to-river) | Joint category matrix flop→river. |
+| [`exactRangeDominatedComboFraction`](/docs/reference/api/combinatorics-exact/exact-range-dominated-combo-fraction) | Fraction of range combos dominated. |
+| [`exactHeroEquityRunoutQuantiles`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles) | Mean, variance, p05/p50/p95 equity on runouts. |
+| [`exactHeroEquityRunoutQuantilesAsync`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles-async) | Non-blocking runout quantiles. |
+| [`exactEquityCardRemovalGradient`](/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient) | Per-deck-id equity sensitivity vs range. |
+| [`exactEquityCardRemovalGradientAsync`](/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient-async) | Non-blocking removal gradient. |

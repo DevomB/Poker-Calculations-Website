@@ -1,0 +1,30 @@
+---
+title: solveRiverPolarizedIndifferenceBet
+---
+
+# `solveRiverPolarizedIndifferenceBet`
+
+<div className="apiSignature">{`solveRiverPolarizedIndifferenceBet(potBeforeBet, numValueCombos, numBluffCombos, mdf?): RiverIndifferenceBetResult`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Polarized river bet size at villain call indifference (MDF-based).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const r = poker.solveRiverPolarizedIndifferenceBet(100, 30, 10);
+console.log(r.betSize, r.bluffFrequency);
+```
+
+## Return type
+
+[`RiverIndifferenceBetResult`](/docs/reference/types/river-indifference-bet-result).

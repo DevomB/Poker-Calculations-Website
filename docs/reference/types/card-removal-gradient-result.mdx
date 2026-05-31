@@ -1,0 +1,38 @@
+---
+title: CardRemovalGradientResult
+---
+
+# `CardRemovalGradientResult`
+
+Returned by [`exactEquityCardRemovalGradient`](/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient) and [`exactEquityCardRemovalGradientAsync`](/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient-async).
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `gradient` | `Float64Array` | Length **52** — sensitivity per deck index |
+| `baseEquity` | `number` | Hero equity vs range at current dead cards |
+
+## Semantics
+
+For each deck index `d` not already dead (hero, board, blockers), `gradient[d] = baseEquity - equity(d)`, where `equity(d)` is exact HU equity vs the range after additionally removing card `d` from the deck. Positive values mean equity **drops** when that card is dead (typical for cards that improve villain combos).
+
+Blocked or already-dead indices are `0`. Contrast with the heuristic [`equityDeltaIfCardRemoved`](/docs/reference/api/heuristics-and-draws/equity-delta-if-card-removed), which uses Monte Carlo.
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const { gradient, baseEquity } = poker.exactEquityCardRemovalGradient(
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', '2c'],
+  range,
+);
+console.log({ baseEquity, gradientAt50: gradient[50] });
+```
+
+## See also
+
+[`SparseRangeSpec`](/docs/reference/types/sparse-range-spec) · [`AsyncOptions`](/docs/reference/types/async-options)

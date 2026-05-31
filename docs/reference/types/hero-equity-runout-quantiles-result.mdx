@@ -1,0 +1,36 @@
+---
+title: HeroEquityRunoutQuantilesResult
+---
+
+# `HeroEquityRunoutQuantilesResult`
+
+Returned by [`exactHeroEquityRunoutQuantiles`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles) and [`exactHeroEquityRunoutQuantilesAsync`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles-async).
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `mean` | `number` | Mean hero equity over runouts |
+| `variance` | `number` | Sample variance of equity |
+| `p05` | `number` | 5th percentile |
+| `p50` | `number` | Median |
+| `p95` | `number` | 95th percentile |
+| `n` | `number` | Number of runout samples |
+
+## Semantics
+
+Enumerates all turn/river completions (board **3 or 4** cards). Without `range`, equity vs a uniform random villain is used. With optional `range` (dense `Float64Array(1326)` or [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec)), equity is vs that weighted range on each runout. Quantiles come from sorting per-runout equity values.
+
+Use the async export with a weighted range or when enumeration would block the event loop; optional [`AsyncOptions`](/docs/reference/types/async-options) apply.
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+
+const q = poker.exactHeroEquityRunoutQuantiles(['Ah', 'Kh'], ['Qh', 'Jh', '2c']);
+console.log(q);
+// { mean, variance, p05, p50, p95, n }
+```
+
+## See also
+
+[Runout equity spread](/docs/guides/tournament-runouts-and-bots#1-runout-equity-spread-exactheroequityrunoutquantiles) · [`AsyncOptions`](/docs/reference/types/async-options)

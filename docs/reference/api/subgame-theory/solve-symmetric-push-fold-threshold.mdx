@@ -1,0 +1,30 @@
+---
+title: solveSymmetricPushFoldThreshold
+---
+
+# `solveSymmetricPushFoldThreshold`
+
+<div className="apiSignature">{`solveSymmetricPushFoldThreshold(effectiveStack, smallBlind, bigBlind, antePerPlayer): PushFoldThresholdResult`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Symmetric push/fold jam threshold equity with blinds and antes.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const r = poker.solveSymmetricPushFoldThreshold(10, 0.5, 1, 0.1);
+console.log(r.thresholdEquity);
+```
+
+## Return type
+
+[`PushFoldThresholdResult`](/docs/reference/types/push-fold-threshold-result).

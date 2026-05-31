@@ -1,0 +1,20 @@
+---
+title: Tournament ICM
+sidebar_position: 16
+---
+
+# Tournament ICM
+
+Advanced tournament math beyond core Harville ICM: **Shapley** fair division, stack sensitivities, skill-adjusted payouts, field pressure, chop negotiation, heads-up absorption, and side-pot layers valued in both chips and ICM.
+
+Stack and payout vectors use [`F64VectorInput`](/docs/concepts/float64-icm-input). See also [ICM and side pots](/docs/guides/icm-and-side-pots) and [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots).
+
+| Export | Summary |
+| --- | --- |
+| [`icmShapleyValues`](/docs/reference/api/cooperative-icm/icm-shapley-values) | Shapley fair-share $EV (exact or Monte Carlo). |
+| [`icmHarvilleStackJacobian`](/docs/reference/api/cooperative-icm/icm-harville-stack-jacobian) | ∂(ICM payout)/∂stack. |
+| [`icmHarvilleSkillAdjustedPayouts`](/docs/reference/api/cooperative-icm/icm-harville-skill-adjusted-payouts) | Blend Harville ICM with skill weights. |
+| [`icmFieldPressureIndex`](/docs/reference/api/cooperative-icm/icm-field-pressure-index) | Field-wide bubble pressure vs hero. |
+| [`icmChopNegotiationAnalysis`](/docs/reference/api/cooperative-icm/icm-chop-negotiation-analysis) | Chip chop vs ICM surplus and Pareto pairs. |
+| [`tournamentDuelAbsorptionProbabilities`](/docs/reference/api/cooperative-icm/tournament-duel-absorption-probabilities) | HU absorption time and prize EV. |
+| [`sidePotLayerTournamentEvDelta`](/docs/reference/api/cooperative-icm/side-pot-layer-tournament-ev-delta) | Per-layer chip and ICM EV for hero. |

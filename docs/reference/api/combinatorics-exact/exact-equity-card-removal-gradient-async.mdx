@@ -1,0 +1,40 @@
+---
+title: exactEquityCardRemovalGradientAsync
+---
+
+# `exactEquityCardRemovalGradientAsync`
+
+<div className="apiSignature">{`exactEquityCardRemovalGradientAsync(heroHoleCards, boardCards, range, options?): Promise<CardRemovalGradientResult>`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Same as [`exactEquityCardRemovalGradient`](/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient); non-blocking. Optional [`AsyncOptions`](/docs/reference/types/async-options).
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const { gradient, baseEquity } = await poker.exactEquityCardRemovalGradientAsync(
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', '2c'],
+  range,
+);
+```
+
+## Return type
+
+[`CardRemovalGradientResult`](/docs/reference/types/card-removal-gradient-result).
+
+## See also
+
+[`exactEquityCardRemovalGradient`](/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient) · [`AsyncOptions`](/docs/reference/types/async-options)

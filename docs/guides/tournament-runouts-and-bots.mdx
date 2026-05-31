@@ -1,0 +1,58 @@
+---
+title: Tournament, runouts, and bots
+sidebar_position: 7
+---
+
+# Tournament, runouts, and bots
+
+Walkthroughs for three APIs that are especially useful in **tournament tools**, **study backends**, and **`decideAction`-style bots**: runout equity spread, chop math, and range-aware regret on a street.
+
+## 1. Runout equity spread (`exactHeroEquityRunoutQuantiles`)
+
+Mean equity on a draw-heavy flop hides bad runouts. Enumerate all turn/river completions and read the distribution:
+
+```js
+const poker = require('poker-calculations');
+
+const hero = ['Ah', 'Kh'];
+const flop = ['Qh', 'Jh', '2c'];
+
+const q = poker.exactHeroEquityRunoutQuantiles(hero, flop);
+console.log(q);
+// { mean, variance, p05, p50, p95, n }
+```
+
+Use `exactHeroEquityRunoutQuantilesAsync` when you pass a weighted villain range or need a non-blocking call in a server.
+
+## 2. Shapley chop vs Harville ICM (`icmShapleyValues`)
+
+Compare a chip-proportional chop to standard ICM and to Shapley fair division when players negotiate a deal:
+
+```js
+const stacks = [12000, 8000, 5000, 2000];
+const payouts = [10000, 6000, 3000, 1000];
+
+const icm = poker.icmExpectedPayouts(stacks, payouts);
+const shapley = poker.icmShapleyValues(stacks, payouts, { method: 'exact' });
+console.log({ icm, shapley: shapley.values });
+```
+
+## 3. Information regret on one street (`exactInformationRegretVsClairvoyant`)
+
+Measure how much call/fold EV you give up when you only see the current board, not the final runout, against a weighted range:
+
+```js
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const regret = poker.exactInformationRegretVsClairvoyant(
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', '2c'],
+  range,
+  100,
+  50
+);
+console.log('EV gap (chips):', regret);
+```
+
+Related APIs: [`icmHarvilleStackJacobian`](/docs/reference/api/cooperative-icm/icm-harville-stack-jacobian), [`exactEquityCardRemovalGradient`](/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient), [`bayesianRangeUpdateFromAction`](/docs/reference/api/subgame-theory/bayesian-range-update-from-action), [`materializeVillainRangeAfterBlockers`](/docs/reference/api/subgame-theory/materialize-villain-range-after-blockers).

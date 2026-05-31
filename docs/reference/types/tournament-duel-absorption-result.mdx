@@ -1,0 +1,37 @@
+---
+title: TournamentDuelAbsorptionResult
+---
+
+# `TournamentDuelAbsorptionResult`
+
+Returned by [`tournamentDuelAbsorptionProbabilities`](/docs/reference/api/cooperative-icm/tournament-duel-absorption-probabilities).
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `heroWinProbability` | `number` | Probability hero wins the duel (absorption at hero-favored boundary) |
+| `expectedHands` | `number` | Expected hands until absorption |
+| `heroPrizeEv` | `number` | `heroWinProbability × winnerPrize` |
+
+## Semantics
+
+Models a heads-up duel as a Markov chain on stack differential in steps of `chipsPerAllIn`, with fixed per-hand win probability `winProbabilityPerHand`. Each hand moves the state up or down by one step until hero or villain is eliminated. `expectedHands` is the mass-weighted mean hands played until absorption. If `winnerPrize` is omitted on the API, it defaults to `0` and `heroPrizeEv` is zero.
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+
+const r = poker.tournamentDuelAbsorptionProbabilities(
+  25_000, // heroStack
+  15_000, // villainStack
+  0.55, // winProbabilityPerHand
+  5_000, // chipsPerAllIn
+  100_000, // winnerPrize (optional)
+);
+console.log(r);
+// { heroWinProbability, expectedHands, heroPrizeEv }
+```
+
+## See also
+
+[`tournamentDuelAbsorptionProbabilities`](/docs/reference/api/cooperative-icm/tournament-duel-absorption-probabilities)

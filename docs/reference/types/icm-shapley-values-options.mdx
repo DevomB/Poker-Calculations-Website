@@ -1,0 +1,38 @@
+---
+title: IcmShapleyValuesOptions
+---
+
+# `IcmShapleyValuesOptions`
+
+Optional third argument to [`icmShapleyValues`](/docs/reference/api/cooperative-icm/icm-shapley-values).
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `method` | `'exact' \| 'monteCarlo'` | Coalition enumeration vs random permutations (default `'exact'`) |
+| `permutations` | `number` | Monte Carlo sample count (default `200000` in native code) |
+| `returnFormat` | `F64ReturnFormat` | `'float64'` for `Float64Array` on result `values` / `se` — see [Float64 ICM input](/docs/concepts/float64-icm-input) |
+
+## Semantics
+
+With `method: 'exact'`, Shapley values are computed by enumerating coalitions and marginal contributions using Harville ICM coalition prizes. With `method: 'monteCarlo'`, random permutations approximate the same allocation; use a higher `permutations` when `n` is large.
+
+`returnFormat` only affects the **result** vectors ([`IcmShapleyValuesResult`](/docs/reference/types/icm-shapley-values-result)), not the stacks/payouts inputs.
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+
+const stacks = [12000, 8000, 5000, 2000];
+const payouts = [10000, 6000, 3000, 1000];
+
+const exact = poker.icmShapleyValues(stacks, payouts, { method: 'exact' });
+const mc = poker.icmShapleyValues(stacks, payouts, {
+  method: 'monteCarlo',
+  permutations: 200_000,
+});
+```
+
+## See also
+
+[`IcmShapleyValuesResult`](/docs/reference/types/icm-shapley-values-result) · [`icmShapleyValues`](/docs/reference/api/cooperative-icm/icm-shapley-values) · [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots#2-shapley-chop-vs-harville-icm-icmshapleyvalues)

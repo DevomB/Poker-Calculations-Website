@@ -1,0 +1,34 @@
+---
+title: tournamentDuelAbsorptionProbabilities
+---
+
+# `tournamentDuelAbsorptionProbabilities`
+
+<div className="apiSignature">{`tournamentDuelAbsorptionProbabilities(heroStack, villainStack, winProbabilityPerHand, chipsPerAllIn, winnerPrize?): TournamentDuelAbsorptionResult`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Heads-up absorption: win probability, expected hands to elimination, and optional prize EV.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const r = poker.tournamentDuelAbsorptionProbabilities(25000, 15000, 0.55, 5000, 100000);
+console.log(r);
+```
+
+## Return type
+
+[`TournamentDuelAbsorptionResult`](/docs/reference/types/tournament-duel-absorption-result).
+
+## See also
+
+[`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts)

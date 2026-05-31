@@ -1,0 +1,35 @@
+---
+title: VillainLeapfrogOutCountsResult
+---
+
+# `VillainLeapfrogOutCountsResult`
+
+Returned by [`exactVillainLeapfrogOutCounts`](/docs/reference/api/combinatorics-exact/exact-villain-leapfrog-out-counts).
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `leapfrogDeckIndices` | `number[]` | Deck indices `0..51` where the next board card leapfrogs villain ahead of hero |
+| `heroImproveDeckIndices` | `number[]` | Deck indices where hero’s strength increases vs current board |
+
+## Semantics
+
+Board must have **3 or 4** cards. For each remaining deck card `c`, native code adds that card to the board and compares strengths. **Leapfrog:** villain’s max strength exceeds hero’s and exceeds the pre-card villain max. **Hero improve:** hero’s strength is higher than on the current board.
+
+Indices use the same `0..51` layout as [Card notation](/docs/concepts/card-notation#packed-form-cardinput). Map to strings with `deckIndexToCardString` from `poker-calculations/encode`.
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+const { deckIndexToCardString } = require('poker-calculations/encode');
+
+const { leapfrogDeckIndices, heroImproveDeckIndices } =
+  poker.exactVillainLeapfrogOutCounts(['Ah', 'Kh'], ['Qh', 'Jh', '2c']);
+
+const cards = leapfrogDeckIndices.map(deckIndexToCardString);
+console.log(cards);
+```
+
+## See also
+
+[`exactVillainLeapfrogOutCounts`](/docs/reference/api/combinatorics-exact/exact-villain-leapfrog-out-counts) · [Card notation](/docs/concepts/card-notation)

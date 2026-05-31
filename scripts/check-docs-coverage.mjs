@@ -1,28 +1,13 @@
 import {createRequire} from 'node:module';
-import {readFileSync, readdirSync} from 'node:fs';
+import {existsSync, readFileSync, readdirSync} from 'node:fs';
 import {join, dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(join(root, 'package.json'));
 const pkgMain = require.resolve('poker-calculations');
-const indexDtsPath = join(dirname(pkgMain), 'index.d.ts');
-
-const apiRoot = join(root, 'docs/reference/api');
-
-const categories = readdirSync(apiRoot, {withFileTypes: true})
-  .filter((d) => d.isDirectory())
-  .map((d) => d.name);
-
-const docSlugs = new Set();
-for (const cat of categories) {
-  const dir = join(apiRoot, cat);
-  for (const f of readdirSync(dir)) {
-    if (f.endsWith('.mdx') && f !== 'index.mdx') {
-      docSlugs.add(f.replace(/\.mdx$/, ''));
-    }
-  }
-}
+const installedDtsPath = join(dirname(pkgMain), 'index.d.ts');
+const monorepoDtsPath = join(root, '../NPM/index.d.ts');
 
 function exportNamesFromIndexDts(dts) {
   const marker = 'export interface PokerCalculations {';
@@ -41,6 +26,41 @@ function exportNamesFromIndexDts(dts) {
   const body = dts.slice(begin, i - 1);
   const names = [...body.matchAll(/^\s{2}([a-zA-Z][a-zA-Z0-9]*)\s*\(/gm)].map((m) => m[1]);
   return [...new Set(names)].sort();
+}
+
+function resolveIndexDtsPath() {
+  const installedDts = readFileSync(installedDtsPath, 'utf8');
+  if (!existsSync(monorepoDtsPath)) {
+    return installedDtsPath;
+  }
+  const monorepoDts = readFileSync(monorepoDtsPath, 'utf8');
+  const installedCount = exportNamesFromIndexDts(installedDts).length;
+  const monorepoCount = exportNamesFromIndexDts(monorepoDts).length;
+  if (monorepoCount > installedCount) {
+    console.warn(
+      `Using ../NPM/index.d.ts (${monorepoCount} exports) — installed poker-calculations has ${installedCount}. Publish and bump Website dependency.`,
+    );
+    return monorepoDtsPath;
+  }
+  return installedDtsPath;
+}
+
+const indexDtsPath = resolveIndexDtsPath();
+
+const apiRoot = join(root, 'docs/reference/api');
+
+const categories = readdirSync(apiRoot, {withFileTypes: true})
+  .filter((d) => d.isDirectory())
+  .map((d) => d.name);
+
+const docSlugs = new Set();
+for (const cat of categories) {
+  const dir = join(apiRoot, cat);
+  for (const f of readdirSync(dir)) {
+    if (f.endsWith('.mdx') && f !== 'index.mdx') {
+      docSlugs.add(f.replace(/\.mdx$/, ''));
+    }
+  }
 }
 
 const unique = exportNamesFromIndexDts(readFileSync(indexDtsPath, 'utf8'));

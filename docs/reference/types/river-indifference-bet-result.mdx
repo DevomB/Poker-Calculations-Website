@@ -1,0 +1,35 @@
+---
+title: RiverIndifferenceBetResult
+---
+
+# `RiverIndifferenceBetResult`
+
+Returned by [`solveRiverPolarizedIndifferenceBet`](/docs/reference/api/subgame-theory/solve-river-polarized-indifference-bet).
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `betSize` | `number` | Solved bet size (chips) |
+| `bluffFrequency` | `number` | Bluff frequency at indifference, clamped to `[0, 1]` |
+| `defenderMdf` | `number` | Minimum defense frequency used |
+| `evAtIndifference` | `number` | Villain call EV at solved bet (≈ 0) |
+
+## Semantics
+
+Polarized river model: `numValueCombos` and `numBluffCombos` define the betting range mix. Native code binary-searches a bet size so villain **call EV ≈ 0**. `defenderMdf` comes from the optional `mdf` argument, or from `minimumDefenseFrequency(potBeforeBet, potBeforeBet)` when `mdf` is omitted. `evAtIndifference` reports villain call EV at the solved size (should be near zero).
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+
+const r = poker.solveRiverPolarizedIndifferenceBet(
+  100, // potBeforeBet
+  30, // numValueCombos
+  10, // numBluffCombos
+);
+console.log(r);
+```
+
+## See also
+
+[`solveRiverPolarizedIndifferenceBet`](/docs/reference/api/subgame-theory/solve-river-polarized-indifference-bet)

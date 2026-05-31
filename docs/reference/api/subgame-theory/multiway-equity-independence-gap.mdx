@@ -1,0 +1,30 @@
+---
+title: multiwayEquityIndependenceGap
+---
+
+# `multiwayEquityIndependenceGap`
+
+<div className="apiSignature">{`multiwayEquityIndependenceGap(heroHoleCards, boardCards, numSimulations, seed, villains): MultiwayIndependenceGapResult`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Measure how much multiway equity differs from an independence approximation across villains.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const r = poker.multiwayEquityIndependenceGap(['Ah', 'Kh'], ['Qh', 'Jh', '2c'], 50_000, 42, 2);
+console.log(r.gap);
+```
+
+## Return type
+
+[`MultiwayIndependenceGapResult`](/docs/reference/types/multiway-independence-gap-result).

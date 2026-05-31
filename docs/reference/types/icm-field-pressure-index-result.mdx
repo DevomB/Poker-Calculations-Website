@@ -1,0 +1,38 @@
+---
+title: IcmFieldPressureIndexResult
+---
+
+# `IcmFieldPressureIndexResult`
+
+Returned by [`icmFieldPressureIndex`](/docs/reference/api/cooperative-icm/icm-field-pressure-index). Pass `heroIndex` and `potChips` on the API call — they are not fields on this object.
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `index` | `number` | Stack-weighted field pressure score |
+| `pairwiseBubbleFactors` | `number[] \| Float64Array` | Per-seat bubble factor vs hero (hero slot is unused) |
+| `argmaxVillain` | `number` | Seat index with largest raw bubble factor vs hero |
+
+## Semantics
+
+For each villain seat `j ≠ hero`, `pairwiseBubbleFactors[j]` is [`icmPairwiseBubbleFactor`](/docs/reference/api/icm/icm-pairwise-bubble-factor) for hero vs `j` at the given pot size. The aggregate `index` is a stack-weighted sum of `bf / (1 + bf)` over opposing seats. `argmaxVillain` is the `j` with the largest raw bubble factor.
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+
+const stacks = [12000, 9000, 6000, 3000];
+const payouts = [10000, 6000, 3000, 1000];
+const heroIndex = 0;
+
+const { index, pairwiseBubbleFactors, argmaxVillain } = poker.icmFieldPressureIndex(
+  stacks,
+  payouts,
+  heroIndex,
+  500,
+);
+```
+
+## See also
+
+[`icmFieldPressureIndex`](/docs/reference/api/cooperative-icm/icm-field-pressure-index) · [`icmPairwiseBubbleFactor`](/docs/reference/api/icm/icm-pairwise-bubble-factor) · [Float64 ICM input](/docs/concepts/float64-icm-input)

@@ -1,0 +1,39 @@
+---
+title: IcmChopNegotiationAnalysisResult
+---
+
+# `IcmChopNegotiationAnalysisResult`
+
+Returned by [`icmChopNegotiationAnalysis`](/docs/reference/api/cooperative-icm/icm-chop-negotiation-analysis).
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `chipChop` | `number[]` | Chip-proportional split of total prize pool |
+| `icm` | `number[]` | Harville ICM expected payouts |
+| `surplus` | `number[]` | `chipChop[i] - icm[i]` per seat |
+| `totalPrizePool` | `number` | Sum of payout ladder |
+| `paretoPairs` | [`IcmChopParetoPair`](/docs/reference/types/icm-chop-pareto-pair)[] | Directed surplus-transfer edges |
+
+## Semantics
+
+`chipChop[i] = (stacks[i] / Σ stacks) × totalPrizePool`. `icm` is the standard Harville vector from the same stacks and payouts. Positive `surplus[i]` means a chip chop would overpay seat `i` relative to ICM; negative surplus means underpay. `paretoPairs` lists feasible transfers from surplus seats to deficit seats.
+
+## Example
+
+```js
+const poker = require('poker-calculations');
+
+const { chipChop, icm, surplus, paretoPairs } = poker.icmChopNegotiationAnalysis(
+  [12000, 8000, 5000, 2000],
+  [10000, 6000, 3000, 1000],
+);
+
+surplus.forEach((s, i) => {
+  console.log(i, s > 0 ? 'surplus' : s < 0 ? 'deficit' : 'flat', s);
+});
+console.log(paretoPairs);
+```
+
+## See also
+
+[`IcmChopParetoPair`](/docs/reference/types/icm-chop-pareto-pair) · [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) · [`icmChopNegotiationAnalysis`](/docs/reference/api/cooperative-icm/icm-chop-negotiation-analysis)
