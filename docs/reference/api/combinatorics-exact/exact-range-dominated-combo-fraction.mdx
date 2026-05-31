@@ -4,7 +4,11 @@ title: exactRangeDominatedComboFraction
 
 # `exactRangeDominatedComboFraction`
 
-<div className="apiSignature">See `index.d.ts` in the npm package for the full signature.</div>
+Weighted fraction of **live** villain combos strictly weaker than hero's best five on a **complete river board**.
+
+<div className="apiSignature">{`exactRangeDominatedComboFraction(heroHoleCards: CardInput, boardCards: CardInput, range: Float64Array | SparseRangeSpec): number`}</div>
+
+Range: dense `Float64Array(1326)` or [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec). See [Packed card input](/docs/concepts/packed-card-input).
 
 ## Import
 
@@ -12,7 +16,7 @@ title: exactRangeDominatedComboFraction
 const poker = require('poker-calculations');
 ```
 
-ESM (Node):
+## ESM (Node)
 
 ```js
 import { createRequire } from 'module';
@@ -22,14 +26,29 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Share of villain range strictly behind hero on a complete five-card board.
-
-More walkthroughs: [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots).
+On the river, you want the **exact** share of villain range weight in dominated combos — for range reports, blocker analysis, or comparing to Monte Carlo heuristics.
 
 ## How to use
 
 ```js
-// poker.exactRangeDominatedComboFraction(...)
+const poker = require('poker-calculations');
+
+const hero = ['Ah', 'Kh'];
+const river = ['Qh', 'Jh', '2c', 'Ts', '9d'];
+
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const dominatedFraction = poker.exactRangeDominatedComboFraction(hero, river, range);
+console.log('Weighted dominated share:', dominatedFraction);
 ```
 
-See the [API index](/docs/reference/api) and [`index.d.ts`](https://github.com/DevomB/Poker-Calculations/blob/main/index.d.ts) for parameters and return shapes.
+`boardCards` must be **exactly five cards**. Blocked combos are skipped; the range must have positive total weight on live combos.
+
+## Return type
+
+Scalar in `[0, 1]` — dominated combo weight divided by total live combo weight.
+
+## See also
+
+[`exactHuEquityVsRange`](/docs/reference/api/hands-and-equity/exact-hu-equity-vs-range) · [`materializeVillainRangeAfterBlockers`](/docs/reference/api/subgame-theory/materialize-villain-range-after-blockers) · [Range equity (exact)](/docs/guides/range-equity-exact)

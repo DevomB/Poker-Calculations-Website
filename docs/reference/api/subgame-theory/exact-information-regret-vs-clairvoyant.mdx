@@ -4,7 +4,11 @@ title: exactInformationRegretVsClairvoyant
 
 # `exactInformationRegretVsClairvoyant`
 
-<div className="apiSignature">See `index.d.ts` in the npm package for the full signature.</div>
+Chip EV gap between **clairvoyant** play (seeing the final runout) and **realistic** call/fold EV on the current board against a weighted range.
+
+<div className="apiSignature">{`exactInformationRegretVsClairvoyant(heroHoleCards: CardInput, boardCards: CardInput, range: Float64Array | SparseRangeSpec, potBeforeCall: number, toCall: number): number`}</div>
+
+Returns a single number in chips. See [Packed card input](/docs/concepts/packed-card-input) and [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec).
 
 ## Import
 
@@ -12,7 +16,7 @@ title: exactInformationRegretVsClairvoyant
 const poker = require('poker-calculations');
 ```
 
-ESM (Node):
+## ESM (Node)
 
 ```js
 import { createRequire } from 'module';
@@ -22,14 +26,33 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-EV lost on one street when hero does not know the final board yet.
-
-More walkthroughs: [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots).
+You want to quantify **information regret** on one street — how many chips hero gives up by not knowing the runout when facing a call decision vs a weighted villain range.
 
 ## How to use
 
 ```js
-// poker.exactInformationRegretVsClairvoyant(...)
+const poker = require('poker-calculations');
+
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const regret = poker.exactInformationRegretVsClairvoyant(
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', '2c'],
+  range,
+  100,
+  50,
+);
+
+console.log('EV gap (chips):', regret);
 ```
 
-See the [API index](/docs/reference/api) and [`index.d.ts`](https://github.com/DevomB/Poker-Calculations/blob/main/index.d.ts) for parameters and return shapes.
+Positive values mean hero's realistic line leaves chips on the table relative to clairvoyant play. `potBeforeCall` and `toCall` are the pot and call size before hero acts.
+
+## Return type
+
+Scalar `number` — chip EV difference (clairvoyant minus realistic optimal).
+
+## See also
+
+[`exactHeroEquityRunoutQuantiles`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles) · [`materializeVillainRangeAfterBlockers`](/docs/reference/api/subgame-theory/materialize-villain-range-after-blockers) · [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots)

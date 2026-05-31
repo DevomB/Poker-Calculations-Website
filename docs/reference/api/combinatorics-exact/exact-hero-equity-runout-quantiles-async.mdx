@@ -4,7 +4,11 @@ title: exactHeroEquityRunoutQuantilesAsync
 
 # `exactHeroEquityRunoutQuantilesAsync`
 
-<div className="apiSignature">{`exactHeroEquityRunoutQuantilesAsync(heroHoleCards, boardCards, range?, options?): Promise<HeroEquityRunoutQuantilesResult>`}</div>
+Non-blocking [`exactHeroEquityRunoutQuantiles`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles) — same runout equity distribution with optional `AbortSignal`.
+
+<div className="apiSignature">{`exactHeroEquityRunoutQuantilesAsync(heroHoleCards: CardInput, boardCards: CardInput, range?: Float64Array | SparseRangeSpec, options?: AsyncOptions): Promise<HeroEquityRunoutQuantilesResult>`}</div>
+
+See [`AsyncOptions`](/docs/reference/types/async-options).
 
 ## Import
 
@@ -12,19 +16,39 @@ title: exactHeroEquityRunoutQuantilesAsync
 const poker = require('poker-calculations');
 ```
 
+## ESM (Node)
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
 ## When to use
 
-Same as [`exactHeroEquityRunoutQuantiles`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles); non-blocking. Optional [`AsyncOptions`](/docs/reference/types/async-options).
+Same as sync, but with a **weighted villain range** or when enumeration would block the server — use `await` and optional cancellation.
 
 ## How to use
 
 ```js
 const poker = require('poker-calculations');
 
-const q = await poker.exactHeroEquityRunoutQuantilesAsync(['Ah', 'Kh'], ['Qh', 'Jh', '2c']);
-console.log(q.mean, q.p50);
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const q = await poker.exactHeroEquityRunoutQuantilesAsync(
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', '2c'],
+  range,
+);
+
+console.log('Mean:', q.mean, 'p05:', q.p05, 'p95:', q.p95);
 ```
 
 ## Return type
 
 [`HeroEquityRunoutQuantilesResult`](/docs/reference/types/hero-equity-runout-quantiles-result).
+
+## See also
+
+[`exactHeroEquityRunoutQuantiles`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles) · [`AsyncOptions`](/docs/reference/types/async-options) · [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots)

@@ -4,7 +4,11 @@ title: icmHarvilleSkillAdjustedPayouts
 
 # `icmHarvilleSkillAdjustedPayouts`
 
-<div className="apiSignature">See `index.d.ts` in the npm package for the full signature.</div>
+Harville ICM expected payouts when **first-place weights** blend chip share and a skill vector before placement recursion.
+
+<div className="apiSignature">{`icmHarvilleSkillAdjustedPayouts(stacks: F64VectorInput, payouts: F64VectorInput, skillWeights: F64VectorInput, blend: number, returnFormat?: F64ReturnFormat): number[] | Float64Array`}</div>
+
+`blend` in `[0, 1]` mixes `(1 - blend) × (stackᵢ / Σ stacks)` with `blend × (skillᵢ / Σ skill)`. See [Float64 ICM input](/docs/concepts/float64-icm-input).
 
 ## Import
 
@@ -12,7 +16,7 @@ title: icmHarvilleSkillAdjustedPayouts
 const poker = require('poker-calculations');
 ```
 
-ESM (Node):
+## ESM (Node)
 
 ```js
 import { createRequire } from 'module';
@@ -22,14 +26,30 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Harville ICM when you want first-place weights tilted by a skill vector (study or custom models).
-
-More walkthroughs: [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots).
+You want Harville ICM $EV with **skill-tilted** first-place probabilities — for study models, custom rating overlays, or comparing standard ICM to a skill-adjusted line.
 
 ## How to use
 
 ```js
-// poker.icmHarvilleSkillAdjustedPayouts(...)
+const poker = require('poker-calculations');
+
+const stacks = [12000, 8000, 5000, 2000];
+const payouts = [10000, 6000, 3000, 1000];
+const skillWeights = [1, 1, 0.5, 0.5];
+
+const icm = poker.icmExpectedPayouts(stacks, payouts);
+const adjusted = poker.icmHarvilleSkillAdjustedPayouts(stacks, payouts, skillWeights, 0.3);
+
+console.log('Standard ICM seat 0:', icm[0]);
+console.log('Skill-adjusted seat 0:', adjusted[0]);
 ```
 
-See the [API index](/docs/reference/api) and [`index.d.ts`](https://github.com/DevomB/Poker-Calculations/blob/main/index.d.ts) for parameters and return shapes.
+`stacks`, `payouts`, and `skillWeights` must have the same length; stacks must be positive; skill weights must be non-negative with a positive sum.
+
+## Return type
+
+Length-`n` vector of expected payouts (`number[]` or `Float64Array` with `returnFormat: 'float64'`).
+
+## See also
+
+[`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) · [`icmHarvillePlacementProbabilities`](/docs/reference/api/icm/icm-harville-placement-probabilities) · [`icmShapleyValues`](/docs/reference/api/cooperative-icm/icm-shapley-values)

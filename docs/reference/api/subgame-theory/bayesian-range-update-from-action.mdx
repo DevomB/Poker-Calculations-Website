@@ -4,7 +4,11 @@ title: bayesianRangeUpdateFromAction
 
 # `bayesianRangeUpdateFromAction`
 
-<div className="apiSignature">{`bayesianRangeUpdateFromAction(range, heroHoleCards, boardCards, action, alpha): MaterializedVillainRangeResult`}</div>
+Heuristic **Bayesian** update of villain combo weights after fold, call, or raise — then materialize dense 1326 weights with entropy.
+
+<div className="apiSignature">{`bayesianRangeUpdateFromAction(range: Float64Array | SparseRangeSpec, heroHoleCards: CardInput, boardCards: CardInput, action: 'fold' | 'call' | 'raise', alpha: number): MaterializedVillainRangeResult`}</div>
+
+Same return shape as [`materializeVillainRangeAfterBlockers`](/docs/reference/api/subgame-theory/materialize-villain-range-after-blockers). See [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec).
 
 ## Import
 
@@ -12,9 +16,17 @@ title: bayesianRangeUpdateFromAction
 const poker = require('poker-calculations');
 ```
 
+## ESM (Node)
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
 ## When to use
 
-Reweight a villain range after observing `fold`, `call`, or `raise` with likelihood sharpness `alpha`.
+You have a prior range and villain took an action — tilt weights by a strength-based likelihood (`alpha` scales the update) before exact equity or regret calls.
 
 ## How to use
 
@@ -24,15 +36,28 @@ const poker = require('poker-calculations');
 const range = new Float64Array(1326);
 range.fill(1 / 1326);
 
-const updated = poker.bayesianRangeUpdateFromAction(
+const baseline = poker.materializeVillainRangeAfterBlockers(
+  range,
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', '2c'],
+);
+
+const afterRaise = poker.bayesianRangeUpdateFromAction(
   range,
   ['Ah', 'Kh'],
   ['Qh', 'Jh', '2c'],
   'raise',
-  2.0,
+  1.5,
 );
+
+console.log('Baseline entropy:', baseline.shannonEntropy);
+console.log('After raise:', afterRaise.liveComboCount, afterRaise.shannonEntropy);
 ```
 
 ## Return type
 
 [`MaterializedVillainRangeResult`](/docs/reference/types/materialized-villain-range-result).
+
+## See also
+
+[`materializeVillainRangeAfterBlockers`](/docs/reference/api/subgame-theory/materialize-villain-range-after-blockers) · [`exactInformationRegretVsClairvoyant`](/docs/reference/api/subgame-theory/exact-information-regret-vs-clairvoyant) · [Range equity (exact)](/docs/guides/range-equity-exact)

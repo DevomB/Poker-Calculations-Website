@@ -4,7 +4,11 @@ title: exactEquityCardRemovalGradient
 
 # `exactEquityCardRemovalGradient`
 
-<div className="apiSignature">{`exactEquityCardRemovalGradient(heroHoleCards, boardCards, range): CardRemovalGradientResult`}</div>
+Exact **52-vector** sensitivity of HU equity vs a range when each remaining deck card is treated as dead — plus baseline equity.
+
+<div className="apiSignature">{`exactEquityCardRemovalGradient(heroHoleCards: CardInput, boardCards: CardInput, range: Float64Array | SparseRangeSpec): CardRemovalGradientResult`}</div>
+
+See [Packed card input](/docs/concepts/packed-card-input) and [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec).
 
 ## Import
 
@@ -12,11 +16,17 @@ title: exactEquityCardRemovalGradient
 const poker = require('poker-calculations');
 ```
 
+## ESM (Node)
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
 ## When to use
 
-Exact 52-vector sensitivity of HU equity vs a range when each remaining deck card is treated as dead.
-
-More walkthroughs: [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots).
+You need **exact** card-removal effects on equity vs a weighted range — for blocker analysis, study backends, or comparing to the Monte Carlo heuristic [`equityDeltaIfCardRemoved`](/docs/reference/api/heuristics-and-draws/equity-delta-if-card-removed).
 
 ## How to use
 
@@ -31,7 +41,12 @@ const { gradient, baseEquity } = poker.exactEquityCardRemovalGradient(
   ['Qh', 'Jh', '2c'],
   range,
 );
+
+console.log('Base equity:', baseEquity);
+console.log('Sample gradient entry:', gradient[50]);
 ```
+
+Positive `gradient[d]` means equity **drops** when card `d` is removed from the deck (typical for cards that help villain combos).
 
 ## Return type
 
@@ -39,4 +54,4 @@ const { gradient, baseEquity } = poker.exactEquityCardRemovalGradient(
 
 ## See also
 
-[`equityDeltaIfCardRemoved`](/docs/reference/api/heuristics-and-draws/equity-delta-if-card-removed) · [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec)
+[`exactEquityCardRemovalGradientAsync`](/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient-async) · [`equityDeltaIfCardRemoved`](/docs/reference/api/heuristics-and-draws/equity-delta-if-card-removed) · [`exactHuEquityVsRange`](/docs/reference/api/hands-and-equity/exact-hu-equity-vs-range)

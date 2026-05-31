@@ -4,7 +4,11 @@ title: sidePotLayerTournamentEvDelta
 
 # `sidePotLayerTournamentEvDelta`
 
-<div className="apiSignature">{`sidePotLayerTournamentEvDelta(tableStacks, payouts, heroIndex, committedChips, equityPlayerByLayer): SidePotLayerTournamentEvRow[]`}</div>
+Per **side-pot layer**: hero chip EV from layer equity and Harville ICM win/lose/marginal tournament-dollar swing.
+
+<div className="apiSignature">{`sidePotLayerTournamentEvDelta(tableStacks: F64VectorInput, payouts: F64VectorInput, heroIndex: number, committedChips: F64VectorInput, equityPlayerByLayer: number[][] | Float64Array): SidePotLayerTournamentEvRow[]`}</div>
+
+`equityPlayerByLayer[seat][layer]` is hero's equity in that layer (0–1). See [Float64 ICM input](/docs/concepts/float64-icm-input).
 
 ## Import
 
@@ -12,28 +16,51 @@ title: sidePotLayerTournamentEvDelta
 const poker = require('poker-calculations');
 ```
 
+## ESM (Node)
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
 ## When to use
 
-Per side-pot layer: chip EV from layer equity and ICM win/lose/marginal for the hero.
+A multiway pot has **side-pot layers** and you need both chip EV and ICM marginal value per layer for the hero — after building a ladder from commitments and supplying per-layer equities.
 
 ## How to use
 
 ```js
 const poker = require('poker-calculations');
 
+const committed = [5000, 5000, 2000, 2000];
+const layers = poker.sidePotLadderFromCommitments(committed);
+const equityByLayer = [
+  [0.6, 0.4],
+  [0.55, 0.45],
+  [0.5, 0.5],
+  [0.5, 0.5],
+];
+
 const rows = poker.sidePotLayerTournamentEvDelta(
-  [10000, 10000, 8000],
-  [5000, 3000, 2000],
+  [12000, 9000, 6000, 3000],
+  [10000, 6000, 3000, 1000],
   0,
-  [5000, 5000, 3000],
-  [[0.6, 0.4], [0.5, 0.5], [0.3, 0.3]],
+  committed,
+  equityByLayer,
 );
+
+rows.forEach((row, i) => {
+  console.log('Layer', i, 'pot', layers[i].potChips, 'chipEv', row.chipEv, 'icmMarginal', row.icmMarginal);
+});
 ```
+
+Row order matches layers from [`sidePotLadderFromCommitments`](/docs/reference/api/side-pots/side-pot-ladder-from-commitments).
 
 ## Return type
 
-[`SidePotLayerTournamentEvRow`](/docs/reference/types/side-pot-layer-tournament-ev-row)[] — one row per layer from [`sidePotLadderFromCommitments`](/docs/reference/api/side-pots/side-pot-ladder-from-commitments).
+[`SidePotLayerTournamentEvRow`](/docs/reference/types/side-pot-layer-tournament-ev-row)[] — one row per layer.
 
 ## See also
 
-[`SidePotLayer`](/docs/reference/types/side-pot-layer)
+[`sidePotLadderFromCommitments`](/docs/reference/api/side-pots/side-pot-ladder-from-commitments) · [`SidePotLayer`](/docs/reference/types/side-pot-layer) · [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts)

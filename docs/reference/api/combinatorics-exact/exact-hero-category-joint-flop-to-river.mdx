@@ -4,7 +4,11 @@ title: exactHeroCategoryJointFlopToRiver
 
 # `exactHeroCategoryJointFlopToRiver`
 
-<div className="apiSignature">See `index.d.ts` in the npm package for the full signature.</div>
+Joint distribution of hero **hand category on the turn** and **category on the river** after enumerating all turn/river runouts from a fixed flop.
+
+<div className="apiSignature">{`exactHeroCategoryJointFlopToRiver(heroHoleCards: CardInput, flopThree: CardInput, knownDead?: CardInput): { jointMatrix: Float64Array }`}</div>
+
+`jointMatrix` has length **81**; index `catTurn * 9 + catRiver` for categories `0..8`. See [Packed card input](/docs/concepts/packed-card-input).
 
 ## Import
 
@@ -12,7 +16,7 @@ title: exactHeroCategoryJointFlopToRiver
 const poker = require('poker-calculations');
 ```
 
-ESM (Node):
+## ESM (Node)
 
 ```js
 import { createRequire } from 'module';
@@ -22,14 +26,29 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Joint distribution of hero hand category on turn and river from the flop.
-
-More walkthroughs: [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots).
+You need the **exact** flop→river category joint (not Monte Carlo) — for study charts, backend aggregation, or comparing how often hero improves or regresses by category on a fixed flop.
 
 ## How to use
 
 ```js
-// poker.exactHeroCategoryJointFlopToRiver(...)
+const poker = require('poker-calculations');
+
+const hero = ['Ah', 'Kh'];
+const flop = ['Qh', 'Jh', '2c'];
+
+const { jointMatrix } = poker.exactHeroCategoryJointFlopToRiver(hero, flop);
+
+console.log('Matrix length:', jointMatrix.length);
+console.log('P(turn cat 0, river cat 0):', jointMatrix[0]);
+console.log('Sum (should be ~1):', [...jointMatrix].reduce((a, b) => a + b, 0));
 ```
 
-See the [API index](/docs/reference/api) and [`index.d.ts`](https://github.com/DevomB/Poker-Calculations/blob/main/index.d.ts) for parameters and return shapes.
+The second argument must be **exactly three flop cards** (not a four-card turn board). Optional `knownDead` removes extra cards from the deck before enumeration.
+
+## Return type
+
+`{ jointMatrix: Float64Array }` — length `81`, entries are probabilities summing to `1` over enumerated runouts.
+
+## See also
+
+[`exactHeroRunoutVulnerability`](/docs/reference/api/combinatorics-exact/exact-hero-runout-vulnerability) · [`exactHeroEquityRunoutQuantiles`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles) · [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots)

@@ -4,7 +4,11 @@ title: icmHarvilleStackJacobian
 
 # `icmHarvilleStackJacobian`
 
-<div className="apiSignature">See `index.d.ts` in the npm package for the full signature.</div>
+`n×n` matrix of partial derivatives of Harville ICM expected payout (row `i`) with respect to each player's stack (column `j`), via symmetric finite differences.
+
+<div className="apiSignature">{`icmHarvilleStackJacobian(stacks: F64VectorInput, payouts: F64VectorInput, returnFormat?: F64ReturnFormat): number[][] | Float64Array`}</div>
+
+Row `i` is player `i`'s expected payout; column `j` is the stack that was perturbed. With `returnFormat: 'float64'`, the matrix is flat length `n²` in row-major order. See [Float64 ICM input](/docs/concepts/float64-icm-input).
 
 ## Import
 
@@ -12,7 +16,7 @@ title: icmHarvilleStackJacobian
 const poker = require('poker-calculations');
 ```
 
-ESM (Node):
+## ESM (Node)
 
 ```js
 import { createRequire } from 'module';
@@ -22,14 +26,30 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Sensitivity of ICM payouts to small stack changes (deal-making tools, bubble planning).
-
-More walkthroughs: [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots).
+You need **local sensitivity** of tournament dollars to small stack changes — for example bubble planning, deal-making sliders, or reporting which seat's stack moves matter most to a given player's ICM.
 
 ## How to use
 
 ```js
-// poker.icmHarvilleStackJacobian(...)
+const poker = require('poker-calculations');
+
+const stacks = [12000, 8000, 5000, 2000];
+const payouts = [10000, 6000, 3000, 1000];
+
+const j = poker.icmHarvilleStackJacobian(stacks, payouts);
+console.log('∂EV(hero)/∂(hero stack):', j[0][0]);
+console.log('∂EV(hero)/∂(seat 2 stack):', j[0][2]);
+
+const flat = poker.icmHarvilleStackJacobian(stacks, payouts, 'float64');
+console.log(flat.length === stacks.length * stacks.length);
 ```
 
-See the [API index](/docs/reference/api) and [`index.d.ts`](https://github.com/DevomB/Poker-Calculations/blob/main/index.d.ts) for parameters and return shapes.
+Each column `j` bumps `stacks[j]` by `eps = max(1, 1e-6 × stacks[j])` and divides the payout change by `eps`.
+
+## Return type
+
+`number[][]` with shape `n×n`, or a flat `Float64Array` of length `n²` when `returnFormat` is `'float64'`.
+
+## See also
+
+[`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) · [`icmHarvillePlacementProbabilities`](/docs/reference/api/icm/icm-harville-placement-probabilities) · [`icmShapleyValues`](/docs/reference/api/cooperative-icm/icm-shapley-values)

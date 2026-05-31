@@ -4,7 +4,11 @@ title: multiwayEquityIndependenceGap
 
 # `multiwayEquityIndependenceGap`
 
-<div className="apiSignature">{`multiwayEquityIndependenceGap(heroHoleCards, boardCards, numSimulations, seed, villains): MultiwayIndependenceGapResult`}</div>
+Monte Carlo **multiway** equity vs the independence approximation `1 − Π(1 − huEquity_j)` — reports exact estimate, approximation, and gap.
+
+<div className="apiSignature">{`multiwayEquityIndependenceGap(heroHoleCards: CardInput, boardCards: CardInput, numSimulations: number, seed: number, villains: number): MultiwayIndependenceGapResult`}</div>
+
+See [Packed card input](/docs/concepts/packed-card-input).
 
 ## Import
 
@@ -12,19 +16,40 @@ title: multiwayEquityIndependenceGap
 const poker = require('poker-calculations');
 ```
 
+## ESM (Node)
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
 ## When to use
 
-Measure how much multiway equity differs from an independence approximation across villains.
+You want to measure how much **treating villains as independent** mis-estimates multiway equity — for study, model validation, or deciding when to use full multiway simulation.
 
 ## How to use
 
 ```js
 const poker = require('poker-calculations');
 
-const r = poker.multiwayEquityIndependenceGap(['Ah', 'Kh'], ['Qh', 'Jh', '2c'], 50_000, 42, 2);
-console.log(r.gap);
+const { exact, independentApprox, gap, villains } = poker.multiwayEquityIndependenceGap(
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', '2c'],
+  50_000,
+  42,
+  2,
+);
+
+console.log({ exact, independentApprox, gap, villains });
 ```
+
+Increase `numSimulations` for stabler estimates. Both values are Monte Carlo — not exact enumeration.
 
 ## Return type
 
 [`MultiwayIndependenceGapResult`](/docs/reference/types/multiway-independence-gap-result).
+
+## See also
+
+[`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome) · [`simulateEquityVsRange`](/docs/reference/api/monte-carlo/simulate-equity-vs-range) · [Multiway](/docs/reference/api/multiway)

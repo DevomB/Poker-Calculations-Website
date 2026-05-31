@@ -4,7 +4,11 @@ title: exactHeroEquityRunoutQuantiles
 
 # `exactHeroEquityRunoutQuantiles`
 
-<div className="apiSignature">{`exactHeroEquityRunoutQuantiles(heroHoleCards, boardCards, range?): HeroEquityRunoutQuantilesResult`}</div>
+Exact **distribution** of hero equity over all turn/river runouts — mean, variance, and p05/p50/p95 — vs a random villain or an optional weighted range.
+
+<div className="apiSignature">{`exactHeroEquityRunoutQuantiles(heroHoleCards: CardInput, boardCards: CardInput, range?: Float64Array | SparseRangeSpec): HeroEquityRunoutQuantilesResult`}</div>
+
+See [Packed card input](/docs/concepts/packed-card-input) and [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec).
 
 ## Import
 
@@ -12,21 +16,39 @@ title: exactHeroEquityRunoutQuantiles
 const poker = require('poker-calculations');
 ```
 
+## ESM (Node)
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
 ## When to use
 
-Distribution of hero equity over enumerated runouts vs random or weighted villain range.
-
-More walkthroughs: [Runout equity spread](/docs/guides/tournament-runouts-and-bots#1-runout-equity-spread-exactheroequityrunoutquantiles).
+Mean equity on a draw-heavy board hides bad runouts — enumerate all completions and read the **spread** (tail risk, variance) for study or bot thresholds.
 
 ## How to use
 
 ```js
 const poker = require('poker-calculations');
 
-const q = poker.exactHeroEquityRunoutQuantiles(['Ah', 'Kh'], ['Qh', 'Jh', '2c']);
-console.log(q.mean, q.p05, q.p95);
+const hero = ['Ah', 'Kh'];
+const flop = ['Qh', 'Jh', '2c'];
+
+const q = poker.exactHeroEquityRunoutQuantiles(hero, flop);
+
+console.log('Mean:', q.mean);
+console.log('p05 / p50 / p95:', q.p05, q.p50, q.p95);
+console.log('Runouts:', q.n);
 ```
+
+Omit `range` for equity vs a uniform random villain; pass `Float64Array(1326)` or sparse spec for a weighted range (heavier). Board must be **3 or 4** cards.
 
 ## Return type
 
 [`HeroEquityRunoutQuantilesResult`](/docs/reference/types/hero-equity-runout-quantiles-result).
+
+## See also
+
+[`exactHeroEquityRunoutQuantilesAsync`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles-async) · [`exactHuEquityVsRange`](/docs/reference/api/hands-and-equity/exact-hu-equity-vs-range) · [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots)

@@ -4,7 +4,11 @@ title: exactVillainLeapfrogOutCounts
 
 # `exactVillainLeapfrogOutCounts`
 
-<div className="apiSignature">{`exactVillainLeapfrogOutCounts(heroHoleCards, boardCards, knownDead?): VillainLeapfrogOutCountsResult`}</div>
+Deck indices where the **next board card** leapfrogs villain ahead of hero, and where hero's strength **improves** vs the current board.
+
+<div className="apiSignature">{`exactVillainLeapfrogOutCounts(heroHoleCards: CardInput, boardCards: CardInput, knownDead?: CardInput): VillainLeapfrogOutCountsResult`}</div>
+
+See [Packed card input](/docs/concepts/packed-card-input) and [Card notation](/docs/concepts/card-notation#packed-form-cardinput) for deck indices `0..51`.
 
 ## Import
 
@@ -12,21 +16,38 @@ title: exactVillainLeapfrogOutCounts
 const poker = require('poker-calculations');
 ```
 
+## ESM (Node)
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
 ## When to use
 
-List deck indices where the next board card leapfrogs villain over hero or improves hero (3–4 card board).
+You want **anti-out** and **hero-improve** card lists on a flop or turn — for study overlays, blocker charts, or exact out counting without Monte Carlo.
 
 ## How to use
 
 ```js
 const poker = require('poker-calculations');
+const { deckIndexToCardString } = require('poker-calculations/encode');
 
-const { leapfrogDeckIndices, heroImproveDeckIndices } = poker.exactVillainLeapfrogOutCounts(
-  ['Ah', 'Kh'],
-  ['Qh', 'Jh', '2c'],
-);
+const { leapfrogDeckIndices, heroImproveDeckIndices } =
+  poker.exactVillainLeapfrogOutCounts(['Ah', 'Kh'], ['Qh', 'Jh', '2c']);
+
+const leapfrogCards = leapfrogDeckIndices.map(deckIndexToCardString);
+console.log('Leapfrog outs:', leapfrogCards);
+console.log('Hero improve count:', heroImproveDeckIndices.length);
 ```
+
+`boardCards` must have **3 or 4** cards.
 
 ## Return type
 
 [`VillainLeapfrogOutCountsResult`](/docs/reference/types/villain-leapfrog-out-counts-result).
+
+## See also
+
+[`exactHeroRunoutVulnerability`](/docs/reference/api/combinatorics-exact/exact-hero-runout-vulnerability) · [`equityDeltaIfCardRemoved`](/docs/reference/api/heuristics-and-draws/equity-delta-if-card-removed) · [Card notation](/docs/concepts/card-notation)

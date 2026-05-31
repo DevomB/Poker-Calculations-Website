@@ -4,7 +4,11 @@ title: exactEquityCardRemovalGradientAsync
 
 # `exactEquityCardRemovalGradientAsync`
 
-<div className="apiSignature">{`exactEquityCardRemovalGradientAsync(heroHoleCards, boardCards, range, options?): Promise<CardRemovalGradientResult>`}</div>
+Non-blocking [`exactEquityCardRemovalGradient`](/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient) — same 52-vector gradient with optional cancellation.
+
+<div className="apiSignature">{`exactEquityCardRemovalGradientAsync(heroHoleCards: CardInput, boardCards: CardInput, range: Float64Array | SparseRangeSpec, options?: AsyncOptions): Promise<CardRemovalGradientResult>`}</div>
+
+See [`AsyncOptions`](/docs/reference/types/async-options).
 
 ## Import
 
@@ -12,9 +16,17 @@ title: exactEquityCardRemovalGradientAsync
 const poker = require('poker-calculations');
 ```
 
+## ESM (Node)
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
 ## When to use
 
-Same as [`exactEquityCardRemovalGradient`](/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient); non-blocking. Optional [`AsyncOptions`](/docs/reference/types/async-options).
+Same as sync when the exact gradient over a full range would block the event loop — use `await` and optional `AbortSignal`.
 
 ## How to use
 
@@ -29,6 +41,8 @@ const { gradient, baseEquity } = await poker.exactEquityCardRemovalGradientAsync
   ['Qh', 'Jh', '2c'],
   range,
 );
+
+console.log({ baseEquity, gradientLength: gradient.length });
 ```
 
 ## Return type
@@ -37,4 +51,4 @@ const { gradient, baseEquity } = await poker.exactEquityCardRemovalGradientAsync
 
 ## See also
 
-[`exactEquityCardRemovalGradient`](/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient) · [`AsyncOptions`](/docs/reference/types/async-options)
+[`exactEquityCardRemovalGradient`](/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient) · [`AsyncOptions`](/docs/reference/types/async-options) · [`CardRemovalGradientResult`](/docs/reference/types/card-removal-gradient-result)

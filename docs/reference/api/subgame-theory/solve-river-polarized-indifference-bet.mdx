@@ -4,7 +4,9 @@ title: solveRiverPolarizedIndifferenceBet
 
 # `solveRiverPolarizedIndifferenceBet`
 
-<div className="apiSignature">{`solveRiverPolarizedIndifferenceBet(potBeforeBet, numValueCombos, numBluffCombos, mdf?): RiverIndifferenceBetResult`}</div>
+Polarized **river bet size** where villain is indifferent to call — MDF-based root find on value/bluff combo counts.
+
+<div className="apiSignature">{`solveRiverPolarizedIndifferenceBet(potBeforeBet: number, numValueCombos: number, numBluffCombos: number, mdf?: number): RiverIndifferenceBetResult`}</div>
 
 ## Import
 
@@ -12,19 +14,41 @@ title: solveRiverPolarizedIndifferenceBet
 const poker = require('poker-calculations');
 ```
 
+## ESM (Node)
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
 ## When to use
 
-Polarized river bet size at villain call indifference (MDF-based).
+Toy **GTO-style** river sizing for a polarized betting range — when you want bet size and bluff frequency at villain call indifference for study or bot defaults.
 
 ## How to use
 
 ```js
 const poker = require('poker-calculations');
 
-const r = poker.solveRiverPolarizedIndifferenceBet(100, 30, 10);
-console.log(r.betSize, r.bluffFrequency);
+const r = poker.solveRiverPolarizedIndifferenceBet(
+  100,
+  30,
+  10,
+);
+
+console.log('Bet size:', r.betSize);
+console.log('Bluff frequency:', r.bluffFrequency);
+console.log('Defender MDF:', r.defenderMdf);
+console.log('Villain call EV at solution:', r.evAtIndifference);
 ```
+
+Optional `mdf` overrides the default minimum defense frequency derived from pot geometry.
 
 ## Return type
 
 [`RiverIndifferenceBetResult`](/docs/reference/types/river-indifference-bet-result).
+
+## See also
+
+[`solveStageMinimaxRegretBet`](/docs/reference/api/subgame-theory/solve-stage-minimax-regret-bet) · [`minimumDefenseFrequency`](/docs/reference/api/stacks-and-display/minimum-defense-frequency) · [`decideAction`](/docs/reference/api/strategy/decide-action)

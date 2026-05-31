@@ -4,7 +4,11 @@ title: icmShapleyValues
 
 # `icmShapleyValues`
 
-<div className="apiSignature">{`icmShapleyValues(stacks, payouts, options?): IcmShapleyValuesResult`}</div>
+Shapley fair-share allocation of the prize pool under Harville ICM — exact coalition enumeration for small fields, or Monte Carlo permutations when `n` is large.
+
+<div className="apiSignature">{`icmShapleyValues(stacks: F64VectorInput, payouts: F64VectorInput, options?: IcmShapleyValuesOptions): IcmShapleyValuesResult`}</div>
+
+See [Float64 ICM input](/docs/concepts/float64-icm-input).
 
 ## Import
 
@@ -12,11 +16,17 @@ title: icmShapleyValues
 const poker = require('poker-calculations');
 ```
 
+## ESM (Node)
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
 ## When to use
 
-Negotiating a tournament chop or comparing fair-share splits to Harville ICM $EV.
-
-More walkthroughs: [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots).
+Negotiating a **tournament chop** or comparing fair-share splits to standard Harville ICM $EV — Shapley values attribute marginal contribution across coalitions.
 
 ## How to use
 
@@ -26,9 +36,14 @@ const poker = require('poker-calculations');
 const stacks = [12000, 8000, 5000, 2000];
 const payouts = [10000, 6000, 3000, 1000];
 
+const icm = poker.icmExpectedPayouts(stacks, payouts);
 const shapley = poker.icmShapleyValues(stacks, payouts, { method: 'exact' });
-console.log(shapley.values);
+
+console.log('Harville ICM:', icm);
+console.log('Shapley values:', shapley.values);
 ```
+
+For large `n`, use `{ method: 'monteCarlo', permutations: 500000 }`. See [`IcmShapleyValuesOptions`](/docs/reference/types/icm-shapley-values-options) for `returnFormat`.
 
 ## Return type
 
@@ -36,4 +51,4 @@ console.log(shapley.values);
 
 ## See also
 
-[`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) · [Float64 ICM input](/docs/concepts/float64-icm-input)
+[`icmChopNegotiationAnalysis`](/docs/reference/api/cooperative-icm/icm-chop-negotiation-analysis) · [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) · [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots)

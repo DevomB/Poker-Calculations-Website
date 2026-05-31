@@ -4,7 +4,11 @@ title: icmChopNegotiationAnalysis
 
 # `icmChopNegotiationAnalysis`
 
-<div className="apiSignature">{`icmChopNegotiationAnalysis(stacks, payouts): IcmChopNegotiationAnalysisResult`}</div>
+Compare **chip-proportional chop** dollars to Harville ICM, per-seat surplus/deficit, and feasible Pareto transfer edges between seats.
+
+<div className="apiSignature">{`icmChopNegotiationAnalysis(stacks: F64VectorInput, payouts: F64VectorInput): IcmChopNegotiationAnalysisResult`}</div>
+
+See [Float64 ICM input](/docs/concepts/float64-icm-input).
 
 ## Import
 
@@ -12,21 +16,37 @@ title: icmChopNegotiationAnalysis
 const poker = require('poker-calculations');
 ```
 
+## ESM (Node)
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
 ## When to use
 
-Compare chip-proportional chop dollars to Harville ICM and list feasible surplus transfers between seats.
+Players are negotiating a **deal** and you want to show who gains or loses vs ICM under a chip chop, plus directed surplus transfers that keep everyone at least as well off as ICM.
 
 ## How to use
 
 ```js
 const poker = require('poker-calculations');
 
-const analysis = poker.icmChopNegotiationAnalysis(
-  [12000, 8000, 5000, 2000],
-  [10000, 6000, 3000, 1000],
-);
-console.log(analysis.surplus, analysis.paretoPairs);
+const { chipChop, icm, surplus, paretoPairs, totalPrizePool } =
+  poker.icmChopNegotiationAnalysis(
+    [12000, 8000, 5000, 2000],
+    [10000, 6000, 3000, 1000],
+  );
+
+console.log('Total prize pool:', totalPrizePool);
+surplus.forEach((s, i) => {
+  console.log(i, s > 0 ? 'surplus' : s < 0 ? 'deficit' : 'flat', s);
+});
+console.log('Pareto transfer edges:', paretoPairs.length);
 ```
+
+Positive `surplus[i]` means a chip chop would **overpay** seat `i` relative to Harville ICM.
 
 ## Return type
 
@@ -34,4 +54,4 @@ console.log(analysis.surplus, analysis.paretoPairs);
 
 ## See also
 
-[`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts)
+[`icmShapleyValues`](/docs/reference/api/cooperative-icm/icm-shapley-values) · [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) · [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots)

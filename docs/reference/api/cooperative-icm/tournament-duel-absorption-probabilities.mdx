@@ -4,7 +4,9 @@ title: tournamentDuelAbsorptionProbabilities
 
 # `tournamentDuelAbsorptionProbabilities`
 
-<div className="apiSignature">{`tournamentDuelAbsorptionProbabilities(heroStack, villainStack, winProbabilityPerHand, chipsPerAllIn, winnerPrize?): TournamentDuelAbsorptionResult`}</div>
+Discrete **heads-up duel** Markov model: absorption probability, expected hands until elimination, and optional prize EV for the hero.
+
+<div className="apiSignature">{`tournamentDuelAbsorptionProbabilities(heroStack: number, villainStack: number, winProbabilityPerHand: number, chipsPerAllIn: number, winnerPrize?: number): TournamentDuelAbsorptionResult`}</div>
 
 ## Import
 
@@ -12,18 +14,37 @@ title: tournamentDuelAbsorptionProbabilities
 const poker = require('poker-calculations');
 ```
 
+## ESM (Node)
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
 ## When to use
 
-Heads-up absorption: win probability, expected hands to elimination, and optional prize EV.
+Modeling a **short-handed duel** for first place with fixed per-hand win rate and all-in step size — for study, deal math, or bot planning without full table ICM.
 
 ## How to use
 
 ```js
 const poker = require('poker-calculations');
 
-const r = poker.tournamentDuelAbsorptionProbabilities(25000, 15000, 0.55, 5000, 100000);
-console.log(r);
+const r = poker.tournamentDuelAbsorptionProbabilities(
+  25_000,
+  15_000,
+  0.55,
+  5_000,
+  100_000,
+);
+
+console.log('Hero win probability:', r.heroWinProbability);
+console.log('Expected hands:', r.expectedHands);
+console.log('Hero prize EV:', r.heroPrizeEv);
 ```
+
+If `winnerPrize` is omitted, it defaults to `0` and `heroPrizeEv` is zero.
 
 ## Return type
 
@@ -31,4 +52,4 @@ console.log(r);
 
 ## See also
 
-[`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts)
+[`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) · [`icmShapleyValues`](/docs/reference/api/cooperative-icm/icm-shapley-values) · [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots)

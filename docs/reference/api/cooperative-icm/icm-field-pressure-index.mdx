@@ -4,7 +4,11 @@ title: icmFieldPressureIndex
 
 # `icmFieldPressureIndex`
 
-<div className="apiSignature">{`icmFieldPressureIndex(stacks, payouts, heroIndex, potChips): IcmFieldPressureIndexResult`}</div>
+Stack-weighted **bubble pressure** on the hero against the remaining field at a given pot size, plus per-seat pairwise bubble factors.
+
+<div className="apiSignature">{`icmFieldPressureIndex(stacks: F64VectorInput, payouts: F64VectorInput, heroIndex: number, potChips: number): IcmFieldPressureIndexResult`}</div>
+
+`heroIndex` and `potChips` are call arguments — they are not fields on the result object. See [Float64 ICM input](/docs/concepts/float64-icm-input).
 
 ## Import
 
@@ -12,22 +16,37 @@ title: icmFieldPressureIndex
 const poker = require('poker-calculations');
 ```
 
+## ESM (Node)
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
 ## When to use
 
-Summarize bubble pressure on the hero against the remaining field at a given pot size.
+You need a single **field pressure** score for the hero at a table, plus which villain seat applies the strongest pairwise bubble factor — for HUDs, study tools, or spot analysis on the money bubble.
 
 ## How to use
 
 ```js
 const poker = require('poker-calculations');
 
-const r = poker.icmFieldPressureIndex(
-  [12000, 8000, 5000, 2000],
-  [10000, 6000, 3000, 1000],
-  0,
+const stacks = [12000, 9000, 6000, 3000];
+const payouts = [10000, 6000, 3000, 1000];
+const heroIndex = 0;
+
+const { index, pairwiseBubbleFactors, argmaxVillain } = poker.icmFieldPressureIndex(
+  stacks,
+  payouts,
+  heroIndex,
   500,
 );
-console.log(r.index, r.argmaxVillain);
+
+console.log('Field pressure:', index);
+console.log('Strongest villain seat:', argmaxVillain);
+console.log('BF vs that seat:', pairwiseBubbleFactors[argmaxVillain]);
 ```
 
 ## Return type
@@ -36,4 +55,4 @@ console.log(r.index, r.argmaxVillain);
 
 ## See also
 
-[`icmPairwiseBubbleFactor`](/docs/reference/api/icm/icm-pairwise-bubble-factor) · [Float64 ICM input](/docs/concepts/float64-icm-input)
+[`icmPairwiseBubbleFactor`](/docs/reference/api/icm/icm-pairwise-bubble-factor) · [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) · [Float64 ICM input](/docs/concepts/float64-icm-input)

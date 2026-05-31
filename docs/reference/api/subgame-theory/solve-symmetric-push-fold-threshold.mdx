@@ -4,7 +4,9 @@ title: solveSymmetricPushFoldThreshold
 
 # `solveSymmetricPushFoldThreshold`
 
-<div className="apiSignature">{`solveSymmetricPushFoldThreshold(effectiveStack, smallBlind, bigBlind, antePerPlayer): PushFoldThresholdResult`}</div>
+Symmetric **push/fold** breakeven equity — minimum hero equity to jam profitably given stacks, blinds, and antes.
+
+<div className="apiSignature">{`solveSymmetricPushFoldThreshold(effectiveStack: number, smallBlind: number, bigBlind: number, antePerPlayer: number): PushFoldThresholdResult`}</div>
 
 ## Import
 
@@ -12,19 +14,40 @@ title: solveSymmetricPushFoldThreshold
 const poker = require('poker-calculations');
 ```
 
+## ESM (Node)
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
 ## When to use
 
-Symmetric push/fold jam threshold equity with blinds and antes.
+You need a quick **jam threshold** in a symmetric push/fold model — for study charts, bot preflop gates, or comparing to Chubukov-style jam searches.
 
 ## How to use
 
 ```js
 const poker = require('poker-calculations');
 
-const r = poker.solveSymmetricPushFoldThreshold(10, 0.5, 1, 0.1);
-console.log(r.thresholdEquity);
+const { thresholdEquity, jamEvAtThreshold } = poker.solveSymmetricPushFoldThreshold(
+  10,
+  0.5,
+  1,
+  0.1,
+);
+
+console.log('Min equity to jam:', thresholdEquity);
+console.log('Jam EV at threshold (≈ 0):', jamEvAtThreshold);
 ```
+
+Dead money is `smallBlind + bigBlind + 2 × antePerPlayer`.
 
 ## Return type
 
 [`PushFoldThresholdResult`](/docs/reference/types/push-fold-threshold-result).
+
+## See also
+
+[`chubukovMaxSymmetricJamStackBinarySearch`](/docs/reference/api/kelly-and-jam/chubukov-max-symmetric-jam-stack-binary-search) · [`decideAction`](/docs/reference/api/strategy/decide-action) · [Kelly & jam](/docs/reference/api/kelly-and-jam)

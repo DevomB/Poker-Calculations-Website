@@ -4,7 +4,11 @@ title: materializeVillainRangeAfterBlockers
 
 # `materializeVillainRangeAfterBlockers`
 
-<div className="apiSignature">{`materializeVillainRangeAfterBlockers(range, heroHoleCards, boardCards, knownDead?): MaterializedVillainRangeResult`}</div>
+Dense **1326** combo weights after removing hero, board, and optional dead cards — plus combo count, weight sum, and Shannon entropy.
+
+<div className="apiSignature">{`materializeVillainRangeAfterBlockers(range: Float64Array | SparseRangeSpec, heroHoleCards: CardInput, boardCards: CardInput, knownDead?: CardInput): MaterializedVillainRangeResult`}</div>
+
+See [Packed card input](/docs/concepts/packed-card-input) and [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec).
 
 ## Import
 
@@ -12,7 +16,7 @@ title: materializeVillainRangeAfterBlockers
 const poker = require('poker-calculations');
 ```
 
-ESM (Node):
+## ESM (Node)
 
 ```js
 import { createRequire } from 'module';
@@ -22,16 +26,33 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Dense 1326 combo weights after blockers, with combo count and entropy.
-
-More walkthroughs: [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots).
+Before exact equity or regret calls, you need a **blocked** dense range with summary stats — for logging, UI, or passing `weights1326` into downstream tools.
 
 ## How to use
 
 ```js
-// poker.materializeVillainRangeAfterBlockers(...)
+const poker = require('poker-calculations');
+
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const { weights1326, liveComboCount, weightSum, shannonEntropy } =
+  poker.materializeVillainRangeAfterBlockers(
+    range,
+    ['Ah', 'Kh'],
+    ['Qh', 'Jh', '2c'],
+  );
+
+console.log({ liveComboCount, weightSum, shannonEntropy });
+console.log('First live weight:', weights1326.find((w) => w > 0));
 ```
+
+Blocked combos are zero in `weights1326`; entropy uses normalized probabilities over positive entries only.
 
 ## Return type
 
 [`MaterializedVillainRangeResult`](/docs/reference/types/materialized-villain-range-result).
+
+## See also
+
+[`bayesianRangeUpdateFromAction`](/docs/reference/api/subgame-theory/bayesian-range-update-from-action) · [`exactHuEquityVsRange`](/docs/reference/api/hands-and-equity/exact-hu-equity-vs-range) · [Range equity (exact)](/docs/guides/range-equity-exact)
