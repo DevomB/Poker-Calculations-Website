@@ -4,7 +4,7 @@ Read this before changing **dependencies**, **CI/deploy config**, or **imports t
 
 This folder is the **Poker-Calculations** docs site. It is usually deployed **on its own** (e.g. Vercel / **Poker-Calculations-Website**). The `poker-calculations` library lives in a **different** repository and is consumed **only via npm**.
 
-In a local monorepo checkout you may also see a sibling `NPM/` folder — **that path does not exist on CI or Vercel.**
+In a local side-by-side checkout you may also see a sibling `NPM/` folder — **that path does not exist on CI or Vercel.**
 
 ---
 
@@ -26,7 +26,7 @@ In a local monorepo checkout you may also see a sibling `NPM/` folder — **that
 
 Run `pnpm install` and commit **`pnpm-lock.yaml`**. CI uses a **frozen lockfile** by default — specifiers in `package.json` and the lockfile must match.
 
-Temporary local linking (`file:../NPM` in a monorepo) is OK on a dev branch; **revert and refresh the lockfile before push.**
+Temporary local linking (`file:../NPM` when repos are siblings on disk) is OK on a dev branch; **revert and refresh the lockfile before push to this repo.**
 
 ### Do not import paths the package does not export
 
@@ -51,7 +51,7 @@ const { version } = require(path.join(pkgRoot, 'package.json'));
 
 ### Do not assume sibling directories exist at runtime
 
-Do not rely on `../NPM`, paths outside this repo root, or monorepo-only layouts in config or scripts.
+Do not rely on `../NPM`, paths outside this repo root, or sibling-folder layouts in config or scripts.
 
 ### Same project = local paths are fine
 
