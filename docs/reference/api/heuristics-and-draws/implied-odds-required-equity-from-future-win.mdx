@@ -1,0 +1,41 @@
+---
+title: impliedOddsRequiredEquityFromFutureWin
+sidebar_position: 40
+---
+
+# `impliedOddsRequiredEquityFromFutureWin`
+
+Equity needed given extra future win.
+
+<div className="apiSignature"><code>impliedOddsRequiredEquityFromFutureWin(potBeforeCall: number, toCall: number, futureWin: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need equity needed given extra future win in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.impliedOddsRequiredEquityFromFutureWin(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`implied-breakeven-future-win`](/docs/reference/api/heuristics-and-draws/implied-breakeven-future-win) · [`implied-breakeven-total-pot`](/docs/reference/api/heuristics-and-draws/implied-breakeven-total-pot)

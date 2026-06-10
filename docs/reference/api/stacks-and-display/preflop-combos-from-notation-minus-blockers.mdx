@@ -1,0 +1,41 @@
+---
+title: preflopCombosFromNotationMinusBlockers
+sidebar_position: 40
+---
+
+# `preflopCombosFromNotationMinusBlockers`
+
+Combo count after blockers removed.
+
+<div className="apiSignature"><code>preflopCombosFromNotationMinusBlockers(notation: string, deadCardsAmongCombos: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need combo count after blockers removed in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.preflopCombosFromNotationMinusBlockers(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`preflop-combos-from-notation`](/docs/reference/api/stacks-and-display/preflop-combos-from-notation)

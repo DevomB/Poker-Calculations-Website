@@ -1,0 +1,41 @@
+---
+title: bluffToValueRatioWithRake
+sidebar_position: 40
+---
+
+# `bluffToValueRatioWithRake`
+
+Polarized bluff:value ratio with rake.
+
+<div className="apiSignature"><code>bluffToValueRatioWithRake(potBeforeBet: number, betSize: number, rakeFraction: number, rakeCap: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need polarized bluff:value ratio with rake in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.bluffToValueRatioWithRake(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`bluff-to-value-ratio`](/docs/reference/api/gto-frequencies/bluff-to-value-ratio) · [`value-to-bluff-ratio-with-rake`](/docs/reference/api/gto-frequencies/value-to-bluff-ratio-with-rake)

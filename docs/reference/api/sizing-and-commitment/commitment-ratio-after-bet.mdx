@@ -1,0 +1,41 @@
+---
+title: commitmentRatioAfterBet
+sidebar_position: 40
+---
+
+# `commitmentRatioAfterBet`
+
+Fraction of stack committed by bet.
+
+<div className="apiSignature"><code>commitmentRatioAfterBet(betSize: number, effectiveStackBeforeBet: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need fraction of stack committed by bet in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.commitmentRatioAfterBet(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`commitment-ratio`](/docs/reference/api/sizing-and-commitment/commitment-ratio) · [`spr-after-bet`](/docs/reference/api/sizing-and-commitment/spr-after-bet)

@@ -1,0 +1,41 @@
+---
+title: varianceToStandardDeviationPerHand
+sidebar_position: 40
+---
+
+# `varianceToStandardDeviationPerHand`
+
+`sqrt(variance)` per hand.
+
+<div className="apiSignature"><code>varianceToStandardDeviationPerHand(variancePerHand: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need `sqrt(variance)` per hand in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.varianceToStandardDeviationPerHand(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`risk-of-ruin-diffusion-approx`](/docs/reference/api/statistics-and-risk/risk-of-ruin-diffusion-approx)

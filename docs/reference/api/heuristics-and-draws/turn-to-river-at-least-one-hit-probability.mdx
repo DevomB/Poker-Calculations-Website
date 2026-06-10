@@ -1,0 +1,41 @@
+---
+title: turnToRiverAtLeastOneHitProbability
+sidebar_position: 40
+---
+
+# `turnToRiverAtLeastOneHitProbability`
+
+One-street turn→river hit: `outs/unseen`.
+
+<div className="apiSignature"><code>turnToRiverAtLeastOneHitProbability(outs: number, unseenAfterTurn: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need one-street turn→river hit: `outs/unseen` in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.turnToRiverAtLeastOneHitProbability(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`flop-to-turn-at-least-one-hit-probability`](/docs/reference/api/heuristics-and-draws/flop-to-turn-at-least-one-hit-probability) · [`flop-to-river-at-least-one-hit-probability`](/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-probability)

@@ -1,0 +1,41 @@
+---
+title: netPotAfterRake
+sidebar_position: 40
+---
+
+# `netPotAfterRake`
+
+Pot minus rake: `pot − rakeFromPot`.
+
+<div className="apiSignature"><code>netPotAfterRake(potChips: number, rakeFraction: number, rakeCap: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need pot minus rake: `pot − rakefrompot` in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.netPotAfterRake(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`rake-from-pot`](/docs/reference/api/pot-and-ev/rake-from-pot) · [`breakeven-call-equity-with-rake`](/docs/reference/api/pot-and-ev/breakeven-call-equity-with-rake)

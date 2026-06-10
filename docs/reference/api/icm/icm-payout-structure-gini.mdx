@@ -1,0 +1,41 @@
+---
+title: icmPayoutStructureGini
+sidebar_position: 40
+---
+
+# `icmPayoutStructureGini`
+
+Inequality index of payout ladder.
+
+<div className="apiSignature"><code>icmPayoutStructureGini(payouts: F64VectorInput): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need inequality index of payout ladder in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.icmPayoutStructureGini(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`icm-total-prize-pool`](/docs/reference/api/icm/icm-total-prize-pool)

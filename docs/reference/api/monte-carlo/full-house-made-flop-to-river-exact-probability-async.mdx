@@ -1,0 +1,45 @@
+---
+title: fullHouseMadeFlopToRiverExactProbabilityAsync
+sidebar_position: 40
+---
+
+# `fullHouseMadeFlopToRiverExactProbabilityAsync`
+
+Async full house made.
+
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+
+Optional trailing `{ signal?: AbortSignal }` via [`AsyncOptions`](/docs/reference/types/async-options).
+
+<div className="apiSignature">{`fullHouseMadeFlopToRiverExactProbabilityAsync(heroHoleCards: CardInput, flopThree: CardInput, knownDead: CardInput, options?: AsyncOptions): Promise<number>`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need async full house made in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.fullHouseMadeFlopToRiverExactProbabilityAsync(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`full-house-made-flop-to-river-exact-probability`](/docs/reference/api/monte-carlo/full-house-made-flop-to-river-exact-probability) · [`AsyncOptions`](/docs/reference/types/async-options)

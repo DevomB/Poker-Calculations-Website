@@ -1,0 +1,41 @@
+---
+title: flopToTurnAtLeastOneHitUnionFourCategories
+sidebar_position: 40
+---
+
+# `flopToTurnAtLeastOneHitUnionFourCategories`
+
+Four categories with inclusion–exclusion, one street.
+
+<div className="apiSignature"><code>flopToTurnAtLeastOneHitUnionFourCategories(unseen: number, outsA: number, outsB: number, outsC: number, outsD: number, s01: number, s02: number, s03: number, s12: number, s13: number, s23: number, s012: number, s013: number, s023: number, s123: number, fourWay: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need four categories with inclusion–exclusion, one street in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.flopToTurnAtLeastOneHitUnionFourCategories(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`flop-to-turn-at-least-one-hit-union-three-categories`](/docs/reference/api/heuristics-and-draws/flop-to-turn-at-least-one-hit-union-three-categories)

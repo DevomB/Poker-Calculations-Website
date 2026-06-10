@@ -1,0 +1,41 @@
+---
+title: monteCarloTrialsForWilsonHalfWidth
+sidebar_position: 40
+---
+
+# `monteCarloTrialsForWilsonHalfWidth`
+
+Trials needed for target Wilson half-width.
+
+<div className="apiSignature"><code>monteCarloTrialsForWilsonHalfWidth(pHat: number, targetHalfWidth: number, z: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need trials needed for target wilson half-width in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.monteCarloTrialsForWilsonHalfWidth(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`wilson-score-interval`](/docs/reference/api/statistics-and-risk/wilson-score-interval) · [`binomial-proportion-ci-width`](/docs/reference/api/statistics-and-risk/binomial-proportion-ci-width)

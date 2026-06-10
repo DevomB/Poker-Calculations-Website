@@ -1,0 +1,41 @@
+---
+title: kellyCriterionBinaryClamped
+sidebar_position: 40
+---
+
+# `kellyCriterionBinaryClamped`
+
+Full Kelly clamped to `[0,1]`.
+
+<div className="apiSignature"><code>kellyCriterionBinaryClamped(winProbability: number, netOdds: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need full kelly clamped to `[0,1]` in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.kellyCriterionBinaryClamped(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`kelly-criterion-binary`](/docs/reference/api/kelly-and-jam/kelly-criterion-binary)

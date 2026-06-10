@@ -1,0 +1,41 @@
+---
+title: callOrFoldChipEvDelta
+sidebar_position: 40
+---
+
+# `callOrFoldChipEvDelta`
+
+Call EV minus fold EV (0).
+
+<div className="apiSignature"><code>callOrFoldChipEvDelta(equity: number, pot: number, toCall: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need call ev minus fold ev (0) in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.callOrFoldChipEvDelta(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`expected-value-call`](/docs/reference/api/pot-and-ev/expected-value-call) · [`decide-action`](/docs/reference/api/strategy/decide-action)

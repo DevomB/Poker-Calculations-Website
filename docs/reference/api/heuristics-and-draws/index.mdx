@@ -26,3 +26,20 @@ Use this group in draw trainers and study apps where exact enumeration is overki
 | [`runnerRunnerStraightDrawHitProbability`](/docs/reference/api/heuristics-and-draws/runner-runner-straight-draw-hit-probability) | Runner–runner straight pattern model. |
 | [`duplicationAdjustedOuts`](/docs/reference/api/heuristics-and-draws/duplication-adjusted-outs) | Heuristic `outs / (1 + weight × villains)`. |
 | [`equityDeltaIfCardRemoved`](/docs/reference/api/heuristics-and-draws/equity-delta-if-card-removed) | Δ exact range equity when a card is dead. |
+| [`flopToTurnAtLeastOneHitProbability`](/docs/reference/api/heuristics-and-draws/flop-to-turn-at-least-one-hit-probability) | One-street flop→turn hit: `outs/unseen`. |
+| [`turnToRiverAtLeastOneHitProbability`](/docs/reference/api/heuristics-and-draws/turn-to-river-at-least-one-hit-probability) | One-street turn→river hit: `outs/unseen`. |
+| [`flopToTurnAtLeastOneHitUnionTwoCategories`](/docs/reference/api/heuristics-and-draws/flop-to-turn-at-least-one-hit-union-two-categories) | Two overlapping categories, one street (flop→turn). |
+| [`turnToRiverAtLeastOneHitUnionTwoCategories`](/docs/reference/api/heuristics-and-draws/turn-to-river-at-least-one-hit-union-two-categories) | Two overlapping categories, turn→river. |
+| [`flopToTurnAtLeastOneHitUnionThreeCategories`](/docs/reference/api/heuristics-and-draws/flop-to-turn-at-least-one-hit-union-three-categories) | Three categories with inclusion–exclusion, one street. |
+| [`turnToRiverAtLeastOneHitUnionThreeCategories`](/docs/reference/api/heuristics-and-draws/turn-to-river-at-least-one-hit-union-three-categories) | Three categories, turn→river. |
+| [`flopToTurnAtLeastOneHitUnionFourCategories`](/docs/reference/api/heuristics-and-draws/flop-to-turn-at-least-one-hit-union-four-categories) | Four categories with inclusion–exclusion, one street. |
+| [`turnToRiverAtLeastOneHitUnionFourCategories`](/docs/reference/api/heuristics-and-draws/turn-to-river-at-least-one-hit-union-four-categories) | Four categories, turn→river. |
+| [`flopToTurnAtLeastOneHitDisjointOutsSum`](/docs/reference/api/heuristics-and-draws/flop-to-turn-at-least-one-hit-disjoint-outs-sum) | Sum disjoint outs, then one-street hit formula. |
+| [`turnToRiverAtLeastOneHitDisjointOutsSum`](/docs/reference/api/heuristics-and-draws/turn-to-river-at-least-one-hit-disjoint-outs-sum) | Sum disjoint outs, turn→river. |
+| [`hypergeometricTwoCardHitProbability`](/docs/reference/api/heuristics-and-draws/hypergeometric-two-card-hit-probability) | Two-card hypergeometric hit rate. |
+| [`hypergeometricTwoCardMissProbability`](/docs/reference/api/heuristics-and-draws/hypergeometric-two-card-miss-probability) | Complement of two-card hit. |
+| [`runnerRunnerBackdoorFlushOneCardProbability`](/docs/reference/api/heuristics-and-draws/runner-runner-backdoor-flush-one-card-probability) | One-card backdoor flush probability. |
+| [`blockerAdjustedOuts`](/docs/reference/api/heuristics-and-draws/blocker-adjusted-outs) | Scale outs by blocker fraction. |
+| [`suitBlockerFraction`](/docs/reference/api/heuristics-and-draws/suit-blocker-fraction) | Dead suit cards divided by unseen. |
+| [`impliedBreakevenTotalPot`](/docs/reference/api/heuristics-and-draws/implied-breakeven-total-pot) | Total pot needed: `(pot+call)/equity`. |
+| [`impliedOddsRequiredEquityFromFutureWin`](/docs/reference/api/heuristics-and-draws/implied-odds-required-equity-from-future-win) | Equity needed given extra future win. |

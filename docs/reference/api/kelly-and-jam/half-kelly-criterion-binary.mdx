@@ -1,0 +1,41 @@
+---
+title: halfKellyCriterionBinary
+sidebar_position: 40
+---
+
+# `halfKellyCriterionBinary`
+
+Half Kelly fraction, floored at 0.
+
+<div className="apiSignature"><code>halfKellyCriterionBinary(winProbability: number, netOdds: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need half kelly fraction, floored at 0 in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.halfKellyCriterionBinary(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`kelly-criterion-binary`](/docs/reference/api/kelly-and-jam/kelly-criterion-binary) · [`quarter-kelly-criterion-binary`](/docs/reference/api/kelly-and-jam/quarter-kelly-criterion-binary)

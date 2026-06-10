@@ -1,0 +1,41 @@
+---
+title: betSizeToMatchPotFraction
+sidebar_position: 40
+---
+
+# `betSizeToMatchPotFraction`
+
+Bet size for target pot fraction (inverse of `betAsPotFraction`).
+
+<div className="apiSignature"><code>betSizeToMatchPotFraction(potBeforeBet: number, targetFraction: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need bet size for target pot fraction (inverse of `betaspotfraction`) in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.betSizeToMatchPotFraction(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`bet-as-pot-fraction`](/docs/reference/api/sizing-and-commitment/bet-as-pot-fraction)

@@ -1,0 +1,41 @@
+---
+title: reverseImpliedOddsMinEquity
+sidebar_position: 40
+---
+
+# `reverseImpliedOddsMinEquity`
+
+Minimum equity for reverse-implied bound.
+
+<div className="apiSignature"><code>reverseImpliedOddsMinEquity(potBeforeCall: number, toCall: number, maxFutureLoss: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need minimum equity for reverse-implied bound in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.reverseImpliedOddsMinEquity(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`reverse-implied-odds-max-future-loss`](/docs/reference/api/reverse-implied/reverse-implied-odds-max-future-loss)

@@ -1,0 +1,41 @@
+---
+title: effectivePotOddsDisplayAfterRake
+sidebar_position: 40
+---
+
+# `effectivePotOddsDisplayAfterRake`
+
+Display pot:call after rake on final pot.
+
+<div className="apiSignature"><code>effectivePotOddsDisplayAfterRake(potBeforeCall: number, toCall: number, rakeFraction: number, rakeCap: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need display pot:call after rake on final pot in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.effectivePotOddsDisplayAfterRake(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`breakeven-call-equity-with-rake`](/docs/reference/api/pot-and-ev/breakeven-call-equity-with-rake) · [`pot-odds-ratio-display`](/docs/reference/api/stacks-and-display/pot-odds-ratio-display)

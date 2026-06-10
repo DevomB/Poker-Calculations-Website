@@ -1,0 +1,41 @@
+---
+title: expectedValuePerBigBlind
+sidebar_position: 40
+---
+
+# `expectedValuePerBigBlind`
+
+Chip EV expressed in big blinds.
+
+<div className="apiSignature"><code>expectedValuePerBigBlind(chipEv: number, bigBlind: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need chip ev expressed in big blinds in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.expectedValuePerBigBlind(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`expected-value-call`](/docs/reference/api/pot-and-ev/expected-value-call) · [`stack-in-big-blinds`](/docs/reference/api/stacks-and-display/stack-in-big-blinds)

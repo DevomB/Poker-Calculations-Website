@@ -1,0 +1,41 @@
+---
+title: expectedValueRaiseWithRake
+sidebar_position: 40
+---
+
+# `expectedValueRaiseWithRake`
+
+Raise EV with rake on called pot.
+
+<div className="apiSignature"><code>expectedValueRaiseWithRake(equityWhenCalled: number, potBeforeRaise: number, raiseSize: number, foldEquity: number, potIfCalled: number, rakeFraction: number, rakeCap: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need raise ev with rake on called pot in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.expectedValueRaiseWithRake(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`expected-value-raise`](/docs/reference/api/pot-and-ev/expected-value-raise) · [`expected-value-call-with-rake`](/docs/reference/api/pot-and-ev/expected-value-call-with-rake)

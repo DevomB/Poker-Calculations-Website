@@ -1,0 +1,41 @@
+---
+title: multiwaySymmetricBreakevenCallEquityWithShareAndRake
+sidebar_position: 40
+---
+
+# `multiwaySymmetricBreakevenCallEquityWithShareAndRake`
+
+Share model + rake on multiway call.
+
+<div className="apiSignature"><code>multiwaySymmetricBreakevenCallEquityWithShareAndRake(potBefore: number, toCall: number, symmetricExtraCallers: number, shareModel: 0 | 1, heroFractionWhenWin: number, rakeFraction: number, rakeCap: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need share model + rake on multiway call in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.multiwaySymmetricBreakevenCallEquityWithShareAndRake(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`multiway-symmetric-breakeven-call-equity-with-rake`](/docs/reference/api/multiway/multiway-symmetric-breakeven-call-equity-with-rake)

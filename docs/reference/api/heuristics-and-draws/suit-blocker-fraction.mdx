@@ -1,0 +1,41 @@
+---
+title: suitBlockerFraction
+sidebar_position: 40
+---
+
+# `suitBlockerFraction`
+
+Dead suit cards divided by unseen.
+
+<div className="apiSignature"><code>suitBlockerFraction(suitCardsDead: number, unseen: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need dead suit cards divided by unseen in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.suitBlockerFraction(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`blocker-adjusted-outs`](/docs/reference/api/heuristics-and-draws/blocker-adjusted-outs)

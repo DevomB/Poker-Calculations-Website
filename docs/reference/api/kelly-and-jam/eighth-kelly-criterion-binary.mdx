@@ -1,0 +1,41 @@
+---
+title: eighthKellyCriterionBinary
+sidebar_position: 40
+---
+
+# `eighthKellyCriterionBinary`
+
+Eighth Kelly fraction.
+
+<div className="apiSignature"><code>eighthKellyCriterionBinary(winProbability: number, netOdds: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need eighth kelly fraction in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.eighthKellyCriterionBinary(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`kelly-criterion-binary`](/docs/reference/api/kelly-and-jam/kelly-criterion-binary)

@@ -1,0 +1,45 @@
+---
+title: exactHeroCategoryAtLeastFlopToRiverAsync
+sidebar_position: 40
+---
+
+# `exactHeroCategoryAtLeastFlopToRiverAsync`
+
+Async category-at-least enumeration.
+
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+
+Optional trailing `{ signal?: AbortSignal }` via [`AsyncOptions`](/docs/reference/types/async-options).
+
+<div className="apiSignature">{`exactHeroCategoryAtLeastFlopToRiverAsync(heroHoleCards: CardInput, flopThree: CardInput, knownDead: CardInput, minCategoryOrder: number, options?: AsyncOptions): Promise<number>`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need async category-at-least enumeration in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.exactHeroCategoryAtLeastFlopToRiverAsync(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`exact-hero-category-at-least-flop-to-river`](/docs/reference/api/combinatorics-exact/exact-hero-category-at-least-flop-to-river) · [`AsyncOptions`](/docs/reference/types/async-options)

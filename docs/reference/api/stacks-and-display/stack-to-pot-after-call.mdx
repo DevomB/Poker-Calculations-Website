@@ -1,0 +1,41 @@
+---
+title: stackToPotAfterCall
+sidebar_position: 40
+---
+
+# `stackToPotAfterCall`
+
+Stack:pot ratio after call (inverse SPR).
+
+<div className="apiSignature"><code>stackToPotAfterCall(potBeforeCall: number, toCall: number, effectiveStackBeforeCall: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need stack:pot ratio after call (inverse spr) in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.stackToPotAfterCall(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`spr-after-call`](/docs/reference/api/sizing-and-commitment/spr-after-call) · [`spr`](/docs/reference/api/stacks-and-display/spr)

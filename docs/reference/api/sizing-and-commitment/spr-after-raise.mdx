@@ -1,0 +1,41 @@
+---
+title: sprAfterRaise
+sidebar_position: 40
+---
+
+# `sprAfterRaise`
+
+SPR after open/raise heads-up.
+
+<div className="apiSignature"><code>sprAfterRaise(potBeforeRaise: number, raiseSize: number, effectiveStackBeforeRaise: number): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need spr after open/raise heads-up in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.sprAfterRaise(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`spr-after-bet`](/docs/reference/api/sizing-and-commitment/spr-after-bet) · [`expected-value-raise`](/docs/reference/api/pot-and-ev/expected-value-raise)

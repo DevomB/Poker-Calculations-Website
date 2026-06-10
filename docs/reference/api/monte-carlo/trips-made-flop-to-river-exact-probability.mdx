@@ -1,0 +1,43 @@
+---
+title: tripsMadeFlopToRiverExactProbability
+sidebar_position: 40
+---
+
+# `tripsMadeFlopToRiverExactProbability`
+
+Exact trips+ by river.
+
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+
+<div className="apiSignature"><code>tripsMadeFlopToRiverExactProbability(heroHoleCards: CardInput, flopThree: CardInput, knownDead: CardInput): number</code></div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need exact trips+ by river in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.tripsMadeFlopToRiverExactProbability(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`two-pair-made-flop-to-river-exact-probability`](/docs/reference/api/monte-carlo/two-pair-made-flop-to-river-exact-probability)

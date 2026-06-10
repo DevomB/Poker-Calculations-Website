@@ -1,0 +1,45 @@
+---
+title: twoPairMadeFlopToRiverExactProbabilityAsync
+sidebar_position: 40
+---
+
+# `twoPairMadeFlopToRiverExactProbabilityAsync`
+
+Async two pair+ made.
+
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+
+Optional trailing `{ signal?: AbortSignal }` via [`AsyncOptions`](/docs/reference/types/async-options).
+
+<div className="apiSignature">{`twoPairMadeFlopToRiverExactProbabilityAsync(heroHoleCards: CardInput, flopThree: CardInput, knownDead: CardInput, options?: AsyncOptions): Promise<number>`}</div>
+
+## Import
+
+```js
+const poker = require('poker-calculations');
+```
+
+ESM (Node):
+
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+
+## When to use
+
+Use when you need async two pair+ made in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+
+## How to use
+
+```js
+const poker = require('poker-calculations');
+
+const result = poker.twoPairMadeFlopToRiverExactProbabilityAsync(/* see signature above */);
+console.log(result);
+```
+
+## See also
+
+[`two-pair-made-flop-to-river-exact-probability`](/docs/reference/api/monte-carlo/two-pair-made-flop-to-river-exact-probability) · [`AsyncOptions`](/docs/reference/types/async-options)
