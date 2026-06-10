@@ -25,15 +25,18 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need semi-bluff fold equity with ante in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Semi-bluff breakeven fold equity with ante in the won-pot model.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const result = poker.breakevenFoldEquitySemiBluffWithAnte(/* see signature above */);
-console.log(result);
+const fe = poker.breakevenFoldEquitySemiBluffWithAnte(
+  100, 50,
+  0.35,  // equity when called
+  200,   // total pot if called
+  5,     // ante
+);
+console.log(fe);
 ```
 
 ## See also

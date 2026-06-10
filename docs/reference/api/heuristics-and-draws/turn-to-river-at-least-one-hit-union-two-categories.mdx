@@ -25,15 +25,14 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need two overlapping categories, turn→river in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Turn→river with two overlapping out categories. Mirror of [`flopToTurnAtLeastOneHitUnionTwoCategories`](/docs/reference/api/heuristics-and-draws/flop-to-turn-at-least-one-hit-union-two-categories) on the river street.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const result = poker.turnToRiverAtLeastOneHitUnionTwoCategories(/* see signature above */);
-console.log(result);
+const unseen = 44;
+const p = poker.turnToRiverAtLeastOneHitUnionTwoCategories(unseen, 9, 4, 1);
+console.log(p); // 12/44
 ```
 
 ## See also

@@ -25,15 +25,18 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need wilson interval width for a proportion in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Width of a Wilson (or chosen-z) interval for a binomial proportion — compare to [`wilsonScoreInterval`](/docs/reference/api/statistics-and-risk/wilson-score-interval).
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const successes = 42;
+const nTrials = 100;
+const z = 1.96;
 
-const result = poker.binomialProportionCiWidth(/* see signature above */);
-console.log(result);
+const w = poker.binomialProportionCiWidth(successes, nTrials, z);
+const interval = poker.wilsonScoreInterval(successes, nTrials, z);
+console.log(w, interval.upper - interval.lower);
 ```
 
 ## See also

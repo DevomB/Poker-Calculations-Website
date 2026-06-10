@@ -25,15 +25,19 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need equity needed for neutral raise in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Equity-when-called that makes [`expectedValueRaise`](/docs/reference/api/pot-and-ev/expected-value-raise) exactly zero for fixed sizing and fold equity.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const potBeforeRaise = 60;
+const raiseSize = 45;
+const foldEquity = 0.35;
+const potIfCalled = 150;
 
-const result = poker.breakevenRaiseEquity(/* see signature above */);
-console.log(result);
+const need = poker.breakevenRaiseEquity(potBeforeRaise, raiseSize, foldEquity, potIfCalled);
+const ev = poker.expectedValueRaise(need, potBeforeRaise, raiseSize, foldEquity, potIfCalled);
+console.log(ev); // ≈ 0
 ```
 
 ## See also

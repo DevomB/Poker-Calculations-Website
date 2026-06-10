@@ -25,15 +25,26 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need layered chip ev with rake per pot in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Like [`layeredPotChipEvFromEquities`](/docs/reference/api/side-pots/layered-pot-chip-ev-from-equities) but rake is applied per layer won.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const layerPots = [150, 400];
+const equities = [
+  [0.55, 0.10],
+  [0.30, 0.60],
+  [0.15, 0.30],
+];
 
-const result = poker.layeredPotChipEvFromEquitiesWithRake(/* see signature above */);
-console.log(result);
+const ev = poker.layeredPotChipEvFromEquitiesWithRake(
+  layerPots,
+  equities,
+  0.05,
+  3,
+);
+const ev0 = poker.layeredPotChipEvFromEquities(layerPots, equities);
+console.log({ ev, ev0 });
 ```
 
 ## See also

@@ -25,15 +25,19 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need four categories with inclusion–exclusion, one street in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Four out categories on flop→turn. Pair indices `(0,1)(0,2)(0,3)(1,2)(1,3)(2,3)` then triples then four-way — same layout as [`flopToRiverAtLeastOneHitUnionFourCategories`](/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-union-four-categories).
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const result = poker.flopToTurnAtLeastOneHitUnionFourCategories(/* see signature above */);
-console.log(result);
+const p = poker.flopToTurnAtLeastOneHitUnionFourCategories(
+  47,
+  4, 4, 3, 2,
+  0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0,
+  0,
+);
+console.log(p);
 ```
 
 ## See also

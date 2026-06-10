@@ -25,15 +25,14 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need quarter kelly fraction in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Quarter-Kelly stake fraction.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const result = poker.quarterKellyCriterionBinary(/* see signature above */);
-console.log(result);
+const p = 0.55;
+const b = 1;
+console.log(poker.quarterKellyCriterionBinary(p, b));
 ```
 
 ## See also

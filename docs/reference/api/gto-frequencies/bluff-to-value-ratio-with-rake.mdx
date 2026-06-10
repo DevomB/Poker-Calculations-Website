@@ -25,15 +25,18 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need polarized bluff:value ratio with rake in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Polarized bluff:value ratio when rake shrinks the won pot. At most the no-rake [`bluffToValueRatio`](/docs/reference/api/gto-frequencies/bluff-to-value-ratio).
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const pot = 100;
+const bet = 50;
+const rakeFraction = 0.05;
+const rakeCap = 3;
 
-const result = poker.bluffToValueRatioWithRake(/* see signature above */);
-console.log(result);
+const ratio = poker.bluffToValueRatioWithRake(pot, bet, rakeFraction, rakeCap);
+console.log(ratio);
 ```
 
 ## See also

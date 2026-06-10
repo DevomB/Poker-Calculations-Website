@@ -25,15 +25,25 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need chip ev of raise vs fold (two-outcome model) in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Two-outcome raise model: villain folds (`foldEquity`) or calls and you realize `equityWhenCalled` in `potIfCalled`, paying `raiseSize`.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const equityWhenCalled = 0.45;
+const potBeforeRaise = 60;
+const raiseSize = 45;
+const foldEquity = 0.35;
+const potIfCalled = potBeforeRaise + 2 * raiseSize;
 
-const result = poker.expectedValueRaise(/* see signature above */);
-console.log(result);
+const ev = poker.expectedValueRaise(
+  equityWhenCalled,
+  potBeforeRaise,
+  raiseSize,
+  foldEquity,
+  potIfCalled,
+);
+console.log('raise EV:', ev);
 ```
 
 ## See also

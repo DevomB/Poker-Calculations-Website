@@ -25,15 +25,18 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need call ev with symmetric extra callers in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Call chip EV with `k` symmetric extra callers each matching `toCall`. Reduces to [`expectedValueCall`](/docs/reference/api/pot-and-ev/expected-value-call) when `k = 0`.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const equity = 0.4;
+const pot = 60;
+const toCall = 30;
 
-const result = poker.multiwayExpectedValueCall(/* see signature above */);
-console.log(result);
+const evHu = poker.expectedValueCall(equity, pot, toCall);
+const evMw = poker.multiwayExpectedValueCall(equity, pot, toCall, 2);
+console.log({ evHu, evMw });
 ```
 
 ## See also

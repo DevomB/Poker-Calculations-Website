@@ -25,15 +25,16 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need three-street pure-bluff chip ev in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Three-street pure bluff with independent fold equities per street.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const result = poker.threeStreetPureBluffEv(/* see signature above */);
-console.log(result);
+const ev = poker.threeStreetPureBluffEv(
+  50, 35, 90, 180,
+  0.4, 0.35, 0.3,
+);
+console.log('three-street bluff EV:', ev);
 ```
 
 ## See also

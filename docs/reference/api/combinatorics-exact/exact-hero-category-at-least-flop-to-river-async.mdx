@@ -29,15 +29,16 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need async category-at-least enumeration in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Async category-at-least enumeration.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const hole = ['Ah', 'Kh'];
+const flop = ['2h', '7d', '9c'];
 
-const result = poker.exactHeroCategoryAtLeastFlopToRiverAsync(/* see signature above */);
-console.log(result);
+const p = await poker.exactHeroCategoryAtLeastFlopToRiverAsync(hole, flop, [], 6);
+console.log(p);
 ```
 
 ## See also

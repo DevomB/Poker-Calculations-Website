@@ -25,15 +25,15 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need fraction of stack committed by bet in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Fraction of effective stack put in with the bet: `bet / stack`.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const betSize = 80;
+const stack = 320;
 
-const result = poker.commitmentRatioAfterBet(/* see signature above */);
-console.log(result);
+console.log(poker.commitmentRatioAfterBet(betSize, stack)); // 0.25
 ```
 
 ## See also

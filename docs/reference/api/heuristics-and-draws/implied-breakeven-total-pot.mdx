@@ -25,15 +25,20 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need total pot needed: `(pot+call)/equity` in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Total pot size (before your call is included in the numerator) needed for a neutral call at given equity: `(potBefore + toCall) / equity`.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const potBeforeCall = 80;
+const toCall = 40;
+const equity = 0.25;
 
-const result = poker.impliedBreakevenTotalPot(/* see signature above */);
-console.log(result);
+const totalPot = poker.impliedBreakevenTotalPot(potBeforeCall, toCall, equity);
+console.log(totalPot); // (80+40)/0.25 = 480
+
+// Compare to extra future win at same equity
+console.log(poker.impliedBreakevenFutureWin(potBeforeCall, toCall, equity));
 ```
 
 ## See also

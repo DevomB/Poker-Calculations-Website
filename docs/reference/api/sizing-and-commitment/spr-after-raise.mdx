@@ -25,15 +25,14 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need spr after open/raise heads-up in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+SPR after an open/raise that is called — same geometry as [`sprAfterBet`](/docs/reference/api/sizing-and-commitment/spr-after-bet).
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const result = poker.sprAfterRaise(/* see signature above */);
-console.log(result);
+const sprBet = poker.sprAfterBet(100, 50, 400);
+const sprRaise = poker.sprAfterRaise(100, 50, 400);
+console.log(sprBet === sprRaise); // true
 ```
 
 ## See also

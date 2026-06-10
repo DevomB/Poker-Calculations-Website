@@ -25,15 +25,16 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need icm minus chip-proportional chop in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+ICM expected payouts minus a **chip-proportional** chop for each seat.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const stacks = [12000, 8000, 5000, 2000];
+const payouts = [10000, 6000, 3000, 1000];
 
-const result = poker.icmExpectedPayoutsDeltaFromChipChop(/* see signature above */);
-console.log(result);
+const delta = poker.icmExpectedPayoutsDeltaFromChipChop(stacks, payouts);
+console.log(delta.reduce((a, b) => a + b, 0)); // ≈ 0
 ```
 
 ## See also

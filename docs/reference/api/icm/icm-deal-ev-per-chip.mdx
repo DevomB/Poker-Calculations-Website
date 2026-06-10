@@ -25,15 +25,16 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need icm $ev divided by stack in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+ICM expected prize divided by stack — $EV per chip for each seat.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const stacks = [10000, 7500, 5000, 2500];
+const payouts = [5000, 3000, 1500, 500];
 
-const result = poker.icmDealEvPerChip(/* see signature above */);
-console.log(result);
+const evPerChip = poker.icmDealEvPerChip(stacks, payouts);
+console.log(evPerChip);
 ```
 
 ## See also

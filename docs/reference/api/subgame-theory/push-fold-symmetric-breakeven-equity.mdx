@@ -25,15 +25,16 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need breakeven equity for symmetric jam in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Equity where symmetric jam EV is zero.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const jamStack = 100;
+const deadMoney = 15;
 
-const result = poker.pushFoldSymmetricBreakevenEquity(/* see signature above */);
-console.log(result);
+const eq = poker.pushFoldSymmetricBreakevenEquity(jamStack, deadMoney);
+console.log(poker.pushFoldSymmetricEv(eq, jamStack, deadMoney)); // ≈ 0
 ```
 
 ## See also

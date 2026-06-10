@@ -25,15 +25,17 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need half kelly fraction, floored at 0 in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Half-Kelly fraction for binary outcomes — common live-game discipline vs full [`kellyCriterionBinary`](/docs/reference/api/kelly-and-jam/kelly-criterion-binary).
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const p = 0.55;
+const b = 1;
 
-const result = poker.halfKellyCriterionBinary(/* see signature above */);
-console.log(result);
+const full = poker.kellyCriterionBinary(p, b);
+const half = poker.halfKellyCriterionBinary(p, b);
+console.log(half); // max(0, full/2)
 ```
 
 ## See also

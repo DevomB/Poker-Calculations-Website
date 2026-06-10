@@ -25,15 +25,13 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need sum of payout ladder in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Sum of the payout ladder.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const result = poker.icmTotalPrizePool(/* see signature above */);
-console.log(result);
+const payouts = [100, 50, 30];
+console.log(poker.icmTotalPrizePool(payouts)); // 180
 ```
 
 ## See also

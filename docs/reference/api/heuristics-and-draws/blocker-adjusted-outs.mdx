@@ -25,15 +25,16 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need scale outs by blocker fraction in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Scale a raw out count down when villains block part of your outs (`outs × (1 - blockerFraction)`), clamped to `[0, outs]`.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const rawOuts = 9;
+const blockerFraction = 0.15; // ~15% of outs blocked
 
-const result = poker.blockerAdjustedOuts(/* see signature above */);
-console.log(result);
+const adj = poker.blockerAdjustedOuts(rawOuts, blockerFraction);
+console.log(adj); // 9 * 0.85 = 7.65
 ```
 
 ## See also

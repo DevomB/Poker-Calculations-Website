@@ -25,15 +25,19 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need three categories with inclusion–exclusion, one street in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Three overlapping out families on flop→turn. Pass pairwise and triple **shared card counts**; inclusion–exclusion runs before the one-street hit formula.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const result = poker.flopToTurnAtLeastOneHitUnionThreeCategories(/* see signature above */);
-console.log(result);
+// Mostly disjoint toy categories on the turn
+const p = poker.flopToTurnAtLeastOneHitUnionThreeCategories(
+  47,
+  9, 4, 2, // outs A, B, C
+  0, 0, 0, // shared AB, AC, BC
+  0,       // shared ABC
+);
+console.log(p);
 ```
 
 ## See also

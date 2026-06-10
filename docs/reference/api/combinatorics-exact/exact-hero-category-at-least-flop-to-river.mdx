@@ -27,15 +27,17 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need p(category ≥ threshold) by river in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+P(hero best hand ≥ `minCategoryOrder`) by river. Category order matches [`handRankCategoryOrder`](/docs/reference/api/hands-and-equity/hand-rank-category-order).
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const hole = ['Ah', 'Kh'];
+const flop = ['2h', '7d', '9c'];
+const minCategoryOrder = 6; // flush tier — see handRankCategoryOrder
 
-const result = poker.exactHeroCategoryAtLeastFlopToRiver(/* see signature above */);
-console.log(result);
+const p = poker.exactHeroCategoryAtLeastFlopToRiver(hole, flop, [], minCategoryOrder);
+console.log(p);
 ```
 
 ## See also

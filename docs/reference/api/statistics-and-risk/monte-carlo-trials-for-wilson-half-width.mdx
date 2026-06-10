@@ -25,15 +25,18 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need trials needed for target wilson half-width in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+How many Monte Carlo trials you need so Wilson half-width is at most `targetHalfWidth` at estimate `pHat`.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const pHat = 0.5;
+const targetHalfWidth = 0.02;
+const z = 1.96;
 
-const result = poker.monteCarloTrialsForWilsonHalfWidth(/* see signature above */);
-console.log(result);
+const n = poker.monteCarloTrialsForWilsonHalfWidth(pHat, targetHalfWidth, z);
+const interval = poker.wilsonScoreInterval(Math.floor(pHat * n), n, z);
+console.log((interval.upper - interval.lower) / 2); // <= targetHalfWidth
 ```
 
 ## See also

@@ -25,15 +25,24 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need `1 − mdf` with rake model in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Bluff frequency complement with rake: `1 − MDF_with_rake`.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const potBeforeBet = 100;
+const betSize = 50;
+const rakeFraction = 0.05;
+const rakeCap = 3;
 
-const result = poker.alphaFrequencyWithRake(/* see signature above */);
-console.log(result);
+const mdf = poker.minimumDefenseFrequencyWithRake(
+  potBeforeBet,
+  betSize,
+  rakeFraction,
+  rakeCap,
+);
+const alpha = poker.alphaFrequencyWithRake(potBeforeBet, betSize, rakeFraction, rakeCap);
+console.log(mdf + alpha); // 1
 ```
 
 ## See also

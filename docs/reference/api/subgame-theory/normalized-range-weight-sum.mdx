@@ -25,15 +25,13 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need sum of range weights in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Sum of dense range weights — sanity check before normalizing or feeding subgame solvers.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const result = poker.normalizedRangeWeightSum(/* see signature above */);
-console.log(result);
+const weights = new Float64Array([0.5, 0, 1.2, 0.3]);
+console.log(poker.normalizedRangeWeightSum(weights)); // 2.0
 ```
 
 ## See also

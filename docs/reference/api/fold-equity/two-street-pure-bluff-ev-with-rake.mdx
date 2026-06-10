@@ -25,15 +25,18 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need two-street air ev with rake in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Two-street pure-bluff EV with rake on pots you win when villain folds.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const result = poker.twoStreetPureBluffEvWithRake(/* see signature above */);
-console.log(result);
+const ev = poker.twoStreetPureBluffEvWithRake(
+  60, 40, 110,
+  0.45, 0.38,
+  0.05, 3,
+);
+const ev0 = poker.twoStreetPureBluffEv(60, 40, 110, 0.45, 0.38);
+console.log({ ev, ev0 });
 ```
 
 ## See also

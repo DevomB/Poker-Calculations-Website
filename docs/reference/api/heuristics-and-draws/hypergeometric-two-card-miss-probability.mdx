@@ -25,15 +25,17 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need complement of two-card hit in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Complement of two-card hit — useful for miss rates and sanity checks (`hit + miss === 1`).
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const outs = 9;
+const unseen = 47;
 
-const result = poker.hypergeometricTwoCardMissProbability(/* see signature above */);
-console.log(result);
+const hit = poker.hypergeometricTwoCardHitProbability(outs, unseen);
+const miss = poker.hypergeometricTwoCardMissProbability(outs, unseen);
+console.log(hit + miss); // 1
 ```
 
 ## See also

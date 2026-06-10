@@ -25,15 +25,18 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need pot minus rake: `pot − rakefrompot` in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Pot chips **after** rake is removed: `pot − rakeFromPot`. Use in breakdowns next to [`rakeFromPot`](/docs/reference/api/pot-and-ev/rake-from-pot).
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const pot = 150;
+const rakeFraction = 0.05;
+const rakeCap = 3;
 
-const result = poker.netPotAfterRake(/* see signature above */);
-console.log(result);
+const rake = poker.rakeFromPot(pot, rakeFraction, rakeCap);
+const net = poker.netPotAfterRake(pot, rakeFraction, rakeCap);
+console.log({ rake, net }); // net + rake === pot
 ```
 
 ## See also

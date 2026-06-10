@@ -25,15 +25,12 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need `sqrt(variance)` per hand in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Convert per-hand variance to standard deviation (`sqrt`).
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const result = poker.varianceToStandardDeviationPerHand(/* see signature above */);
-console.log(result);
+console.log(poker.varianceToStandardDeviationPerHand(4)); // 2
 ```
 
 ## See also

@@ -25,15 +25,16 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need dead suit cards divided by unseen in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Fraction of unseen cards that are dead in a given suit — input to [`blockerAdjustedOuts`](/docs/reference/api/heuristics-and-draws/blocker-adjusted-outs).
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const suitCardsDead = 3; // e.g. two hearts in villain range + one on board
+const unseen = 44;
 
-const result = poker.suitBlockerFraction(/* see signature above */);
-console.log(result);
+const frac = poker.suitBlockerFraction(suitCardsDead, unseen);
+console.log(frac); // 3/44
 ```
 
 ## See also

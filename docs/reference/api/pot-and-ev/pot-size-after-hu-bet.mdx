@@ -25,15 +25,15 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need pot after heads-up bet: `pot+2×bet` in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Chip pot after a heads-up bet that is called: `potBefore + 2×betSize`.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const potBeforeBet = 60;
+const betSize = 40;
 
-const result = poker.potSizeAfterHuBet(/* see signature above */);
-console.log(result);
+console.log(poker.potSizeAfterHuBet(potBeforeBet, betSize)); // 140
 ```
 
 ## See also

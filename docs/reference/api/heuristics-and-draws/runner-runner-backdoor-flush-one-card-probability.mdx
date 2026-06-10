@@ -25,15 +25,17 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need one-card backdoor flush probability in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+One-card backdoor flush probability: `suitRemaining / unseen`. Upper bound on the two-card runner model when only one street remains.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const suitRemaining = 10; // hearts left in deck
+const unseen = 47;
 
-const result = poker.runnerRunnerBackdoorFlushOneCardProbability(/* see signature above */);
-console.log(result);
+const pOne = poker.runnerRunnerBackdoorFlushOneCardProbability(suitRemaining, unseen);
+const pTwo = poker.runnerRunnerBackdoorFlushTwoCardProbability(suitRemaining, unseen);
+console.log({ pOne, pTwo }); // pOne <= pTwo
 ```
 
 ## See also

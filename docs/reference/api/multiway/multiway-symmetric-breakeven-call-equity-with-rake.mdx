@@ -25,15 +25,21 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need multiway breakeven call equity with rake in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Symmetric multiway call breakeven with rake on the final pot. At least [`multiwaySymmetricBreakevenCallEquity`](/docs/reference/api/multiway/multiway-symmetric-breakeven-call-equity) without rake.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const pot = 60;
+const toCall = 30;
+const k = 2;
+const rakeFraction = 0.05;
+const rakeCap = 3;
 
-const result = poker.multiwaySymmetricBreakevenCallEquityWithRake(/* see signature above */);
-console.log(result);
+const be = poker.multiwaySymmetricBreakevenCallEquityWithRake(
+  pot, toCall, k, rakeFraction, rakeCap,
+);
+console.log(be);
 ```
 
 ## See also

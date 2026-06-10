@@ -25,15 +25,18 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need minimum equity for reverse-implied bound in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Minimum equity for a call when you cap future **losses** at `maxFutureLoss` — inverse of [`reverseImpliedOddsMaxFutureLoss`](/docs/reference/api/reverse-implied/reverse-implied-odds-max-future-loss).
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const potBeforeCall = 100;
+const toCall = 50;
+const maxFutureLoss = 200;
 
-const result = poker.reverseImpliedOddsMinEquity(/* see signature above */);
-console.log(result);
+const minEq = poker.reverseImpliedOddsMinEquity(potBeforeCall, toCall, maxFutureLoss);
+const maxLoss = poker.reverseImpliedOddsMaxFutureLoss(potBeforeCall, toCall, minEq);
+console.log(maxLoss); // ≈ maxFutureLoss
 ```
 
 ## See also

@@ -25,15 +25,15 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need chip leader surplus ratio vs equal chop in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Chip leader ICM surplus vs equal chop, expressed as a ratio minus 1.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const stacks = [15000, 5000, 3000, 2000];
+const payouts = [5000, 3000, 1500, 500];
 
-const result = poker.icmChipLeaderPremiumVsEqualChop(/* see signature above */);
-console.log(result);
+console.log(poker.icmChipLeaderPremiumVsEqualChop(stacks, payouts));
 ```
 
 ## See also

@@ -25,15 +25,14 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need inequality index of payout ladder in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Inequality index of the payout ladder (0 when all payouts equal).
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const result = poker.icmPayoutStructureGini(/* see signature above */);
-console.log(result);
+const equal = poker.icmPayoutStructureGini([100, 100, 100]);
+const steep = poker.icmPayoutStructureGini([10000, 3000, 1000]);
+console.log({ equal, steep });
 ```
 
 ## See also

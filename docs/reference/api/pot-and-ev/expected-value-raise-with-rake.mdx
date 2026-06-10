@@ -25,15 +25,17 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need raise ev with rake on called pot in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Same as [`expectedValueRaise`](/docs/reference/api/pot-and-ev/expected-value-raise) but rake is taken from `potIfCalled` when called.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const result = poker.expectedValueRaiseWithRake(/* see signature above */);
-console.log(result);
+const ev = poker.expectedValueRaiseWithRake(
+  0.45, 60, 45, 0.35, 150,
+  0.05, 3,
+);
+const evNoRake = poker.expectedValueRaise(0.45, 60, 45, 0.35, 150);
+console.log({ ev, evNoRake }); // ev <= evNoRake
 ```
 
 ## See also

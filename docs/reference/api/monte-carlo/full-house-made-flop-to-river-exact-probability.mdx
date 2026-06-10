@@ -27,15 +27,16 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need exact full house+ by river in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Exact **full house or better** by the river.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const hole = ['Ah', 'Ad'];
+const flop = ['Ac', '7d', '9c'];
+const dead = [];
 
-const result = poker.fullHouseMadeFlopToRiverExactProbability(/* see signature above */);
-console.log(result);
+console.log(poker.fullHouseMadeFlopToRiverExactProbability(hole, flop, dead));
 ```
 
 ## See also

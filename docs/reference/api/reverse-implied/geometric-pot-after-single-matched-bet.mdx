@@ -25,15 +25,15 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need pot after one matched bet/raise in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Pot after **one** matched bet/raise: `pot0 + 2×betSize`. Single step of [`geometricPotAfterMatchedPotFractions`](/docs/reference/api/reverse-implied/geometric-pot-after-matched-pot-fractions).
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const pot0 = 100;
+const betSize = 40;
 
-const result = poker.geometricPotAfterSingleMatchedBet(/* see signature above */);
-console.log(result);
+console.log(poker.geometricPotAfterSingleMatchedBet(pot0, betSize)); // 180
 ```
 
 ## See also

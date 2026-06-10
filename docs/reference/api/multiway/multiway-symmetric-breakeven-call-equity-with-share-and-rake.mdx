@@ -25,15 +25,18 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need share model + rake on multiway call in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Multiway breakeven with [`Multiway_symmetric_pot_share_model`](/docs/reference/api/multiway/multiway-symmetric-breakeven-call-equity-with-share) and rake.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const result = poker.multiwaySymmetricBreakevenCallEquityWithShareAndRake(/* see signature above */);
-console.log(result);
+const need = poker.multiwaySymmetricBreakevenCallEquityWithShareAndRake(
+  90, 30, 2,
+  0,    // 0 = winner-takes-all share model
+  1.0,  // hero fraction when win (ignored for model 0)
+  0.05, 3,
+);
+console.log(need);
 ```
 
 ## See also

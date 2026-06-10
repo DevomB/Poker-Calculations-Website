@@ -25,15 +25,17 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need spr after hero bets heads-up in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Stack-to-pot ratio **after** hero bets and is called heads-up: `(stack − bet) / (pot + 2×bet)`.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const potBeforeBet = 100;
+const betSize = 50;
+const stack = 400;
 
-const result = poker.sprAfterBet(/* see signature above */);
-console.log(result);
+const spr = poker.sprAfterBet(potBeforeBet, betSize, stack);
+console.log(spr); // 350 / 200 = 1.75
 ```
 
 ## See also

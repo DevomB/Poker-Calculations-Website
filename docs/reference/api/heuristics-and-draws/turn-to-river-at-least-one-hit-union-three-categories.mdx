@@ -25,15 +25,13 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need three categories, turn→river in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Three categories on turn→river with full inclusion–exclusion on card counts.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const result = poker.turnToRiverAtLeastOneHitUnionThreeCategories(/* see signature above */);
-console.log(result);
+const p = poker.turnToRiverAtLeastOneHitUnionThreeCategories(44, 9, 4, 2, 0, 0, 0, 0);
+console.log(p);
 ```
 
 ## See also

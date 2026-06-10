@@ -25,15 +25,14 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need number of side-pot layers in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Number of side-pot layers from committed chip counts — same as `sidePotLadderFromCommitments(...).length`.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
-
-const result = poker.sidePotLayerCount(/* see signature above */);
-console.log(result);
+const committed = [100, 200, 500];
+const layers = poker.sidePotLadderFromCommitments(committed);
+console.log(poker.sidePotLayerCount(committed), layers.length);
 ```
 
 ## See also

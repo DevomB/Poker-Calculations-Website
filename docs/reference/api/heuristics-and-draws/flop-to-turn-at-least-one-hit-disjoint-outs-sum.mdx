@@ -25,15 +25,16 @@ const poker = require('poker-calculations');
 
 ## When to use
 
-Use when you need sum disjoint outs, then one-street hit formula in trainers, study tools, or backend scripts. Values follow the native C++ implementation in `poker-calculations`.
+Categories do **not** share outs. Sum raw out counts, then apply the one-street hit formula on flop→turn.
 
 ## How to use
 
 ```js
-const poker = require('poker-calculations');
+const unseen = 47;
+const outsPerCategory = [9, 4]; // flush + gutshot, disjoint
 
-const result = poker.flopToTurnAtLeastOneHitDisjointOutsSum(/* see signature above */);
-console.log(result);
+const p = poker.flopToTurnAtLeastOneHitDisjointOutsSum(unseen, outsPerCategory);
+console.log(p); // 13/47
 ```
 
 ## See also
