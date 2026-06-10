@@ -3,30 +3,34 @@ title: API overview
 slug: /reference/api
 ---
 
+import Link from '@docusaurus/Link';
+import {
+	apiReferenceCategories,
+	apiReferenceTotalExports,
+} from '@site/src/data/api-reference';
+
 # API reference
 
-**220** native functions, grouped below. Each page includes **Import**, **When to use**, and **How to use**.
+**{apiReferenceTotalExports}** native functions, grouped below. Each page includes **Import**, **When to use**, and **How to use**.
 
-| Category | Exports |
-| --- | --- |
-| [Hands & equity](/docs/reference/api/hands-and-equity) | 16 |
-| [Monte Carlo](/docs/reference/api/monte-carlo) | 21 |
-| [Strategy](/docs/reference/api/strategy) | 4 |
-| [Pot & EV](/docs/reference/api/pot-and-ev) | 21 |
-| [Stacks & display](/docs/reference/api/stacks-and-display) | 17 |
-| [Heuristics & draws](/docs/reference/api/heuristics-and-draws) | 32 |
-| [Reverse implied](/docs/reference/api/reverse-implied) | 4 |
-| [Statistics & risk](/docs/reference/api/statistics-and-risk) | 12 |
-| [Kelly & jam](/docs/reference/api/kelly-and-jam) | 10 |
-| [GTO frequencies](/docs/reference/api/gto-frequencies) | 7 |
-| [Sizing & commitment](/docs/reference/api/sizing-and-commitment) | 7 |
-| [Fold equity](/docs/reference/api/fold-equity) | 13 |
-| [Multiway](/docs/reference/api/multiway) | 5 |
-| [ICM](/docs/reference/api/icm) | 12 |
-| [Side pots](/docs/reference/api/side-pots) | 6 |
-| [Tournament ICM](/docs/reference/api/cooperative-icm) | 10 |
-| [Exact runouts](/docs/reference/api/combinatorics-exact) | 11 |
-| [Subgame & ranges](/docs/reference/api/subgame-theory) | 12 |
+<table>
+	<thead>
+		<tr>
+			<th>Category</th>
+			<th>Exports</th>
+		</tr>
+	</thead>
+	<tbody>
+		{apiReferenceCategories.map((category) => (
+			<tr key={category.to}>
+				<td>
+					<Link to={category.to}>{category.title}</Link>
+				</td>
+				<td>{category.count}</td>
+			</tr>
+		))}
+	</tbody>
+</table>
 
 [TypeScript types](/docs/reference/types) for `decideAction`, batch specs, and result objects. [`AsyncOptions`](/docs/reference/types/async-options) documents optional `AbortSignal` cancellation on all `*Async` exports.
 

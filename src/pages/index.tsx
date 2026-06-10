@@ -3,32 +3,15 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import clsx from 'clsx';
 import styles from './index.module.css';
+import {
+  apiReferenceCategories,
+  apiReferenceTotalExports,
+} from '@site/src/data/api-reference';
 
-type Suit = '♠' | '♥' | '♦' | '♣';
+type Suit = (typeof apiReferenceCategories)[number]['suit'];
 
-// Counts must match docs/reference/api/index.mdx (verified by pnpm check:docs).
-const apiCategories: Array<{title: string; to: string; count: number; suit: Suit}> = [
-  {title: 'Hands & equity', to: '/docs/reference/api/hands-and-equity', count: 16, suit: '♠'},
-  {title: 'Monte Carlo', to: '/docs/reference/api/monte-carlo', count: 13, suit: '♥'},
-  {title: 'Strategy', to: '/docs/reference/api/strategy', count: 4, suit: '♣'},
-  {title: 'Pot & EV', to: '/docs/reference/api/pot-and-ev', count: 11, suit: '♦'},
-  {title: 'Stacks & display', to: '/docs/reference/api/stacks-and-display', count: 15, suit: '♠'},
-  {title: 'Heuristics & draws', to: '/docs/reference/api/heuristics-and-draws', count: 15, suit: '♥'},
-  {title: 'Reverse implied', to: '/docs/reference/api/reverse-implied', count: 2, suit: '♣'},
-  {title: 'Statistics & risk', to: '/docs/reference/api/statistics-and-risk', count: 9, suit: '♦'},
-  {title: 'Kelly & jam', to: '/docs/reference/api/kelly-and-jam', count: 6, suit: '♠'},
-  {title: 'GTO frequencies', to: '/docs/reference/api/gto-frequencies', count: 3, suit: '♥'},
-  {title: 'Sizing & commitment', to: '/docs/reference/api/sizing-and-commitment', count: 3, suit: '♣'},
-  {title: 'Fold equity', to: '/docs/reference/api/fold-equity', count: 8, suit: '♦'},
-  {title: 'Multiway', to: '/docs/reference/api/multiway', count: 2, suit: '♠'},
-  {title: 'ICM', to: '/docs/reference/api/icm', count: 7, suit: '♥'},
-  {title: 'Side pots', to: '/docs/reference/api/side-pots', count: 3, suit: '♣'},
-  {title: 'Tournament ICM', to: '/docs/reference/api/cooperative-icm', count: 7, suit: '♦'},
-  {title: 'Exact runouts', to: '/docs/reference/api/combinatorics-exact', count: 9, suit: '♠'},
-  {title: 'Subgame & ranges', to: '/docs/reference/api/subgame-theory', count: 7, suit: '♥'},
-];
-
-const totalExports = apiCategories.reduce((sum, c) => sum + c.count, 0);
+const apiCategories = apiReferenceCategories;
+const totalExports = apiReferenceTotalExports;
 
 const features: Array<{suit: Suit; title: string; body: string; to: string}> = [
   {
