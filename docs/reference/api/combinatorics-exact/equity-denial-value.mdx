@@ -1,0 +1,32 @@
+﻿---
+title: equityDenialValue
+---
+# `equityDenialValue`
+Convert fold share and denied equity into a chip-value estimate.
+<div className="apiSignature">{`equityDenialValue(heroEquity: number, villainFoldShare: number, pot: number, betSize: number): number`}</div>
+See [Packed card input](/docs/concepts/packed-card-input) and [SparseRangeSpec](/docs/reference/types/sparse-range-spec) where those inputs apply.
+## Import
+```js
+const poker = require('poker-calculations');
+```
+## ESM (Node)
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+## When to use
+Use `equityDenialValue` when building analysis, training, or simulator policy code that needs this calculation directly from the native package.
+## How to use
+```js
+const poker = require('poker-calculations');
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const result = poker.equityDenialValue(['Ah', 'Kh'], ['Qh', 'Jh', '2c'], range, 0.5);
+console.log(result);
+```
+## See also
+[`exactHeroEquityRunoutQuantiles`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles) - [Range equity exact](/docs/guides/range-equity-exact)
+
+

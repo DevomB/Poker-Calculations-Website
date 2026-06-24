@@ -1,0 +1,32 @@
+﻿---
+title: checkRaiseSemiBluffEv
+---
+# `checkRaiseSemiBluffEv`
+Estimate chip EV for a check-raise semi-bluff line.
+<div className="apiSignature">{`checkRaiseSemiBluffEv(heroHoleCards: CardInput, boardCards: CardInput, villainRange: SparseRangeSpec | Float64Array, pot: number, betSize: number, raiseSize: number): number`}</div>
+See [Packed card input](/docs/concepts/packed-card-input) and [SparseRangeSpec](/docs/reference/types/sparse-range-spec) where those inputs apply.
+## Import
+```js
+const poker = require('poker-calculations');
+```
+## ESM (Node)
+```js
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const poker = require('poker-calculations');
+```
+## When to use
+Use `checkRaiseSemiBluffEv` when building analysis, training, or simulator policy code that needs this calculation directly from the native package.
+## How to use
+```js
+const poker = require('poker-calculations');
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const result = poker.checkRaiseSemiBluffEv(range, range, ['Qh', 'Jh', '2c'], 100, [33, 66, 100]);
+console.log(result);
+```
+## See also
+[`betAsPotFraction`](/docs/reference/api/sizing-and-commitment/bet-as-pot-fraction) - [`expectedValueRaise`](/docs/reference/api/pot-and-ev/expected-value-raise)
+
+

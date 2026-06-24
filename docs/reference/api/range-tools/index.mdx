@@ -1,0 +1,29 @@
+﻿---
+title: Range tools
+sidebar_position: 19
+---
+# Range tools
+Range normalization, distance metrics, notation buckets, blocker pressure, and compact range summaries.
+| Export | Summary |
+| --- | --- |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/normalize-sparse-range) | Normalize a dense or sparse 1326-combo range into a dense probability vector. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/prune-range-by-min-weight) | Drop low-weight range combos and return a compact sparse range. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/merge-sparse-ranges) | Blend two ranges with caller-supplied weights and normalize the result. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/intersect-sparse-ranges) | Keep the overlapping mass between two villain ranges. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/subtract-sparse-range) | Remove one weighted range from another and normalize the remaining mass. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/range-combo-count) | Count active combos in a dense or sparse range. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/range-shannon-entropy) | Measure how spread out a range is after normalization. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/range-gini-coefficient) | Measure how concentrated a range is across its combos. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/range-coverage-fraction) | Return the share of the 1326 combo grid with positive mass. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/range-weight-top-k-mass) | Return the normalized probability mass held by the top weighted combos. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/range-distance-l1) | Compute L1 distance between two normalized ranges. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/range-distance-l2) | Compute Euclidean distance between two normalized ranges. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/range-distance-jensen-shannon) | Compute Jensen-Shannon distance between two normalized ranges. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/range-cosine-similarity) | Compare two range vectors by cosine similarity. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/range-top-combos) | List the highest-weight combos in a range. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/range-bucket-weights-by-hand-class) | Bucket range mass into practical preflop hand classes. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/range-bucket-weights-by-notation) | Aggregate combo weights into notation buckets such as AKs and QQ. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/range-from-notation-weights) | Build a dense range from notation-weight entries. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/range-blocker-pressure-by-card) | Measure how much range mass each deck card blocks. |
+| [$(System.Collections.Hashtable.n)](/docs/reference/api/range-tools/range-removal-sensitivity-vs-hero) | Estimate hero-equity sensitivity to removing each live card from villain range. |
+
