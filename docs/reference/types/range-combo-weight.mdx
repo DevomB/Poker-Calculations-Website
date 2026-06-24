@@ -4,13 +4,20 @@ title: RangeComboWeight
 
 # `RangeComboWeight`
 
-Type exported by `poker-calculations` for range analysis, board texture, sizing, opponent modeling, or strategy diagnostics.
+Single combo index, cards, notation, and weight from [`rangeTopCombos`](/docs/reference/api/range-tools/range-top-combos) and related range tools.
 
 ## Shape
 
-See `index.d.ts` for the authoritative field list and optionality.
+```ts
+interface RangeComboWeight {
+  comboIndex: number;
+  cardA: Card52;
+  cardB: Card52;
+  notation: string;
+  weight: number;
+}
+```
 
 ## See also
 
-[API reference](/docs/reference/api) - [TypeScript types](/docs/reference/types)
-
+[Sparse range input](/docs/concepts/sparse-range-input) · [Range tools](/docs/reference/api/range-tools)

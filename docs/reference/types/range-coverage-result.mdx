@@ -4,13 +4,19 @@ title: RangeCoverageResult
 
 # `RangeCoverageResult`
 
-Type exported by `poker-calculations` for range analysis, board texture, sizing, opponent modeling, or strategy diagnostics.
+Made-hand, draw, overcard, and air shares for a range on a board from [`rangeBoardCoverage`](/docs/reference/api/board-texture/range-board-coverage).
 
 ## Shape
 
-See `index.d.ts` for the authoritative field list and optionality.
+```ts
+interface RangeCoverageResult {
+  madeHandShare: number;
+  drawShare: number;
+  overcardShare: number;
+  airShare: number;
+}
+```
 
 ## See also
 
-[API reference](/docs/reference/api) - [TypeScript types](/docs/reference/types)
-
+[Board texture](/docs/reference/api/board-texture)

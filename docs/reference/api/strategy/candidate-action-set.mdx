@@ -4,19 +4,23 @@ title: candidateActionSet
 # `candidateActionSet`
 Generate legal candidate actions and raise sizes for a state.
 <div className="apiSignature">{`candidateActionSet(state: NativePokerState | PokerStateBytes, sizingFractions: F64VectorInput): CandidateAction[]`}</div>
-See [Packed card input](/docs/concepts/packed-card-input) and [SparseRangeSpec](/docs/reference/types/sparse-range-spec) where those inputs apply.
+
 ## Import
 ```js
 const poker = require('poker-calculations');
 ```
-## ESM (Node)
+
+ESM (Node):
+
 ```js
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const poker = require('poker-calculations');
 ```
+
 ## When to use
-Use `candidateActionSet` when building analysis, training, or simulator policy code that needs this calculation directly from the native package.
+Use `candidateActionSet` when you need to generate legal candidate actions and raise sizes for a state.
+
 ## How to use
 ```js
 const poker = require('poker-calculations');
@@ -38,7 +42,8 @@ const state = {
 const result = poker.candidateActionSet(state, {monteCarloSimulations: 0});
 console.log(result);
 ```
+
 ## See also
-[`decideAction`](/docs/reference/api/strategy/decide-action) - [`NativePokerState`](/docs/reference/types/native-poker-state)
+[`decideAction`](/docs/reference/api/strategy/decide-action) · [`NativePokerState`](/docs/reference/types/native-poker-state)
 
 

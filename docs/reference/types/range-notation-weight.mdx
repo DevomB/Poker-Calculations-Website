@@ -4,13 +4,17 @@ title: RangeNotationWeight
 
 # `RangeNotationWeight`
 
-Type exported by `poker-calculations` for range analysis, board texture, sizing, opponent modeling, or strategy diagnostics.
+Notation label and weight from range bucket and notation builders.
 
 ## Shape
 
-See `index.d.ts` for the authoritative field list and optionality.
+```ts
+interface RangeNotationWeight {
+  notation: string;
+  weight: number;
+}
+```
 
 ## See also
 
-[API reference](/docs/reference/api) - [TypeScript types](/docs/reference/types)
-
+[`rangeFromNotationWeights`](/docs/reference/api/range-tools/range-from-notation-weights) · [`rangeBucketWeightsByNotation`](/docs/reference/api/range-tools/range-bucket-weights-by-notation)

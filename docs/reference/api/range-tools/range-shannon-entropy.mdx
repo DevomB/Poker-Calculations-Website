@@ -5,18 +5,23 @@ title: rangeShannonEntropy
 Measure how spread out a range is after normalization.
 <div className="apiSignature">{`rangeShannonEntropy(range: SparseRangeSpec | Float64Array): number`}</div>
 See [Packed card input](/docs/concepts/packed-card-input) and [SparseRangeSpec](/docs/reference/types/sparse-range-spec) where those inputs apply.
+
 ## Import
 ```js
 const poker = require('poker-calculations');
 ```
-## ESM (Node)
+
+ESM (Node):
+
 ```js
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const poker = require('poker-calculations');
 ```
+
 ## When to use
-Use `rangeShannonEntropy` when building analysis, training, or simulator policy code that needs this calculation directly from the native package.
+Use `rangeShannonEntropy` when you need to measure how spread out a range is after normalization.
+
 ## How to use
 ```js
 const poker = require('poker-calculations');
@@ -26,7 +31,8 @@ range.fill(1 / 1326);
 const result = poker.rangeShannonEntropy(range, 5);
 console.log(result);
 ```
+
 ## See also
-[`materializeVillainRangeAfterBlockers`](/docs/reference/api/subgame-theory/materialize-villain-range-after-blockers) - [Sparse range input](/docs/concepts/sparse-range-input)
+[`materializeVillainRangeAfterBlockers`](/docs/reference/api/subgame-theory/materialize-villain-range-after-blockers) · [Sparse range input](/docs/concepts/sparse-range-input)
 
 

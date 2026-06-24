@@ -15,9 +15,11 @@
     "typecheck": "tsc",
     "fetch:downloads": "node scripts/fetch-ytd-downloads.mjs",
     "check:docs": "node scripts/check-docs-coverage.mjs",
+    "check:sidebar": "node scripts/check-sidebar-coverage.mjs",
+    "check:index-integrity": "node scripts/check-index-integrity.mjs",
     "lint:api-signatures": "node scripts/lint-api-signatures.mjs",
     "validate:snippets": "node scripts/validate-snippets.mjs",
-    "check:all": "pnpm check:docs && pnpm lint:api-signatures && pnpm validate:snippets && pnpm typecheck"
+    "check:all": "pnpm check:docs && pnpm check:sidebar && pnpm check:index-integrity && pnpm lint:api-signatures && pnpm validate:snippets && pnpm typecheck"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.1",

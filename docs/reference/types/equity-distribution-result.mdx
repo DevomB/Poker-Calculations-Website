@@ -4,13 +4,21 @@ title: EquityDistributionResult
 
 # `EquityDistributionResult`
 
-Type exported by `poker-calculations` for range analysis, board texture, sizing, opponent modeling, or strategy diagnostics.
+Mean, variance, and quantiles for an equity sample or runout distribution.
 
 ## Shape
 
-See `index.d.ts` for the authoritative field list and optionality.
+```ts
+interface EquityDistributionResult {
+  mean: number;
+  variance: number;
+  p05: number;
+  p50: number;
+  p95: number;
+  n: number;
+}
+```
 
 ## See also
 
-[API reference](/docs/reference/api) - [TypeScript types](/docs/reference/types)
-
+[`exactEquityDistributionVsRange`](/docs/reference/api/combinatorics-exact/exact-equity-distribution-vs-range) · [`HeroEquityRunoutQuantilesResult`](/docs/reference/types/hero-equity-runout-quantiles-result)

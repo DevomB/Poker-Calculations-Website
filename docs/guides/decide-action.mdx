@@ -2,8 +2,6 @@
 title: decideAction guide
 ---
 
-# decideAction
-
 Rule-based action from serialized table state, Monte Carlo equity (or strength fallback when sim count is 0), pot odds, and call EV.
 
 ## State shape
@@ -18,11 +16,13 @@ See [NativePokerState](/docs/reference/types/native-poker-state). You may pass P
 | `actedThisStreet` | yes | One boolean per player |
 | `pot`, `currentBet`, blinds, seats | optional | Table geometry |
 
-**Hero seat:** pass `heroSeat` explicitly, or the engine uses the acting player’s seat, or seat `0`.
+**Hero seat:** pass `heroSeat` explicitly, or the engine uses the acting player's seat, or seat `0`.
 
 ## Config
 
 See [NativeBotConfig](/docs/reference/types/native-bot-config) and optional [NativeOpponentModel](/docs/reference/types/native-opponent-model).
+
+[`normalizeBotConfig`](/docs/reference/api/strategy/normalize-bot-config) fills missing fields and clamps values before you call policy exports.
 
 When `monteCarloSimulations` is `0`, strategy falls back to encoded hand strength instead of simulated equity.
 
@@ -80,6 +80,34 @@ const pending = poker.decideActionAsync(state, config, null, 0, { signal: ac.sig
 const decision = await pending;
 ```
 
+## Diagnostics and EV breakdown
+
+| Export | Use when |
+| --- | --- |
+| [`decideActionWithDiagnostics`](/docs/reference/api/strategy/decide-action-with-diagnostics) | You need the chosen action plus legal actions, EV breakdown, and a reason string in one call. Returns [`DecisionDiagnosticResult`](/docs/reference/types/decision-diagnostic-result). |
+| [`actionEvBreakdown`](/docs/reference/api/strategy/action-ev-breakdown) | You want fold/check/call/raise EV and equity without committing to a single action. Returns [`ActionEvBreakdownResult`](/docs/reference/types/action-ev-breakdown-result). |
+| [`explainDecisionFactors`](/docs/reference/api/strategy/explain-decision-factors) | You need ranked human-readable factors behind a policy choice. Returns [`DecisionFactor`](/docs/reference/types/decision-factor) rows. |
+
+## Validation and legal actions
+
+| Export | Use when |
+| --- | --- |
+| [`validatePokerState`](/docs/reference/api/strategy/validate-poker-state) | Pre-flight a snapshot before simulation or policy runs. Returns [`PokerStateValidationResult`](/docs/reference/types/poker-state-validation-result). |
+| [`legalActionSummary`](/docs/reference/api/strategy/legal-action-summary) | You need raise bounds and which actions are legal. Returns [`LegalActionSummaryResult`](/docs/reference/types/legal-action-summary-result). |
+| [`candidateActionSet`](/docs/reference/api/strategy/candidate-action-set) | Build a discrete action menu with raise sizes. Returns [`CandidateAction`](/docs/reference/types/candidate-action) rows. |
+| [`actionMaskFromState`](/docs/reference/api/strategy/action-mask-from-state) | Encode legality as a compact bitmask for ML or fast filters. |
+
+## Batch policy and features
+
+| Export | Use when |
+| --- | --- |
+| [`runBotPolicyBatch`](/docs/reference/api/strategy/run-bot-policy-batch) | Evaluate many table snapshots in one native crossing. |
+| [`stateToFeatureVector`](/docs/reference/api/strategy/state-to-feature-vector) | Feed a fixed-length numeric vector into custom models or clustering. |
+
+## PKST binary snapshots
+
+[`encodePokerState`](/docs/reference/api/strategy/encode-poker-state) and [`decodePokerState`](/docs/reference/api/strategy/decode-poker-state) round-trip [`NativePokerState`](/docs/reference/types/native-poker-state) through PKST bytes. Pure-JS helpers also ship on [`poker-calculations/encode`](/docs/concepts/packed-poker-state#encodejs-helpers).
+
 ## API reference
 
-Full **Import / When / How** for [`decideAction`](/docs/reference/api/strategy/decide-action) and [`decideActionAsync`](/docs/reference/api/strategy/decide-action-async).
+Full **Import / When / How** for every export in the [Strategy](/docs/reference/api/strategy) category.

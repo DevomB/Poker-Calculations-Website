@@ -5,18 +5,23 @@ title: blockerMatrixByCard
 Return per-card blocker pressure for board and range analysis.
 <div className="apiSignature">{`blockerMatrixByCard(range: SparseRangeSpec | Float64Array, board?: CardInput): Float64Array`}</div>
 See [Packed card input](/docs/concepts/packed-card-input) and [SparseRangeSpec](/docs/reference/types/sparse-range-spec) where those inputs apply.
+
 ## Import
 ```js
 const poker = require('poker-calculations');
 ```
-## ESM (Node)
+
+ESM (Node):
+
 ```js
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const poker = require('poker-calculations');
 ```
+
 ## When to use
-Use `blockerMatrixByCard` when building analysis, training, or simulator policy code that needs this calculation directly from the native package.
+Use `blockerMatrixByCard` when you need to return per-card blocker pressure for board and range analysis.
+
 ## How to use
 ```js
 const poker = require('poker-calculations');
@@ -27,7 +32,8 @@ range.fill(1 / 1326);
 const result = poker.blockerMatrixByCard(board, range, range);
 console.log(result);
 ```
+
 ## See also
-[`rangeBoardCoverage`](/docs/reference/api/board-texture/range-board-coverage) - [Range equity](/docs/concepts/range-equity)
+[`rangeBoardCoverage`](/docs/reference/api/board-texture/range-board-coverage) · [Range equity](/docs/concepts/range-equity)
 
 

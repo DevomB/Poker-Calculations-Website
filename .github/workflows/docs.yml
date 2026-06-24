@@ -2,23 +2,12 @@ name: Documentation site
 
 on:
   push:
-    paths:
-      - 'Website/**'
-      - 'NPM/native/**'
-      - 'NPM/index.d.ts'
-      - 'NPM/encode.js'
-      - 'NPM/encode.d.ts'
+    branches: [main, master]
   pull_request:
-    paths:
-      - 'Website/**'
-      - 'NPM/native/**'
-      - 'NPM/index.d.ts'
-      - 'NPM/encode.js'
-      - 'NPM/encode.d.ts'
 
 defaults:
   run:
-    working-directory: Website
+    working-directory: .
 
 jobs:
   build:
@@ -32,8 +21,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'pnpm'
-          cache-dependency-path: Website/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
-      - run: pnpm check:docs
-      - run: pnpm validate:snippets
+      - run: pnpm check:all
       - run: pnpm build

@@ -5,25 +5,31 @@ title: villainLineRangeShift
 Shift a villain prior range using an observed action sequence.
 <div className="apiSignature">{`villainLineRangeShift(priorRange: SparseRangeSpec | Float64Array, actionSequence: string[], model?: NativeOpponentModel): Float64Array`}</div>
 See [Packed card input](/docs/concepts/packed-card-input) and [SparseRangeSpec](/docs/reference/types/sparse-range-spec) where those inputs apply.
+
 ## Import
 ```js
 const poker = require('poker-calculations');
 ```
-## ESM (Node)
+
+ESM (Node):
+
 ```js
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const poker = require('poker-calculations');
 ```
+
 ## When to use
-Use `villainLineRangeShift` when building analysis, training, or simulator policy code that needs this calculation directly from the native package.
+Use `villainLineRangeShift` when you need to shift a villain prior range using an observed action sequence.
+
 ## How to use
 ```js
 const poker = require('poker-calculations');
 const result = poker.villainLineRangeShift(1, 1, 7, 5);
 console.log(result);
 ```
+
 ## See also
-[`bayesianRangeUpdateFromAction`](/docs/reference/api/subgame-theory/bayesian-range-update-from-action) - [`NativeOpponentModel`](/docs/reference/types/native-opponent-model)
+[`bayesianRangeUpdateFromAction`](/docs/reference/api/subgame-theory/bayesian-range-update-from-action) · [`NativeOpponentModel`](/docs/reference/types/native-opponent-model)
 
 

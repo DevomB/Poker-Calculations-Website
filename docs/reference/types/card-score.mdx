@@ -4,13 +4,18 @@ title: CardScore
 
 # `CardScore`
 
-Type exported by `poker-calculations` for range analysis, board texture, sizing, opponent modeling, or strategy diagnostics.
+Deck index, card string, and score for ranked card lists from board-texture and blocker helpers.
 
 ## Shape
 
-See `index.d.ts` for the authoritative field list and optionality.
+```ts
+interface CardScore {
+  deckIndex: Card52;
+  card: string;
+  score: number;
+}
+```
 
 ## See also
 
-[API reference](/docs/reference/api) - [TypeScript types](/docs/reference/types)
-
+[`enumerateScareCards`](/docs/reference/api/board-texture/enumerate-scare-cards) · [Board texture](/docs/reference/api/board-texture)

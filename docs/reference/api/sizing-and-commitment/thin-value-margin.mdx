@@ -4,19 +4,23 @@ title: thinValueMargin
 # `thinValueMargin`
 Return the chip-EV margin of a thin value bet.
 <div className="apiSignature">{`thinValueMargin(heroEquityWhenCalled: number, pot: number, betSize: number): number`}</div>
-See [Packed card input](/docs/concepts/packed-card-input) and [SparseRangeSpec](/docs/reference/types/sparse-range-spec) where those inputs apply.
+
 ## Import
 ```js
 const poker = require('poker-calculations');
 ```
-## ESM (Node)
+
+ESM (Node):
+
 ```js
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const poker = require('poker-calculations');
 ```
+
 ## When to use
-Use `thinValueMargin` when building analysis, training, or simulator policy code that needs this calculation directly from the native package.
+Use `thinValueMargin` when you need to return the chip-EV margin of a thin value bet.
+
 ## How to use
 ```js
 const poker = require('poker-calculations');
@@ -26,7 +30,8 @@ range.fill(1 / 1326);
 const result = poker.thinValueMargin(range, range, ['Qh', 'Jh', '2c'], 100, [33, 66, 100]);
 console.log(result);
 ```
+
 ## See also
-[`betAsPotFraction`](/docs/reference/api/sizing-and-commitment/bet-as-pot-fraction) - [`expectedValueRaise`](/docs/reference/api/pot-and-ev/expected-value-raise)
+[`betAsPotFraction`](/docs/reference/api/sizing-and-commitment/bet-as-pot-fraction) · [`expectedValueRaise`](/docs/reference/api/pot-and-ev/expected-value-raise)
 
 

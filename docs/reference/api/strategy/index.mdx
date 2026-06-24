@@ -5,7 +5,21 @@ sidebar_position: 3
 
 # Strategy
 
-- [`decideAction`](/docs/reference/api/strategy/decide-action) â€” Rule-based action; state may be [`NativePokerState`](/docs/reference/types/native-poker-state) or PKST [`Uint8Array`](/docs/concepts/packed-poker-state).
-- [`decideActionAsync`](/docs/reference/api/strategy/decide-action-async) â€” Non-blocking `decideAction`; optional [`AbortSignal`](/docs/reference/types/async-options).
-- [`encodePokerState`](/docs/reference/api/strategy/encode-poker-state) Â· [`decodePokerState`](/docs/reference/api/strategy/decode-poker-state) â€” PKST binary snapshots.
+Rule-based bots, PKST state encoding, diagnostics, and batch policy helpers. State may be [`NativePokerState`](/docs/reference/types/native-poker-state) or PKST [`Uint8Array`](/docs/concepts/packed-poker-state). See the [decideAction guide](/docs/guides/decide-action).
 
+| Export | Summary |
+| --- | --- |
+| [`decideAction`](/docs/reference/api/strategy/decide-action) | Rule-based action from MC equity, pot odds, and call EV. |
+| [`decideActionAsync`](/docs/reference/api/strategy/decide-action-async) | Non-blocking `decideAction`; optional [`AbortSignal`](/docs/reference/types/async-options). |
+| [`decideActionWithDiagnostics`](/docs/reference/api/strategy/decide-action-with-diagnostics) | Same decision plus legal-action and EV diagnostics. |
+| [`actionEvBreakdown`](/docs/reference/api/strategy/action-ev-breakdown) | Fold, check, call, and raise EV diagnostics for a state. |
+| [`explainDecisionFactors`](/docs/reference/api/strategy/explain-decision-factors) | Ranked decision factors for a native policy decision. |
+| [`legalActionSummary`](/docs/reference/api/strategy/legal-action-summary) | Legal action flags and raise bounds for a poker state. |
+| [`candidateActionSet`](/docs/reference/api/strategy/candidate-action-set) | Legal candidate actions and raise sizes for a state. |
+| [`actionMaskFromState`](/docs/reference/api/strategy/action-mask-from-state) | Compact legal-action bitmask from a poker state. |
+| [`validatePokerState`](/docs/reference/api/strategy/validate-poker-state) | Validate a native poker state and return structured errors. |
+| [`normalizeBotConfig`](/docs/reference/api/strategy/normalize-bot-config) | Fill and clamp bot configuration fields to native defaults. |
+| [`runBotPolicyBatch`](/docs/reference/api/strategy/run-bot-policy-batch) | Run native policy diagnostics over many states. |
+| [`stateToFeatureVector`](/docs/reference/api/strategy/state-to-feature-vector) | Convert a poker state into a compact numeric feature vector. |
+| [`encodePokerState`](/docs/reference/api/strategy/encode-poker-state) | PKST binary snapshot from a live state object. |
+| [`decodePokerState`](/docs/reference/api/strategy/decode-poker-state) | Reconstruct a state object from PKST bytes. |

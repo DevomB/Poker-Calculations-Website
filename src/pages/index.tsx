@@ -36,7 +36,7 @@ const features: Array<{suit: Suit; title: string; body: string; to: string}> = [
     suit: '♣',
     title: 'ICM & strategy',
     body: 'ICM (Harville and Weitzman), decideAction bots, Chubukov jam study helpers, and preflop equity matrices.',
-    to: '/docs/reference/api/icm',
+    to: '/docs/guides/decide-action',
   },
 ];
 

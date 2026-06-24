@@ -212,7 +212,6 @@ rebuild. They are your scope.
 | Path                                                  | What to fix |
 | ----------------------------------------------------- | ----------- |
 | `Website/src/css/custom.css`                          | Audit every selector below "LANDING uses its own module" and ensure each value resolves to a semantic alias (no raw hex except inside `:root`). Remove legacy aliases once site is migrated. |
-| `Website/src/components/ApiDoc/**`                    | Sweep for hard-coded colors. Signatures should use `--poker-gold-500` left-border (already done globally in `.apiSignature`, but per-component overrides may need updating). |
 | `Website/src/pages/404.tsx`                           | Plain page — use a small felt-tinted card, ghost button, and the cream text token. |
 | `Website/src/theme/**` (if/when swizzled)            | Ensure any swizzled Docusaurus component uses tokens, not hex. |
 | `Website/docs/**/*.md` / `*.mdx`                      | Inline HTML/CSS in MDX should reference tokens. Search MDX for `style="color:` or `style={{color`. |

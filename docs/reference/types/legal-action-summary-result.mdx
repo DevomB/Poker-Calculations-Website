@@ -4,13 +4,23 @@ title: LegalActionSummaryResult
 
 # `LegalActionSummaryResult`
 
-Type exported by `poker-calculations` for range analysis, board texture, sizing, opponent modeling, or strategy diagnostics.
+Legal action flags and raise bounds from [`legalActionSummary`](/docs/reference/api/strategy/legal-action-summary).
 
 ## Shape
 
-See `index.d.ts` for the authoritative field list and optionality.
+```ts
+interface LegalActionSummaryResult {
+  canFold: boolean;
+  canCheck: boolean;
+  canCall: boolean;
+  canRaise: boolean;
+  toCall: number;
+  minRaiseTo: number;
+  maxRaiseTo: number;
+  actingIndex: number;
+}
+```
 
 ## See also
 
-[API reference](/docs/reference/api) - [TypeScript types](/docs/reference/types)
-
+[`candidateActionSet`](/docs/reference/api/strategy/candidate-action-set) · [`DecisionDiagnosticResult`](/docs/reference/types/decision-diagnostic-result)

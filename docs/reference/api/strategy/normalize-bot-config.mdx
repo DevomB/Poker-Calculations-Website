@@ -4,19 +4,23 @@ title: normalizeBotConfig
 # `normalizeBotConfig`
 Fill and clamp bot configuration fields to native defaults.
 <div className="apiSignature">{`normalizeBotConfig(config: Partial<NativeBotConfig>): NativeBotConfig`}</div>
-See [Packed card input](/docs/concepts/packed-card-input) and [SparseRangeSpec](/docs/reference/types/sparse-range-spec) where those inputs apply.
+
 ## Import
 ```js
 const poker = require('poker-calculations');
 ```
-## ESM (Node)
+
+ESM (Node):
+
 ```js
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const poker = require('poker-calculations');
 ```
+
 ## When to use
-Use `normalizeBotConfig` when building analysis, training, or simulator policy code that needs this calculation directly from the native package.
+Use `normalizeBotConfig` when you need to fill and clamp bot configuration fields to native defaults.
+
 ## How to use
 ```js
 const poker = require('poker-calculations');
@@ -38,7 +42,8 @@ const state = {
 const result = poker.normalizeBotConfig(state, {monteCarloSimulations: 0});
 console.log(result);
 ```
+
 ## See also
-[`decideAction`](/docs/reference/api/strategy/decide-action) - [`NativePokerState`](/docs/reference/types/native-poker-state)
+[`decideAction`](/docs/reference/api/strategy/decide-action) · [`NativePokerState`](/docs/reference/types/native-poker-state)
 
 

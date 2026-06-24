@@ -5,18 +5,23 @@ title: turnBarrelRunoutEvDistribution
 Summarize turn barrel EV across representative river outcomes.
 <div className="apiSignature">{`turnBarrelRunoutEvDistribution(heroHoleCards: CardInput, turnBoard: CardInput, villainRange: SparseRangeSpec | Float64Array, betSize: number): EquityDistributionResult`}</div>
 See [Packed card input](/docs/concepts/packed-card-input) and [SparseRangeSpec](/docs/reference/types/sparse-range-spec) where those inputs apply.
+
 ## Import
 ```js
 const poker = require('poker-calculations');
 ```
-## ESM (Node)
+
+ESM (Node):
+
 ```js
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const poker = require('poker-calculations');
 ```
+
 ## When to use
-Use `turnBarrelRunoutEvDistribution` when building analysis, training, or simulator policy code that needs this calculation directly from the native package.
+Use `turnBarrelRunoutEvDistribution` when you need to summarize turn barrel EV across representative river outcomes.
+
 ## How to use
 ```js
 const poker = require('poker-calculations');
@@ -26,7 +31,8 @@ range.fill(1 / 1326);
 const result = poker.turnBarrelRunoutEvDistribution(['Ah', 'Kh'], ['Qh', 'Jh', '2c'], range, 0.5);
 console.log(result);
 ```
+
 ## See also
-[`exactHeroEquityRunoutQuantiles`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles) - [Range equity exact](/docs/guides/range-equity-exact)
+[`exactHeroEquityRunoutQuantiles`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles) · [Range equity exact](/docs/guides/range-equity-exact)
 
 

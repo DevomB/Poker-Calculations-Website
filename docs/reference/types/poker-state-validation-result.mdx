@@ -4,13 +4,17 @@ title: PokerStateValidationResult
 
 # `PokerStateValidationResult`
 
-Type exported by `poker-calculations` for range analysis, board texture, sizing, opponent modeling, or strategy diagnostics.
+Structured validation output from [`validatePokerState`](/docs/reference/api/strategy/validate-poker-state).
 
 ## Shape
 
-See `index.d.ts` for the authoritative field list and optionality.
+```ts
+interface PokerStateValidationResult {
+  valid: boolean;
+  errors: string[];
+}
+```
 
 ## See also
 
-[API reference](/docs/reference/api) - [TypeScript types](/docs/reference/types)
-
+[`NativePokerState`](/docs/reference/types/native-poker-state) · [Strategy](/docs/reference/api/strategy)

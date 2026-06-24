@@ -4,13 +4,20 @@ title: DecisionDiagnosticResult
 
 # `DecisionDiagnosticResult`
 
-Type exported by `poker-calculations` for range analysis, board texture, sizing, opponent modeling, or strategy diagnostics.
+Combined policy output from [`decideActionWithDiagnostics`](/docs/reference/api/strategy/decide-action-with-diagnostics): decision, legality, optional EV breakdown, and reason or error.
 
 ## Shape
 
-See `index.d.ts` for the authoritative field list and optionality.
+```ts
+interface DecisionDiagnosticResult {
+  decision: DecisionResult;
+  legalActions: LegalActionSummaryResult;
+  ev?: ActionEvBreakdownResult;
+  reason: string;
+  error?: string;
+}
+```
 
 ## See also
 
-[API reference](/docs/reference/api) - [TypeScript types](/docs/reference/types)
-
+[`DecisionResult`](/docs/reference/types/decision-result) · [`ActionEvBreakdownResult`](/docs/reference/types/action-ev-breakdown-result)

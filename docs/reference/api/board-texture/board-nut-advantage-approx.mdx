@@ -5,18 +5,23 @@ title: boardNutAdvantageApprox
 Approximate nut advantage between two ranges on a board.
 <div className="apiSignature">{`boardNutAdvantageApprox(heroRange: SparseRangeSpec | Float64Array, villainRange: SparseRangeSpec | Float64Array, board: CardInput): number`}</div>
 See [Packed card input](/docs/concepts/packed-card-input) and [SparseRangeSpec](/docs/reference/types/sparse-range-spec) where those inputs apply.
+
 ## Import
 ```js
 const poker = require('poker-calculations');
 ```
-## ESM (Node)
+
+ESM (Node):
+
 ```js
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const poker = require('poker-calculations');
 ```
+
 ## When to use
-Use `boardNutAdvantageApprox` when building analysis, training, or simulator policy code that needs this calculation directly from the native package.
+Use `boardNutAdvantageApprox` when you need to approximate nut advantage between two ranges on a board.
+
 ## How to use
 ```js
 const poker = require('poker-calculations');
@@ -27,7 +32,8 @@ range.fill(1 / 1326);
 const result = poker.boardNutAdvantageApprox(board, range, range);
 console.log(result);
 ```
+
 ## See also
-[`rangeBoardCoverage`](/docs/reference/api/board-texture/range-board-coverage) - [Range equity](/docs/concepts/range-equity)
+[`rangeBoardCoverage`](/docs/reference/api/board-texture/range-board-coverage) · [Range equity](/docs/concepts/range-equity)
 
 

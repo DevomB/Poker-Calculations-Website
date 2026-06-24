@@ -4,13 +4,21 @@ title: BoardTextureResult
 
 # `BoardTextureResult`
 
-Type exported by `poker-calculations` for range analysis, board texture, sizing, opponent modeling, or strategy diagnostics.
+Pairedness, suitedness, connectedness, and wetness/staticness scores from [`boardTextureScore`](/docs/reference/api/board-texture/board-texture-score).
 
 ## Shape
 
-See `index.d.ts` for the authoritative field list and optionality.
+```ts
+interface BoardTextureResult {
+  pairedness: number;
+  suitedness: number;
+  connectedness: number;
+  highCardPressure: number;
+  wetness: number;
+  staticness: number;
+}
+```
 
 ## See also
 
-[API reference](/docs/reference/api) - [TypeScript types](/docs/reference/types)
-
+[`classifyBoardTexture`](/docs/reference/api/board-texture/classify-board-texture) · [Board texture](/docs/reference/api/board-texture)

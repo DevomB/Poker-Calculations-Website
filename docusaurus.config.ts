@@ -114,6 +114,11 @@ const config: Config = {
           position: 'left',
         },
         {
+          to: '/docs/guides/decide-action',
+          label: 'Guides',
+          position: 'left',
+        },
+        {
           href: 'https://www.npmjs.com/package/poker-calculations',
           label: 'npm',
           position: 'right',
@@ -133,6 +138,9 @@ const config: Config = {
           title: 'Documentation',
           items: [
             {label: 'Introduction', to: '/docs/intro'},
+            {label: 'decideAction guide', to: '/docs/guides/decide-action'},
+            {label: 'Concepts', to: '/docs/concepts/card-notation'},
+            {label: 'TypeScript types', to: '/docs/reference/types'},
             {label: 'API Reference', to: '/docs/reference/api'},
             {label: 'Installation', to: '/docs/getting-started/installation'},
           ],

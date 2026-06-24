@@ -22,6 +22,8 @@ In `NPM/`, maintain `native/binding_register.cpp` by hand alongside new bindings
    pnpm build
    ```
 
+   `validate:snippets` requires a loadable native `poker-calculations` addon (prebuilt npm binary on CI; local skip with exit 0 if the addon cannot load).
+
 5. Before PR: `rg '\bP\d+' Website/docs NPM/index.d.ts NPM/include/poker` — expect no doc/comment hits (C++ pot variable `P0` in `poker_math.cpp` is fine).
 
 When the NPM package adds or renames an export:

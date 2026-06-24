@@ -4,19 +4,23 @@ title: explainDecisionFactors
 # `explainDecisionFactors`
 Return ranked decision factors for a native policy decision.
 <div className="apiSignature">{`explainDecisionFactors(state: NativePokerState | PokerStateBytes, config: NativeBotConfig, opponentModel?: NativeOpponentModel | null, heroSeat?: number): DecisionFactor[]`}</div>
-See [Packed card input](/docs/concepts/packed-card-input) and [SparseRangeSpec](/docs/reference/types/sparse-range-spec) where those inputs apply.
+
 ## Import
 ```js
 const poker = require('poker-calculations');
 ```
-## ESM (Node)
+
+ESM (Node):
+
 ```js
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const poker = require('poker-calculations');
 ```
+
 ## When to use
-Use `explainDecisionFactors` when building analysis, training, or simulator policy code that needs this calculation directly from the native package.
+Use `explainDecisionFactors` when you need to return ranked decision factors for a native policy decision.
+
 ## How to use
 ```js
 const poker = require('poker-calculations');
@@ -38,7 +42,8 @@ const state = {
 const result = poker.explainDecisionFactors(state, {monteCarloSimulations: 0});
 console.log(result);
 ```
+
 ## See also
-[`decideAction`](/docs/reference/api/strategy/decide-action) - [`NativePokerState`](/docs/reference/types/native-poker-state)
+[`decideAction`](/docs/reference/api/strategy/decide-action) · [`NativePokerState`](/docs/reference/types/native-poker-state)
 
 

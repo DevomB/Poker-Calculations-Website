@@ -5,7 +5,7 @@ sidebar_position: 17
 
 # Exact runouts
 
-Enumerate turn/river (or full runouts) for **exact** hero equity spread, nuts/dominated rates, category joints, blocker gradients, and related combinatoricsâ€”no Monte Carlo sampling.
+Enumerate turn/river (or full runouts) for **exact** hero equity spread, nuts/dominated rates, category joints, blocker gradients, and related combinatorics—no Monte Carlo sampling.
 
 Card arguments are [`CardInput`](/docs/concepts/packed-card-input). Optional villain ranges use dense `Float64Array(1326)` or [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec). Async variants accept [`AsyncOptions`](/docs/reference/types/async-options).
 
@@ -14,12 +14,21 @@ Card arguments are [`CardInput`](/docs/concepts/packed-card-input). Optional vil
 | [`exactHeroRunoutVulnerability`](/docs/reference/api/combinatorics-exact/exact-hero-runout-vulnerability) | P(nuts), P(dominated), runout count. |
 | [`exactHeroRunoutVulnerabilityAsync`](/docs/reference/api/combinatorics-exact/exact-hero-runout-vulnerability-async) | Non-blocking vulnerability scan. |
 | [`exactVillainLeapfrogOutCounts`](/docs/reference/api/combinatorics-exact/exact-villain-leapfrog-out-counts) | Villain leapfrog vs hero-improve deck ids. |
-| [`exactHeroCategoryJointFlopToRiver`](/docs/reference/api/combinatorics-exact/exact-hero-category-joint-flop-to-river) | Joint category matrix flopâ†’river. |
+| [`exactHeroCategoryJointFlopToRiver`](/docs/reference/api/combinatorics-exact/exact-hero-category-joint-flop-to-river) | Joint category matrix flop→river. |
 | [`exactRangeDominatedComboFraction`](/docs/reference/api/combinatorics-exact/exact-range-dominated-combo-fraction) | Fraction of range combos dominated. |
 | [`exactHeroEquityRunoutQuantiles`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles) | Mean, variance, p05/p50/p95 equity on runouts. |
 | [`exactHeroEquityRunoutQuantilesAsync`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles-async) | Non-blocking runout quantiles. |
 | [`exactEquityCardRemovalGradient`](/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient) | Per-deck-id equity sensitivity vs range. |
 | [`exactEquityCardRemovalGradientAsync`](/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient-async) | Non-blocking removal gradient. |
-| [`exactHeroCategoryAtLeastFlopToRiver`](/docs/reference/api/combinatorics-exact/exact-hero-category-at-least-flop-to-river) | P(category â‰¥ threshold) by river. |
+| [`exactHeroCategoryAtLeastFlopToRiver`](/docs/reference/api/combinatorics-exact/exact-hero-category-at-least-flop-to-river) | P(category ≥ threshold) by river. |
 | [`exactHeroCategoryAtLeastFlopToRiverAsync`](/docs/reference/api/combinatorics-exact/exact-hero-category-at-least-flop-to-river-async) | Async category-at-least enumeration. |
-
+| [`exactEquityDistributionVsRange`](/docs/reference/api/combinatorics-exact/exact-equity-distribution-vs-range) | Summarize hero equity versus a range across legal next-card runouts. |
+| [`exactEquityPercentileVsRange`](/docs/reference/api/combinatorics-exact/exact-equity-percentile-vs-range) | Selected runout equity percentile versus a villain range. |
+| [`exactEquityRealizationEstimate`](/docs/reference/api/combinatorics-exact/exact-equity-realization-estimate) | Realized equity from exact equity, position, SPR, and board staticness. |
+| [`equityRealizationPenalty`](/docs/reference/api/combinatorics-exact/equity-realization-penalty) | Realization discount from position, SPR, and board staticness. |
+| [`equityDenialValue`](/docs/reference/api/combinatorics-exact/equity-denial-value) | Chip-value estimate from fold share and denied equity. |
+| [`protectionBetBenefit`](/docs/reference/api/combinatorics-exact/protection-bet-benefit) | Chip value of protection from a bet. |
+| [`showdownValueIndex`](/docs/reference/api/combinatorics-exact/showdown-value-index) | Check-down showdown value versus a villain range. |
+| [`riverCallThresholdDistribution`](/docs/reference/api/combinatorics-exact/river-call-threshold-distribution) | Breakeven river call thresholds for candidate bet sizes. |
+| [`delayedCbetRunoutScore`](/docs/reference/api/combinatorics-exact/delayed-cbet-runout-score) | Score turn cards for delayed continuation-bet potential. |
+| [`turnBarrelRunoutEvDistribution`](/docs/reference/api/combinatorics-exact/turn-barrel-runout-ev-distribution) | Summarize turn barrel EV across representative river outcomes. |

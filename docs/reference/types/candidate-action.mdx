@@ -4,13 +4,17 @@ title: CandidateAction
 
 # `CandidateAction`
 
-Type exported by `poker-calculations` for range analysis, board texture, sizing, opponent modeling, or strategy diagnostics.
+One legal or candidate action with an optional raise amount from [`candidateActionSet`](/docs/reference/api/strategy/candidate-action-set).
 
 ## Shape
 
-See `index.d.ts` for the authoritative field list and optionality.
+```ts
+interface CandidateAction {
+  action: 'fold' | 'check' | 'call' | 'raise';
+  amount: number;
+}
+```
 
 ## See also
 
-[API reference](/docs/reference/api) - [TypeScript types](/docs/reference/types)
-
+[`legalActionSummary`](/docs/reference/api/strategy/legal-action-summary) · [Strategy](/docs/reference/api/strategy)

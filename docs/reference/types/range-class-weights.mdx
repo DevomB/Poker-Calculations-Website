@@ -4,13 +4,21 @@ title: RangeClassWeights
 
 # `RangeClassWeights`
 
-Type exported by `poker-calculations` for range analysis, board texture, sizing, opponent modeling, or strategy diagnostics.
+Preflop-style class bucket masses from [`rangeBucketWeightsByHandClass`](/docs/reference/api/range-tools/range-bucket-weights-by-hand-class).
 
 ## Shape
 
-See `index.d.ts` for the authoritative field list and optionality.
+```ts
+interface RangeClassWeights {
+  pairs: number;
+  suitedBroadways: number;
+  offsuitBroadways: number;
+  suitedConnectors: number;
+  suitedAces: number;
+  other: number;
+}
+```
 
 ## See also
 
-[API reference](/docs/reference/api) - [TypeScript types](/docs/reference/types)
-
+[`RangeNotationWeight`](/docs/reference/types/range-notation-weight) · [Range tools](/docs/reference/api/range-tools)

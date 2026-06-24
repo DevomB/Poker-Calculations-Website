@@ -4,13 +4,21 @@ title: ActionEvBreakdownResult
 
 # `ActionEvBreakdownResult`
 
-Type exported by `poker-calculations` for range analysis, board texture, sizing, opponent modeling, or strategy diagnostics.
+Per-action chip EV and equity from [`actionEvBreakdown`](/docs/reference/api/strategy/action-ev-breakdown).
 
 ## Shape
 
-See `index.d.ts` for the authoritative field list and optionality.
+```ts
+interface ActionEvBreakdownResult {
+  foldEv: number;
+  checkEv: number;
+  callEv: number;
+  raiseEv: number;
+  equity: number;
+  toCall: number;
+}
+```
 
 ## See also
 
-[API reference](/docs/reference/api) - [TypeScript types](/docs/reference/types)
-
+[`decideAction`](/docs/reference/api/strategy/decide-action) · [`DecisionDiagnosticResult`](/docs/reference/types/decision-diagnostic-result)

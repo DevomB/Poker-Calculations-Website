@@ -5,17 +5,30 @@ sidebar_position: 11
 
 # Sizing & commitment
 
-Bet sizing as a **fraction of pot**, **SPR after a call**, and how much of the effective stack a call consumes. Assumes heads-up single-call geometry for `sprAfterCall`.
+Bet sizing as a **fraction of pot**, **SPR after a call**, multi-street planning, and EV grids over candidate sizes. Assumes heads-up single-call geometry for `sprAfterCall`.
 
 Pair with [Pot & EV](/docs/reference/api/pot-and-ev/) for breakeven equity and with [Stacks & display](/docs/reference/api/stacks-and-display/) for pre-call SPR.
 
 | Export | Summary |
 | --- | --- |
 | [`betAsPotFraction`](/docs/reference/api/sizing-and-commitment/bet-as-pot-fraction) | Bet as fraction of pot. |
+| [`betSizeToMatchPotFraction`](/docs/reference/api/sizing-and-commitment/bet-size-to-match-pot-fraction) | Bet size for target pot fraction (inverse of `betAsPotFraction`). |
 | [`sprAfterCall`](/docs/reference/api/sizing-and-commitment/spr-after-call) | SPR after HU single call. |
-| [`commitmentRatio`](/docs/reference/api/sizing-and-commitment/commitment-ratio) | Fraction of stack put in to call. |
 | [`sprAfterBet`](/docs/reference/api/sizing-and-commitment/spr-after-bet) | SPR after hero bets heads-up. |
 | [`sprAfterRaise`](/docs/reference/api/sizing-and-commitment/spr-after-raise) | SPR after open/raise heads-up. |
+| [`commitmentRatio`](/docs/reference/api/sizing-and-commitment/commitment-ratio) | Fraction of stack put in to call. |
 | [`commitmentRatioAfterBet`](/docs/reference/api/sizing-and-commitment/commitment-ratio-after-bet) | Fraction of stack committed by bet. |
-| [`betSizeToMatchPotFraction`](/docs/reference/api/sizing-and-commitment/bet-size-to-match-pot-fraction) | Bet size for target pot fraction (inverse of `betAsPotFraction`). |
-
+| [`betSizingIndifferencePoint`](/docs/reference/api/sizing-and-commitment/bet-sizing-indifference-point) | Bet-size indifference from fold frequency and called equity. |
+| [`cbetSizeEvGrid`](/docs/reference/api/sizing-and-commitment/cbet-size-ev-grid) | Continuation-bet candidates across a sizing grid. |
+| [`probeBetEvGrid`](/docs/reference/api/sizing-and-commitment/probe-bet-ev-grid) | Out-of-position probe bet candidates across a sizing grid. |
+| [`checkRaiseSemiBluffEv`](/docs/reference/api/sizing-and-commitment/check-raise-semi-bluff-ev) | Chip EV for a check-raise semi-bluff line. |
+| [`geometricStreetSizingPlan`](/docs/reference/api/sizing-and-commitment/geometric-street-sizing-plan) | Geometric bet sizes to commit a stack over remaining streets. |
+| [`foldEquityNeededByStreetPlan`](/docs/reference/api/sizing-and-commitment/fold-equity-needed-by-street-plan) | Fold equity needed for a planned multi-street betting line. |
+| [`multiStreetStackOffThreshold`](/docs/reference/api/sizing-and-commitment/multi-street-stack-off-threshold) | Equity needed to stack off over multiple streets. |
+| [`overbetPolarizationScore`](/docs/reference/api/sizing-and-commitment/overbet-polarization-score) | Whether range shape and sizing support an overbet. |
+| [`riverValueBetThreshold`](/docs/reference/api/sizing-and-commitment/river-value-bet-threshold) | Equity threshold for river value betting. |
+| [`riverBluffCandidateScore`](/docs/reference/api/sizing-and-commitment/river-bluff-candidate-score) | Score a hand as a river bluff candidate. |
+| [`thinValueMargin`](/docs/reference/api/sizing-and-commitment/thin-value-margin) | Chip-EV margin of a thin value bet. |
+| [`valueTargetingScore`](/docs/reference/api/sizing-and-commitment/value-targeting-score) | How well a value bet targets worse continuing hands. |
+| [`bluffCatchDecisionScore`](/docs/reference/api/sizing-and-commitment/bluff-catch-decision-score) | Score a bluff-catch spot against pot odds and range context. |
+| [`blockerAwareBluffFrequency`](/docs/reference/api/sizing-and-commitment/blocker-aware-bluff-frequency) | Allocate bluff frequency across candidates using blocker scores. |

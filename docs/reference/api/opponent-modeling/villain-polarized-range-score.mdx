@@ -5,25 +5,31 @@ title: villainPolarizedRangeScore
 Score how polarized a villain range is.
 <div className="apiSignature">{`villainPolarizedRangeScore(range: SparseRangeSpec | Float64Array, board: CardInput): number`}</div>
 See [Packed card input](/docs/concepts/packed-card-input) and [SparseRangeSpec](/docs/reference/types/sparse-range-spec) where those inputs apply.
+
 ## Import
 ```js
 const poker = require('poker-calculations');
 ```
-## ESM (Node)
+
+ESM (Node):
+
 ```js
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const poker = require('poker-calculations');
 ```
+
 ## When to use
-Use `villainPolarizedRangeScore` when building analysis, training, or simulator policy code that needs this calculation directly from the native package.
+Use `villainPolarizedRangeScore` when you need to score how polarized a villain range is.
+
 ## How to use
 ```js
 const poker = require('poker-calculations');
 const result = poker.villainPolarizedRangeScore(1, 1, 7, 5);
 console.log(result);
 ```
+
 ## See also
-[`bayesianRangeUpdateFromAction`](/docs/reference/api/subgame-theory/bayesian-range-update-from-action) - [`NativeOpponentModel`](/docs/reference/types/native-opponent-model)
+[`bayesianRangeUpdateFromAction`](/docs/reference/api/subgame-theory/bayesian-range-update-from-action) · [`NativeOpponentModel`](/docs/reference/types/native-opponent-model)
 
 

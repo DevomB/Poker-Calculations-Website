@@ -4,13 +4,19 @@ title: EvGridRow
 
 # `EvGridRow`
 
-Type exported by `poker-calculations` for range analysis, board texture, sizing, opponent modeling, or strategy diagnostics.
+One row of a bet-sizing EV grid from exports such as [`cbetSizeEvGrid`](/docs/reference/api/sizing-and-commitment/cbet-size-ev-grid).
 
 ## Shape
 
-See `index.d.ts` for the authoritative field list and optionality.
+```ts
+interface EvGridRow {
+  betSize: number;
+  foldFrequency: number;
+  equityWhenCalled: number;
+  ev: number;
+}
+```
 
 ## See also
 
-[API reference](/docs/reference/api) - [TypeScript types](/docs/reference/types)
-
+[`EvGridResult`](/docs/reference/types/ev-grid-result)
