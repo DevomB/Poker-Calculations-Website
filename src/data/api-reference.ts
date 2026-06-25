@@ -26,9 +26,9 @@ export const apiReferenceCategories: ApiReferenceCategory[] = [
   {title: 'Tournament ICM', to: '/docs/reference/api/cooperative-icm', count: 10, suit: '♦'},
   {title: 'Exact Runouts', to: '/docs/reference/api/combinatorics-exact', count: 21, suit: '♠'},
   {title: 'Subgame & Ranges', to: '/docs/reference/api/subgame-theory', count: 12, suit: '♥'},
-  {title: 'Range Tools', to: '/docs/reference/api/range-tools', count: 20, suit: '♦'},
-  {title: 'Board Texture', to: '/docs/reference/api/board-texture', count: 16, suit: '♠'},
-  {title: 'Opponent Modeling', to: '/docs/reference/api/opponent-modeling', count: 10, suit: '♥'},
+  {title: 'Range Tools', to: '/docs/reference/api/range-tools', count: 20, suit: '♣'},
+  {title: 'Board Texture', to: '/docs/reference/api/board-texture', count: 16, suit: '♦'},
+  {title: 'Opponent Modeling', to: '/docs/reference/api/opponent-modeling', count: 10, suit: '♠'},
 ];
 
 export const apiReferenceTotalExports = apiReferenceCategories.reduce(
