@@ -65,6 +65,35 @@ function PlayingCard({
   );
 }
 
+function CategorySuitIcon({suit}: {suit: Suit}) {
+  switch (suit) {
+    case '♠':
+      return (
+        <svg className={styles.categorySuitIcon} viewBox="0 0 24 24" aria-hidden>
+          <path d="M12 3s-7 5.1-8.6 8.2c-1.3 2.5.1 5.4 2.9 5.4 1.5 0 2.7-.8 3.6-2-.1 1.8-.8 3.5-2.1 5.4h8.4c-1.3-1.9-2-3.6-2.1-5.4.9 1.2 2.1 2 3.6 2 2.8 0 4.2-2.9 2.9-5.4C19 8.1 12 3 12 3z" />
+        </svg>
+      );
+    case '♥':
+      return (
+        <svg className={styles.categorySuitIcon} viewBox="0 0 24 24" aria-hidden>
+          <path d="M12 21s-7-4.4-9.4-8.7C.7 9.3 1.5 5.5 4.5 4.2 6.7 3.3 9 4 12 6.8c3-2.8 5.3-3.5 7.5-2.6 3 1.3 3.8 5.1 1.9 8.1C19 16.6 12 21 12 21z" />
+        </svg>
+      );
+    case '♦':
+      return (
+        <svg className={styles.categorySuitIcon} viewBox="0 0 24 24" aria-hidden>
+          <path d="M12 2.5 19.5 12 12 21.5 4.5 12 12 2.5z" />
+        </svg>
+      );
+    case '♣':
+      return (
+        <svg className={styles.categorySuitIcon} viewBox="0 0 24 24" aria-hidden>
+          <path d="M12 3.5a4.1 4.1 0 0 0-2.2 7.6A4.1 4.1 0 1 0 8.5 18c1.2 0 2.3-.5 3.1-1.3-.2 1.4-.8 2.7-1.9 4.3h4.6c-1.1-1.6-1.7-2.9-1.9-4.3.8.8 1.9 1.3 3.1 1.3a4.1 4.1 0 1 0-1.3-6.9A4.1 4.1 0 0 0 12 3.5z" />
+        </svg>
+      );
+  }
+}
+
 export default function Home(): React.ReactNode {
   const {siteConfig} = useDocusaurusContext();
   const customFields = siteConfig.customFields as {
@@ -245,11 +274,11 @@ export default function Home(): React.ReactNode {
                         : styles.featureSuitDark,
                     )}
                     aria-hidden>
-                    {c.suit}
+                    <CategorySuitIcon suit={c.suit} />
                   </span>
                   <h3 className={styles.categoryTitle}>{c.title}</h3>
                   <p className={styles.categoryCount}>
-                    {c.count} export{c.count === 1 ? '' : 's'}
+                    {c.count} function{c.count === 1 ? '' : 's'}
                   </p>
                 </Link>
               ))}

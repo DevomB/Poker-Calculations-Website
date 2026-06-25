@@ -614,7 +614,8 @@
 
 .categoryCard {
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: 2.2rem minmax(0, 1fr) max-content;
   align-items: center;
   gap: 0.9rem;
   padding: 1.1rem 1.25rem;
@@ -637,7 +638,6 @@
 }
 
 .categorySuit {
-  font-size: 1.4rem;
   line-height: 1;
   width: 2.2rem;
   height: 2.2rem;
@@ -650,18 +650,29 @@
   flex-shrink: 0;
 }
 
+.categorySuitIcon {
+  display: block;
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: currentColor;
+}
+
 .categoryTitle {
   margin: 0;
   font-size: 0.98rem;
   font-weight: 600;
   color: var(--poker-chip-50);
   line-height: 1.2;
+  min-width: 0;
 }
 
 .categoryCount {
-  margin: 0.15rem 0 0;
+  margin: 0;
   font-size: 0.82rem;
   color: var(--poker-chip-300);
+  line-height: 1.2;
+  white-space: nowrap;
+  justify-self: end;
 }
 
 .viewAll {
