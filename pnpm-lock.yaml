@@ -55,8 +55,8 @@ importers:
         specifier: ^19.0.0
         version: 19.2.15
       poker-calculations:
-        specifier: 4.0.2
-        version: 4.0.2
+        specifier: 4.0.3
+        version: 4.0.3
       typescript:
         specifier: ~6.0.2
         version: 6.0.3
@@ -4359,8 +4359,8 @@ packages:
     resolution: {integrity: sha512-emEcLuomt2j03vxD54giVB4SxTjnsqkU692xZOZXHDVoYyypEm+b3jpiTcc+Cf+myooc+/Ly0z01jqeNHVgJGw==}
     engines: {node: '>=16.0.0'}
 
-  poker-calculations@4.0.2:
-    resolution: {integrity: sha512-H85q+LknFpLHxY5UFgeMZ7M7VUE/SMWSE0G+tCrTKZuRHNve2noF5ipmTxTPtu352G6+FOVbdvVcNW6SEEU0PQ==}
+  poker-calculations@4.0.3:
+    resolution: {integrity: sha512-vpX+2nVuSGxbVd4+oGrbUSthEQ+/T5sLnkOQsxOB9ir7SAl0vcb9XCDWgjXUsFBHXR+h+MQCK2TIrfWaj+SyhA==}
     engines: {node: '>=18'}
 
   postcss-attribute-case-insensitive@7.0.1:
@@ -11456,7 +11456,7 @@ snapshots:
       pvutils: 1.1.5
       tslib: 2.8.1
 
-  poker-calculations@4.0.2:
+  poker-calculations@4.0.3:
     dependencies:
       node-gyp-build: 4.8.4
 
