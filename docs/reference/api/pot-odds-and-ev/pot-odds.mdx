@@ -11,6 +11,7 @@ api_functions: ["potOddsRatio", "breakevenCallEquity"]
 <ApiFamilyHeader category="Pot odds & EV" suit="♥" functions={["potOddsRatio","breakevenCallEquity"]} />
 
 ## `potOddsRatio` \{#potOddsRatio\}
+
 Breakeven call equity from chip counts: `toCall / (pot + toCall)`. Returns `0` when `toCall <= 0` or the denominator is non-positive.
 
 ```ts
@@ -40,6 +41,7 @@ Pass **pot before your call** (not including the chips you are about to put in).
 **Returns** `number` — `toCall / (pot + toCall)` when `toCall > 0` and `pot + toCall > 0`; otherwise `0`.
 
 ## `breakevenCallEquity` \{#breakevenCallEquity\}
+
 Same fraction as `potOddsRatio(potBeforeCall, toCall)` for chip calls.
 
 ```ts

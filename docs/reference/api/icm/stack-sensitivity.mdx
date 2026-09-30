@@ -11,6 +11,7 @@ api_functions: ["icmHarvilleStackJacobian"]
 <ApiFamilyHeader category="ICM" suit="♥" functions={["icmHarvilleStackJacobian"]} />
 
 ## `icmHarvilleStackJacobian` \{#icmHarvilleStackJacobian\}
+
 `n×n` matrix of partial derivatives of Harville ICM expected payout (row `i`) with respect to each player's stack (column `j`), via symmetric finite differences.
 
 ```ts
@@ -29,23 +30,25 @@ const poker = require('poker-calculations');
 const stacks = [12000, 8000, 5000, 2000];
 const payouts = [10000, 6000, 3000, 1000];
 
+// Row-major n × n: entry i * n + k is ∂EV(seat i) / ∂(stack of seat k), in prize units per chip
+const n = stacks.length;
 const j = poker.icmHarvilleStackJacobian(stacks, payouts);
-console.log('∂EV(hero)/∂(hero stack):', j[0][0]);
-console.log('∂EV(hero)/∂(seat 2 stack):', j[0][2]);
+console.log('∂EV(hero)/∂(hero stack):', j[0 * n + 0].toFixed(4));
+console.log('∂EV(hero)/∂(seat 2 stack):', j[0 * n + 2].toFixed(4));
 
 const flat = poker.icmHarvilleStackJacobian(stacks, payouts, 'float64');
 console.log(flat.length === stacks.length * stacks.length);
 ```
 
 ```text title="Output"
-∂EV(hero)/∂(hero stack): undefined
-∂EV(hero)/∂(seat 2 stack): undefined
+∂EV(hero)/∂(hero stack): 0.1559
+∂EV(hero)/∂(seat 2 stack): -0.1355
 true
 ```
 
 Each column `j` bumps `stacks[j]` by `eps = max(1, 1e-6 × stacks[j])` and divides the payout change by `eps`.
 
-**Returns** `number[][]` with shape `n×n`, or a flat `Float64Array` of length `n²` when `returnFormat` is `'float64'`.
+**Returns** a flat row-major `number[]` of length `n²` (entry `i × n + k` is ∂EV(seat i) / ∂stack(seat k)), or a `Float64Array` when `returnFormat` is `'float64'`.
 
 ## See also
 

@@ -11,6 +11,7 @@ api_functions: ["regretMatchingStrategy", "cfrNodeReachUpdate"]
 <ApiFamilyHeader category="Solvers" suit="♠" functions={["regretMatchingStrategy","cfrNodeReachUpdate"]} />
 
 ## `regretMatchingStrategy` \{#regretMatchingStrategy\}
+
 Regret matching: `max(r,0)/sum`. Uniform if every regret is ≤ 0.
 
 ```ts
@@ -31,6 +32,7 @@ console.log(Array.from(poker.regretMatchingStrategy([-2, -1, 0]))); // uniform w
 ```
 
 ## `cfrNodeReachUpdate` \{#cfrNodeReachUpdate\}
+
 One CFR info-set step: `regret += reach * instantaneous`, then regret-match.
 
 ```ts

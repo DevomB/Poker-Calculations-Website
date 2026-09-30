@@ -11,6 +11,7 @@ api_functions: ["validatePokerState", "encodePokerState", "decodePokerState", "s
 <ApiFamilyHeader category="Bots & game state" suit="♥" functions={["validatePokerState","encodePokerState","decodePokerState","stateToFeatureVector"]} />
 
 ## `validatePokerState` \{#validatePokerState\}
+
 Validate a native poker state and return structured errors.
 
 ```ts
@@ -82,6 +83,7 @@ console.log(result);
 ```
 
 ## `encodePokerState` \{#encodePokerState\}
+
 PKST binary encoding of `NativePokerState`.
 
 ```ts
@@ -154,6 +156,7 @@ raise
 ```
 
 ## `decodePokerState` \{#decodePokerState\}
+
 Decode PKST bytes to `NativePokerState` (camelCase).
 
 ```ts
@@ -220,6 +223,7 @@ Flop [ 'Qh', 'Jh', '2c' ] 2
 ```
 
 ## `stateToFeatureVector` \{#stateToFeatureVector\}
+
 Convert a poker state into a compact numeric feature vector.
 
 ```ts

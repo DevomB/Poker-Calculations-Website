@@ -11,6 +11,7 @@ api_functions: ["wilsonScoreInterval", "agrestiCoullInterval", "normalWaldBinomi
 <ApiFamilyHeader category="Statistics & bankroll" suit="♣" functions={["wilsonScoreInterval","agrestiCoullInterval","normalWaldBinomialInterval","binomialProportionCiWidth"]} />
 
 ## `wilsonScoreInterval` \{#wilsonScoreInterval\}
+
 Wilson score interval for a binomial proportion.
 
 ```ts
@@ -57,6 +58,7 @@ console.log({
 **Returns** `WilsonScoreInterval` — `{ lower: number, upper: number }` with both bounds in `[0, 1]` for the success proportion successes/nTrials at critical value `z`.
 
 ## `agrestiCoullInterval` \{#agrestiCoullInterval\}
+
 Agresti–Coull interval; same `{ lower, upper }` shape as Wilson.
 
 ```ts
@@ -102,6 +104,7 @@ console.log({ agrestiCoull: ac, wilson });
 **Returns** `WilsonScoreInterval` — `{ lower: number, upper: number }` for the observed rate folds/spots (or any success/trial pair). Bounds are clamped to `[0, 1]`.
 
 ## `normalWaldBinomialInterval` \{#normalWaldBinomialInterval\}
+
 Normal (Wald) interval `p_hat ± z * SE` clamped to `[0,1]`; weak near `0`/`1` with small `n`.
 
 ```ts
@@ -148,6 +151,7 @@ console.log({ wald, wilson, pHat: successes / nTrials });
 **Returns** `WilsonScoreInterval` — `{ lower: number, upper: number }` from p̂ ± z·√(p̂(1−p̂)/nTrials), with endpoints clamped to `[0, 1]`.
 
 ## `binomialProportionCiWidth` \{#binomialProportionCiWidth\}
+
 Wilson interval width for a proportion.
 
 ```ts

@@ -11,6 +11,7 @@ api_functions: ["flopToRiverAtLeastOneHitUnionTwoCategories", "flopToRiverAtLeas
 <ApiFamilyHeader category="Draws & outs" suit="♥" functions={["flopToRiverAtLeastOneHitUnionTwoCategories","flopToRiverAtLeastOneHitUnionThreeCategories","flopToRiverAtLeastOneHitUnionFourCategories","flopToTurnAtLeastOneHitUnionTwoCategories","flopToTurnAtLeastOneHitUnionThreeCategories","flopToTurnAtLeastOneHitUnionFourCategories","turnToRiverAtLeastOneHitUnionTwoCategories","turnToRiverAtLeastOneHitUnionThreeCategories","turnToRiverAtLeastOneHitUnionFourCategories"]} />
 
 ## `flopToRiverAtLeastOneHitUnionTwoCategories` \{#flopToRiverAtLeastOneHitUnionTwoCategories\}
+
 two out categories with card-level overlap; `sharedAb` = intersection size. Uses union cardinality `outsA + outsB - sharedAb` in the two-draw formula.
 
 ```ts
@@ -46,6 +47,7 @@ console.log(p);
 ```
 
 ## `flopToRiverAtLeastOneHitUnionThreeCategories` \{#flopToRiverAtLeastOneHitUnionThreeCategories\}
+
 three categories; union = `oa+ob+oc - sab - sac - sbc + sabc`.
 
 ```ts
@@ -80,6 +82,7 @@ console.log(p);
 ```
 
 ## `flopToRiverAtLeastOneHitUnionFourCategories` \{#flopToRiverAtLeastOneHitUnionFourCategories\}
+
 four out categories; inclusion–exclusion on **card counts** (pair/triple/four-way intersection sizes). Pair order (0,1)(0,2)(0,3)(1,2)(1,3)(2,3); triples (0,1,2)(0,1,3)(0,2,3)(1,2,3); last arg four-way.
 
 ```ts
@@ -124,6 +127,7 @@ console.log(p);
 ```
 
 ## `flopToTurnAtLeastOneHitUnionTwoCategories` \{#flopToTurnAtLeastOneHitUnionTwoCategories\}
+
 Two overlapping categories, one street (flop→turn).
 
 ```ts
@@ -159,6 +163,7 @@ console.log(p); // 12/47 — same union logic as flop→river, one card only
 ```
 
 ## `flopToTurnAtLeastOneHitUnionThreeCategories` \{#flopToTurnAtLeastOneHitUnionThreeCategories\}
+
 Three categories with inclusion–exclusion, one street.
 
 ```ts
@@ -194,6 +199,7 @@ console.log(p);
 ```
 
 ## `flopToTurnAtLeastOneHitUnionFourCategories` \{#flopToTurnAtLeastOneHitUnionFourCategories\}
+
 Four categories with inclusion–exclusion, one street.
 
 ```ts
@@ -237,6 +243,7 @@ console.log(p);
 ```
 
 ## `turnToRiverAtLeastOneHitUnionTwoCategories` \{#turnToRiverAtLeastOneHitUnionTwoCategories\}
+
 Two overlapping categories, turn→river.
 
 ```ts
@@ -263,6 +270,7 @@ console.log(p); // 12/44
 ```
 
 ## `turnToRiverAtLeastOneHitUnionThreeCategories` \{#turnToRiverAtLeastOneHitUnionThreeCategories\}
+
 Three categories, turn→river.
 
 ```ts
@@ -292,6 +300,7 @@ console.log(p);
 ```
 
 ## `turnToRiverAtLeastOneHitUnionFourCategories` \{#turnToRiverAtLeastOneHitUnionFourCategories\}
+
 Four categories, turn→river.
 
 ```ts

@@ -11,6 +11,7 @@ api_functions: ["rangeComboCount", "rangeTopCombos", "rangeWeightTopKMass", "ran
 <ApiFamilyHeader category="Ranges" suit="♦" functions={["rangeComboCount","rangeTopCombos","rangeWeightTopKMass","rangeCoverageFraction","rangeShannonEntropy","rangeGiniCoefficient","villainPolarizedRangeScore"]} />
 
 ## `rangeComboCount` \{#rangeComboCount\}
+
 Count active combos in a dense or sparse range.
 
 ```ts
@@ -33,6 +34,7 @@ console.log(result);
 ```
 
 ## `rangeTopCombos` \{#rangeTopCombos\}
+
 List the highest-weight combos in a range.
 
 ```ts
@@ -92,6 +94,7 @@ console.log(result);
 ```
 
 ## `rangeWeightTopKMass` \{#rangeWeightTopKMass\}
+
 Return the normalized probability mass held by the top weighted combos.
 
 ```ts
@@ -114,6 +117,7 @@ console.log(result);
 ```
 
 ## `rangeCoverageFraction` \{#rangeCoverageFraction\}
+
 Return the share of the 1326 combo grid with positive mass.
 
 ```ts
@@ -136,6 +140,7 @@ console.log(result);
 ```
 
 ## `rangeShannonEntropy` \{#rangeShannonEntropy\}
+
 Measure how spread out a range is after normalization.
 
 ```ts
@@ -158,6 +163,7 @@ console.log(result);
 ```
 
 ## `rangeGiniCoefficient` \{#rangeGiniCoefficient\}
+
 Measure how concentrated a range is across its combos.
 
 ```ts
@@ -180,6 +186,7 @@ console.log(result);
 ```
 
 ## `villainPolarizedRangeScore` \{#villainPolarizedRangeScore\}
+
 The Gini coefficient of the range weights (the same value as `rangeGiniCoefficient`), clamped to `[0, 1]`. Higher means the weight sits on fewer combos. The `board` argument is accepted but not used.
 
 ```ts

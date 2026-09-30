@@ -11,6 +11,7 @@ api_functions: ["squeezeEv", "fourBetJamEv", "threeBetPotCommitEv"]
 <ApiFamilyHeader category="ICM" suit="♥" functions={["squeezeEv","fourBetJamEv","threeBetPotCommitEv"]} />
 
 ## `squeezeEv` \{#squeezeEv\}
+
 Squeeze vs fold (chip EV). Fold = 0 (hero has not put chips in). Independent folds vs opener and caller; continue pots add `heroPut` plus matching calls.
 
 ```ts
@@ -64,6 +65,7 @@ console.log(r);
 ```
 
 ## `fourBetJamEv` \{#fourBetJamEv\}
+
 4-bet jam pot geometry (not ICM). Fold = 0. `foldEquity === 1` wins `deadPot`. Called: `equity * (deadPot + jam + call) − jam`.
 
 ```ts
@@ -101,6 +103,7 @@ console.log(poker.fourBetJamEv(13.5, 25, 17, 0.45, 0.42));
 ```
 
 ## `threeBetPotCommitEv` \{#threeBetPotCommitEv\}
+
 SPR after the 3-bet. Realized equity = `equity * realization` (default 1). Stack-off when realized equity covers `remaining / (pot + 2*remaining)`.
 
 ```ts

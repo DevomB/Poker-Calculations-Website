@@ -11,6 +11,7 @@ api_functions: ["evaluateBestHand", "evaluateHandCategory", "handRankCategoryOrd
 <ApiFamilyHeader category="Hand evaluation" suit="♠" functions={["evaluateBestHand","evaluateHandCategory","handRankCategoryOrder"]} />
 
 ## `evaluateBestHand` \{#evaluateBestHand\}
+
 Best five of **1–7** cards. Default return is `HandEvalResult` (`rank`, `rankCategory`, `strength`, `kickers`). Pass `{ format: 'slim' }` for `HandEvalResultSlim` (no string rank or kickers).
 
 ```ts
@@ -80,6 +81,7 @@ twoPair
 Throws if any card is invalid or duplicated. Accepts packed `Uint8Array` via `CardInput` — see [Card notation](/docs/concepts/card-notation).
 
 ## `evaluateHandCategory` \{#evaluateHandCategory\}
+
 Category label only (`highCard` … `royalFlush`) for hole cards + board.
 
 ```ts
@@ -102,6 +104,7 @@ royalFlush
 Labels match [`handRankCategoryOrder`](/docs/reference/api/hand-evaluation/evaluate-best-hand#handRankCategoryOrder).
 
 ## `handRankCategoryOrder` \{#handRankCategoryOrder\}
+
 Integer order `0..9` for `evaluateHandCategory` labels (`highCard` … `royalFlush`); throws if unknown.
 
 ```ts

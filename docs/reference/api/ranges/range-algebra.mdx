@@ -11,6 +11,7 @@ api_functions: ["normalizeSparseRange", "mergeSparseRanges", "intersectSparseRan
 <ApiFamilyHeader category="Ranges" suit="♦" functions={["normalizeSparseRange","mergeSparseRanges","intersectSparseRanges","subtractSparseRange","pruneRangeByMinWeight","normalizedRangeWeightSum"]} />
 
 ## `normalizeSparseRange` \{#normalizeSparseRange\}
+
 Normalize a dense or sparse 1326-combo range into a dense probability vector.
 
 ```ts
@@ -49,6 +50,7 @@ Float64Array(1326) [
 ```
 
 ## `mergeSparseRanges` \{#mergeSparseRanges\}
+
 Blend two ranges with caller-supplied weights and normalize the result.
 
 ```ts
@@ -91,6 +93,7 @@ console.log(poker.rangeTopCombos(mixed, 3));
 ```
 
 ## `intersectSparseRanges` \{#intersectSparseRanges\}
+
 Keep the overlapping mass between two villain ranges.
 
 ```ts
@@ -112,6 +115,7 @@ console.log(poker.rangeComboCount(both)); // only KK survives
 ```
 
 ## `subtractSparseRange` \{#subtractSparseRange\}
+
 Remove one weighted range from another and normalize the remaining mass.
 
 ```ts
@@ -133,6 +137,7 @@ console.log(poker.rangeComboCount(flat)); // KK + QQ
 ```
 
 ## `pruneRangeByMinWeight` \{#pruneRangeByMinWeight\}
+
 Drop low-weight range combos and return a compact sparse range.
 
 ```ts
@@ -155,6 +160,7 @@ console.log(result);
 ```
 
 ## `normalizedRangeWeightSum` \{#normalizedRangeWeightSum\}
+
 Sum of range weights.
 
 ```ts

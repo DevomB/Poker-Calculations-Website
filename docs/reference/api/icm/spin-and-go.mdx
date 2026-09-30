@@ -11,6 +11,7 @@ api_functions: ["spinGoIcmEv", "spinGoPayouts"]
 <ApiFamilyHeader category="ICM" suit="♥" functions={["spinGoIcmEv","spinGoPayouts"]} />
 
 ## `spinGoIcmEv` \{#spinGoIcmEv\}
+
 Harville ICM $EV for three stacks and a length-3 Spin & Go prize vector.
 
 ```ts
@@ -34,6 +35,7 @@ console.log(poker.spinGoIcmEv([700, 500, 300], payouts).map((x) => x.toFixed(2))
 ```
 
 ## `spinGoPayouts` \{#spinGoPayouts\}
+
 3-max Spin & Go prize vector: `multiplier * buyin`. Default 50/30/20 of the pool. `winnerTakeAll` → 100/0/0. Always length 3.
 
 ```ts

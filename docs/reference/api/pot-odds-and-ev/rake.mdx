@@ -11,6 +11,7 @@ api_functions: ["rakeFromPot", "breakevenCallEquityWithRake", "netPotAfterRake",
 <ApiFamilyHeader category="Pot odds & EV" suit="♥" functions={["rakeFromPot","breakevenCallEquityWithRake","netPotAfterRake","netPotAfterCallAndRake"]} />
 
 ## `rakeFromPot` \{#rakeFromPot\}
+
 Rake model: min(fraction×pot, cap).
 
 ```ts
@@ -34,6 +35,7 @@ console.log(poker.breakevenCallEquityWithRake(90, 30, 0.05, 3).toFixed(4));
 ```
 
 ## `breakevenCallEquityWithRake` \{#breakevenCallEquityWithRake\}
+
 breakeven call equity with rake taken from final pot.
 
 ```ts
@@ -85,6 +87,7 @@ console.log(ev);
 ```
 
 ## `netPotAfterRake` \{#netPotAfterRake\}
+
 Pot minus rake: `pot − rakeFromPot`.
 
 ```ts
@@ -110,6 +113,7 @@ console.log({ rake, net }); // net + rake === pot
 ```
 
 ## `netPotAfterCallAndRake` \{#netPotAfterCallAndRake\}
+
 Net pot after HU call and rake.
 
 ```ts

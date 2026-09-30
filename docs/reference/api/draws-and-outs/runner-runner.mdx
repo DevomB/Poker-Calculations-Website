@@ -11,6 +11,7 @@ api_functions: ["runnerRunnerBackdoorFlushTwoCardProbability", "runnerRunnerBack
 <ApiFamilyHeader category="Draws & outs" suit="♥" functions={["runnerRunnerBackdoorFlushTwoCardProbability","runnerRunnerBackdoorFlushOneCardProbability","runnerRunnerStraightDrawHitProbability"]} />
 
 ## `runnerRunnerBackdoorFlushTwoCardProbability` \{#runnerRunnerBackdoorFlushTwoCardProbability\}
+
 runner-runner flush, both cards from suit: C(s,2)/C(u,2).
 
 ```ts
@@ -36,6 +37,7 @@ console.log(poker.runnerRunnerBackdoorFlushTwoCardProbability(4, 47));
 ```
 
 ## `runnerRunnerBackdoorFlushOneCardProbability` \{#runnerRunnerBackdoorFlushOneCardProbability\}
+
 One-card backdoor flush probability.
 
 ```ts
@@ -60,6 +62,7 @@ console.log(poker.runnerRunnerBackdoorFlushTwoCardProbability(suitRemaining, 47)
 ```
 
 ## `runnerRunnerStraightDrawHitProbability` \{#runnerRunnerStraightDrawHitProbability\}
+
 structured straight-draw runner model (distinct straight-completing unseen cards). `straightKind`: 0 = gutshot (4 outs), 1 = open-ended (8), 2 = double-belly buster (8). For full-card flop→river P(straight or better) use `straightMadeFlopToRiverExactProbability`.
 
 ```ts

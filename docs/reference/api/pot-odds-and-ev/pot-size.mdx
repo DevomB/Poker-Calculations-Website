@@ -11,6 +11,7 @@ api_functions: ["potSizeAfterHuCall", "potSizeAfterHuBet"]
 <ApiFamilyHeader category="Pot odds & EV" suit="♥" functions={["potSizeAfterHuCall","potSizeAfterHuBet"]} />
 
 ## `potSizeAfterHuCall` \{#potSizeAfterHuCall\}
+
 `potBeforeCall + toCall`: the pot already holds villain's bet, so only hero's call is added.
 
 ```ts
@@ -28,6 +29,7 @@ console.log(poker.potSizeAfterHuCall(80, 40)); // 120
 ```
 
 ## `potSizeAfterHuBet` \{#potSizeAfterHuBet\}
+
 Pot after heads-up bet: `pot+2×bet`.
 
 ```ts

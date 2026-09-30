@@ -11,6 +11,7 @@ api_functions: ["riskOfRuinDiffusionApprox", "bankrollForTargetRorDiffusion", "v
 <ApiFamilyHeader category="Statistics & bankroll" suit="♣" functions={["riskOfRuinDiffusionApprox","bankrollForTargetRorDiffusion","varianceToStandardDeviationPerHand"]} />
 
 ## `riskOfRuinDiffusionApprox` \{#riskOfRuinDiffusionApprox\}
+
 diffusion-style risk of ruin in (0,1].
 
 ```ts
@@ -45,6 +46,7 @@ bb for 1% ROR: 345.38776394910684
 **Returns** `number` — approximate probability of ruin in `(0, 1]` when driftPerHand > 0; returns `1` when driftPerHand ≤ 0 (non-positive edge).
 
 ## `bankrollForTargetRorDiffusion` \{#bankrollForTargetRorDiffusion\}
+
 inverse of `riskOfRuinDiffusionApprox` for bankroll.
 
 ```ts
@@ -85,6 +87,7 @@ console.log({ bankroll, checkRor: check });
 **Returns** `number` — bankroll size B such that `riskOfRuinDiffusionApprox(driftPerHand, variancePerHand, B)` ≈ targetRor (same diffusion model as [`riskOfRuinDiffusionApprox`](/docs/reference/api/statistics/risk-of-ruin#riskOfRuinDiffusionApprox)).
 
 ## `varianceToStandardDeviationPerHand` \{#varianceToStandardDeviationPerHand\}
+
 `sqrt(variance)` per hand.
 
 ```ts

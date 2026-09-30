@@ -11,6 +11,7 @@ api_functions: ["kellyCriterionBinary", "halfKellyCriterionBinary", "quarterKell
 <ApiFamilyHeader category="Statistics & bankroll" suit="♣" functions={["kellyCriterionBinary","halfKellyCriterionBinary","quarterKellyCriterionBinary","eighthKellyCriterionBinary","kellyCriterionBinaryClamped"]} />
 
 ## `kellyCriterionBinary` \{#kellyCriterionBinary\}
+
 full Kelly for binary outcome, `netOdds` = net profit per unit staked when you win.
 
 ```ts
@@ -38,6 +39,7 @@ Kelly fraction of bankroll: 0.10000000000000009
 ```
 
 ## `halfKellyCriterionBinary` \{#halfKellyCriterionBinary\}
+
 Half Kelly fraction, floored at 0.
 
 ```ts
@@ -62,6 +64,7 @@ console.log(half); // max(0, full/2)
 ```
 
 ## `quarterKellyCriterionBinary` \{#quarterKellyCriterionBinary\}
+
 Quarter Kelly fraction.
 
 ```ts
@@ -83,6 +86,7 @@ console.log(poker.quarterKellyCriterionBinary(p, b));
 ```
 
 ## `eighthKellyCriterionBinary` \{#eighthKellyCriterionBinary\}
+
 Eighth Kelly fraction.
 
 ```ts
@@ -104,6 +108,7 @@ console.log(poker.eighthKellyCriterionBinary(p, b));
 ```
 
 ## `kellyCriterionBinaryClamped` \{#kellyCriterionBinaryClamped\}
+
 Full Kelly clamped to `[0,1]`.
 
 ```ts

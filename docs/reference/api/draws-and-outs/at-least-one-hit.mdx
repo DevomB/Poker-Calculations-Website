@@ -11,6 +11,7 @@ api_functions: ["flopToRiverAtLeastOneHitProbability", "flopToTurnAtLeastOneHitP
 <ApiFamilyHeader category="Draws & outs" suit="♥" functions={["flopToRiverAtLeastOneHitProbability","flopToTurnAtLeastOneHitProbability","turnToRiverAtLeastOneHitProbability","flopToRiverAtLeastOneHitDisjointOutsSum","flopToTurnAtLeastOneHitDisjointOutsSum","turnToRiverAtLeastOneHitDisjointOutsSum"]} />
 
 ## `flopToRiverAtLeastOneHitProbability` \{#flopToRiverAtLeastOneHitProbability\}
+
 flop→river at least one hit from disjoint out count.
 
 ```ts
@@ -36,6 +37,7 @@ console.log(poker.ruleOfFourEquity(outs)); // quick ~36% heuristic
 ```
 
 ## `flopToTurnAtLeastOneHitProbability` \{#flopToTurnAtLeastOneHitProbability\}
+
 One-card hypergeometric hit rate `outs / unseen`.
 
 ```ts
@@ -63,6 +65,7 @@ console.log(poker.flopToRiverAtLeastOneHitProbability(outs, unseen));
 ```
 
 ## `turnToRiverAtLeastOneHitProbability` \{#turnToRiverAtLeastOneHitProbability\}
+
 One-street turn→river hit: `outs/unseen`.
 
 ```ts
@@ -86,6 +89,7 @@ console.log(pRiver); // 9/44 ≈ 0.205
 ```
 
 ## `flopToRiverAtLeastOneHitDisjointOutsSum` \{#flopToRiverAtLeastOneHitDisjointOutsSum\}
+
 disjoint categories only (must not share outs); sums then same as single-category flop-to-river hit.
 
 ```ts
@@ -109,6 +113,7 @@ console.log(poker.flopToRiverAtLeastOneHitProbability(11, 47));
 ```
 
 ## `flopToTurnAtLeastOneHitDisjointOutsSum` \{#flopToTurnAtLeastOneHitDisjointOutsSum\}
+
 Sum disjoint outs, then one-street hit formula.
 
 ```ts
@@ -132,6 +137,7 @@ console.log(p); // 13/47
 ```
 
 ## `turnToRiverAtLeastOneHitDisjointOutsSum` \{#turnToRiverAtLeastOneHitDisjointOutsSum\}
+
 Sum disjoint outs, turn→river.
 
 ```ts

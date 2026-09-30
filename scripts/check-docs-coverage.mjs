@@ -31,15 +31,19 @@ function declarations() {
     i++;
   }
   const lines = dts.slice(begin, i - 1).split('\n');
+  // Members sit one level deeper than the interface line (the types may live inside a namespace).
+  const ifaceLine = dts.slice(dts.lastIndexOf('\n', start) + 1, start + 1);
+  const indent = ' '.repeat(ifaceLine.length - ifaceLine.trimStart().length + 2);
+  const member = new RegExp(`^${indent}([A-Za-z_]\\w*)\\s*[(<]`);
   const map = new Map();
   for (let k = 0; k < lines.length; k++) {
-    const m = lines[k].match(/^ {2}([A-Za-z_]\w*)\s*[(<]/);
+    const m = lines[k].match(member);
     if (!m) continue;
     let decl = '';
     let open = 0;
     let started = false;
     for (; k < lines.length; k++) {
-      decl += (decl ? '\n' : '') + lines[k].replace(/^ {2}/, '');
+      decl += (decl ? '\n' : '') + (lines[k].startsWith(indent) ? lines[k].slice(indent.length) : lines[k].trimStart());
       for (const ch of lines[k]) {
         if (ch === '(') {
           open++;

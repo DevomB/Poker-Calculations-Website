@@ -11,6 +11,7 @@ api_functions: ["bluffToValueRatio", "valueToBluffRatio", "bluffToValueRatioWith
 <ApiFamilyHeader category="GTO & fold equity" suit="♣" functions={["bluffToValueRatio","valueToBluffRatio","bluffToValueRatioWithRake","valueToBluffRatioWithRake"]} />
 
 ## `bluffToValueRatio` \{#bluffToValueRatio\}
+
 Polarized river combo ratio `bet / (pot + 2×bet)`.
 
 ```ts
@@ -38,6 +39,7 @@ value:bluff 3.3333333333333335
 ```
 
 ## `valueToBluffRatio` \{#valueToBluffRatio\}
+
 `1 / bluffToValueRatio`; `Infinity` when `betSize` is 0.
 
 ```ts
@@ -65,6 +67,7 @@ Infinity
 ```
 
 ## `bluffToValueRatioWithRake` \{#bluffToValueRatioWithRake\}
+
 Polarized bluff:value ratio with rake.
 
 ```ts
@@ -95,6 +98,7 @@ console.log(ratio);
 ```
 
 ## `valueToBluffRatioWithRake` \{#valueToBluffRatioWithRake\}
+
 Reciprocal bluff:value with rake.
 
 ```ts

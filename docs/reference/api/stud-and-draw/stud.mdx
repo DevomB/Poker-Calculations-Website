@@ -11,6 +11,7 @@ api_functions: ["evaluateStudBestHand", "exactHuStudEquityVsKnown", "simulateStu
 <ApiFamilyHeader category="Stud, razz & 2-7" suit="♦" functions={["evaluateStudBestHand","exactHuStudEquityVsKnown","simulateStudEquityVsRandom","studDeadCardDeck"]} />
 
 ## `evaluateStudBestHand` \{#evaluateStudBestHand\}
+
 7-card stud hi. Best 5-card high from **3–7** cards. Same `HandEvalResult` as `evaluateBestHand`.
 
 ```ts
@@ -66,6 +67,7 @@ console.log(poker.evaluateStudBestHand(['Ah', 'Ad', 'Kc', 'Ks', '7h', '4d', '2c'
 ```
 
 ## `exactHuStudEquityVsKnown` \{#exactHuStudEquityVsKnown\}
+
 Exact HU 7-card stud equity vs a known hand. Each side 3–7 cards; remaining streets come from the dead-aware deck. Both already 7 → one comparison. Ties count 0.5. `extraDead` = folded upcards.
 
 ```ts
@@ -88,6 +90,7 @@ console.log(poker.exactHuStudEquityVsKnown(['Ah', 'Ad', 'Kc', 'Ks', '7h'], ['9s'
 ```
 
 ## `simulateStudEquityVsRandom` \{#simulateStudEquityVsRandom\}
+
 Monte Carlo stud hi: random matching-street villain, complete both to 7.
 
 ```ts
@@ -109,6 +112,7 @@ console.log(poker.simulateStudEquityVsRandom(['Ah', 'Ad', 'Kc'], 20000, 42).toFi
 ```
 
 ## `studDeadCardDeck` \{#studDeadCardDeck\}
+
 Remaining deck after holes + upcards. Canonical strings, deck-index order.
 
 ```ts

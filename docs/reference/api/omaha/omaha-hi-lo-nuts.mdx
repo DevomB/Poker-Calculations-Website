@@ -11,6 +11,7 @@ api_functions: ["omahaHiLoNuttedness", "omahaLoNutsOnBoard"]
 <ApiFamilyHeader category="Omaha" suit="♠" functions={["omahaHiLoNuttedness","omahaLoNutsOnBoard"]} />
 
 ## `omahaHiLoNuttedness` \{#omahaHiLoNuttedness\}
+
 `scoopNuts` is nut high and nut low, or nut high when the board cannot make a low (high takes the whole pot).
 
 ```ts
@@ -51,6 +52,7 @@ console.log(poker.omahaHiLoNuttedness(['Ah', '2h', '3c', 'Kd'], ['4s', '5d', '8c
 ```
 
 ## `omahaLoNutsOnBoard` \{#omahaLoNutsOnBoard\}
+
 True iff hero has a qualifying low unbeaten by any other 4-card combo.
 
 ```ts

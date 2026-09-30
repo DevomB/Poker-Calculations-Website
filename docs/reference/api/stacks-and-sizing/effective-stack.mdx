@@ -11,6 +11,7 @@ api_functions: ["effectiveStack", "stackInBigBlinds", "normalizedStackFractions"
 <ApiFamilyHeader category="Stacks & sizing" suit="♦" functions={["effectiveStack","stackInBigBlinds","normalizedStackFractions"]} />
 
 ## `effectiveStack` \{#effectiveStack\}
+
 Minimum stack; empty → `0`.
 
 ```ts
@@ -34,6 +35,7 @@ console.log(poker.spr(60, eff)); // SPR vs shortest stack
 ```
 
 ## `stackInBigBlinds` \{#stackInBigBlinds\}
+
 Stack size expressed in **big blinds**: `stackChips / bigBlind`. `bigBlind` must be positive.
 
 ```ts
@@ -53,6 +55,7 @@ console.log(poker.stackInBigBlinds(15000, 500)); // 30 BB
 ```
 
 ## `normalizedStackFractions` \{#normalizedStackFractions\}
+
 Each stack divided by the sum of stacks (tournament chip share; not Harville ICM).
 
 ```ts

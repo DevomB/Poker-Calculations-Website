@@ -11,6 +11,7 @@ api_functions: ["exactHeroEquityRunoutQuantiles", "exactHeroEquityRunoutQuantile
 <ApiFamilyHeader category="Runout analysis" suit="♣" functions={["exactHeroEquityRunoutQuantiles","exactHeroEquityRunoutQuantilesAsync"]} />
 
 ## `exactHeroEquityRunoutQuantiles` \{#exactHeroEquityRunoutQuantiles\}
+
 Exact **distribution** of hero equity over all turn/river runouts — mean, variance, and p05/p50/p95 — vs a random villain or an optional weighted range.
 
 ```ts
@@ -65,6 +66,7 @@ Omit `range` for equity vs a uniform random villain; pass `Float64Array(1326)` o
 **Returns** [`HeroEquityRunoutQuantilesResult`](/docs/reference/types/hero-equity-runout-quantiles-result).
 
 ## `exactHeroEquityRunoutQuantilesAsync` \{#exactHeroEquityRunoutQuantilesAsync\}
+
 Non-blocking [`exactHeroEquityRunoutQuantiles`](/docs/reference/api/runout-analysis/runout-equity-quantiles#exactHeroEquityRunoutQuantiles) — same runout equity distribution with optional `AbortSignal`.
 
 ```ts

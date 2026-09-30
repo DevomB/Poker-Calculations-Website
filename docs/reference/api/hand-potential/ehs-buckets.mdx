@@ -11,6 +11,7 @@ api_functions: ["ehs2BucketsVsRange", "equityBucketFromEhs", "bucketMassFromRang
 <ApiFamilyHeader category="Hand potential" suit="♠" functions={["ehs2BucketsVsRange","equityBucketFromEhs","bucketMassFromRange","flopBucketStrategyTo1326","flopBucketCountDefault"]} />
 
 ## `ehs2BucketsVsRange` \{#ehs2BucketsVsRange\}
+
 EHS2 bucket id for every 1326 hero combo vs `range` on this flop/turn. Live combos are in `[0, k)`; board-blocked combos are `-1`. Default `k` is `flopBucketCountDefault()` (20). Pass `{ trials, seed }` to Monte Carlo next-street cards on a flop (same cost note as `comboEhsTableVsRange`).
 
 ```ts
@@ -53,6 +54,7 @@ console.log(buckets.length, Math.max(...buckets));
 ```
 
 ## `equityBucketFromEhs` \{#equityBucketFromEhs\}
+
 Map EHS in `[0, 1]` to `k` equal-width buckets `[0, k)`.
 
 ```ts
@@ -69,6 +71,7 @@ console.log(poker.equityBucketFromEhs(0.73, 10)); // bucket 7 of 0..9
 ```
 
 ## `bucketMassFromRange` \{#bucketMassFromRange\}
+
 Normalize a 1326 range into `k` bucket masses (sum ≈ 1).
 
 ```ts
@@ -96,6 +99,7 @@ console.log(Array.from(mass, (m) => m.toFixed(2)));
 ```
 
 ## `flopBucketStrategyTo1326` \{#flopBucketStrategyTo1326\}
+
 Copy each bucket's mixed action onto every 1326 combo in that bucket.
 
 ```ts
@@ -118,6 +122,7 @@ console.log(perCombo.length, perCombo[0], perCombo[1], perCombo[2]);
 ```
 
 ## `flopBucketCountDefault` \{#flopBucketCountDefault\}
+
 Default EHS2 bucket count (20).
 
 ```ts

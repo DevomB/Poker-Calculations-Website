@@ -11,6 +11,7 @@ api_functions: ["deuceSevenDrawEquityVsKnown", "deuceSevenMultiwayShowdown"]
 <ApiFamilyHeader category="Stud, razz & 2-7" suit="♦" functions={["deuceSevenDrawEquityVsKnown","deuceSevenMultiwayShowdown"]} />
 
 ## `deuceSevenDrawEquityVsKnown` \{#deuceSevenDrawEquityVsKnown\}
+
 Hero equity after both stand or draw (ties 0.5). Omit options to stand pat. Exact replacement tree when small; otherwise Monte Carlo.
 
 ```ts
@@ -59,6 +60,7 @@ console.log(eq.toFixed(3));
 ```
 
 ## `deuceSevenMultiwayShowdown` \{#deuceSevenMultiwayShowdown\}
+
 Pot-share vector for 2–8 disjoint 5-card hands. Ties split.
 
 ```ts

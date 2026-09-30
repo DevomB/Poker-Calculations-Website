@@ -10,6 +10,7 @@ api_functions: ["nashHeadsUpJamCallSolve", "nashHeadsUpJamRange", "nashHeadsUpCa
 <ApiFamilyHeader category="Solvers" suit="♠" functions={["nashHeadsUpJamCallSolve","nashHeadsUpJamRange","nashHeadsUpCallRange","nashIcmHeadsUpJamCallSolve"]} />
 
 ## `nashHeadsUpJamCallSolve` \{#nashHeadsUpJamCallSolve\}
+
 ```ts
 nashHeadsUpJamCallSolve(
   stackBbOrOptions: number | NashPushFoldOptions,
@@ -72,6 +73,7 @@ console.log({ jamShare: mass(r.jam).toFixed(2), callShare: mass(r.call).toFixed(
 ```
 
 ## `nashHeadsUpJamRange` \{#nashHeadsUpJamRange\}
+
 HU Nash jam frequencies (169). SB jam/fold vs BB call/fold, chip EV. Accepts `stackBb` or `{ stackBb, smallBlind, bigBlind, ante, ... }`.
 
 ```ts
@@ -127,6 +129,7 @@ console.log(jam.length, jam[168], share.toFixed(2));
 ```
 
 ## `nashHeadsUpCallRange` \{#nashHeadsUpCallRange\}
+
 HU Nash call frequencies vs jam (169), same order and inputs as `nashHeadsUpJamRange`.
 
 ```ts
@@ -180,6 +183,7 @@ console.log(call[168], call[0]); // AA, 22
 ```
 
 ## `nashIcmHeadsUpJamCallSolve` \{#nashIcmHeadsUpJamCallSolve\}
+
 HU Nash with Harville ICM $EV. `otherStacks` are remaining table stacks; `payouts` is first-to-last prize. Showdown ties use equity split (no chop vector).
 
 ```ts

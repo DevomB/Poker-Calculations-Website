@@ -11,6 +11,7 @@ api_functions: ["flushMadeFlopToRiverExactProbability", "flushMadeFlopToRiverExa
 <ApiFamilyHeader category="Runout analysis" suit="♣" functions={["flushMadeFlopToRiverExactProbability","flushMadeFlopToRiverExactProbabilityAsync","straightMadeFlopToRiverExactProbability","straightMadeFlopToRiverExactProbabilityAsync","fullHouseMadeFlopToRiverExactProbability","fullHouseMadeFlopToRiverExactProbabilityAsync","tripsMadeFlopToRiverExactProbability","tripsMadeFlopToRiverExactProbabilityAsync","twoPairMadeFlopToRiverExactProbability","twoPairMadeFlopToRiverExactProbabilityAsync"]} />
 
 ## `flushMadeFlopToRiverExactProbability` \{#flushMadeFlopToRiverExactProbability\}
+
 Exact flush+ by river enumeration.
 
 Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
@@ -41,6 +42,7 @@ console.log(pFlush);
 ```
 
 ## `flushMadeFlopToRiverExactProbabilityAsync` \{#flushMadeFlopToRiverExactProbabilityAsync\}
+
 Async flush made; optional AbortSignal.
 
 Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
@@ -69,6 +71,7 @@ console.log(p.toFixed(4));
 ```
 
 ## `straightMadeFlopToRiverExactProbability` \{#straightMadeFlopToRiverExactProbability\}
+
 P(best 7-card hand is straight or straight flush) after two uniformly random **distinct** cards from the remaining deck (unordered two-card subset; same distribution as turn+river multiset). `flopThree` length 3; `knownDead` may be empty.
 
 ```ts
@@ -99,6 +102,7 @@ console.log(pStraight);
 `flopThree` must be length 3; `knownDead` may be empty.
 
 ## `straightMadeFlopToRiverExactProbabilityAsync` \{#straightMadeFlopToRiverExactProbabilityAsync\}
+
 Same as `straightMadeFlopToRiverExactProbability`; runs on the libuv thread pool (non-blocking).
 
 ```ts
@@ -123,6 +127,7 @@ console.log(p.toFixed(4));
 ```
 
 ## `fullHouseMadeFlopToRiverExactProbability` \{#fullHouseMadeFlopToRiverExactProbability\}
+
 Exact full house+ by river.
 
 Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
@@ -152,6 +157,7 @@ console.log(poker.fullHouseMadeFlopToRiverExactProbability(hole, flop, dead));
 ```
 
 ## `fullHouseMadeFlopToRiverExactProbabilityAsync` \{#fullHouseMadeFlopToRiverExactProbabilityAsync\}
+
 Async full house made.
 
 Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
@@ -184,6 +190,7 @@ console.log(p);
 ```
 
 ## `tripsMadeFlopToRiverExactProbability` \{#tripsMadeFlopToRiverExactProbability\}
+
 Exact trips+ by river.
 
 Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
@@ -212,6 +219,7 @@ console.log(poker.tripsMadeFlopToRiverExactProbability(hole, flop, []));
 ```
 
 ## `tripsMadeFlopToRiverExactProbabilityAsync` \{#tripsMadeFlopToRiverExactProbabilityAsync\}
+
 Async trips made.
 
 Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
@@ -244,6 +252,7 @@ console.log(p);
 ```
 
 ## `twoPairMadeFlopToRiverExactProbability` \{#twoPairMadeFlopToRiverExactProbability\}
+
 Exact two pair+ by river.
 
 Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
@@ -272,6 +281,7 @@ console.log(poker.twoPairMadeFlopToRiverExactProbability(hole, flop, []));
 ```
 
 ## `twoPairMadeFlopToRiverExactProbabilityAsync` \{#twoPairMadeFlopToRiverExactProbabilityAsync\}
+
 Async two pair+ made.
 
 Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).

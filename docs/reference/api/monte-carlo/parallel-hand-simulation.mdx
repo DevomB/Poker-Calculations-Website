@@ -11,6 +11,7 @@ api_functions: ["parallelHandSimulation", "parallelHandSimulationAsync"]
 <ApiFamilyHeader category="Monte Carlo equity" suit="♥" functions={["parallelHandSimulation","parallelHandSimulationAsync"]} />
 
 ## `parallelHandSimulation` \{#parallelHandSimulation\}
+
 Same with worker threads and distinct seeds per chunk.
 
 ```ts
@@ -47,6 +48,7 @@ console.log(equity.toFixed(4));
 Board length may be 0–5; known cards must not overlap between hero and board.
 
 ## `parallelHandSimulationAsync` \{#parallelHandSimulationAsync\}
+
 Same as `parallelHandSimulation`; runs on the libuv thread pool (non-blocking).
 
 ```ts

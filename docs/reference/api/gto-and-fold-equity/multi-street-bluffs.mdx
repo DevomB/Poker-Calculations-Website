@@ -11,6 +11,7 @@ api_functions: ["twoStreetPureBluffEv", "twoStreetPureBluffEvWithRake", "twoStre
 <ApiFamilyHeader category="GTO & fold equity" suit="♣" functions={["twoStreetPureBluffEv","twoStreetPureBluffEvWithRake","twoStreetPureBluffSameFoldEquity","breakevenFoldEquityFirstStreetPureBluff","breakevenFoldEquitySecondStreetPureBluff","threeStreetPureBluffEv","threeStreetPureBluffSameFoldEquity"]} />
 
 ## `twoStreetPureBluffEv` \{#twoStreetPureBluffEv\}
+
 EV of two-street pure bluff with independent `fe1`, `fe2`.
 
 ```ts
@@ -45,6 +46,7 @@ breakeven turn FE if flop FE=45%: 0.4036363636363636
 ```
 
 ## `twoStreetPureBluffEvWithRake` \{#twoStreetPureBluffEvWithRake\}
+
 Two-street air EV with rake.
 
 ```ts
@@ -76,6 +78,7 @@ console.log({ ev, ev0 });
 ```
 
 ## `twoStreetPureBluffSameFoldEquity` \{#twoStreetPureBluffSameFoldEquity\}
+
 same FE both streets, pure air; may return NaN if no root in [0,1].
 
 ```ts
@@ -107,6 +110,7 @@ breakeven FE each street: 0.42165183604067163
 ```
 
 ## `breakevenFoldEquityFirstStreetPureBluff` \{#breakevenFoldEquityFirstStreetPureBluff\}
+
 breakeven first-street FE given second-street FE (may lie outside [0,1]).
 
 ```ts
@@ -138,6 +142,7 @@ breakeven flop FE: 0.4329896907216495
 ```
 
 ## `breakevenFoldEquitySecondStreetPureBluff` \{#breakevenFoldEquitySecondStreetPureBluff\}
+
 breakeven second-street FE given first-street FE (may lie outside [0,1]).
 
 ```ts
@@ -169,6 +174,7 @@ need turn fold equity: 0.28846153846153844
 ```
 
 ## `threeStreetPureBluffEv` \{#threeStreetPureBluffEv\}
+
 Three-street pure-bluff chip EV.
 
 ```ts
@@ -198,6 +204,7 @@ three-street bluff EV: -24.940000000000005
 ```
 
 ## `threeStreetPureBluffSameFoldEquity` \{#threeStreetPureBluffSameFoldEquity\}
+
 Same fold equity three streets, pure air.
 
 ```ts

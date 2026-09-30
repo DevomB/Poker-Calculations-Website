@@ -11,6 +11,7 @@ api_functions: ["multiwayExpectedValueCall", "multiwaySymmetricBreakevenCallEqui
 <ApiFamilyHeader category="Pot odds & EV" suit="♥" functions={["multiwayExpectedValueCall","multiwaySymmetricBreakevenCallEquity","multiwaySymmetricBreakevenCallEquityWithShare","multiwaySymmetricBreakevenCallEquityWithRake","multiwaySymmetricBreakevenCallEquityWithShareAndRake"]} />
 
 ## `multiwayExpectedValueCall` \{#multiwayExpectedValueCall\}
+
 Call EV with symmetric extra callers.
 
 ```ts
@@ -41,6 +42,7 @@ console.log({ evHu, evMw });
 ```
 
 ## `multiwaySymmetricBreakevenCallEquity` \{#multiwaySymmetricBreakevenCallEquity\}
+
 symmetric extra callers each matching `toCall`.
 
 ```ts
@@ -72,6 +74,7 @@ HU breakeven: 0.3333333333333333
 ```
 
 ## `multiwaySymmetricBreakevenCallEquityWithShare` \{#multiwaySymmetricBreakevenCallEquityWithShare\}
+
 same pot geometry with explicit pot-share when hero wins. `shareModel` 0 = winner-take-all; 1 = multiply final pot by `heroFractionWhenWin` (e.g. chop proxy).
 
 ```ts
@@ -109,6 +112,7 @@ winner-take-all BE: 0.2222222222222222
 ```
 
 ## `multiwaySymmetricBreakevenCallEquityWithRake` \{#multiwaySymmetricBreakevenCallEquityWithRake\}
+
 Multiway breakeven call equity with rake.
 
 ```ts
@@ -143,6 +147,7 @@ console.log(be);
 ```
 
 ## `multiwaySymmetricBreakevenCallEquityWithShareAndRake` \{#multiwaySymmetricBreakevenCallEquityWithShareAndRake\}
+
 Share model + rake on multiway call.
 
 ```ts

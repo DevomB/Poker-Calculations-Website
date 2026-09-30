@@ -11,6 +11,7 @@ api_functions: ["exactHuOmahaEquityVsKnown", "simulateOmahaEquityVsRandom", "sim
 <ApiFamilyHeader category="Omaha" suit="♠" functions={["exactHuOmahaEquityVsKnown","simulateOmahaEquityVsRandom","simulateOmahaEquityVsRange","omahaMultiwayEquityMc"]} />
 
 ## `exactHuOmahaEquityVsKnown` \{#exactHuOmahaEquityVsKnown\}
+
 Exact HU Omaha Hi equity vs a known 4-card hand. Board 0–5; remaining runouts enumerated. Ties count as 0.5.
 
 ```ts
@@ -38,6 +39,7 @@ console.log(eq.toFixed(4));
 ```
 
 ## `simulateOmahaEquityVsRandom` \{#simulateOmahaEquityVsRandom\}
+
 Monte Carlo Omaha Hi equity vs a uniform random 4-card villain.
 
 ```ts
@@ -59,6 +61,7 @@ console.log(poker.simulateOmahaEquityVsRandom(['Ah', 'As', 'Kd', 'Qd'], [], 2000
 ```
 
 ## `simulateOmahaEquityVsRange` \{#simulateOmahaEquityVsRange\}
+
 Monte Carlo Omaha Hi equity vs a sparse weighted 4-card range (`OmahaRangeSpec`).
 
 ```ts
@@ -102,6 +105,7 @@ console.log(poker.simulateOmahaEquityVsRange(['Ah', 'As', 'Kd', 'Qd'], ['7h', '6
 ```
 
 ## `omahaMultiwayEquityMc` \{#omahaMultiwayEquityMc\}
+
 Monte Carlo pot-share equity for 3–4 known 4-card hands. Returned array sums to ~1.
 
 ```ts

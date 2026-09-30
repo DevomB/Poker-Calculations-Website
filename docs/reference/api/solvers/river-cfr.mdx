@@ -11,6 +11,7 @@ api_functions: ["cfrRiverBetCallFoldSolve", "solveHuRiverCheckBetTree", "fictiti
 <ApiFamilyHeader category="Solvers" suit="♠" functions={["cfrRiverBetCallFoldSolve","solveHuRiverCheckBetTree","fictitiousPlayRiver"]} />
 
 ## `cfrRiverBetCallFoldSolve` \{#cfrRiverBetCallFoldSolve\}
+
 HU river CFR. Tree: bettor Check or Bet; vs Check defender checks back to showdown; vs Bet defender Fold or Call. Showdown via exact 7-card compare. `heroRange` is the bettor. Default 400 iterations.
 
 ```ts
@@ -62,6 +63,7 @@ console.log({ betFreq: r.betFreq.toFixed(3), callFreq: r.callFreq.toFixed(3), ev
 ```
 
 ## `solveHuRiverCheckBetTree` \{#solveHuRiverCheckBetTree\}
+
 Full river check/bet CFR plus air/draw/made/strong frequencies and top-k bet combos.
 
 ```ts
@@ -151,6 +153,7 @@ console.log(r.topBetCombos);
 ```
 
 ## `fictitiousPlayRiver` \{#fictitiousPlayRiver\}
+
 Fictitious play on the same river check/bet tree as `cfrRiverBetCallFoldSolve`.
 
 ```ts

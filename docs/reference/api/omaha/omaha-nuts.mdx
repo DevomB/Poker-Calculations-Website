@@ -11,6 +11,7 @@ api_functions: ["omahaNutsOnBoard", "omahaNuttednessScore", "omahaWrapDrawOuts",
 <ApiFamilyHeader category="Omaha" suit="♠" functions={["omahaNutsOnBoard","omahaNuttednessScore","omahaWrapDrawOuts","omahaComboCount"]} />
 
 ## `omahaNutsOnBoard` \{#omahaNutsOnBoard\}
+
 True iff hero’s Omaha Hi hand is unbeaten by every other 4-card combo that avoids `boardCards` and optional `extraDead`.
 
 ```ts
@@ -29,6 +30,7 @@ true
 ```
 
 ## `omahaNuttednessScore` \{#omahaNuttednessScore\}
+
 0–1 closeness to the nuts: `1 − (strictly better 4-card holdings) / n` over villain holdings that exclude hero's cards, the board, and `extraDead`. Nuts → 1; unique worst → 0.
 
 ```ts
@@ -50,6 +52,7 @@ console.log(poker.omahaNuttednessScore(['Kh', 'Jh', '7c', '2d'], ['Qh', '9h', '3
 ```
 
 ## `omahaWrapDrawOuts` \{#omahaWrapDrawOuts\}
+
 Flop wrap/OESD outs. Counts remaining cards that, as the turn, make a straight (or SF/royal) using exactly 2 hole + 3 of the 4 board cards. `nutOuts` are those that are also the nut Omaha holding on that 4-card board. A hand that already holds a straight or better on the flop is not drawing and returns `{ outs: 0, nutOuts: 0 }`.
 
 ```ts
@@ -87,6 +90,7 @@ console.log(poker.omahaWrapDrawOuts(['Kh', 'Qd', '9c', '8s'], ['Jd', 'Tc', '2h']
 ```
 
 ## `omahaComboCount` \{#omahaComboCount\}
+
 Remaining 4-card combo count: `C(52 − |unique dead|, 4)`. Throws on duplicate dead cards.
 
 ```ts

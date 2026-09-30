@@ -11,6 +11,7 @@ api_functions: ["breakevenFoldEquityPureBluff", "breakevenFoldEquityPureBluffWit
 <ApiFamilyHeader category="GTO & fold equity" suit="♣" functions={["breakevenFoldEquityPureBluff","breakevenFoldEquityPureBluffWithRake","breakevenFoldEquityPureBluffWithAnte"]} />
 
 ## `breakevenFoldEquityPureBluff` \{#breakevenFoldEquityPureBluff\}
+
 FE when equity if called is 0.
 
 ```ts
@@ -38,6 +39,7 @@ alpha matches pure-bluff BE: 0.39759036144578314
 ```
 
 ## `breakevenFoldEquityPureBluffWithRake` \{#breakevenFoldEquityPureBluffWithRake\}
+
 pure-bluff breakeven FE when fold wins `pot+bet` minus rake on shipped pot.
 
 ```ts
@@ -74,6 +76,7 @@ console.log(poker.breakevenFoldEquityPureBluff(pot, bet));
 ```
 
 ## `breakevenFoldEquityPureBluffWithAnte` \{#breakevenFoldEquityPureBluffWithAnte\}
+
 Pure-bluff fold equity with ante in won pot.
 
 ```ts

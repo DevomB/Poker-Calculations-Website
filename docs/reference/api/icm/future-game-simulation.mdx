@@ -11,6 +11,7 @@ api_functions: ["fgsPayoutsBlindSchedule", "icmPayoutsAfterBlindPost", "icmDeadP
 <ApiFamilyHeader category="ICM" suit="♥" functions={["fgsPayoutsBlindSchedule","icmPayoutsAfterBlindPost","icmDeadPotDollarEv"]} />
 
 ## `fgsPayoutsBlindSchedule` \{#fgsPayoutsBlindSchedule\}
+
 FGS across a blind schedule. Each level applies `orbitsAtLevel[i]` average-position orbits.
 
 ```ts
@@ -45,6 +46,7 @@ console.log(ev.map((x) => x.toFixed(1)));
 ```
 
 ## `icmPayoutsAfterBlindPost` \{#icmPayoutsAfterBlindPost\}
+
 Hero posts `heroPost`; every other seat posts `posts[i]`. Subtract (clamp 0), then ICM on remaining stacks. Posted chips are dead for placement.
 
 ```ts
@@ -69,6 +71,7 @@ console.log(poker.icmPayoutsAfterBlindPost([5000, 3000, 2000], [500, 300, 200], 
 ```
 
 ## `icmDeadPotDollarEv` \{#icmDeadPotDollarEv\}
+
 $EV of hero winning a dead pot of `deadChips` (chips in the middle owned by nobody). Two-point ICM: hero stack += deadChips vs ICM now.
 
 ```ts

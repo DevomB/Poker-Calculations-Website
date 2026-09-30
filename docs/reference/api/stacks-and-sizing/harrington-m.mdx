@@ -11,6 +11,7 @@ api_functions: ["harringtonM", "harringtonMEffective", "harringtonMEffectiveActi
 <ApiFamilyHeader category="Stacks & sizing" suit="♦" functions={["harringtonM","harringtonMEffective","harringtonMEffectiveActiveAntes","harringtonQ","orbitCostChips"]} />
 
 ## `harringtonM` \{#harringtonM\}
+
 Harrington M = stack / (sb + bb + antes).
 
 ```ts
@@ -29,6 +30,7 @@ console.log(poker.harringtonM(12000, 100, 200, 200)); // 12000 / (100 + 200 + 20
 ```
 
 ## `harringtonMEffective` \{#harringtonMEffective\}
+
 effective M = stack / (sb + bb + antePerActivePlayer * numActivePlayers).
 
 ```ts
@@ -55,6 +57,7 @@ console.log(poker.harringtonMEffective(400, 1, 2, 1, 4));
 ```
 
 ## `harringtonMEffectiveActiveAntes` \{#harringtonMEffectiveActiveAntes\}
+
 effective M with per-seat antes (active seats only); sum of array is total antes in denominator.
 
 ```ts
@@ -81,6 +84,7 @@ console.log(m);
 ```
 
 ## `harringtonQ` \{#harringtonQ\}
+
 Harrington Q: `heroStack / mean(stacks)` (vs average table stack); all stacks must be positive.
 
 ```ts
@@ -101,6 +105,7 @@ console.log(poker.harringtonQ(400, [300, 500]));
 ```
 
 ## `orbitCostChips` \{#orbitCostChips\}
+
 One orbit posted cost: `smallBlind + bigBlind + sum(antesFromSeats)`.
 
 ```ts

@@ -11,6 +11,7 @@ api_functions: ["spr", "sprAfterCall", "sprAfterBet", "sprAfterRaise", "stackToP
 <ApiFamilyHeader category="Stacks & sizing" suit="♦" functions={["spr","sprAfterCall","sprAfterBet","sprAfterRaise","stackToPotAfterCall"]} />
 
 ## `spr` \{#spr\}
+
 Stack-to-pot ratio: `effectiveStackChips / potChips`. Returns `Infinity` when the pot is `0` and the stack is positive; `0` when both are `0`.
 
 ```ts
@@ -30,6 +31,7 @@ console.log(poker.spr(90, 270)); // 3 — 270 effective over 90 pot
 ```
 
 ## `sprAfterCall` \{#sprAfterCall\}
+
 SPR after a heads-up call: `(effectiveStackBeforeCall − toCall) / (potBeforeCall + toCall)`. `potBeforeCall` already includes villain's bet, as in `expectedValueCall`. Throws if `toCall` exceeds stack.
 
 ```ts
@@ -49,6 +51,7 @@ console.log(poker.spr(90, 270));             // 3 before the call
 ```
 
 ## `sprAfterBet` \{#sprAfterBet\}
+
 SPR after hero bets heads-up.
 
 ```ts
@@ -73,6 +76,7 @@ console.log(spr); // 350 / 200 = 1.75
 ```
 
 ## `sprAfterRaise` \{#sprAfterRaise\}
+
 SPR after open/raise heads-up.
 
 ```ts
@@ -94,6 +98,7 @@ true
 ```
 
 ## `stackToPotAfterCall` \{#stackToPotAfterCall\}
+
 Stack:pot ratio after call (inverse SPR).
 
 ```ts

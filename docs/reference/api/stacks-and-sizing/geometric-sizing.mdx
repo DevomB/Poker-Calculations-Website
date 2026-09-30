@@ -11,6 +11,7 @@ api_functions: ["geometricStreetSizingPlan", "geometricPotAfterMatchedPotFractio
 <ApiFamilyHeader category="Stacks & sizing" suit="♦" functions={["geometricStreetSizingPlan","geometricPotAfterMatchedPotFractions","geometricPotAfterSingleMatchedBet"]} />
 
 ## `geometricStreetSizingPlan` \{#geometricStreetSizingPlan\}
+
 Generate geometric bet sizes for committing a stack over remaining streets.
 
 ```ts
@@ -31,6 +32,7 @@ console.log(Array.from(plan, (x) => x.toFixed(3)));
 ```
 
 ## `geometricPotAfterMatchedPotFractions` \{#geometricPotAfterMatchedPotFractions\}
+
 pot after `nRounds` of matched pot-fraction betting heads-up.
 
 ```ts
@@ -55,6 +57,7 @@ console.log(pot); // 10 * (1 + 2*0.75)^3 = 10 * 2.5^3 = 156.25
 ```
 
 ## `geometricPotAfterSingleMatchedBet` \{#geometricPotAfterSingleMatchedBet\}
+
 Pot after one matched bet/raise.
 
 ```ts

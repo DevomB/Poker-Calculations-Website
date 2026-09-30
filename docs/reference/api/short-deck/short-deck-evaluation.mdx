@@ -11,6 +11,7 @@ api_functions: ["evaluateShortDeckBestHand", "evaluateShortDeckHandStrength", "e
 <ApiFamilyHeader category="Short deck" suit="♥" functions={["evaluateShortDeckBestHand","evaluateShortDeckHandStrength","evaluateShortDeckCategory","shortDeckStraightIsWheel","shortDeckVsHoldemCategoryFlip"]} />
 
 ## `evaluateShortDeckBestHand` \{#evaluateShortDeckBestHand\}
+
 Short Deck / 6+ Hold'em. 36-card deck (ranks 6–A). Ranks 2–5 are rejected. Flush beats full house. Wheel is A6789 (not A2345). `rankCategory` uses 6+ order (fullHouse=5, flush=6), not NLHE order.
 
 ```ts
@@ -54,6 +55,7 @@ console.log(poker.evaluateShortDeckBestHand(['Ah', '6c', '7d', '8s', '9h', 'Kc',
 ```
 
 ## `evaluateShortDeckHandStrength` \{#evaluateShortDeckHandStrength\}
+
 Encoded 6+ strength (flush ordinal above boat). Hole + board, 1–7 cards total.
 
 ```ts
@@ -72,6 +74,7 @@ true
 ```
 
 ## `evaluateShortDeckCategory` \{#evaluateShortDeckCategory\}
+
 6+ category label (`highCard` … `royalFlush`); flush still named `flush`.
 
 ```ts
@@ -88,6 +91,7 @@ straight
 ```
 
 ## `shortDeckStraightIsWheel` \{#shortDeckStraightIsWheel\}
+
 True when five cards are the A6789 wheel (straight or wheel straight flush).
 
 ```ts
@@ -104,6 +108,7 @@ true
 ```
 
 ## `shortDeckVsHoldemCategoryFlip` \{#shortDeckVsHoldemCategoryFlip\}
+
 True when NLHE vs 6+ **category labels** differ for the same 5–7 cards (all 6+). Wheel A6789 is the usual flip (`highCard`/`flush` vs `straight`/`straightFlush`). Flush vs boat does not rename a single hand; it only swaps which wins at showdown.
 
 ```ts

@@ -11,6 +11,7 @@ api_functions: ["isomorphicFlopIndex", "flopIndexToCanonical", "countCanonicalFl
 <ApiFamilyHeader category="Suit isomorphism" suit="♣" functions={["isomorphicFlopIndex","flopIndexToCanonical","countCanonicalFlops","isomorphicFlopOrbitSize","canonicalFlopCfrKey"]} />
 
 ## `isomorphicFlopIndex` \{#isomorphicFlopIndex\}
+
 Stable index 0..1754 of the canonical flop (sorted packed deck-id order).
 
 ```ts
@@ -28,6 +29,7 @@ console.log(i, poker.flopIndexToCanonical(i));
 ```
 
 ## `flopIndexToCanonical` \{#flopIndexToCanonical\}
+
 Inverse of `isomorphicFlopIndex`.
 
 ```ts
@@ -44,6 +46,7 @@ console.log(poker.flopIndexToCanonical(0), poker.flopIndexToCanonical(1754));
 ```
 
 ## `countCanonicalFlops` \{#countCanonicalFlops\}
+
 Always 1755.
 
 ```ts
@@ -60,6 +63,7 @@ console.log(poker.countCanonicalFlops());
 ```
 
 ## `isomorphicFlopOrbitSize` \{#isomorphicFlopOrbitSize\}
+
 Orbit size: how many raw unordered flops map to this class (1–24). Unpaired rainbow=24, two-tone=12, monotone=4. Pair/trips shrink further (12 or 4).
 
 ```ts
@@ -78,6 +82,7 @@ console.log(poker.isomorphicFlopOrbitSize(['Kh', '7h', '2h'])); // monotone
 ```
 
 ## `canonicalFlopCfrKey` \{#canonicalFlopCfrKey\}
+
 Cache key: canonical flop index (`0..countCanonicalFlops()-1`) plus millichip pot/stack. Suit-isomorphic flops share the same key.
 
 ```ts

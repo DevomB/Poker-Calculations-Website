@@ -11,6 +11,7 @@ api_functions: ["pkoIcmbuPayouts", "pkoBountyRiskPremium", "pkoFgsPayouts"]
 <ApiFamilyHeader category="Bounties" suit="♦" functions={["pkoIcmbuPayouts","pkoBountyRiskPremium","pkoFgsPayouts"]} />
 
 ## `pkoIcmbuPayouts` \{#pkoIcmbuPayouts\}
+
 ICMBU: freezeout `icmExpectedPayouts` plus `pkoExpectedBountyCollection`. Zero bounties match freezeout ICM. Zero-stack seats get last-place prizes.
 
 ```ts
@@ -55,6 +56,7 @@ console.log(r);
 ```
 
 ## `pkoBountyRiskPremium` \{#pkoBountyRiskPremium\}
+
 Freezeout ICM vs ICMBU, and chip-EV share of the bounty pool vs expected collection (`bountyRiskPremium` = chip share − expected collection).
 
 ```ts
@@ -97,6 +99,7 @@ console.log(poker.pkoBountyRiskPremium([5000, 3000, 2000], [500, 300, 200], [50,
 ```
 
 ## `pkoFgsPayouts` \{#pkoFgsPayouts\}
+
 Average-position FGS orbits, then ICMBU on surviving stacks. `orbits === 0` matches `pkoIcmbuPayouts` on the original stacks.
 
 ```ts

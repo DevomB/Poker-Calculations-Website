@@ -11,6 +11,7 @@ api_functions: ["materializeVillainRangeAfterBlockers", "rangeBlockerPressureByC
 <ApiFamilyHeader category="Ranges" suit="♦" functions={["materializeVillainRangeAfterBlockers","rangeBlockerPressureByCard","blockerMatrixByCard","rangeRemovalSensitivityVsHero"]} />
 
 ## `materializeVillainRangeAfterBlockers` \{#materializeVillainRangeAfterBlockers\}
+
 Dense **1326** combo weights after removing hero, board, and optional dead cards — plus combo count, weight sum, and Shannon entropy.
 
 ```ts
@@ -65,6 +66,7 @@ First live weight: 0.0007541478129713424
 ```
 
 ## `rangeBlockerPressureByCard` \{#rangeBlockerPressureByCard\}
+
 Measure how much range mass each deck card blocks.
 
 ```ts
@@ -103,6 +105,7 @@ Float64Array(52) [
 ```
 
 ## `blockerMatrixByCard` \{#blockerMatrixByCard\}
+
 Same as `rangeBlockerPressureByCard`: for each deck id `0..51`, the share of the range weight whose combos contain that card.
 
 ```ts
@@ -124,6 +127,7 @@ true
 ```
 
 ## `rangeRemovalSensitivityVsHero` \{#rangeRemovalSensitivityVsHero\}
+
 Estimate hero-equity sensitivity to removing each live card from villain range.
 
 ```ts

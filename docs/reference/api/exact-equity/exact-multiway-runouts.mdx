@@ -11,6 +11,7 @@ api_functions: ["exactMultiwayBestWorstRunout", "exactMultiwayRunoutCount"]
 <ApiFamilyHeader category="Exact equity" suit="♦" functions={["exactMultiwayBestWorstRunout","exactMultiwayRunoutCount"]} />
 
 ## `exactMultiwayBestWorstRunout` \{#exactMultiwayBestWorstRunout\}
+
 Best and worst next-street card for hero (player 0) by exact equity after that card. Turn card when board has 3; river card when board has 4. Otherwise `{ supported: false }`.
 
 ```ts
@@ -54,6 +55,7 @@ console.log(r);
 ```
 
 ## `exactMultiwayRunoutCount` \{#exactMultiwayRunoutCount\}
+
 Number of remaining boards given holes + board + optional dead.
 
 ```ts

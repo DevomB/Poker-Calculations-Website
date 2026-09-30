@@ -11,6 +11,7 @@ api_functions: ["decideAction", "decideActionAsync", "decideActionWithDiagnostic
 <ApiFamilyHeader category="Bots & game state" suit="♥" functions={["decideAction","decideActionAsync","decideActionWithDiagnostics"]} />
 
 ## `decideAction` \{#decideAction\}
+
 Rule-based action using MC equity (or strength fallback when sim count is 0), pot odds, call EV; see [decideAction contract](/docs/reference/types/native-poker-state).
 
 ```ts
@@ -111,6 +112,7 @@ raise 17
 ```
 
 ## `decideActionAsync` \{#decideActionAsync\}
+
 Same as `decideAction`; runs on the libuv thread pool (non-blocking).
 
 ```ts
@@ -205,6 +207,7 @@ raise 17
 ```
 
 ## `decideActionWithDiagnostics` \{#decideActionWithDiagnostics\}
+
 Run native decision logic and include legal-action and EV diagnostics.
 
 ```ts

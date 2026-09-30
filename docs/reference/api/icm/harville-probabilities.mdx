@@ -11,36 +11,39 @@ api_functions: ["icmHarvillePlacementProbabilities", "icmWinProbabilitiesHarvill
 <ApiFamilyHeader category="ICM" suit="♥" functions={["icmHarvillePlacementProbabilities","icmWinProbabilitiesHarville","icmTopKFinishProbabilities","icmLastPlaceProbabilitiesHarville"]} />
 
 ## `icmHarvillePlacementProbabilities` \{#icmHarvillePlacementProbabilities\}
-full Harville placement matrix `[player][finishRank]` (rank 0 = first); flat `n*n` when `returnFormat: 'float64'`.
+
+Full Harville placement matrix, row-major `n × n`: entry `player * n + place` is the probability that `player` finishes in `place` (0 = first). A `Float64Array` when `returnFormat` is `'float64'`.
 
 ```ts
 icmHarvillePlacementProbabilities(
   stacks: F64VectorInput,
   returnFormat?: F64ReturnFormat
-): number[][] | Float64Array;
+): number[] | Float64Array;
 ```
 
-You need the full **finish distribution** per player (1st through nth) for custom payout structures or visualization. Row `i` is player `i`; column `0` is first place.
+You need the full **finish distribution** per player (1st through nth) for custom payout structures or visualization. The result is flat: row `i` (player `i`) is `slice(i * n, i * n + n)`, and column `0` is first place.
 
 ```js title="Example"
 const poker = require('poker-calculations');
 
 const stacks = [5000, 5000, 2500];
-const matrix = poker.icmHarvillePlacementProbabilities(stacks);
+const n = stacks.length;
+const matrix = poker.icmHarvillePlacementProbabilities(stacks); // row-major n × n
 
-console.log('P(player 0 wins):', matrix[0][0]);
-console.log('P(player 2 last):', matrix[2][2]);
+console.log('P(player 0 wins):', matrix[0 * n + 0].toFixed(3));
+console.log('P(player 2 last):', matrix[2 * n + 2].toFixed(3));
 
 console.log(poker.icmTopKFinishProbabilities(stacks, 2));
 ```
 
 ```text title="Output"
-P(player 0 wins): undefined
-P(player 2 last): undefined
+P(player 0 wins): 0.400
+P(player 2 last): 0.533
 [ 0.7666666666666667, 0.7666666666666667, 0.4666666666666667 ]
 ```
 
 ## `icmWinProbabilitiesHarville` \{#icmWinProbabilitiesHarville\}
+
 Harville first-place probabilities.
 
 ```ts
@@ -71,6 +74,7 @@ console.log(poker.icmExpectedPayouts(stacks, payouts));
 ```
 
 ## `icmTopKFinishProbabilities` \{#icmTopKFinishProbabilities\}
+
 Per-player probability of finishing in one of the first `k` places (sum of first `k` columns of Harville placement); `k` in `1..stacks.length`.
 
 ```ts
@@ -110,6 +114,7 @@ console.log(pTop3);
 ```
 
 ## `icmLastPlaceProbabilitiesHarville` \{#icmLastPlaceProbabilitiesHarville\}
+
 Harville probability each player finishes last (placement matrix last column).
 
 ```ts
@@ -128,8 +133,10 @@ const stacks = [15000, 12000, 4000, 2000];
 const pLast = poker.icmLastPlaceProbabilitiesHarville(stacks);
 console.log(pLast);
 
+// The same numbers are the last column of the row-major placement matrix
+const n = stacks.length;
 const matrix = poker.icmHarvillePlacementProbabilities(stacks);
-console.log('last column from matrix:', matrix.map((row) => row[stacks.length - 1]));
+console.log(Array.from({ length: n }, (_, i) => matrix[i * n + n - 1]));
 ```
 
 ```text title="Output"
@@ -139,15 +146,11 @@ console.log('last column from matrix:', matrix.map((row) => row[stacks.length - 
   0.29332556709466723,
   0.6208711279705194
 ]
-last column from matrix: [
-  undefined, undefined,
-  undefined, undefined,
-  undefined, undefined,
-  undefined, undefined,
-  undefined, undefined,
-  undefined, undefined,
-  undefined, undefined,
-  undefined, undefined
+[
+  0.03347042584998759,
+  0.05233287908482568,
+  0.29332556709466723,
+  0.6208711279705194
 ]
 ```
 

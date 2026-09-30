@@ -11,6 +11,7 @@ api_functions: ["canonicalFlopBoard", "canonicalBoard", "canonicalHolesAndBoard"
 <ApiFamilyHeader category="Suit isomorphism" suit="♣" functions={["canonicalFlopBoard","canonicalBoard","canonicalHolesAndBoard","suitPermFromCanonicalFlop"]} />
 
 ## `canonicalFlopBoard` \{#canonicalFlopBoard\}
+
 Suit-canonical 3-card flop. Rainbow / two-tone / monotone collapse under S4. Returns 3 canonical card strings, sorted by deck id (`rank*4+suit`).
 
 ```ts
@@ -31,6 +32,7 @@ console.log(poker.canonicalFlopBoard(['Ks', '7s', '2c'])); // same class, same o
 ```
 
 ## `canonicalBoard` \{#canonicalBoard\}
+
 Canonical 3–5 card board. First 3 cards are the flop (set); 4th is turn; 5th is river. Re-solves the 24 suit perms on the street tuple (flop iso first; turn/river break leftover symmetry). Not a board-texture score.
 
 ```ts
@@ -47,6 +49,7 @@ console.log(poker.canonicalBoard(['Kh', '7h', '2d', '9s', 'Ah']));
 ```
 
 ## `canonicalHolesAndBoard` \{#canonicalHolesAndBoard\}
+
 Remap hero holes + board by one suit permutation. `suitPerm` is the map to apply to ranges.
 
 ```ts
@@ -81,6 +84,7 @@ console.log(poker.canonicalHolesAndBoard(['Ah', 'Qh'], ['Kh', '7h', '2d']));
 ```
 
 ## `suitPermFromCanonicalFlop` \{#suitPermFromCanonicalFlop\}
+
 Length-4 perm: `perm[oldSuit] = newSuit` (0=c, 1=d, 2=h, 3=s). Flop-only; leftover suits lex-smallest.
 
 ```ts

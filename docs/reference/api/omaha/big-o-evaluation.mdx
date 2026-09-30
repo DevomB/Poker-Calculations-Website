@@ -11,6 +11,7 @@ api_functions: ["evaluateBigOBestHand", "evaluateBigOHandStrength", "bigONutsOnB
 <ApiFamilyHeader category="Omaha" suit="♠" functions={["evaluateBigOBestHand","evaluateBigOHandStrength","bigONutsOnBoard","bigOComboCount"]} />
 
 ## `evaluateBigOBestHand` \{#evaluateBigOBestHand\}
+
 Best 5-card Big O hand: exactly 2 hole + exactly 3 board. `holeCards` must be 5 cards; `boardCards` must be 3–5 (flop C(5,2)=10, river C(5,2)*C(5,3)=100). Same `HandEvalResult` shape as `evaluateBestHand`.
 
 ```ts
@@ -74,6 +75,7 @@ console.log(poker.evaluateBigOBestHand(['Ah', 'Kh', 'Qd', 'Jd', '2c'], ['Th', '9
 ```
 
 ## `evaluateBigOHandStrength` \{#evaluateBigOHandStrength\}
+
 Big O strength using the same `pack_hand_strength` encoding as `evaluateHandStrength` (5-card rank + kickers). Not a 10-card best-of-N.
 
 ```ts
@@ -90,6 +92,7 @@ console.log(poker.evaluateBigOHandStrength(['Ah', 'Kh', 'Qd', 'Jd', '2c'], ['Th'
 ```
 
 ## `bigONutsOnBoard` \{#bigONutsOnBoard\}
+
 True iff hero’s Big O hand is unbeaten by every other 5-card combo that avoids `boardCards` and optional `extraDead`.
 
 ```ts
@@ -106,6 +109,7 @@ true
 ```
 
 ## `bigOComboCount` \{#bigOComboCount\}
+
 Remaining 5-card combo count: `C(52 − |unique dead|, 5)`. Throws on duplicate dead cards.
 
 ```ts

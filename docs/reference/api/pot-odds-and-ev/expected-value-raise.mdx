@@ -11,6 +11,7 @@ api_functions: ["expectedValueRaise", "expectedValueRaiseWithRake", "breakevenRa
 <ApiFamilyHeader category="Pot odds & EV" suit="♥" functions={["expectedValueRaise","expectedValueRaiseWithRake","breakevenRaiseEquity"]} />
 
 ## `expectedValueRaise` \{#expectedValueRaise\}
+
 Chip EV of raise vs fold (two-outcome model).
 
 ```ts
@@ -49,6 +50,7 @@ raise EV: 35.625
 ```
 
 ## `expectedValueRaiseWithRake` \{#expectedValueRaiseWithRake\}
+
 Raise EV with rake on called pot.
 
 ```ts
@@ -81,6 +83,7 @@ console.log({ ev, evNoRake }); // ev <= evNoRake
 ```
 
 ## `breakevenRaiseEquity` \{#breakevenRaiseEquity\}
+
 Equity needed for neutral raise.
 
 ```ts

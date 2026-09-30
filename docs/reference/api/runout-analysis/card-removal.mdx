@@ -11,6 +11,7 @@ api_functions: ["exactEquityCardRemovalGradient", "exactEquityCardRemovalGradien
 <ApiFamilyHeader category="Runout analysis" suit="♣" functions={["exactEquityCardRemovalGradient","exactEquityCardRemovalGradientAsync","equityDeltaIfCardRemoved"]} />
 
 ## `exactEquityCardRemovalGradient` \{#exactEquityCardRemovalGradient\}
+
 Exact **52-vector** sensitivity of HU equity vs a range when each remaining deck card is treated as dead — plus baseline equity.
 
 ```ts
@@ -57,6 +58,7 @@ console.log(baseEquity.toFixed(4), gradient.length);
 **Returns** [`CardRemovalGradientResult`](/docs/reference/types/card-removal-gradient-result).
 
 ## `exactEquityCardRemovalGradientAsync` \{#exactEquityCardRemovalGradientAsync\}
+
 Non-blocking [`exactEquityCardRemovalGradient`](/docs/reference/api/runout-analysis/card-removal#exactEquityCardRemovalGradient) — same 52-vector gradient with optional cancellation.
 
 ```ts
@@ -104,6 +106,7 @@ console.log(baseEquity.toFixed(4));
 **Returns** [`CardRemovalGradientResult`](/docs/reference/types/card-removal-gradient-result).
 
 ## `equityDeltaIfCardRemoved` \{#equityDeltaIfCardRemoved\}
+
 Change in exact range equity when `removedDeckIndex` is treated as dead.
 
 ```ts

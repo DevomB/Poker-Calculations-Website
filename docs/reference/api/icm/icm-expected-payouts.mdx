@@ -11,6 +11,7 @@ api_functions: ["icmExpectedPayouts", "icmExpectedPayoutsWeitzman", "icmHarville
 <ApiFamilyHeader category="ICM" suit="♥" functions={["icmExpectedPayouts","icmExpectedPayoutsWeitzman","icmHarvilleSkillAdjustedPayouts"]} />
 
 ## `icmExpectedPayouts` \{#icmExpectedPayouts\}
+
 ICM expected payouts (prize vector length = players).
 
 ```ts
@@ -46,6 +47,7 @@ console.log(poker.icmWinProbabilitiesHarville(stacks));
 ```
 
 ## `icmExpectedPayoutsWeitzman` \{#icmExpectedPayoutsWeitzman\}
+
 Independent Weitzman chip-utility ICM (`alpha` defaults to 2).
 
 ```ts
@@ -73,6 +75,7 @@ console.log(poker.icmExpectedPayoutsWeitzman(stacks, payouts).map((x) => x.toFix
 ```
 
 ## `icmHarvilleSkillAdjustedPayouts` \{#icmHarvilleSkillAdjustedPayouts\}
+
 Harville ICM expected payouts when **first-place weights** blend chip share and a skill vector before placement recursion.
 
 ```ts

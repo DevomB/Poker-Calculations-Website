@@ -11,6 +11,7 @@ api_functions: ["evaluateHandStrength", "evaluateHandStrengthFast", "evaluateHan
 <ApiFamilyHeader category="Hand evaluation" suit="♠" functions={["evaluateHandStrength","evaluateHandStrengthFast","evaluateHandStrengthFastBatch"]} />
 
 ## `evaluateHandStrength` \{#evaluateHandStrength\}
+
 Encoded strength as `number` (`uint64` bit layout: rank in high bits + five kicker nibbles). Exact integer in IEEE double for sort/compare loops.
 
 ```ts
@@ -31,6 +32,7 @@ true
 ```
 
 ## `evaluateHandStrengthFast` \{#evaluateHandStrengthFast\}
+
 Same encoding as `evaluateHandStrength`, using the in-house stack-only evaluator (`poker-calculations-forge`) used by Monte Carlo and exact enumeration hot paths.
 
 ```ts
@@ -53,6 +55,7 @@ true
 ```
 
 ## `evaluateHandStrengthFastBatch` \{#evaluateHandStrengthFastBatch\}
+
 ```ts
 evaluateHandStrengthFastBatch(
   holes: Uint8Array,

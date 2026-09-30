@@ -11,6 +11,7 @@ api_functions: ["exactHuOmahaHiLoEquity", "simulateOmahaHiLoEquity", "omahaScoop
 <ApiFamilyHeader category="Omaha" suit="♠" functions={["exactHuOmahaHiLoEquity","simulateOmahaHiLoEquity","omahaScoopProbabilityMc","omahaQuarterProbabilityMc","omahaHiLoMultiwayMc"]} />
 
 ## `exactHuOmahaHiLoEquity` \{#exactHuOmahaHiLoEquity\}
+
 Exact HU PLO-8 vs a known 4-card hand. Board 0–5. No qualifying low → high takes the full pot.
 
 ```ts
@@ -54,6 +55,7 @@ console.log(r);
 ```
 
 ## `simulateOmahaHiLoEquity` \{#simulateOmahaHiLoEquity\}
+
 Monte Carlo PLO-8. `villainHoleCards` null → uniform random 4-card opponent.
 
 ```ts
@@ -99,6 +101,7 @@ console.log(poker.simulateOmahaHiLoEquity(['Ah', '2h', '3c', 'Kd'], null, [], 20
 ```
 
 ## `omahaScoopProbabilityMc` \{#omahaScoopProbabilityMc\}
+
 P(hero wins both halves, or wins high when no low exists).
 
 ```ts
@@ -121,6 +124,7 @@ console.log(poker.omahaScoopProbabilityMc(['Ah', '2h', '3c', 'Kd'], ['Ks', 'Kc',
 ```
 
 ## `omahaQuarterProbabilityMc` \{#omahaQuarterProbabilityMc\}
+
 P(exactly one side is a tie and the other is won or lost).
 
 ```ts
@@ -143,6 +147,7 @@ console.log(poker.omahaQuarterProbabilityMc(['Ah', '2h', '3c', 'Kd'], ['As', '2c
 ```
 
 ## `omahaHiLoMultiwayMc` \{#omahaHiLoMultiwayMc\}
+
 3-way chip EV with hi/lo halves and quartering. Exactly 3 known 4-card hands. No qualifying low → high takes the full pot, split among high winners.
 
 ```ts

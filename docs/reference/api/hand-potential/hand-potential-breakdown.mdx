@@ -11,6 +11,7 @@ api_functions: ["handPotentialBreakdown", "handStrengthVsRange", "positivePotent
 <ApiFamilyHeader category="Hand potential" suit="♠" functions={["handPotentialBreakdown","handStrengthVsRange","positivePotentialVsRange","negativePotentialVsRange","twoStreetPositivePotential","twoStreetNegativePotential"]} />
 
 ## `handPotentialBreakdown` \{#handPotentialBreakdown\}
+
 HS, PPot, NPot, EHS, EHS2, and weighted ahead/tied/behind masses in one pass.
 
 ```ts
@@ -57,6 +58,7 @@ console.log({ hs: p.hs.toFixed(3), ppot: p.ppot.toFixed(3), npot: p.npot.toFixed
 ```
 
 ## `handStrengthVsRange` \{#handStrengthVsRange\}
+
 Hand strength vs a villain range on this flop/turn: P(ahead) + 0.5 P(tie) if the hand ended now. Ties follow the HU chop (half). Blocked combos are removed.
 
 ```ts
@@ -78,6 +80,7 @@ console.log(poker.handStrengthVsRange(['Ad', 'Qc'], ['3h', '4c', 'Jh'], range).t
 ```
 
 ## `positivePotentialVsRange` \{#positivePotentialVsRange\}
+
 One-card PPot (flop→turn or turn→river). `P(behind now and ahead later) / P(behind now)` with half-chop ties.
 
 ```ts
@@ -100,6 +103,7 @@ console.log(poker.positivePotentialVsRange(['Ad', 'Qc'], ['3h', '4c', 'Jh'], ran
 ```
 
 ## `negativePotentialVsRange` \{#negativePotentialVsRange\}
+
 One-card NPot. `P(ahead now and behind later) / P(ahead now)` with half-chop ties.
 
 ```ts
@@ -121,6 +125,7 @@ console.log(poker.negativePotentialVsRange(['Ad', 'Qc'], ['3h', '4c', 'Jh'], ran
 ```
 
 ## `twoStreetPositivePotential` \{#twoStreetPositivePotential\}
+
 Flop→river (two-card) PPot. Board must be 3 cards.
 
 ```ts
@@ -143,6 +148,7 @@ console.log(poker.twoStreetPositivePotential(['Ad', 'Qc'], ['3h', '4c', 'Jh'], r
 ```
 
 ## `twoStreetNegativePotential` \{#twoStreetNegativePotential\}
+
 Flop→river (two-card) NPot. Board must be 3 cards.
 
 ```ts

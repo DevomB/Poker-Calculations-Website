@@ -11,6 +11,7 @@ api_functions: ["icmPairwiseBubbleFactor", "icmCallingBubbleFactor"]
 <ApiFamilyHeader category="ICM" suit="♥" functions={["icmPairwiseBubbleFactor","icmCallingBubbleFactor"]} />
 
 ## `icmPairwiseBubbleFactor` \{#icmPairwiseBubbleFactor\}
+
 pairwise bubble factor (finite differences on `icmExpectedPayouts`).
 
 ```ts
@@ -37,6 +38,7 @@ console.log(bf.toFixed(3)); // above 1: losing costs more $ than winning gains
 ```
 
 ## `icmCallingBubbleFactor` \{#icmCallingBubbleFactor\}
+
 Calling bubble factor for one hero-vs-villain all-in: `(EV_now - EV_lose) / (EV_win - EV_now)` after transferring `chipsAtRisk`. Distinct from `icmPairwiseBubbleFactor`. Tiny gain with a real loss returns `+Infinity`.
 
 ```ts

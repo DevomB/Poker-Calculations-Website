@@ -11,6 +11,7 @@ api_functions: ["effectiveHandStrength", "effectiveHandStrengthSquared"]
 <ApiFamilyHeader category="Hand potential" suit="♠" functions={["effectiveHandStrength","effectiveHandStrengthSquared"]} />
 
 ## `effectiveHandStrength` \{#effectiveHandStrength\}
+
 EHS = HS × (1 − NPot) + (1 − HS) × PPot.
 
 ```ts
@@ -34,6 +35,7 @@ console.log(poker.effectiveHandStrength(['9h', '8h'], ['Th', '7c', '2h'], range)
 ```
 
 ## `effectiveHandStrengthSquared` \{#effectiveHandStrengthSquared\}
+
 Billings' two-opponent form: EHS2 = HS² × (1 − NPot) + (1 − HS²) × PPot.
 
 ```ts

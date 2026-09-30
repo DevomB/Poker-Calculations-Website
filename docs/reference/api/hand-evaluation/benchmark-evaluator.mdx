@@ -11,6 +11,7 @@ api_functions: ["benchmarkEvaluatorThroughput", "benchmarkEvaluatorThroughputAsy
 <ApiFamilyHeader category="Hand evaluation" suit="♠" functions={["benchmarkEvaluatorThroughput","benchmarkEvaluatorThroughputAsync"]} />
 
 ## `benchmarkEvaluatorThroughput` \{#benchmarkEvaluatorThroughput\}
+
 Benchmark legacy vs forge evaluator throughput on random 7-card spots.
 
 ```ts
@@ -44,15 +45,16 @@ console.log(bench);
 // { legacyEvalsPerSecond, fastEvalsPerSecond, implementation }
 ```
 
-```text title="Output"
+```text title="Output (varies)"
 {
-  legacyEvalsPerSecond: 18126.32328957385,
-  fastEvalsPerSecond: 87104.18985089853,
+  legacyEvalsPerSecond: 33601.98117280995,
+  fastEvalsPerSecond: 202887.16552021893,
   implementation: 'poker-calculations-forge'
 }
 ```
 
 ## `benchmarkEvaluatorThroughputAsync` \{#benchmarkEvaluatorThroughputAsync\}
+
 Same as `benchmarkEvaluatorThroughput`; runs on the libuv thread pool (non-blocking).
 
 ```ts
@@ -87,8 +89,8 @@ const r = await poker.benchmarkEvaluatorThroughputAsync(200_000);
 console.log(r.implementation, (r.fastEvalsPerSecond / r.legacyEvalsPerSecond).toFixed(1) + 'x faster than the reference evaluator');
 ```
 
-```text title="Output"
-poker-calculations-forge 5.8x faster than the reference evaluator
+```text title="Output (varies)"
+poker-calculations-forge 5.4x faster than the reference evaluator
 ```
 
 ## See also

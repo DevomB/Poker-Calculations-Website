@@ -11,6 +11,7 @@ api_functions: ["formatPotOdds", "potOddsRatioDisplay", "formatPotOddsReducedFra
 <ApiFamilyHeader category="Pot odds & EV" suit="♥" functions={["formatPotOdds","potOddsRatioDisplay","formatPotOddsReducedFraction","breakevenCallEquityFromPotOddsDisplayRatio","potOddsDisplayRatioFromBreakevenCallEquity","equityToWinningOddsAgainst","winningOddsAgainstToEquity"]} />
 
 ## `formatPotOdds` \{#formatPotOdds\}
+
 Human-readable `"x:1"` string.
 
 ```ts
@@ -33,6 +34,7 @@ console.log(poker.formatPotOdds(175, 0));     // nothing to call
 ```
 
 ## `potOddsRatioDisplay` \{#potOddsRatioDisplay\}
+
 Display ratio `pot : to_call` (e.g. `3.5` means 3.5:1).
 
 ```ts
@@ -59,6 +61,7 @@ console.log(be);
 ```
 
 ## `formatPotOddsReducedFraction` \{#formatPotOddsReducedFraction\}
+
 Reduced integer `pot : to_call` string (e.g. `100`, `50` → `"2:1"`); `toCall === 0` → `∞:1`.
 
 ```ts
@@ -90,6 +93,7 @@ console.log({ ratio, label });
 **Returns** `string` — reduced `"p:c"` (e.g. `100`, `50` → `"2:1"`). When `toCall === 0`, `"∞:1"`. Chip inputs are rounded to integers before gcd; throws if rounded `toCall` is not positive.
 
 ## `breakevenCallEquityFromPotOddsDisplayRatio` \{#breakevenCallEquityFromPotOddsDisplayRatio\}
+
 Breakeven call equity from `potOddsRatioDisplay` ratio `R = potBeforeCall / toCall`: `1 / (1 + R)`. `0` when `R` is `+Infinity`.
 
 ```ts
@@ -125,6 +129,7 @@ console.log(
 **Returns** `number` — `1 / (1 + R)` for finite non-negative `R`; `0` when `R` is `+Infinity`. Throws if `R` is invalid (negative finite, NaN, etc.).
 
 ## `potOddsDisplayRatioFromBreakevenCallEquity` \{#potOddsDisplayRatioFromBreakevenCallEquity\}
+
 Inverse of `breakevenCallEquityFromPotOddsDisplayRatio`: `(1 - e) / e` for `e` in `(0,1]`; `Infinity` when `e === 0`; `0` when `e === 1`.
 
 ```ts
@@ -158,6 +163,7 @@ console.log(back); // 0.25
 **Returns** `number` — `(1 − e) / e` for `e` in `(0, 1]`; `Infinity` when `e === 0`; `0` when `e === 1`. Input equity is clamped to `[0, 1]`.
 
 ## `equityToWinningOddsAgainst` \{#equityToWinningOddsAgainst\}
+
 Book-style winning odds-against `(1 - equity) / equity`; `Infinity` at `equity === 0`.
 
 ```ts
@@ -193,6 +199,7 @@ Not the same as **pot** odds (`potBeforeCall / toCall`); this is purely equity �
 **Returns** `number` — `(1 − equity) / equity` for equity in `(0, 1)`; `Infinity` at `equity === 0`; `0` at `equity === 1`. Input is clamped to `[0, 1]`.
 
 ## `winningOddsAgainstToEquity` \{#winningOddsAgainstToEquity\}
+
 `1 / (1 + oddsAgainst)` for `oddsAgainst >= 0`; `0` when `oddsAgainst` is `+Infinity`.
 
 ```ts

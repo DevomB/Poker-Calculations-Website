@@ -11,6 +11,7 @@ api_functions: ["pkoKnockoutProbabilityMatrix", "pkoExpectedBountyCollection"]
 <ApiFamilyHeader category="Bounties" suit="♦" functions={["pkoKnockoutProbabilityMatrix","pkoExpectedBountyCollection"]} />
 
 ## `pkoKnockoutProbabilityMatrix` \{#pkoKnockoutProbabilityMatrix\}
+
 PKO knockout matrix, entry `i*n+j` = P(i collects j's bounty). P(j busts) = 1 − stack_j/total (Harville first place). Given a bust, collectors are weighted by stack_i × stack_i/(stack_i+stack_j) over the players covering j (everyone else when nobody covers). Columns sum to P(j busts), so every bounty except the winner's own is paid out. Diagonal 0. Flat n×n row-major `Float64Array` plus `n`.
 
 ```ts
@@ -49,6 +50,7 @@ for (let i = 0; i < n; i++) {
 ```
 
 ## `pkoExpectedBountyCollection` \{#pkoExpectedBountyCollection\}
+
 E[bounty $] per player: sum_j bountyValue[j] * P(i knocks j). Self-bounty ignored.
 
 ```ts

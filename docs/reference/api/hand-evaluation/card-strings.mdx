@@ -11,6 +11,7 @@ api_functions: ["parseCompactCardList", "validateCardString", "canonicalCardStri
 <ApiFamilyHeader category="Hand evaluation" suit="♠" functions={["parseCompactCardList","validateCardString","canonicalCardString","cardStringsHaveDuplicate"]} />
 
 ## `parseCompactCardList` \{#parseCompactCardList\}
+
 Parse concatenated or whitespace-separated cards (`AhKh`, `Ah Kh`, `10hKd`); throws on invalid token or duplicate cards. Default `outFormat: 'strings'`; use `'packed'` for `Uint8Array` deck ids.
 
 ```ts
@@ -60,6 +61,7 @@ const equity = poker.simulateHandOutcome(
 ```
 
 ## `validateCardString` \{#validateCardString\}
+
 `true` if `card` parses as a single card (`Ah`, `10c`, …).
 
 ```ts
@@ -84,6 +86,7 @@ A false
 ```
 
 ## `canonicalCardString` \{#canonicalCardString\}
+
 Canonical two-character form (`Th`, `Ac`, …); throws if invalid.
 
 ```ts
@@ -102,6 +105,7 @@ Th Td
 ```
 
 ## `cardStringsHaveDuplicate` \{#cardStringsHaveDuplicate\}
+
 `true` if any two entries map to the same card. Throws if any entry is invalid. Accepts `string[]` or packed `Uint8Array` (deck ids 0..51).
 
 ```ts

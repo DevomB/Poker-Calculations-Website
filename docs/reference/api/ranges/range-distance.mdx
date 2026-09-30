@@ -11,6 +11,7 @@ api_functions: ["rangeDistanceJensenShannon", "rangeDistanceL1", "rangeDistanceL
 <ApiFamilyHeader category="Ranges" suit="♦" functions={["rangeDistanceJensenShannon","rangeDistanceL1","rangeDistanceL2","rangeCosineSimilarity"]} />
 
 ## `rangeDistanceJensenShannon` \{#rangeDistanceJensenShannon\}
+
 Compute Jensen-Shannon distance between two normalized ranges.
 
 ```ts
@@ -31,6 +32,7 @@ console.log(poker.rangeDistanceJensenShannon(a, a).toFixed(3), poker.rangeDistan
 ```
 
 ## `rangeDistanceL1` \{#rangeDistanceL1\}
+
 Compute L1 distance between two normalized ranges.
 
 ```ts
@@ -51,6 +53,7 @@ console.log(poker.rangeDistanceL1(a, b).toFixed(3));
 ```
 
 ## `rangeDistanceL2` \{#rangeDistanceL2\}
+
 Compute Euclidean distance between two normalized ranges.
 
 ```ts
@@ -71,6 +74,7 @@ console.log(poker.rangeDistanceL2(a, b).toFixed(3));
 ```
 
 ## `rangeCosineSimilarity` \{#rangeCosineSimilarity\}
+
 Compare two range vectors by cosine similarity.
 
 ```ts

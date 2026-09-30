@@ -11,6 +11,7 @@ api_functions: ["exactMultiwayWinTieLoseKnownHands", "exactThreeWayWinTieLoseKno
 <ApiFamilyHeader category="Exact equity" suit="♦" functions={["exactMultiwayWinTieLoseKnownHands","exactThreeWayWinTieLoseKnownHands","exactMultiwayTieFrequency"]} />
 
 ## `exactMultiwayWinTieLoseKnownHands` \{#exactMultiwayWinTieLoseKnownHands\}
+
 Exact win / split / lose frequencies for 2..9 known hands (general form of the 3-way export).
 
 ```ts
@@ -54,6 +55,7 @@ console.log({ win: r.win.map((x) => x.toFixed(3)), split: r.split.map((x) => x.t
 ```
 
 ## `exactThreeWayWinTieLoseKnownHands` \{#exactThreeWayWinTieLoseKnownHands\}
+
 Per-player win / split / lose frequencies (win = unique best, split = tied best, lose = rest).
 
 ```ts
@@ -91,6 +93,7 @@ console.log(r.win.map((x) => x.toFixed(3)));
 ```
 
 ## `exactMultiwayTieFrequency` \{#exactMultiwayTieFrequency\}
+
 P(showdown split involving hero) and P(any split).
 
 ```ts

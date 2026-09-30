@@ -11,6 +11,7 @@ api_functions: ["layeredPotChipEvFromEquities", "layeredPotChipEvFromEquitiesWit
 <ApiFamilyHeader category="Side pots" suit="♣" functions={["layeredPotChipEvFromEquities","layeredPotChipEvFromEquitiesWithRake"]} />
 
 ## `layeredPotChipEvFromEquities` \{#layeredPotChipEvFromEquities\}
+
 chip EV from per-layer pot sizes and per-player per-layer equities (columns sum to 1).
 
 ```ts
@@ -46,6 +47,7 @@ console.log(poker.layeredPotChipEvFromEquities(layerPots, flat, 2));
 ```
 
 ## `layeredPotChipEvFromEquitiesWithRake` \{#layeredPotChipEvFromEquitiesWithRake\}
+
 Layered chip EV with rake per pot.
 
 ```ts

@@ -11,6 +11,7 @@ api_functions: ["exactMultiwayEquityKnownHands", "exactThreeWayEquityKnownHands"
 <ApiFamilyHeader category="Exact equity" suit="♦" functions={["exactMultiwayEquityKnownHands","exactThreeWayEquityKnownHands","exactFourWayEquityKnownHands","exactMultiwayEquityWithDeadCards"]} />
 
 ## `exactMultiwayEquityKnownHands` \{#exactMultiwayEquityKnownHands\}
+
 Exact n-way equity for 3–6 known hole pairs (n&lt;3 is rejected; use HU APIs). Enumerates remaining boards. Optional dead/muck.
 
 ```ts
@@ -37,6 +38,7 @@ console.log(eq.map((e) => e.toFixed(4)));
 ```
 
 ## `exactThreeWayEquityKnownHands` \{#exactThreeWayEquityKnownHands\}
+
 Exact 3-way equity for known holes. Board 0–5 cards; optional dead/muck. Equities length 3, sum to 1. Ties split `1/tiedAtBest`.
 
 ```ts
@@ -60,6 +62,7 @@ console.log(eq.map((e) => e.toFixed(4)));
 ```
 
 ## `exactFourWayEquityKnownHands` \{#exactFourWayEquityKnownHands\}
+
 Exact 4-way equity for known holes. Equities length 4, sum to 1.
 
 ```ts
@@ -87,6 +90,7 @@ console.log(eq.map((e) => e.toFixed(4)));
 ```
 
 ## `exactMultiwayEquityWithDeadCards` \{#exactMultiwayEquityWithDeadCards\}
+
 Same as `exactMultiwayEquityKnownHands` with required dead/muck cards.
 
 ```ts

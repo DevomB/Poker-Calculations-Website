@@ -11,6 +11,7 @@ api_functions: ["exactHuEquityVsRandomHand", "exactHuEquityVsRandomHandAsync", "
 <ApiFamilyHeader category="Exact equity" suit="♦" functions={["exactHuEquityVsRandomHand","exactHuEquityVsRandomHandAsync","exactHuEquityVsRandomHandBatch"]} />
 
 ## `exactHuEquityVsRandomHand` \{#exactHuEquityVsRandomHand\}
+
 exact HU vs random villain hand; board empty or 3–5 cards.
 
 ```ts
@@ -32,6 +33,7 @@ console.log(poker.exactHuEquityVsRandomHand(['Ah', 'Kd'], ['Qh', 'Jc', '2s', '9d
 ```
 
 ## `exactHuEquityVsRandomHandAsync` \{#exactHuEquityVsRandomHandAsync\}
+
 Same as `exactHuEquityVsRandomHand`; runs on the libuv thread pool (non-blocking).
 
 ```ts
@@ -55,6 +57,7 @@ console.log(eq.toFixed(4));
 ```
 
 ## `exactHuEquityVsRandomHandBatch` \{#exactHuEquityVsRandomHandBatch\}
+
 ```ts
 exactHuEquityVsRandomHandBatch(
   holes: Uint8Array,

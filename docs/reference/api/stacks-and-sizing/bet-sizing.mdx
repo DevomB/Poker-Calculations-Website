@@ -11,6 +11,7 @@ api_functions: ["betAsPotFraction", "betSizeToMatchPotFraction", "nlMinimumRaise
 <ApiFamilyHeader category="Stacks & sizing" suit="♦" functions={["betAsPotFraction","betSizeToMatchPotFraction","nlMinimumRaiseToTotal"]} />
 
 ## `betAsPotFraction` \{#betAsPotFraction\}
+
 Bet as fraction of pot.
 
 ```ts
@@ -37,6 +38,7 @@ console.log(poker.alphaFrequency(pot, bet));
 ```
 
 ## `betSizeToMatchPotFraction` \{#betSizeToMatchPotFraction\}
+
 Bet size for target pot fraction (inverse of `betAsPotFraction`).
 
 ```ts
@@ -60,6 +62,7 @@ console.log(poker.betAsPotFraction(potBeforeBet, bet)); // 0.5
 ```
 
 ## `nlMinimumRaiseToTotal` \{#nlMinimumRaiseToTotal\}
+
 NL toy: minimum **total** wager after a raise = `currentMaxWager + max(lastRaiseIncrement, bigBlind)`.
 
 ```ts

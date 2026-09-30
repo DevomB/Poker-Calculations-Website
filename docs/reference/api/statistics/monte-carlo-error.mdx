@@ -11,6 +11,7 @@ api_functions: ["monteCarloStandardError", "monteCarloTrialsForStandardErrorBoun
 <ApiFamilyHeader category="Statistics & bankroll" suit="♣" functions={["monteCarloStandardError","monteCarloTrialsForStandardErrorBound","monteCarloTrialsForWilsonHalfWidth","monteCarloTrialsForHoeffdingBound"]} />
 
 ## `monteCarloStandardError` \{#monteCarloStandardError\}
+
 SE of binomial MC estimate.
 
 ```ts
@@ -37,6 +38,7 @@ trials for SE ≤ 0.5%: 9691
 ```
 
 ## `monteCarloTrialsForStandardErrorBound` \{#monteCarloTrialsForStandardErrorBound\}
+
 Smallest integer `n` so `monteCarloStandardError(pHat, n) <= targetSe` (ceil of `p(1-p)/targetSe²`). Requires `pHat` strictly between `0` and `1`.
 
 ```ts
@@ -69,6 +71,7 @@ equity: 0.5428603887557983
 ```
 
 ## `monteCarloTrialsForWilsonHalfWidth` \{#monteCarloTrialsForWilsonHalfWidth\}
+
 Trials needed for target Wilson half-width.
 
 ```ts
@@ -98,6 +101,7 @@ console.log((interval.upper - interval.lower) / 2); // <= targetHalfWidth
 ```
 
 ## `monteCarloTrialsForHoeffdingBound` \{#monteCarloTrialsForHoeffdingBound\}
+
 Hoeffding: smallest integer `n` with `n >= ln(2/delta) / (2*epsilon^2)` for MC proportion error `epsilon` with probability at least `1-delta` (any underlying `p`).
 
 ```ts

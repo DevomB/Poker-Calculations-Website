@@ -11,6 +11,7 @@ api_functions: ["exactHuShortDeckEquityVsKnown", "simulateShortDeckEquityVsRando
 <ApiFamilyHeader category="Short deck" suit="♥" functions={["exactHuShortDeckEquityVsKnown","simulateShortDeckEquityVsRandom","simulateShortDeckEquityVsRange","shortDeckRemainingComboCount"]} />
 
 ## `exactHuShortDeckEquityVsKnown` \{#exactHuShortDeckEquityVsKnown\}
+
 Exact HU equity on the 36-card deck. 2-card holes, board 0–5. Ties count 0.5.
 
 ```ts
@@ -33,6 +34,7 @@ console.log(poker.exactHuShortDeckEquityVsKnown(['Ah', 'Kh'], ['Qs', 'Qd'], ['Jh
 ```
 
 ## `simulateShortDeckEquityVsRandom` \{#simulateShortDeckEquityVsRandom\}
+
 ```ts
 simulateShortDeckEquityVsRandom(
   heroHoleCards: CardInput,
@@ -52,6 +54,7 @@ console.log(poker.simulateShortDeckEquityVsRandom(['Ah', 'Kh'], [], 20000, 42).t
 ```
 
 ## `simulateShortDeckEquityVsRange` \{#simulateShortDeckEquityVsRange\}
+
 MC vs a 6+ range. Valid classes are **81** (9 pairs + 36 suited + 36 offsuit), not 169 and not 91. Accepts `string[]` notations (`AKs`, `QQ`), `{ AKs: 1, QQ: 0.5 }`, `Float64Array(81)`, or `Float64Array(169)` with 2–5 class weights required to be 0.
 
 ```ts
@@ -85,6 +88,7 @@ console.log(poker.simulateShortDeckEquityVsRange(['Ah', 'Kh'], [], { QQ: 1, JJ: 
 ```
 
 ## `shortDeckRemainingComboCount` \{#shortDeckRemainingComboCount\}
+
 `C(n,2)` remaining hole combos on the 36-card deck after dead cards.
 
 ```ts

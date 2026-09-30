@@ -11,6 +11,7 @@ api_functions: ["evaluateOmahaHiLo", "evaluateOmahaLoHand", "omahaLoQualifies"]
 <ApiFamilyHeader category="Omaha" suit="♠" functions={["evaluateOmahaHiLo","evaluateOmahaLoHand","omahaLoQualifies"]} />
 
 ## `evaluateOmahaHiLo` \{#evaluateOmahaHiLo\}
+
 Omaha Hi (same as `evaluateOmahaBestHand`) plus 8-or-better low. Hole 4, board 3–5.
 
 ```ts
@@ -74,6 +75,7 @@ console.log(poker.evaluateOmahaHiLo(['Ah', '2h', '3c', 'Kd'], ['4s', '7d', '8c',
 ```
 
 ## `evaluateOmahaLoHand` \{#evaluateOmahaLoHand\}
+
 Best 8-or-better Omaha low: exactly 2 hole + 3 board. Ace is low. Straights and flushes do not disqualify. Pair or any rank 9+ kills that 5-card combo.
 
 ```ts
@@ -104,6 +106,7 @@ console.log(poker.evaluateOmahaLoHand(['Ah', '2h', '3c', 'Kd'], ['4s', '7d', '8c
 ```
 
 ## `omahaLoQualifies` \{#omahaLoQualifies\}
+
 True iff `evaluateOmahaLoHand` qualifies.
 
 ```ts

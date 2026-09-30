@@ -11,6 +11,7 @@ api_functions: ["simulateHandOutcome", "simulateHandOutcomeAsync", "simulateHand
 <ApiFamilyHeader category="Monte Carlo equity" suit="♥" functions={["simulateHandOutcome","simulateHandOutcomeAsync","simulateHandOutcomeDetailed"]} />
 
 ## `simulateHandOutcome` \{#simulateHandOutcome\}
+
 Estimated equity vs one or more random villain hands (default `villains = 1`).
 
 ```ts
@@ -49,6 +50,7 @@ Increase `numSimulations` until the standard error is acceptable; pair with [`mo
 With `villains = 1`, equity is heads-up win/chop/loss style over trials. With `villains > 1`, when hero ties for the best hand, hero receives **`1 / tiedAtBest`** of the pot share for that trial. See [Numerical semantics](/docs/concepts/numerical-semantics#showdown-equity).
 
 ## `simulateHandOutcomeAsync` \{#simulateHandOutcomeAsync\}
+
 Same as `simulateHandOutcome`; runs on the libuv thread pool (non-blocking).
 
 ```ts
@@ -77,6 +79,7 @@ console.log(eq.toFixed(3));
 ```
 
 ## `simulateHandOutcomeDetailed` \{#simulateHandOutcomeDetailed\}
+
 Monte Carlo equity with standard error and Wilson CI.
 
 ```ts

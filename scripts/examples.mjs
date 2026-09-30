@@ -124,7 +124,14 @@ async function worker() {
     const parts = r.out.split(`${MARK}\n`);
     job.examples.forEach((ex, i) => {
       const done = job.standalone ? r.ok : i < parts.length - 1 || r.ok;
-      results.set(ex, {ok: done, out: job.standalone ? r.out : parts[i] ?? '', err: done ? '' : r.err});
+      const out = job.standalone ? r.out : parts[i] ?? '';
+      // Printing `undefined` always means the example reads a field or index that does not exist.
+      const silentBug = done && /\bundefined\b/.test(out);
+      results.set(ex, {
+        ok: done && !silentBug,
+        out,
+        err: silentBug ? 'Error: example printed `undefined`' : done ? '' : r.err,
+      });
     });
   }
 }

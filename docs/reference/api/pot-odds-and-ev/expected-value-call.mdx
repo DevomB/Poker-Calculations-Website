@@ -11,6 +11,7 @@ api_functions: ["expectedValueCall", "expectedValueCallWithRake", "callOrFoldChi
 <ApiFamilyHeader category="Pot odds & EV" suit="♥" functions={["expectedValueCall","expectedValueCallWithRake","callOrFoldChipEvDelta"]} />
 
 ## `expectedValueCall` \{#expectedValueCall\}
+
 Chip EV of calling once vs folding (0): `equity × pot − (1 − equity) × toCall`, where `pot` is everything in the middle before hero's call (villain's bet included). Zero exactly at `breakevenCallEquity(pot, toCall)`.
 
 ```ts
@@ -39,6 +40,7 @@ console.log({ need, hasEdge: equity > need });
 ```
 
 ## `expectedValueCallWithRake` \{#expectedValueCallWithRake\}
+
 Chip EV of calling vs folding when the final heads-up pot (after call) pays rake like `breakevenCallEquityWithRake`.
 
 ```ts
@@ -84,6 +86,7 @@ console.log({ need, call: equity > need, ev });
 ```
 
 ## `callOrFoldChipEvDelta` \{#callOrFoldChipEvDelta\}
+
 Call EV minus fold EV (0).
 
 ```ts

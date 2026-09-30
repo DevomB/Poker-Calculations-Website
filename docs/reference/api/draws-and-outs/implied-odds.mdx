@@ -11,6 +11,7 @@ api_functions: ["impliedBreakevenFutureWin", "impliedOddsRequiredEquityFromFutur
 <ApiFamilyHeader category="Draws & outs" suit="♥" functions={["impliedBreakevenFutureWin","impliedOddsRequiredEquityFromFutureWin","reverseImpliedOddsMinEquity"]} />
 
 ## `impliedBreakevenFutureWin` \{#impliedBreakevenFutureWin\}
+
 Average extra future win needed for a neutral call; `+∞` if equity ≤ 0.
 
 ```ts
@@ -39,6 +40,7 @@ breakeven without implied: 0.3333333333333333
 ```
 
 ## `impliedOddsRequiredEquityFromFutureWin` \{#impliedOddsRequiredEquityFromFutureWin\}
+
 Equity needed given extra future win.
 
 ```ts
@@ -71,6 +73,7 @@ console.log(future); // ≈ futureWin
 ```
 
 ## `reverseImpliedOddsMinEquity` \{#reverseImpliedOddsMinEquity\}
+
 Minimum equity for reverse-implied bound.
 
 ```ts

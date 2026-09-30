@@ -11,6 +11,7 @@ api_functions: ["progressiveKoPostedBounty", "mysteryBountyExpectedValue", "pkoW
 <ApiFamilyHeader category="Bounties" suit="♦" functions={["progressiveKoPostedBounty","mysteryBountyExpectedValue","pkoWinnerTakeRemainingBounties"]} />
 
 ## `progressiveKoPostedBounty` \{#progressiveKoPostedBounty\}
+
 Progressive KO posted bounty: `base + carryFraction * collected`. `knockouts` length n = dollars already collected onto each head; n×n (nested or flat) = M[i][j] weight that i collected j's *base* bounty. `carryFraction` 1.0 = classic PKO.
 
 ```ts
@@ -34,6 +35,7 @@ console.log(posted);
 ```
 
 ## `mysteryBountyExpectedValue` \{#mysteryBountyExpectedValue\}
+
 Remaining mystery prizes: weighted mean of one knockout, leftover-pool sum, and optional E[sum of k draws] (`k` omitted or 0 skips the sample). Equal weights if `weights` omitted.
 
 ```ts
@@ -70,6 +72,7 @@ console.log(poker.mysteryBountyExpectedValue(prizes));
 ```
 
 ## `pkoWinnerTakeRemainingBounties` \{#pkoWinnerTakeRemainingBounties\}
+
 Add leftover bounty pool to first prize. Returns adjusted payouts, ICM $EV on those payouts, Harville win probs, and P(i first) * remaining pool.
 
 ```ts

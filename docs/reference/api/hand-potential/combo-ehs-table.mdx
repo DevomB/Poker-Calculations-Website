@@ -11,6 +11,7 @@ api_functions: ["comboEhsTableVsRange"]
 <ApiFamilyHeader category="Hand potential" suit="♠" functions={["comboEhsTableVsRange"]} />
 
 ## `comboEhsTableVsRange` \{#comboEhsTableVsRange\}
+
 EHS for all 1326 hero combos vs `range` on this flop/turn (`0` if blocked by the board). Exact when `trials` is omitted/0. Cost is combos × range × next cards and is synchronous: a full 1326-combo range takes minutes on either street (the turn is slower per evaluation). Pass `{ trials, seed }` to Monte Carlo the next card, or use a small range.
 
 ```ts

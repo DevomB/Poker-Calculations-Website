@@ -11,6 +11,7 @@ api_functions: ["simulateHandOutcomeBatch", "simulateHandOutcomeBatchPacked"]
 <ApiFamilyHeader category="Monte Carlo equity" suit="♥" functions={["simulateHandOutcomeBatch","simulateHandOutcomeBatchPacked"]} />
 
 ## `simulateHandOutcomeBatch` \{#simulateHandOutcomeBatch\}
+
 Monte Carlo equity for many spots; returns `Float64Array` (optional preallocated `out`).
 
 ```ts
@@ -52,6 +53,7 @@ console.log(Array.from(poker.simulateHandOutcomeBatch(specs), (e) => e.toFixed(3
 ```
 
 ## `simulateHandOutcomeBatchPacked` \{#simulateHandOutcomeBatchPacked\}
+
 Packed batch: `holes` length `2*n`, `boards` length `5*n`, `meta` `Uint32Array` `[numSim, seed, villains]` per row.
 
 ```ts

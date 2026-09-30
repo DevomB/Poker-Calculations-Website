@@ -11,6 +11,7 @@ api_functions: ["icmChopNegotiationAnalysis", "icmEqualChopPayouts", "icmChopSur
 <ApiFamilyHeader category="ICM" suit="♥" functions={["icmChopNegotiationAnalysis","icmEqualChopPayouts","icmChopSurplusVsEqualSplit","icmChipLeaderPremiumVsEqualChop","icmExpectedPayoutsDeltaFromChipChop","icmDealEvPerChip"]} />
 
 ## `icmChopNegotiationAnalysis` \{#icmChopNegotiationAnalysis\}
+
 Compare **chip-proportional chop** dollars to Harville ICM, per-seat surplus/deficit, and feasible Pareto transfer edges between seats.
 
 ```ts
@@ -75,6 +76,7 @@ Positive `surplus[i]` means a chip chop would **overpay** seat `i` relative to H
 **Returns** [`IcmChopNegotiationAnalysisResult`](/docs/reference/types/icm-chop-negotiation-analysis-result) — nested [`IcmChopParetoPair`](/docs/reference/types/icm-chop-pareto-pair).
 
 ## `icmEqualChopPayouts` \{#icmEqualChopPayouts\}
+
 Equal split of prize pool per seat.
 
 ```ts
@@ -96,6 +98,7 @@ console.log(equal); // each 2500; sum === 10000
 ```
 
 ## `icmChopSurplusVsEqualSplit` \{#icmChopSurplusVsEqualSplit\}
+
 ICM EV minus equal chop per seat.
 
 ```ts
@@ -123,6 +126,7 @@ console.log(surplus.reduce((a, b) => a + b, 0)); // ≈ 0
 ```
 
 ## `icmChipLeaderPremiumVsEqualChop` \{#icmChipLeaderPremiumVsEqualChop\}
+
 Chip leader surplus ratio vs equal chop.
 
 ```ts
@@ -145,6 +149,7 @@ console.log(poker.icmChipLeaderPremiumVsEqualChop(stacks, payouts));
 ```
 
 ## `icmExpectedPayoutsDeltaFromChipChop` \{#icmExpectedPayoutsDeltaFromChipChop\}
+
 ICM minus chip-proportional chop.
 
 ```ts
@@ -172,6 +177,7 @@ console.log(delta.reduce((a, b) => a + b, 0)); // ≈ 0
 ```
 
 ## `icmDealEvPerChip` \{#icmDealEvPerChip\}
+
 ICM $EV divided by stack.
 
 ```ts

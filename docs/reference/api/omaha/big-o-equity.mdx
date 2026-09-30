@@ -11,6 +11,7 @@ api_functions: ["exactHuBigOEquityVsKnown", "simulateBigOEquityVsRandom", "simul
 <ApiFamilyHeader category="Omaha" suit="♠" functions={["exactHuBigOEquityVsKnown","simulateBigOEquityVsRandom","simulateBigOEquityVsRange","bigOMultiwayEquityMc"]} />
 
 ## `exactHuBigOEquityVsKnown` \{#exactHuBigOEquityVsKnown\}
+
 Exact HU Big O equity vs a known 5-card hand. Board 0–5; remaining runouts enumerated. Ties count as 0.5.
 
 ```ts
@@ -36,6 +37,7 @@ console.log(eq.toFixed(4));
 ```
 
 ## `simulateBigOEquityVsRandom` \{#simulateBigOEquityVsRandom\}
+
 Monte Carlo Big O equity vs a uniform random 5-card villain.
 
 ```ts
@@ -57,6 +59,7 @@ console.log(poker.simulateBigOEquityVsRandom(['Ah', 'Kh', 'Qd', 'Jd', '2c'], [],
 ```
 
 ## `simulateBigOEquityVsRange` \{#simulateBigOEquityVsRange\}
+
 Monte Carlo Big O equity vs a sparse weighted 5-card range (`BigORangeSpec`).
 
 ```ts
@@ -99,6 +102,7 @@ console.log(poker.simulateBigOEquityVsRange(['Ah', 'Kh', 'Qd', 'Jd', '2c'], [], 
 ```
 
 ## `bigOMultiwayEquityMc` \{#bigOMultiwayEquityMc\}
+
 Monte Carlo pot-share equity for 3–4 known 5-card hands. Returned array sums to ~1.
 
 ```ts

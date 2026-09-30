@@ -11,6 +11,7 @@ api_functions: ["breakevenFoldEquitySemiBluff", "breakevenFoldEquitySemiBluffWit
 <ApiFamilyHeader category="GTO & fold equity" suit="♣" functions={["breakevenFoldEquitySemiBluff","breakevenFoldEquitySemiBluffWithRake","breakevenFoldEquitySemiBluffWithAnte"]} />
 
 ## `breakevenFoldEquitySemiBluff` \{#breakevenFoldEquitySemiBluff\}
+
 Two-outcome model; may exceed 1 if line is −EV even if villain always folds.
 
 ```ts
@@ -40,6 +41,7 @@ console.log(poker.breakevenFoldEquitySemiBluff(pot, bet, equityWhenCalled, total
 ```
 
 ## `breakevenFoldEquitySemiBluffWithRake` \{#breakevenFoldEquitySemiBluffWithRake\}
+
 semi-bluff FE with rake on `totalPotIfCalled`.
 
 ```ts
@@ -76,6 +78,7 @@ without rake: 0.01315789473684206
 ```
 
 ## `breakevenFoldEquitySemiBluffWithAnte` \{#breakevenFoldEquitySemiBluffWithAnte\}
+
 Semi-bluff fold equity with ante.
 
 ```ts

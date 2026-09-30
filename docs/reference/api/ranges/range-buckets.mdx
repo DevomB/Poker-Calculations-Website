@@ -11,6 +11,7 @@ api_functions: ["rangeFromNotationWeights", "rangeBucketWeightsByNotation", "ran
 <ApiFamilyHeader category="Ranges" suit="♦" functions={["rangeFromNotationWeights","rangeBucketWeightsByNotation","rangeBucketWeightsByHandClass"]} />
 
 ## `rangeFromNotationWeights` \{#rangeFromNotationWeights\}
+
 Build a dense range from notation-weight entries.
 
 ```ts
@@ -34,6 +35,7 @@ console.log(range.length, poker.rangeComboCount(range)); // 6 + 4 + 12 combos
 ```
 
 ## `rangeBucketWeightsByNotation` \{#rangeBucketWeightsByNotation\}
+
 Aggregate combo weights into notation buckets such as AKs and QQ.
 
 ```ts
@@ -86,6 +88,7 @@ console.log(result);
 ```
 
 ## `rangeBucketWeightsByHandClass` \{#rangeBucketWeightsByHandClass\}
+
 Bucket range mass into practical preflop hand classes.
 
 ```ts
