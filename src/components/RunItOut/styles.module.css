@@ -1,14 +1,15 @@
 .wrap {
   margin: 0;
   width: 100%;
-  max-width: 34rem;
+  /* grows with viewport height so the table fills the hero on tall screens */
+  max-width: clamp(30rem, 66svh, 40rem);
 }
 
 .table {
   position: relative;
   display: grid;
-  gap: 1.1rem;
-  padding: 1.35rem 1.35rem 1.2rem;
+  gap: clamp(0.65rem, 1.8svh, 1.4rem);
+  padding: clamp(0.9rem, 2.6svh, 1.8rem) clamp(1rem, 2.6svh, 1.8rem);
   border-radius: 28px;
   background:
     radial-gradient(120% 90% at 50% 45%, rgba(26, 148, 87, 0.42), rgba(7, 61, 34, 0.9) 58%, rgba(4, 36, 21, 1)),
@@ -120,7 +121,7 @@
   display: grid;
   justify-items: center;
   gap: 0.55rem;
-  padding: 0.9rem 0 0.8rem;
+  padding: clamp(0.55rem, 1.5svh, 0.9rem) 0 clamp(0.5rem, 1.4svh, 0.8rem);
   border-block: 1px dashed rgba(212, 175, 55, 0.2);
 }
 
@@ -141,7 +142,7 @@
 }
 
 .card {
-  --w: 2.7rem;
+  --w: clamp(2.15rem, 5.8svh, 3.2rem);
   position: relative;
   display: grid;
   place-items: center;
@@ -194,8 +195,8 @@
 
 .caption {
   display: grid;
-  gap: 0.8rem;
-  margin-top: 0.9rem;
+  gap: clamp(0.5rem, 1.4svh, 0.8rem);
+  margin-top: clamp(0.6rem, 1.6svh, 0.9rem);
 }
 
 .call {
@@ -207,8 +208,7 @@
   color: var(--poker-chip-200);
   font-size: 0.72rem;
   line-height: 1.5;
-  overflow-x: auto;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .fnName {

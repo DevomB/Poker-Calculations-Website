@@ -75,7 +75,6 @@ export default function RunItOut(): React.ReactNode {
 
   const heroPct = street.equity * 100;
   const villainPct = 100 - heroPct;
-  const boardArg = spot.board.slice(0, street.cards).map((c) => `'${c}'`).join(', ');
 
   return (
     <figure
@@ -137,7 +136,7 @@ export default function RunItOut(): React.ReactNode {
 
       <figcaption className={styles.caption}>
         <code className={styles.call}>
-          <span className={styles.fnName}>exactHuEquityVsKnownHand</span>(hero, villain, [{boardArg}])
+          <span className={styles.fnName}>exactHuEquityVsKnownHand</span>(hero, villain, board)
           <span className={styles.arrow}> → </span>
           <span className={styles.result}>{street.equity.toFixed(4)}</span>
         </code>

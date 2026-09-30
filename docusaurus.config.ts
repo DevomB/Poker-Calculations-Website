@@ -22,7 +22,7 @@ try {
 }
 
 const config: Config = {
-  title: 'Poker Calculations',
+  title: 'Poker Calculations Documentation',
   tagline: 'Poker math for Node.js: equity, pot odds, ICM, solvers, and eight variants',
   favicon: 'img/favicon.ico',
 

@@ -100,6 +100,17 @@ for (const dir of fs.readdirSync(apiDir, {withFileTypes: true})) {
   }
 }
 
+// Index pages are served without a trailing slash, so `./x` links resolve one level too high.
+(function relativeLinks(dir) {
+  for (const e of fs.readdirSync(dir, {withFileTypes: true})) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) relativeLinks(p);
+    else if (p.endsWith('.mdx') && /\]\(\.\.?\//.test(fs.readFileSync(p, 'utf8'))) {
+      errors.push(`${path.relative(root, p)}: use absolute /docs/... links, not ./ or ../`);
+    }
+  }
+})(path.join(root, 'docs'));
+
 if (errors.length) {
   for (const e of errors) console.error(`✗ ${e}`);
   process.exit(1);

@@ -95,6 +95,8 @@
   --ifm-menu-color: var(--poker-chip-200);
   --ifm-menu-color-active: var(--poker-chip-50);
   --ifm-code-font-size: 95%;
+  /* Homepage: height of the stats strip under the hero (the hero fills the rest of the first screen) */
+  --poker-home-stats-h: 6.5rem;
   --poker-font-display: 'Fraunces', Georgia, serif;
   --poker-font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   --ifm-font-family-base: 'DM Sans', system-ui, sans-serif;

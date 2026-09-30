@@ -515,3 +515,46 @@
     animation: none;
   }
 }
+
+/* ============================== FIRST SCREEN ==============================
+ * Desktop: the hero plus the stats strip fill exactly one viewport.
+ *   hero height = 100svh - navbar - stats strip, content centered
+ * Type, gaps, and the table scale with viewport height so short laptop screens
+ * (720-800px tall) still fit without cutting the stats off at the fold.
+ */
+@media (min-width: 997px) {
+  .hero {
+    display: flex;
+    align-items: center;
+    /* - 1px: the stats strip's bottom border */
+    min-height: calc(100vh - var(--ifm-navbar-height) - var(--poker-home-stats-h) - 1px);
+    min-height: calc(100svh - var(--ifm-navbar-height) - var(--poker-home-stats-h) - 1px);
+    padding: clamp(1.25rem, 4svh, 3.5rem) 0;
+  }
+
+  .heroGrid {
+    flex: 1;
+  }
+
+  .heroCopy .subtitle {
+    max-width: 36rem;
+  }
+
+  .heroCopy {
+    gap: clamp(0.85rem, 2.3svh, 1.35rem);
+  }
+
+  .title {
+    font-size: clamp(2.6rem, min(6.5vw, 9svh), 5.4rem);
+  }
+
+  .subtitle {
+    font-size: clamp(1rem, min(1.6vw, 2.4svh), 1.3rem);
+  }
+
+  .statsRow > div {
+    align-content: center;
+    min-height: var(--poker-home-stats-h);
+    padding-block: 0;
+  }
+}

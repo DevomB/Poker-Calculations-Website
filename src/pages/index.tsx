@@ -131,7 +131,6 @@ export default function Home(): React.ReactNode {
 
   return (
     <Layout
-      title="Poker math for Node.js"
       description="poker-calculations: exact and Monte Carlo equity, pot odds, ICM, solvers, and eight poker variants, in C++ with prebuilt binaries for Node.js.">
       <header className={styles.hero}>
         <div className={styles.heroGlow} aria-hidden />
