@@ -1,0 +1,160 @@
+---
+title: "Finish probabilities"
+sidebar_label: "Finish probabilities"
+sidebar_position: 2
+description: "full Harville placement matrix [player][finishRank] (rank 0 = first); flat n*n when returnFormat: 'float64'."
+api_functions: ["icmHarvillePlacementProbabilities", "icmWinProbabilitiesHarville", "icmTopKFinishProbabilities", "icmLastPlaceProbabilitiesHarville"]
+---
+
+# Finish probabilities
+
+<ApiFamilyHeader category="ICM" suit="♥" functions={["icmHarvillePlacementProbabilities","icmWinProbabilitiesHarville","icmTopKFinishProbabilities","icmLastPlaceProbabilitiesHarville"]} />
+
+## `icmHarvillePlacementProbabilities` \{#icmHarvillePlacementProbabilities\}
+
+Full Harville placement matrix, row-major `n × n`: entry `player * n + place` is the probability that `player` finishes in `place` (0 = first). A `Float64Array` when `returnFormat` is `'float64'`.
+
+```ts
+icmHarvillePlacementProbabilities(
+  stacks: F64VectorInput,
+  returnFormat?: F64ReturnFormat
+): number[] | Float64Array;
+```
+
+You need the full **finish distribution** per player (1st through nth) for custom payout structures or visualization. The result is flat: row `i` (player `i`) is `slice(i * n, i * n + n)`, and column `0` is first place.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const stacks = [5000, 5000, 2500];
+const n = stacks.length;
+const matrix = poker.icmHarvillePlacementProbabilities(stacks); // row-major n × n
+
+console.log('P(player 0 wins):', matrix[0 * n + 0].toFixed(3));
+console.log('P(player 2 last):', matrix[2 * n + 2].toFixed(3));
+
+console.log(poker.icmTopKFinishProbabilities(stacks, 2));
+```
+
+```text title="Output"
+P(player 0 wins): 0.400
+P(player 2 last): 0.533
+[ 0.7666666666666667, 0.7666666666666667, 0.4666666666666667 ]
+```
+
+## `icmWinProbabilitiesHarville` \{#icmWinProbabilitiesHarville\}
+
+Harville first-place probabilities.
+
+```ts
+icmWinProbabilitiesHarville(stacks: F64VectorInput, returnFormat?: F64ReturnFormat): number[] | Float64Array;
+```
+
+Tournament tools need **P(win)** under Harville from current stacks—bubble decisions, deal calculators, and first-stage ICM before full placement matrix work.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const stacks = [12000, 9000, 6000, 3000];
+const pWin = poker.icmWinProbabilitiesHarville(stacks);
+console.log(pWin); // sums to 1
+
+const payouts = [10000, 6000, 4000, 2000];
+console.log(poker.icmExpectedPayouts(stacks, payouts));
+```
+
+```text title="Output"
+[ 0.4, 0.3, 0.2, 0.1 ]
+[
+  6876.190476190476,
+  6157.142857142857,
+  5200.000000000001,
+  3766.666666666667
+]
+```
+
+## `icmTopKFinishProbabilities` \{#icmTopKFinishProbabilities\}
+
+Per-player probability of finishing in one of the first `k` places (sum of first `k` columns of Harville placement); `k` in `1..stacks.length`.
+
+```ts
+icmTopKFinishProbabilities(
+  stacks: F64VectorInput,
+  k: number,
+  returnFormat?: F64ReturnFormat
+): number[] | Float64Array;
+```
+
+Prize pools that pay **top k** (e.g. final-table chop thinking, satellite “top 3 win seat”) need summed placement mass without manual matrix reduction.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const stacks = [8000, 7000, 5000, 2000];
+const pTop2 = poker.icmTopKFinishProbabilities(stacks, 2);
+console.log(pTop2); // P(finish 1st or 2nd) per player
+
+const pTop3 = poker.icmTopKFinishProbabilities(stacks, 3);
+console.log(pTop3);
+```
+
+```text title="Output"
+[
+  0.6766488413547237,
+  0.6254010695187165,
+  0.4859307359307359,
+  0.21201935319582377
+]
+[
+  0.9084327437268613,
+  0.884194890077243,
+  0.8023643023643023,
+  0.4050080638315932
+]
+```
+
+## `icmLastPlaceProbabilitiesHarville` \{#icmLastPlaceProbabilitiesHarville\}
+
+Harville probability each player finishes last (placement matrix last column).
+
+```ts
+icmLastPlaceProbabilitiesHarville(
+  stacks: F64VectorInput,
+  returnFormat?: F64ReturnFormat
+): number[] | Float64Array;
+```
+
+Short stacks care about **bust-out risk** before win equity—last-place probabilities from Harville highlight who is most likely to exit next. Equivalent to the last column of `icmHarvillePlacementProbabilities`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const stacks = [15000, 12000, 4000, 2000];
+const pLast = poker.icmLastPlaceProbabilitiesHarville(stacks);
+console.log(pLast);
+
+// The same numbers are the last column of the row-major placement matrix
+const n = stacks.length;
+const matrix = poker.icmHarvillePlacementProbabilities(stacks);
+console.log(Array.from({ length: n }, (_, i) => matrix[i * n + n - 1]));
+```
+
+```text title="Output"
+[
+  0.03347042584998759,
+  0.05233287908482568,
+  0.29332556709466723,
+  0.6208711279705194
+]
+[
+  0.03347042584998759,
+  0.05233287908482568,
+  0.29332556709466723,
+  0.6208711279705194
+]
+```
+
+## See also
+
+- [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts)
+- [`icmPairwiseBubbleFactor`](/docs/reference/api/icm/bubble-factor#icmPairwiseBubbleFactor)

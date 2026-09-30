@@ -4,41 +4,80 @@ title: Quick start
 
 # Quick start
 
+Five questions you can answer in a few lines once the package is [installed](/docs/getting-started/installation).
+
+## What do I have?
+
 ```js
 const poker = require('poker-calculations');
 
-const hand = poker.evaluateBestHand(['Ah', 'Ac', 'Kd', 'Ks', 'Qh']);
+const hand = poker.evaluateBestHand(['Ah', 'Kh', 'Qh', 'Jh', '9c', '9h', '2d']);
 console.log(hand.rank);
-
-const equity = poker.simulateHandOutcome(
-  ['Ah', 'Kh'],
-  ['Qh', 'Jh', 'Th'],
-  2000,
-  42,
-  1,
-);
-
-console.log('Equity:', equity);
-console.log('SPR:', poker.spr(90, 270));
 ```
 
-For long Monte Carlo runs without blocking the event loop, use [`simulateHandOutcomeAsync`](/docs/reference/api/monte-carlo/simulate-hand-outcome-async). Pass optional [`AsyncOptions`](/docs/reference/types/async-options) to cancel via `AbortSignal`—the Promise rejects with `AbortError`:
+```text title="Output"
+flush
+```
+
+## How often do I win?
+
+A♥K♥ on Q♥J♥2♣ has a flush draw, a straight draw, and two overcards. [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcome) estimates equity against a random hand:
 
 ```js
-const ac = new AbortController();
-const pending = poker.simulateHandOutcomeAsync(
-  ['Ah', 'Kh'],
-  ['Qh', 'Jh', 'Th'],
-  100_000,
-  42,
-  1,
-  { signal: ac.signal },
-);
-// ac.abort(); // rejects with AbortError
+const equity = poker.simulateHandOutcome(['Ah', 'Kh'], ['Qh', 'Jh', '2c'], 20_000, 42);
+console.log(equity.toFixed(3));
 ```
 
-Cards use strings like `"Ah"`, `"Td"` (ten may be `"10h"`). Most card-list APIs also accept packed `Uint8Array` deck ids — see [Card notation](/docs/concepts/card-notation).
+```text title="Output"
+0.760
+```
 
-## Explore the API
+Against a known hand, [`exactHuEquityVsKnownHand`](/docs/reference/api/exact-equity/exact-hu-vs-known-hand#exactHuEquityVsKnownHand) counts every runout instead of sampling:
 
-Browse the full [API reference](/docs/reference/api)—every export documents **Import**, **When to use**, and **How to use**.
+```js
+console.log(poker.exactHuEquityVsKnownHand(['Ah', 'Kh'], ['Qs', 'Qd'], ['Qh', 'Jh', '2c']).toFixed(4));
+```
+
+```text title="Output"
+0.3384
+```
+
+## Should I call?
+
+Villain bets 60 into 90, so 150 is in the middle and it costs 60 to call:
+
+```js
+const need = poker.breakevenCallEquity(150, 60);
+const ev = poker.expectedValueCall(0.33, 150, 60);
+console.log({ need: need.toFixed(3), evWith33Percent: ev.toFixed(1) });
+```
+
+```text title="Output"
+{ need: '0.286', evWith33Percent: '9.3' }
+```
+
+## What are these stacks worth?
+
+```js
+const worth = poker.icmExpectedPayouts([6000, 3000, 1000], [500, 300, 200]);
+console.log(worth.map((x) => x.toFixed(0)));
+```
+
+```text title="Output"
+[ '412', '338', '249' ]
+```
+
+## Without blocking the event loop
+
+The heaviest functions have `*Async` twins that run on the libuv thread pool and accept an `AbortSignal`:
+
+```js
+const eq = await poker.simulateHandOutcomeAsync(['Ah', 'Kh'], ['Qh', 'Jh', '2c'], 200_000, 42);
+console.log(eq.toFixed(3));
+```
+
+```text title="Output"
+0.764
+```
+
+Cards are strings like `'Ah'` or `'Td'` (a ten may also be written `'10h'`), or packed deck ids for hot paths; see [Card notation](/docs/concepts/card-notation). From here, browse the [API reference](/docs/reference/api) or follow a [guide](/docs/guides).

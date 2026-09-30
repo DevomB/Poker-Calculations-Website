@@ -1,0 +1,139 @@
+---
+title: "EHS buckets"
+sidebar_label: "EHS buckets"
+sidebar_position: 4
+description: "EHS2 bucket id for every 1326 hero combo vs range on this flop/turn."
+api_functions: ["ehs2BucketsVsRange", "equityBucketFromEhs", "bucketMassFromRange", "flopBucketStrategyTo1326", "flopBucketCountDefault"]
+---
+
+# EHS buckets
+
+<ApiFamilyHeader category="Hand potential" suit="♠" functions={["ehs2BucketsVsRange","equityBucketFromEhs","bucketMassFromRange","flopBucketStrategyTo1326","flopBucketCountDefault"]} />
+
+## `ehs2BucketsVsRange` \{#ehs2BucketsVsRange\}
+
+EHS2 bucket id for every 1326 hero combo vs `range` on this flop/turn. Live combos are in `[0, k)`; board-blocked combos are `-1`. Default `k` is `flopBucketCountDefault()` (20). Pass `{ trials, seed }` to Monte Carlo next-street cards on a flop (same cost note as `comboEhsTableVsRange`).
+
+```ts
+ehs2BucketsVsRange(
+  boardCards: CardInput,
+  range: Float64Array | SparseRangeSpec,
+  k?: number,
+  options?: ComboEhsTableOptions
+): Int32Array;
+```
+
+<details>
+<summary>Types: <code>ComboEhsTableOptions</code></summary>
+
+```ts
+interface ComboEhsTableOptions {
+  trials?: number;
+  seed?: number;
+}
+```
+
+
+</details>
+
+Groups the 1326 hero combos into `k` EHS² buckets for a flop or turn, the usual first step of a bucketed solver.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = poker.rangeFromNotationWeights([
+  { notation: 'TT', weight: 1 }, { notation: 'JJ', weight: 1 }, { notation: 'QQ', weight: 1 },
+  { notation: 'KK', weight: 1 }, { notation: 'AA', weight: 1 }, { notation: 'AKs', weight: 1 }, { notation: 'AKo', weight: 1 },
+]);
+
+const buckets = poker.ehs2BucketsVsRange(['Qh', 'Jd', '2c'], range, 10, { trials: 32, seed: 7 });
+console.log(buckets.length, Math.max(...buckets));
+```
+
+```text title="Output"
+1326 9
+```
+
+## `equityBucketFromEhs` \{#equityBucketFromEhs\}
+
+Map EHS in `[0, 1]` to `k` equal-width buckets `[0, k)`.
+
+```ts
+equityBucketFromEhs(ehs: number, k: number): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.equityBucketFromEhs(0.73, 10)); // bucket 7 of 0..9
+```
+
+```text title="Output"
+7
+```
+
+## `bucketMassFromRange` \{#bucketMassFromRange\}
+
+Normalize a 1326 range into `k` bucket masses (sum ≈ 1).
+
+```ts
+bucketMassFromRange(
+  range: Float64Array | SparseRangeSpec,
+  buckets: Int32Array | number[],
+  k?: number
+): Float64Array;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = poker.rangeFromNotationWeights([
+  { notation: 'TT', weight: 1 }, { notation: 'JJ', weight: 1 }, { notation: 'QQ', weight: 1 },
+  { notation: 'KK', weight: 1 }, { notation: 'AA', weight: 1 }, { notation: 'AKs', weight: 1 }, { notation: 'AKo', weight: 1 },
+]);
+
+const buckets = poker.ehs2BucketsVsRange(['Qh', 'Jd', '2c'], range, 5, { trials: 16, seed: 1 });
+const mass = poker.bucketMassFromRange(range, buckets, 5);
+console.log(Array.from(mass, (m) => m.toFixed(2)));
+```
+
+```text title="Output"
+[ '0.50', '0.17', '0.17', '0.08', '0.08' ]
+```
+
+## `flopBucketStrategyTo1326` \{#flopBucketStrategyTo1326\}
+
+Copy each bucket's mixed action onto every 1326 combo in that bucket.
+
+```ts
+flopBucketStrategyTo1326(
+  bucketMix: F64VectorInput,
+  comboBuckets: Int32Array | number[]
+): Float64Array;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const comboBuckets = new Int32Array(1326).map((_, i) => i % 3);
+const betFrequencyPerBucket = [0.1, 0.5, 0.9];
+const perCombo = poker.flopBucketStrategyTo1326(betFrequencyPerBucket, comboBuckets);
+console.log(perCombo.length, perCombo[0], perCombo[1], perCombo[2]);
+```
+
+```text title="Output"
+1326 0.1 0.5 0.9
+```
+
+## `flopBucketCountDefault` \{#flopBucketCountDefault\}
+
+Default EHS2 bucket count (20).
+
+```ts
+flopBucketCountDefault(): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.flopBucketCountDefault());
+```
+
+```text title="Output"
+20
+```

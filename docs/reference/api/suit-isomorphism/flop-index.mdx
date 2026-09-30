@@ -1,0 +1,102 @@
+---
+title: "Flop index"
+sidebar_label: "Flop index"
+sidebar_position: 3
+description: "Stable index 0..1754 of the canonical flop (sorted packed deck-id order)."
+api_functions: ["isomorphicFlopIndex", "flopIndexToCanonical", "countCanonicalFlops", "isomorphicFlopOrbitSize", "canonicalFlopCfrKey"]
+---
+
+# Flop index
+
+<ApiFamilyHeader category="Suit isomorphism" suit="♣" functions={["isomorphicFlopIndex","flopIndexToCanonical","countCanonicalFlops","isomorphicFlopOrbitSize","canonicalFlopCfrKey"]} />
+
+## `isomorphicFlopIndex` \{#isomorphicFlopIndex\}
+
+Stable index 0..1754 of the canonical flop (sorted packed deck-id order).
+
+```ts
+isomorphicFlopIndex(flop: CardInput): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const i = poker.isomorphicFlopIndex(['Kh', '7h', '2d']);
+console.log(i, poker.flopIndexToCanonical(i));
+```
+
+```text title="Output"
+255 [ '2c', '7d', 'Kd' ]
+```
+
+## `flopIndexToCanonical` \{#flopIndexToCanonical\}
+
+Inverse of `isomorphicFlopIndex`.
+
+```ts
+flopIndexToCanonical(index: number): string[];
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.flopIndexToCanonical(0), poker.flopIndexToCanonical(1754));
+```
+
+```text title="Output"
+[ '2c', '2d', '2h' ] [ 'Ac', 'Ad', 'Ah' ]
+```
+
+## `countCanonicalFlops` \{#countCanonicalFlops\}
+
+Always 1755.
+
+```ts
+countCanonicalFlops(): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.countCanonicalFlops());
+```
+
+```text title="Output"
+1755
+```
+
+## `isomorphicFlopOrbitSize` \{#isomorphicFlopOrbitSize\}
+
+Orbit size: how many raw unordered flops map to this class (1–24). Unpaired rainbow=24, two-tone=12, monotone=4. Pair/trips shrink further (12 or 4).
+
+```ts
+isomorphicFlopOrbitSize(flop: CardInput): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.isomorphicFlopOrbitSize(['Kh', '7d', '2c'])); // rainbow
+console.log(poker.isomorphicFlopOrbitSize(['Kh', '7h', '2h'])); // monotone
+```
+
+```text title="Output"
+24
+4
+```
+
+## `canonicalFlopCfrKey` \{#canonicalFlopCfrKey\}
+
+Cache key: canonical flop index (`0..countCanonicalFlops()-1`) plus millichip pot/stack. Suit-isomorphic flops share the same key.
+
+```ts
+canonicalFlopCfrKey(flop: CardInput, pot: number, stack?: number): string;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+// Suit-isomorphic flops with the same pot and stack share a cache key
+console.log(poker.canonicalFlopCfrKey(['Kh', '7h', '2d'], 6.5, 97));
+console.log(poker.canonicalFlopCfrKey(['Ks', '7s', '2c'], 6.5, 97));
+```
+
+```text title="Output"
+isoFlop=255/1755;pot=6500;stack=97000
+isoFlop=255/1755;pot=6500;stack=97000
+```

@@ -1,0 +1,54 @@
+---
+title: "EHS for every combo"
+sidebar_label: "EHS for every combo"
+sidebar_position: 3
+description: "EHS for all 1326 hero combos vs range on this flop/turn (0 if blocked by the board)."
+api_functions: ["comboEhsTableVsRange"]
+---
+
+# EHS for every combo
+
+<ApiFamilyHeader category="Hand potential" suit="♠" functions={["comboEhsTableVsRange"]} />
+
+## `comboEhsTableVsRange` \{#comboEhsTableVsRange\}
+
+EHS for all 1326 hero combos vs `range` on this flop/turn (`0` if blocked by the board). Exact when `trials` is omitted/0. Cost is combos × range × next cards and is synchronous: a full 1326-combo range takes minutes on either street (the turn is slower per evaluation). Pass `{ trials, seed }` to Monte Carlo the next card, or use a small range.
+
+```ts
+comboEhsTableVsRange(
+  boardCards: CardInput,
+  range: Float64Array | SparseRangeSpec,
+  options?: ComboEhsTableOptions
+): Float64Array;
+```
+
+<details>
+<summary>Types: <code>ComboEhsTableOptions</code></summary>
+
+```ts
+interface ComboEhsTableOptions {
+  trials?: number;
+  seed?: number;
+}
+```
+
+
+</details>
+
+Builds the EHS of every hero combo at once, the input for bucketed abstractions. Exact enumeration against a wide range takes minutes, so pass `{ trials, seed }` or keep the range small.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = poker.rangeFromNotationWeights([
+  { notation: 'TT', weight: 1 }, { notation: 'JJ', weight: 1 }, { notation: 'QQ', weight: 1 },
+  { notation: 'KK', weight: 1 }, { notation: 'AA', weight: 1 }, { notation: 'AKs', weight: 1 }, { notation: 'AKo', weight: 1 },
+]);
+
+const table = poker.comboEhsTableVsRange(['Qh', 'Jd', '2c'], range, { trials: 32, seed: 7 });
+const live = Array.from(table).filter((x) => x > 0);
+console.log(table.length, live.length, Math.max(...live).toFixed(3));
+```
+
+```text title="Output"
+1326 1080 0.969
+```

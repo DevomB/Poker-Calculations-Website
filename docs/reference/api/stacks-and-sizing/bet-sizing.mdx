@@ -1,0 +1,89 @@
+---
+title: "Bet sizing"
+sidebar_label: "Bet sizing"
+sidebar_position: 5
+description: "Bet as fraction of pot."
+api_functions: ["betAsPotFraction", "betSizeToMatchPotFraction", "nlMinimumRaiseToTotal"]
+---
+
+# Bet sizing
+
+<ApiFamilyHeader category="Stacks & sizing" suit="♦" functions={["betAsPotFraction","betSizeToMatchPotFraction","nlMinimumRaiseToTotal"]} />
+
+## `betAsPotFraction` \{#betAsPotFraction\}
+
+Bet as fraction of pot.
+
+```ts
+betAsPotFraction(potBeforeBet: number, betSize: number): number;
+```
+
+Label bets as **pot fractions** (half-pot, 75%, pot, overbet) in replays and solvers. Input is pot before the bet and the bet size in chips.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pot = 120;
+const bet = 90;
+console.log(poker.betAsPotFraction(pot, bet)); // 0.75 — 75% pot bet
+
+console.log(poker.bluffToValueRatio(pot, bet));
+console.log(poker.alphaFrequency(pot, bet));
+```
+
+```text title="Output"
+0.75
+0.3
+0.42857142857142855
+```
+
+## `betSizeToMatchPotFraction` \{#betSizeToMatchPotFraction\}
+
+Bet size for target pot fraction (inverse of `betAsPotFraction`).
+
+```ts
+betSizeToMatchPotFraction(potBeforeBet: number, targetFraction: number): number;
+```
+
+Inverse of [`betAsPotFraction`](/docs/reference/api/stacks-and-sizing/bet-sizing#betAsPotFraction): bet size that achieves target pot fraction.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const potBeforeBet = 100;
+const targetFraction = 0.5;
+
+const bet = poker.betSizeToMatchPotFraction(potBeforeBet, targetFraction);
+console.log(poker.betAsPotFraction(potBeforeBet, bet)); // 0.5
+```
+
+```text title="Output"
+0.5
+```
+
+## `nlMinimumRaiseToTotal` \{#nlMinimumRaiseToTotal\}
+
+NL toy: minimum **total** wager after a raise = `currentMaxWager + max(lastRaiseIncrement, bigBlind)`.
+
+```ts
+nlMinimumRaiseToTotal(currentMaxWager: number, lastRaiseIncrement: number, bigBlind: number): number;
+```
+
+Use in **trainers or validators** that need the next legal minimum raise-to total—not a full betting-tree engine, but the standard “increment at least the BB” NL pattern.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+console.log(poker.nlMinimumRaiseToTotal(2, 2, 2));   // 4
+console.log(poker.nlMinimumRaiseToTotal(10, 8, 2)); // 18 — max(8, 2) added to 10
+```
+
+```text title="Output"
+4
+18
+```
+
+## See also
+
+- [`geometricPotAfterMatchedPotFractions`](/docs/reference/api/stacks-and-sizing/geometric-sizing#geometricPotAfterMatchedPotFractions)
+- [`minimumDefenseFrequency`](/docs/reference/api/gto-and-fold-equity/minimum-defense-frequency#minimumDefenseFrequency)

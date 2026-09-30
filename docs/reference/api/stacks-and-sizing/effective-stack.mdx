@@ -1,0 +1,92 @@
+---
+title: "Effective stack"
+sidebar_label: "Effective stack"
+sidebar_position: 2
+description: "Minimum stack; empty → 0."
+api_functions: ["effectiveStack", "stackInBigBlinds", "normalizedStackFractions"]
+---
+
+# Effective stack
+
+<ApiFamilyHeader category="Stacks & sizing" suit="♦" functions={["effectiveStack","stackInBigBlinds","normalizedStackFractions"]} />
+
+## `effectiveStack` \{#effectiveStack\}
+
+Minimum stack; empty → `0`.
+
+```ts
+effectiveStack(...stacks: number[]): number;
+```
+
+Heads-up or multiway, the **smallest relevant stack** caps how much can go in. Pass every live stack in the pot to get the effective stack for SPR and commitment math.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const eff = poker.effectiveStack(420, 180, 950);
+console.log(eff); // 180
+
+console.log(poker.spr(60, eff)); // SPR vs shortest stack
+```
+
+```text title="Output"
+180
+3
+```
+
+## `stackInBigBlinds` \{#stackInBigBlinds\}
+
+Stack size expressed in **big blinds**: `stackChips / bigBlind`. `bigBlind` must be positive.
+
+```ts
+stackInBigBlinds(stackChips: number, bigBlind: number): number;
+```
+
+Use when stacks are stored in **chips** but you want BB-normalized depth—tournament HUDs, push/fold charts, or comparing stacks across blind levels.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+console.log(poker.stackInBigBlinds(15000, 500)); // 30 BB
+```
+
+```text title="Output"
+30
+```
+
+## `normalizedStackFractions` \{#normalizedStackFractions\}
+
+Each stack divided by the sum of stacks (tournament chip share; not Harville ICM).
+
+```ts
+normalizedStackFractions(
+  stacks: F64VectorInput,
+  returnFormat?: F64ReturnFormat
+): number[] | Float64Array;
+```
+
+Show **chip share of the table** (who owns what fraction of total chips). This is raw chip normalization, not ICM dollar equity—use Harville exports when payouts matter.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const stacks = [12000, 8000, 5000];
+const shares = poker.normalizedStackFractions(stacks);
+console.log(shares); // [0.48, 0.32, 0.2] — sum to 1
+
+const icm = poker.icmExpectedPayouts(stacks, [5000, 3000, 2000]);
+console.log(icm);
+```
+
+```text title="Output"
+[ 0.48, 0.32, 0.2 ]
+[ 3785.8823529411766, 3335.3846153846152, 2878.733031674208 ]
+```
+
+## See also
+
+- [`spr`](/docs/reference/api/stacks-and-sizing/spr#spr)
+- [`harringtonM`](/docs/reference/api/stacks-and-sizing/harrington-m#harringtonM)
+- [`orbitCostChips`](/docs/reference/api/stacks-and-sizing/harrington-m#orbitCostChips)
+- [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts)
+- [`harringtonQ`](/docs/reference/api/stacks-and-sizing/harrington-m#harringtonQ)

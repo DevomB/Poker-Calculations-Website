@@ -4,36 +4,37 @@ slug: /intro
 sidebar_position: 1
 ---
 
-import {apiReferenceTotalExports} from '@site/src/data/api-reference';
+import {apiFunctionCount} from '@site/src/data/api';
 
 # Poker Calculations
 
-**poker-calculations** is a Node.js library for no-limit Hold’em: hand evaluation, Monte Carlo and exact equity, rule-based `decideAction`, pot odds and chip EV, ICM, side pots, draw math, and more—all implemented in C++20 and exposed through N-API with prebuilt binaries.
+**poker-calculations** is poker math for Node.js: hand evaluation, Monte Carlo and exact equity, pot odds and chip EV, ICM and bounties, solvers, and a rule-based `decideAction` bot layer. Hold'em comes first, with Omaha (Hi, Hi-Lo, Big O), short deck, stud, razz, and 2-7 alongside. It is written in C++20 and ships prebuilt binaries for Linux, macOS, and Windows, so `npm install` needs no compiler.
 
 ```bash
 npm install poker-calculations
 ```
 
-## What you can build
+## What people build with it
 
-- Training apps and equity calculators
-- Simulators and bots (with your own `decideAction` tuning)
-- Tournament ICM and bubble-factor tools
-- Backend analysis services (wrap the library yourself—there are no built-in HTTP endpoints)
+- Equity calculators and training tools
+- Simulators and bots, tuned through `decideAction`
+- Tournament tools: ICM, bubble factors, deals, bounties
+- Study backends and research pipelines (wrap it in your own API; the package has no HTTP layer)
 
-## Documentation map
+## Where to go next
 
 | Section | Contents |
 | --- | --- |
-| [Getting started](/docs/getting-started/installation) | Install, quick start, CJS/ESM, bundlers |
-| [Concepts](/docs/concepts/card-notation) | Cards, packed `CardInput`, PKST state, [numerical semantics](/docs/concepts/numerical-semantics), Float64 vectors, errors |
-| [Guides](/docs/guides/decide-action) | `decideAction`, Monte Carlo (incl. [`AbortSignal`](/docs/reference/types/async-options) on `*Async`), [batch equity](/docs/guides/batch-equity), [range equity (exact)](/docs/guides/range-equity-exact), [preflop matrix](/docs/guides/preflop-equity-matrix), ICM, [tournament runouts](/docs/guides/tournament-runouts-and-bots) |
-| [API reference](/docs/reference/api) | All **{apiReferenceTotalExports}** native exports + [`/encode`](/docs/concepts/packed-card-input#helpers-poker-calculationsencode) subpath |
-| [TypeScript types](/docs/reference/types) | `NativePokerState`, `AsyncOptions`, batch specs, and result shapes |
+| [Quick start](/docs/getting-started/quick-start) | Five questions answered in five snippets |
+| [Guides](/docs/guides) | End-to-end walkthroughs with real output |
+| [Concepts](/docs/concepts/card-notation) | Cards, packed input, PKST state, [numerical semantics](/docs/concepts/numerical-semantics), errors |
+| [API reference](/docs/reference/api) | All {apiFunctionCount} functions, grouped by task, plus the [`/encode`](/docs/concepts/packed-card-input#helpers-poker-calculationsencode) helpers |
+| [Types](/docs/reference/types) | `NativePokerState`, `AsyncOptions`, and result shapes |
 
 ## Links
 
 <p>
   <a className="button button--primary margin-right--md" href="https://www.npmjs.com/package/poker-calculations">npm</a>
-  <a className="button button--secondary" href="https://github.com/DevomB/Poker-Calculations">GitHub</a>
+  <a className="button button--secondary margin-right--md" href="https://github.com/DevomB/Poker-Calculations">GitHub</a>
+  <a className="button button--secondary" href="https://github.com/DevomB/Poker-Calculations/blob/main/CHANGELOG.md">Changelog</a>
 </p>

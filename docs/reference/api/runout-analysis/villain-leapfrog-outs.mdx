@@ -1,0 +1,70 @@
+---
+title: "Villain leapfrog outs"
+sidebar_label: "Villain leapfrog outs"
+sidebar_position: 3
+description: "Deck indices where the **next board card** leapfrogs villain ahead of hero, and where hero's strength **improves** vs the current board."
+api_functions: ["exactVillainLeapfrogOutCounts"]
+---
+
+# Villain leapfrog outs
+
+<ApiFamilyHeader category="Runout analysis" suit="♣" functions={["exactVillainLeapfrogOutCounts"]} />
+
+## `exactVillainLeapfrogOutCounts` \{#exactVillainLeapfrogOutCounts\}
+
+Deck indices where the **next board card** leapfrogs villain ahead of hero, and where hero's strength **improves** vs the current board.
+
+```ts
+exactVillainLeapfrogOutCounts(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  knownDead?: CardInput
+): VillainLeapfrogOutCountsResult;
+```
+
+<details>
+<summary>Types: <code>VillainLeapfrogOutCountsResult</code></summary>
+
+```ts
+interface VillainLeapfrogOutCountsResult {
+  leapfrogDeckIndices: number[];
+  heroImproveDeckIndices: number[];
+}
+```
+
+Field notes: [`VillainLeapfrogOutCountsResult`](/docs/reference/types/villain-leapfrog-out-counts-result)
+
+</details>
+
+You want **anti-out** and **hero-improve** card lists on a flop or turn — for study overlays, blocker charts, or exact out counting without Monte Carlo.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const { deckIndexToCardString } = require('poker-calculations/encode');
+
+const { leapfrogDeckIndices, heroImproveDeckIndices } =
+  poker.exactVillainLeapfrogOutCounts(['Ah', 'Kh'], ['Qh', 'Jh', '2c']);
+
+const leapfrogCards = leapfrogDeckIndices.map(deckIndexToCardString);
+console.log('Leapfrog outs:', leapfrogCards);
+console.log('Hero improve count:', heroImproveDeckIndices.length);
+```
+
+```text title="Output"
+Leapfrog outs: [
+  '8h', '9h', 'Jc',
+  'Jd', 'Js', 'Qc',
+  'Qd', 'Qs'
+]
+Hero improve count: 12
+```
+
+`boardCards` must have **3 or 4** cards.
+
+**Returns** [`VillainLeapfrogOutCountsResult`](/docs/reference/types/villain-leapfrog-out-counts-result).
+
+## See also
+
+- [`exactHeroRunoutVulnerability`](/docs/reference/api/runout-analysis/runout-vulnerability#exactHeroRunoutVulnerability)
+- [`equityDeltaIfCardRemoved`](/docs/reference/api/runout-analysis/card-removal#equityDeltaIfCardRemoved)
+- [Card notation](/docs/concepts/card-notation)

@@ -1,0 +1,52 @@
+---
+title: "Dominated combos"
+sidebar_label: "Dominated combos"
+sidebar_position: 6
+description: "Weighted fraction of **live** villain combos strictly weaker than hero's best five on a **complete river board**."
+api_functions: ["exactRangeDominatedComboFraction"]
+---
+
+# Dominated combos
+
+<ApiFamilyHeader category="Runout analysis" suit="♣" functions={["exactRangeDominatedComboFraction"]} />
+
+## `exactRangeDominatedComboFraction` \{#exactRangeDominatedComboFraction\}
+
+Weighted fraction of **live** villain combos strictly weaker than hero's best five on a **complete river board**.
+
+```ts
+exactRangeDominatedComboFraction(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  range: Float64Array | SparseRangeSpec
+): number;
+```
+
+On the river, you want the **exact** share of villain range weight in dominated combos — for range reports, blocker analysis, or comparing to Monte Carlo heuristics.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const hero = ['Ah', 'Kh'];
+const river = ['Qh', 'Jh', '2c', 'Ts', '9d'];
+
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const dominatedFraction = poker.exactRangeDominatedComboFraction(hero, river, range);
+console.log('Weighted dominated share:', dominatedFraction);
+```
+
+```text title="Output"
+Weighted dominated share: 0.990909090909091
+```
+
+`boardCards` must be **exactly five cards**. Blocked combos are skipped; the range must have positive total weight on live combos.
+
+**Returns** Scalar in `[0, 1]` — dominated combo weight divided by total live combo weight.
+
+## See also
+
+- [`exactHuEquityVsRange`](/docs/reference/api/exact-equity/exact-hu-vs-range#exactHuEquityVsRange)
+- [`materializeVillainRangeAfterBlockers`](/docs/reference/api/ranges/range-blockers#materializeVillainRangeAfterBlockers)
+- [Range equity (exact)](/docs/guides/range-equity-exact)

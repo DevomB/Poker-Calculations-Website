@@ -1,0 +1,102 @@
+---
+title: "Canonical boards"
+sidebar_label: "Canonical boards"
+sidebar_position: 1
+description: "Suit-canonical 3-card flop."
+api_functions: ["canonicalFlopBoard", "canonicalBoard", "canonicalHolesAndBoard", "suitPermFromCanonicalFlop"]
+---
+
+# Canonical boards
+
+<ApiFamilyHeader category="Suit isomorphism" suit="♣" functions={["canonicalFlopBoard","canonicalBoard","canonicalHolesAndBoard","suitPermFromCanonicalFlop"]} />
+
+## `canonicalFlopBoard` \{#canonicalFlopBoard\}
+
+Suit-canonical 3-card flop. Rainbow / two-tone / monotone collapse under S4. Returns 3 canonical card strings, sorted by deck id (`rank*4+suit`).
+
+```ts
+canonicalFlopBoard(flop: CardInput): string[];
+```
+
+Collapses suit-equivalent flops to one representative so solver results and caches can be shared: there are 22,100 flops but only 1,755 strategically distinct ones.
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.canonicalFlopBoard(['Kh', '7h', '2d']));
+console.log(poker.canonicalFlopBoard(['Ks', '7s', '2c'])); // same class, same output
+```
+
+```text title="Output"
+[ '2c', '7d', 'Kd' ]
+[ '2c', '7d', 'Kd' ]
+```
+
+## `canonicalBoard` \{#canonicalBoard\}
+
+Canonical 3–5 card board. First 3 cards are the flop (set); 4th is turn; 5th is river. Re-solves the 24 suit perms on the street tuple (flop iso first; turn/river break leftover symmetry). Not a board-texture score.
+
+```ts
+canonicalBoard(board: CardInput): string[];
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.canonicalBoard(['Kh', '7h', '2d', '9s', 'Ah']));
+```
+
+```text title="Output"
+[ '2c', '7d', 'Kd', '9h', 'Ad' ]
+```
+
+## `canonicalHolesAndBoard` \{#canonicalHolesAndBoard\}
+
+Remap hero holes + board by one suit permutation. `suitPerm` is the map to apply to ranges.
+
+```ts
+canonicalHolesAndBoard(holes: CardInput, board: CardInput): CanonicalHolesAndBoardResult;
+```
+
+<details>
+<summary>Types: <code>CanonicalHolesAndBoardResult</code></summary>
+
+```ts
+interface CanonicalHolesAndBoardResult {
+  holes: string[];
+  board: string[];
+  suitPerm: number[];
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.canonicalHolesAndBoard(['Ah', 'Qh'], ['Kh', '7h', '2d']));
+```
+
+```text title="Output"
+{
+  holes: [ 'Qd', 'Ad' ],
+  board: [ '2c', '7d', 'Kd' ],
+  suitPerm: [ 2, 0, 1, 3 ]
+}
+```
+
+## `suitPermFromCanonicalFlop` \{#suitPermFromCanonicalFlop\}
+
+Length-4 perm: `perm[oldSuit] = newSuit` (0=c, 1=d, 2=h, 3=s). Flop-only; leftover suits lex-smallest.
+
+```ts
+suitPermFromCanonicalFlop(flop: CardInput): number[];
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+// perm[oldSuit] = newSuit, suits ordered c, d, h, s
+console.log(poker.suitPermFromCanonicalFlop(['Kh', '7h', '2d']));
+```
+
+```text title="Output"
+[ 2, 0, 1, 3 ]
+```

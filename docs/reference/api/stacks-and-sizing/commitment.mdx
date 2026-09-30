@@ -1,0 +1,66 @@
+---
+title: "Commitment"
+sidebar_label: "Commitment"
+sidebar_position: 4
+description: "Fraction of stack put in to call."
+api_functions: ["commitmentRatio", "commitmentRatioAfterBet"]
+---
+
+# Commitment
+
+<ApiFamilyHeader category="Stacks & sizing" suit="♦" functions={["commitmentRatio","commitmentRatioAfterBet"]} />
+
+## `commitmentRatio` \{#commitmentRatio\}
+
+Fraction of stack put in to call.
+
+```ts
+commitmentRatio(toCall: number, effectiveStackBeforeCall: number): number;
+```
+
+See how **pot-committed** a call is: `toCall / effectiveStack`. High ratios warn that future fold equity is limited and stack-off decisions loom.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const toCall = 120;
+const stack = 200;
+
+console.log(poker.commitmentRatio(toCall, stack)); // 0.6 — 60% of stack in
+
+console.log(poker.sprAfterCall(80, toCall, stack));
+```
+
+```text title="Output"
+0.6
+0.4
+```
+
+## `commitmentRatioAfterBet` \{#commitmentRatioAfterBet\}
+
+Fraction of stack committed by bet.
+
+```ts
+commitmentRatioAfterBet(betSize: number, effectiveStackBeforeBet: number): number;
+```
+
+Fraction of effective stack put in with the bet: `bet / stack`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const betSize = 80;
+const stack = 320;
+
+console.log(poker.commitmentRatioAfterBet(betSize, stack)); // 0.25
+```
+
+```text title="Output"
+0.25
+```
+
+## See also
+
+- [`sprAfterCall`](/docs/reference/api/stacks-and-sizing/spr#sprAfterCall)
+- [`effectiveStack`](/docs/reference/api/stacks-and-sizing/effective-stack#effectiveStack)
+- [`sprAfterBet`](/docs/reference/api/stacks-and-sizing/spr#sprAfterBet)

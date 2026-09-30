@@ -1,0 +1,187 @@
+---
+title: "Multiway calls"
+sidebar_label: "Multiway calls"
+sidebar_position: 9
+description: "Call EV with symmetric extra callers."
+api_functions: ["multiwayExpectedValueCall", "multiwaySymmetricBreakevenCallEquity", "multiwaySymmetricBreakevenCallEquityWithShare", "multiwaySymmetricBreakevenCallEquityWithRake", "multiwaySymmetricBreakevenCallEquityWithShareAndRake"]
+---
+
+# Multiway calls
+
+<ApiFamilyHeader category="Pot odds & EV" suit="♥" functions={["multiwayExpectedValueCall","multiwaySymmetricBreakevenCallEquity","multiwaySymmetricBreakevenCallEquityWithShare","multiwaySymmetricBreakevenCallEquityWithRake","multiwaySymmetricBreakevenCallEquityWithShareAndRake"]} />
+
+## `multiwayExpectedValueCall` \{#multiwayExpectedValueCall\}
+
+Call EV with symmetric extra callers.
+
+```ts
+multiwayExpectedValueCall(
+  equity: number,
+  potBefore: number,
+  toCall: number,
+  symmetricExtraCallers: number
+): number;
+```
+
+Call chip EV with `k` symmetric extra callers each matching `toCall`. Reduces to [`expectedValueCall`](/docs/reference/api/pot-odds-and-ev/expected-value-call#expectedValueCall) when `k = 0`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const equity = 0.4;
+const pot = 60;
+const toCall = 30;
+
+const evHu = poker.expectedValueCall(equity, pot, toCall);
+const evMw = poker.multiwayExpectedValueCall(equity, pot, toCall, 2);
+console.log({ evHu, evMw });
+```
+
+```text title="Output"
+{ evHu: 6, evMw: 30 }
+```
+
+## `multiwaySymmetricBreakevenCallEquity` \{#multiwaySymmetricBreakevenCallEquity\}
+
+symmetric extra callers each matching `toCall`.
+
+```ts
+multiwaySymmetricBreakevenCallEquity(
+  potBefore: number,
+  toCall: number,
+  symmetricExtraCallers: number
+): number;
+```
+
+You face a call and **k additional villains** each call the same amount (symmetric cold-call geometry). Breakeven equity rises vs heads-up because you must win a larger final pot for the same call price.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pot = 60;
+const toCall = 30;
+const extraCallers = 2; // two callers behind you
+
+const beHu = poker.breakevenCallEquity(pot, toCall);
+const beMw = poker.multiwaySymmetricBreakevenCallEquity(pot, toCall, extraCallers);
+console.log('HU breakeven:', beHu);
+console.log('3-way breakeven:', beMw); // higher than HU
+```
+
+```text title="Output"
+HU breakeven: 0.3333333333333333
+3-way breakeven: 0.2
+```
+
+## `multiwaySymmetricBreakevenCallEquityWithShare` \{#multiwaySymmetricBreakevenCallEquityWithShare\}
+
+same pot geometry with explicit pot-share when hero wins. `shareModel` 0 = winner-take-all; 1 = multiply final pot by `heroFractionWhenWin` (e.g. chop proxy).
+
+```ts
+multiwaySymmetricBreakevenCallEquityWithShare(
+  potBefore: number,
+  toCall: number,
+  symmetricExtraCallers: number,
+  shareModel: 0 | 1,
+  heroFractionWhenWin: number
+): number;
+```
+
+Extend symmetric multiway breakeven when hero does not take **100% of the pot** when winning—`shareModel` `0` is winner-take-all; `1` multiplies the final pot by `heroFractionWhenWin` (chop proxy, side-pot share, etc.).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pot = 100;
+const toCall = 40;
+const extra = 1;
+
+const wta = poker.multiwaySymmetricBreakevenCallEquityWithShare(
+  pot, toCall, extra, 0, 1
+);
+const chop = poker.multiwaySymmetricBreakevenCallEquityWithShare(
+  pot, toCall, extra, 1, 0.5
+);
+console.log('winner-take-all BE:', wta);
+console.log('50% share when win BE:', chop); // higher equity needed
+```
+
+```text title="Output"
+winner-take-all BE: 0.2222222222222222
+50% share when win BE: 0.4444444444444444
+```
+
+## `multiwaySymmetricBreakevenCallEquityWithRake` \{#multiwaySymmetricBreakevenCallEquityWithRake\}
+
+Multiway breakeven call equity with rake.
+
+```ts
+multiwaySymmetricBreakevenCallEquityWithRake(
+  potBefore: number,
+  toCall: number,
+  symmetricExtraCallers: number,
+  rakeFraction: number,
+  rakeCap: number
+): number;
+```
+
+Symmetric multiway call breakeven with rake on the final pot. At least [`multiwaySymmetricBreakevenCallEquity`](/docs/reference/api/pot-odds-and-ev/multiway-calls#multiwaySymmetricBreakevenCallEquity) without rake.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pot = 60;
+const toCall = 30;
+const k = 2;
+const rakeFraction = 0.05;
+const rakeCap = 3;
+
+const be = poker.multiwaySymmetricBreakevenCallEquityWithRake(
+  pot, toCall, k, rakeFraction, rakeCap,
+);
+console.log(be);
+```
+
+```text title="Output"
+0.20408163265306123
+```
+
+## `multiwaySymmetricBreakevenCallEquityWithShareAndRake` \{#multiwaySymmetricBreakevenCallEquityWithShareAndRake\}
+
+Share model + rake on multiway call.
+
+```ts
+multiwaySymmetricBreakevenCallEquityWithShareAndRake(
+  potBefore: number,
+  toCall: number,
+  symmetricExtraCallers: number,
+  shareModel: 0 | 1,
+  heroFractionWhenWin: number,
+  rakeFraction: number,
+  rakeCap: number
+): number;
+```
+
+Multiway breakeven with [`Multiway_symmetric_pot_share_model`](/docs/reference/api/pot-odds-and-ev/multiway-calls#multiwaySymmetricBreakevenCallEquityWithShare) and rake.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const need = poker.multiwaySymmetricBreakevenCallEquityWithShareAndRake(
+  90, 30, 2,
+  0,    // 0 = winner-takes-all share model
+  1.0,  // hero fraction when win (ignored for model 0)
+  0.05, 3,
+);
+console.log(need);
+```
+
+```text title="Output"
+0.1694915254237288
+```
+
+## See also
+
+- [`expectedValueCall`](/docs/reference/api/pot-odds-and-ev/expected-value-call#expectedValueCall)
+- [`layeredPotChipEvFromEquities`](/docs/reference/api/side-pots/layered-pot-ev#layeredPotChipEvFromEquities)
+- [`breakevenCallEquityWithRake`](/docs/reference/api/pot-odds-and-ev/rake#breakevenCallEquityWithRake)

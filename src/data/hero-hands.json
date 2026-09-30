@@ -1,0 +1,149 @@
+{
+  "generatedWith": "exactHuEquityVsKnownHand",
+  "spots": [
+    {
+      "title": "The flip",
+      "hero": [
+        "As",
+        "Ks"
+      ],
+      "villain": [
+        "Qh",
+        "Qd"
+      ],
+      "board": [
+        "7s",
+        "2s",
+        "Kd",
+        "Qc",
+        "Ts"
+      ],
+      "streets": [
+        {
+          "name": "Preflop",
+          "cards": 0,
+          "equity": 0.4621,
+          "heroHand": null,
+          "villainHand": null
+        },
+        {
+          "name": "Flop",
+          "cards": 3,
+          "equity": 0.9556,
+          "heroHand": "onePair",
+          "villainHand": "onePair"
+        },
+        {
+          "name": "Turn",
+          "cards": 4,
+          "equity": 0.1818,
+          "heroHand": "onePair",
+          "villainHand": "threeOfAKind"
+        },
+        {
+          "name": "River",
+          "cards": 5,
+          "equity": 1,
+          "heroHand": "flush",
+          "villainHand": "threeOfAKind"
+        }
+      ]
+    },
+    {
+      "title": "Cooler",
+      "hero": [
+        "Kh",
+        "Kc"
+      ],
+      "villain": [
+        "Ad",
+        "Ac"
+      ],
+      "board": [
+        "Kd",
+        "8s",
+        "3h",
+        "Ah",
+        "8c"
+      ],
+      "streets": [
+        {
+          "name": "Preflop",
+          "cards": 0,
+          "equity": 0.1805,
+          "heroHand": null,
+          "villainHand": null
+        },
+        {
+          "name": "Flop",
+          "cards": 3,
+          "equity": 0.9141,
+          "heroHand": "threeOfAKind",
+          "villainHand": "onePair"
+        },
+        {
+          "name": "Turn",
+          "cards": 4,
+          "equity": 0.0227,
+          "heroHand": "threeOfAKind",
+          "villainHand": "threeOfAKind"
+        },
+        {
+          "name": "River",
+          "cards": 5,
+          "equity": 0,
+          "heroHand": "fullHouse",
+          "villainHand": "fullHouse"
+        }
+      ]
+    },
+    {
+      "title": "The draw",
+      "hero": [
+        "9h",
+        "8h"
+      ],
+      "villain": [
+        "Ac",
+        "Qd"
+      ],
+      "board": [
+        "Th",
+        "7c",
+        "Qh",
+        "2s",
+        "6d"
+      ],
+      "streets": [
+        {
+          "name": "Preflop",
+          "cards": 0,
+          "equity": 0.4139,
+          "heroHand": null,
+          "villainHand": null
+        },
+        {
+          "name": "Flop",
+          "cards": 3,
+          "equity": 0.5586,
+          "heroHand": "highCard",
+          "villainHand": "onePair"
+        },
+        {
+          "name": "Turn",
+          "cards": 4,
+          "equity": 0.3409,
+          "heroHand": "highCard",
+          "villainHand": "onePair"
+        },
+        {
+          "name": "River",
+          "cards": 5,
+          "equity": 1,
+          "heroHand": "straight",
+          "villainHand": "onePair"
+        }
+      ]
+    }
+  ]
+}

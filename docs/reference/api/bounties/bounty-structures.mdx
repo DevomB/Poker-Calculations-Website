@@ -1,0 +1,117 @@
+---
+title: "Bounty structures"
+sidebar_label: "Bounty structures"
+sidebar_position: 4
+description: "Progressive KO posted bounty: base + carryFraction * collected."
+api_functions: ["progressiveKoPostedBounty", "mysteryBountyExpectedValue", "pkoWinnerTakeRemainingBounties"]
+---
+
+# Bounty structures
+
+<ApiFamilyHeader category="Bounties" suit="♦" functions={["progressiveKoPostedBounty","mysteryBountyExpectedValue","pkoWinnerTakeRemainingBounties"]} />
+
+## `progressiveKoPostedBounty` \{#progressiveKoPostedBounty\}
+
+Progressive KO posted bounty: `base + carryFraction * collected`. `knockouts` length n = dollars already collected onto each head; n×n (nested or flat) = M[i][j] weight that i collected j's *base* bounty. `carryFraction` 1.0 = classic PKO.
+
+```ts
+progressiveKoPostedBounty(
+  baseBounties: F64VectorInput,
+  knockouts: F64VectorInput | number[][],
+  carryFraction: number,
+  returnFormat?: F64ReturnFormat
+): number[] | Float64Array;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+// Base bounties $50; seat 0 has already collected $50 onto its head
+const posted = poker.progressiveKoPostedBounty([50, 50, 50], [50, 0, 0], 0.5);
+console.log(posted);
+```
+
+```text title="Output"
+[ 75, 50, 50 ]
+```
+
+## `mysteryBountyExpectedValue` \{#mysteryBountyExpectedValue\}
+
+Remaining mystery prizes: weighted mean of one knockout, leftover-pool sum, and optional E[sum of k draws] (`k` omitted or 0 skips the sample). Equal weights if `weights` omitted.
+
+```ts
+mysteryBountyExpectedValue(
+  values: F64VectorInput,
+  weights?: F64VectorInput | number,
+  k?: number
+): MysteryBountyEvResult;
+```
+
+<details>
+<summary>Types: <code>MysteryBountyEvResult</code></summary>
+
+```ts
+interface MysteryBountyEvResult {
+  oneDraw: number;
+  allRemaining: number;
+  sampleK: number;
+  k: number;
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const prizes = [1000, 250, 100, 50, 50, 25, 25, 25];
+console.log(poker.mysteryBountyExpectedValue(prizes));
+```
+
+```text title="Output"
+{ oneDraw: 190.625, allRemaining: 1525, sampleK: 0, k: 0 }
+```
+
+## `pkoWinnerTakeRemainingBounties` \{#pkoWinnerTakeRemainingBounties\}
+
+Add leftover bounty pool to first prize. Returns adjusted payouts, ICM $EV on those payouts, Harville win probs, and P(i first) * remaining pool.
+
+```ts
+pkoWinnerTakeRemainingBounties(
+  stacks: F64VectorInput,
+  payouts: F64VectorInput,
+  remainingBountyPool: number,
+  returnFormat?: F64ReturnFormat
+): PkoWinnerTakeBountiesResult;
+```
+
+<details>
+<summary>Types: <code>PkoWinnerTakeBountiesResult</code></summary>
+
+```ts
+interface PkoWinnerTakeBountiesResult {
+  adjustedPayouts: number[] | Float64Array;
+  ev: number[] | Float64Array;
+  winProbabilities: number[] | Float64Array;
+  bountyToWinnerEv: number[] | Float64Array;
+}
+
+/** Equity if called: scalar P(win) with P(tie)=0, `[equity, tie]`, or `[win, tie, lose]`. */
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const r = poker.pkoWinnerTakeRemainingBounties([5000, 3000, 2000], [500, 300, 200], 120);
+console.log(r);
+```
+
+```text title="Output"
+{
+  adjustedPayouts: [ 620, 300, 200 ],
+  ev: [ 443.92857142857144, 363.5, 312.57142857142856 ],
+  winProbabilities: [ 0.5, 0.3, 0.2 ],
+  bountyToWinnerEv: [ 60, 36, 24 ]
+}
+```

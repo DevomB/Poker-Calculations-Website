@@ -1,0 +1,112 @@
+---
+title: "Rule of 2 and 4"
+sidebar_label: "Rule of 2 and 4"
+sidebar_position: 1
+description: "Out-count × 2% cap heuristic (one card)."
+api_functions: ["ruleOfTwoEquity", "ruleOfFourEquity", "estimatedOutsFromRuleOfTwo", "estimatedOutsFromRuleOfFour"]
+---
+
+# Rule of 2 and 4
+
+<ApiFamilyHeader category="Draws & outs" suit="♥" functions={["ruleOfTwoEquity","ruleOfFourEquity","estimatedOutsFromRuleOfTwo","estimatedOutsFromRuleOfFour"]} />
+
+## `ruleOfTwoEquity` \{#ruleOfTwoEquity\}
+
+Out-count × 2% cap heuristic (one card).
+
+```ts
+ruleOfTwoEquity(outs: number): number;
+```
+
+Facing **one card to come** (turn only, or river only), multiply outs by 2% for a fast equity estimate. Pair with `hypergeometricOneCardHitProbability` when you want the exact one-card rate.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const outs = 8;
+console.log(poker.ruleOfTwoEquity(outs)); // ~0.16
+
+console.log(poker.hypergeometricOneCardHitProbability(outs, 46));
+```
+
+```text title="Output"
+0.16
+0.17391304347826086
+```
+
+## `ruleOfFourEquity` \{#ruleOfFourEquity\}
+
+Out-count × 4% cap heuristic (turn+river).
+
+```ts
+ruleOfFourEquity(outs: number): number;
+```
+
+On the flop, estimate **two-card equity** quickly: multiply clean outs by 4% (capped by the native implementation). Good for live/table mental math before you run exact `flopToRiverAtLeastOneHitProbability`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const outs = 9; // flush draw
+console.log(poker.ruleOfFourEquity(outs)); // ~0.36 (36%)
+
+console.log(
+  poker.flopToRiverAtLeastOneHitProbability(outs, 47)
+); // exact two-street from 47 unseen
+```
+
+```text title="Output"
+0.36
+0.3496762257169288
+```
+
+## `estimatedOutsFromRuleOfTwo` \{#estimatedOutsFromRuleOfTwo\}
+
+Algebraic inverse of the uncapped rule-of-two line: `equity * unseen / 2` clamped to `[0, unseen]` (not a full inverse of capped `ruleOfTwoEquity`).
+
+```ts
+estimatedOutsFromRuleOfTwo(equity: number, unseenCards: number): number;
+```
+
+Back-solve approximate out counts from a one-street equity target—rough inverse of the rule-of-two line, not a perfect inverse of capped [`ruleOfTwoEquity`](/docs/reference/api/draws-and-outs/rule-of-two-and-four#ruleOfTwoEquity).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const outs = poker.estimatedOutsFromRuleOfTwo(0.32, 47);
+console.log(outs);
+```
+
+```text title="Output"
+7.5200000000000005
+```
+
+## `estimatedOutsFromRuleOfFour` \{#estimatedOutsFromRuleOfFour\}
+
+Same for two streets vs the rule-of-four line: `equity * unseen / 4` clamped to `[0, unseen]`.
+
+```ts
+estimatedOutsFromRuleOfFour(equity: number, unseenCards: number): number;
+```
+
+Convert **flop→river equity** into an implied out count for teaching or UI sliders. Clamped to valid out counts; not guaranteed to match `ruleOfFourEquity` in reverse because the forward rule is capped.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const equity = 0.35;
+const unseenAfterFlop = 47;
+console.log(poker.estimatedOutsFromRuleOfFour(equity, unseenAfterFlop));
+
+console.log(poker.flopToRiverAtLeastOneHitProbability(9, unseenAfterFlop));
+```
+
+```text title="Output"
+4.1125
+0.3496762257169288
+```
+
+## See also
+
+- [`hypergeometricOneCardHitProbability`](/docs/reference/api/draws-and-outs/hypergeometric#hypergeometricOneCardHitProbability)
+- [`flopToRiverAtLeastOneHitProbability`](/docs/reference/api/draws-and-outs/at-least-one-hit#flopToRiverAtLeastOneHitProbability)

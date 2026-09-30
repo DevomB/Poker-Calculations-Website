@@ -1,0 +1,125 @@
+---
+title: "Hi-Lo evaluation"
+sidebar_label: "Hi-Lo evaluation"
+sidebar_position: 4
+description: "Omaha Hi (same as evaluateOmahaBestHand) plus 8-or-better low."
+api_functions: ["evaluateOmahaHiLo", "evaluateOmahaLoHand", "omahaLoQualifies"]
+---
+
+# Hi-Lo evaluation
+
+<ApiFamilyHeader category="Omaha" suit="♠" functions={["evaluateOmahaHiLo","evaluateOmahaLoHand","omahaLoQualifies"]} />
+
+## `evaluateOmahaHiLo` \{#evaluateOmahaHiLo\}
+
+Omaha Hi (same as `evaluateOmahaBestHand`) plus 8-or-better low. Hole 4, board 3–5.
+
+```ts
+evaluateOmahaHiLo(holeCards: CardInput, boardCards: CardInput): OmahaHiLoHands;
+```
+
+<details>
+<summary>Types: <code>OmahaHiLoHands</code>, <code>HandEvalResult</code>, <code>OmahaLoHand</code></summary>
+
+```ts
+interface OmahaHiLoHands {
+  hi: HandEvalResult;
+  lo: OmahaLoHand;
+}
+
+/**
+ * HU PLO-8. `hiEquity` / `loEquity` are side shares (win=1, tie=0.5).
+ * No qualifying low → high takes the full pot (`potShare === hiEquity`, `loEquity === 0`).
+ * `scoopEquity` = P(win the whole pot). `quarterRate` = P(exactly one side ties).
+ */
+
+interface HandEvalResult {
+  /** Category label (interned at module load). */
+  rank: string;
+  /** 0..9 — same order as `handRankCategoryOrder` / `highCard` … `royalFlush`. */
+  rankCategory: number;
+  /** Same bit layout as `evaluateHandStrength` (`pack_hand_strength`). */
+  strength: number;
+  /** Five encoded kicker values (tie-break order); omitted when `format: 'slim'`. */
+  kickers: number[];
+}
+
+interface OmahaLoHand {
+  qualifies: boolean;
+  ranks: number[];
+  key: number;
+}
+```
+
+Field notes: [`HandEvalResult`](/docs/reference/types/hand-eval-result)
+
+</details>
+
+Both halves of a PLO-8 hand in one call: the best high and, if it qualifies, the best eight-or-better low.
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.evaluateOmahaHiLo(['Ah', '2h', '3c', 'Kd'], ['4s', '7d', '8c', 'Kh', 'Qs']));
+```
+
+```text title="Output"
+{
+  hi: {
+    rankCategory: 1,
+    strength: 17549920,
+    rank: 'onePair',
+    kickers: [ 11, 12, 10, 6, 0 ]
+  },
+  lo: { qualifies: true, ranks: [ 8, 7, 4, 2, 1 ], key: 554017 }
+}
+```
+
+## `evaluateOmahaLoHand` \{#evaluateOmahaLoHand\}
+
+Best 8-or-better Omaha low: exactly 2 hole + 3 board. Ace is low. Straights and flushes do not disqualify. Pair or any rank 9+ kills that 5-card combo.
+
+```ts
+evaluateOmahaLoHand(holeCards: CardInput, boardCards: CardInput): OmahaLoHand;
+```
+
+<details>
+<summary>Types: <code>OmahaLoHand</code></summary>
+
+```ts
+interface OmahaLoHand {
+  qualifies: boolean;
+  ranks: number[];
+  key: number;
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.evaluateOmahaLoHand(['Ah', '2h', '3c', 'Kd'], ['4s', '7d', '8c']));
+```
+
+```text title="Output"
+{ qualifies: true, ranks: [ 8, 7, 4, 2, 1 ], key: 554017 }
+```
+
+## `omahaLoQualifies` \{#omahaLoQualifies\}
+
+True iff `evaluateOmahaLoHand` qualifies.
+
+```ts
+omahaLoQualifies(holeCards: CardInput, boardCards: CardInput): boolean;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.omahaLoQualifies(['Ah', '2h', 'Qc', 'Kd'], ['4s', '7d', '8c'])); // true
+console.log(poker.omahaLoQualifies(['Ah', '2h', 'Qc', 'Kd'], ['4s', '9d', 'Tc'])); // false
+```
+
+```text title="Output"
+true
+false
+```

@@ -1,0 +1,40 @@
+---
+title: "Heads-up vs a known hand"
+sidebar_label: "Heads-up vs a known hand"
+sidebar_position: 2
+description: "Exact HU vs known villain hole cards; board empty (preflop) or 3–5 cards."
+api_functions: ["exactHuEquityVsKnownHand"]
+---
+
+# Heads-up vs a known hand
+
+<ApiFamilyHeader category="Exact equity" suit="♦" functions={["exactHuEquityVsKnownHand"]} />
+
+## `exactHuEquityVsKnownHand` \{#exactHuEquityVsKnownHand\}
+
+Exact HU vs known villain hole cards; board empty (preflop) or 3–5 cards.
+
+```ts
+exactHuEquityVsKnownHand(
+  heroHoleCards: CardInput,
+  villainHoleCards: CardInput,
+  boardCards: CardInput
+): number;
+```
+
+Use for hand-vs-hand analysis on the flop, turn, or river, or preflop with an empty board (enumerates all runouts).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const equity = poker.exactHuEquityVsKnownHand(
+  ['Ah', 'Kd'],
+  ['Qc', 'Qs'],
+  ['Jh', 'Tc', '2d'],
+);
+console.log(equity);
+```
+
+```text title="Output"
+0.2868686868686869
+```

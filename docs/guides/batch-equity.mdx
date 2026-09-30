@@ -20,7 +20,11 @@ const specs = [
 ];
 
 const equities = poker.simulateHandOutcomeBatch(specs);
-// Float64Array — same values as looping simulateHandOutcome per spec
+console.log(Array.from(equities, (e) => e.toFixed(3))); // same values as calling simulateHandOutcome per spec
+```
+
+```text title="Output"
+[ '0.766', '0.641' ]
 ```
 
 Optional preallocated output:
@@ -40,17 +44,35 @@ const boards = encode.packCards(['Qh', 'Jh', '2c', '9d', '4s']);
 const meta = new Uint32Array([8000, 42, 1]); // numSim, seed, villains
 
 const eq = poker.simulateHandOutcomeBatchPacked(holes, boards, meta);
+console.log(eq);
+```
+
+```text title="Output"
+Float64Array(1) [ 0.3697499930858612 ]
 ```
 
 For `n` spots: `holes` length `2n`, `boards` length `5n`, `meta` length `3n`.
 
 ## Strength and exact HU batches
 
+Both take packed hole cards (2 per spot) and packed boards (`boardCards` per spot):
+
 ```js
-const strengths = poker.evaluateHandStrengthFastBatch(holesPacked, boardsPacked, 5);
-const exact = poker.exactHuEquityVsRandomHandBatch(holesPacked, boardsPacked, 3);
+// Two river spots for strength, two flop spots for exact equity
+const riverHoles = encode.packCards(['Ah', 'Kh', '7c', '7d']);
+const riverBoards = encode.packCards(['Qh', 'Jh', 'Th', '2c', '3d', '7h', '8s', '2c', '3d', 'Kc']);
+const strengths = poker.evaluateHandStrengthFastBatch(riverHoles, riverBoards, 5);
+
+const flopHoles = encode.packCards(['Ah', 'Kh', '7c', '7d']);
+const flopBoards = encode.packCards(['Qh', 'Jh', '2c', 'Ks', '8d', '2c']);
+const exact = poker.exactHuEquityVsRandomHandBatch(flopHoles, flopBoards, 3);
+console.log(Array.from(exact, (e) => e.toFixed(4)));
+```
+
+```text title="Output"
+[ '0.7633', '0.6307' ]
 ```
 
 ## See also
 
-[`simulateHandOutcomeBatch`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch) · [`simulateHandOutcomeBatchPacked`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch-packed) · [Packed card input](/docs/concepts/packed-card-input)
+[`simulateHandOutcomeBatch`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch#simulateHandOutcomeBatch) · [`simulateHandOutcomeBatchPacked`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch#simulateHandOutcomeBatch) · [Packed card input](/docs/concepts/packed-card-input)

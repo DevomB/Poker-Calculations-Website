@@ -1,0 +1,35 @@
+---
+title: "Range elasticity"
+sidebar_label: "Range elasticity"
+sidebar_position: 3
+description: "Estimate how continue rate changes as sizing changes."
+api_functions: ["opponentRangeElasticityFromSizing"]
+---
+
+# Range elasticity
+
+<ApiFamilyHeader category="Opponent modeling" suit="♠" functions={["opponentRangeElasticityFromSizing"]} />
+
+## `opponentRangeElasticityFromSizing` \{#opponentRangeElasticityFromSizing\}
+
+Estimate how continue rate changes as sizing changes.
+
+```ts
+opponentRangeElasticityFromSizing(sizes: F64VectorInput, continueRates: F64VectorInput): number;
+```
+
+Use `opponentRangeElasticityFromSizing` when you need to estimate how continue rate changes as sizing changes.
+
+```js title="Example"
+const poker = require('poker-calculations');
+// Villain continued 70% vs 1/3 pot, 55% vs 2/3 pot, 40% vs pot
+console.log(poker.opponentRangeElasticityFromSizing([0.33, 0.66, 1.0], [0.7, 0.55, 0.4]).toFixed(3));
+```
+
+```text title="Output"
+-0.448
+```
+
+## See also
+
+- [NativeOpponentModel](/docs/reference/types/native-opponent-model)

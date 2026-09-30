@@ -1,0 +1,96 @@
+---
+title: "Layered pot EV"
+sidebar_label: "Layered pot EV"
+sidebar_position: 2
+description: "chip EV from per-layer pot sizes and per-player per-layer equities (columns sum to 1)."
+api_functions: ["layeredPotChipEvFromEquities", "layeredPotChipEvFromEquitiesWithRake"]
+---
+
+# Layered pot EV
+
+<ApiFamilyHeader category="Side pots" suit="♣" functions={["layeredPotChipEvFromEquities","layeredPotChipEvFromEquitiesWithRake"]} />
+
+## `layeredPotChipEvFromEquities` \{#layeredPotChipEvFromEquities\}
+
+chip EV from per-layer pot sizes and per-player per-layer equities (columns sum to 1).
+
+```ts
+layeredPotChipEvFromEquities(
+  layerPotChips: F64VectorInput,
+  equityPlayerByLayer: number[][] | Float64Array,
+  colsOrReturnFormat?: number | F64ReturnFormat,
+  returnFormat?: F64ReturnFormat
+): number[] | Float64Array;
+```
+
+Each side-pot layer may have **different winners** (short stack eligible only for main, etc.). Supply pot size per layer and a matrix `equityPlayerByLayer[player][layer]` where each layer column sums to `1`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const layerPots = [150, 400]; // main pot, side pot
+// Rows are players, columns are layers; each column sums to 1
+const equities = [
+  [0.55, 0.10],
+  [0.30, 0.60],
+  [0.15, 0.30],
+];
+console.log(poker.layeredPotChipEvFromEquities(layerPots, equities));
+
+// Same numbers as a flat row-major Float64Array with 2 columns
+const flat = new Float64Array([0.55, 0.10, 0.30, 0.60, 0.15, 0.30]);
+console.log(poker.layeredPotChipEvFromEquities(layerPots, flat, 2));
+```
+
+```text title="Output"
+[ 122.5, 285, 142.5 ]
+[ 122.5, 285, 142.5 ]
+```
+
+## `layeredPotChipEvFromEquitiesWithRake` \{#layeredPotChipEvFromEquitiesWithRake\}
+
+Layered chip EV with rake per pot.
+
+```ts
+layeredPotChipEvFromEquitiesWithRake(
+  layerPotChips: F64VectorInput,
+  equityPlayerByLayer: number[][] | Float64Array,
+  rakeFraction: number,
+  rakeCap: number,
+  returnFormat?: F64ReturnFormat
+): number[] | Float64Array;
+```
+
+Like [`layeredPotChipEvFromEquities`](/docs/reference/api/side-pots/layered-pot-ev#layeredPotChipEvFromEquities) but rake is applied per layer won.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const layerPots = [150, 400];
+const equities = [
+  [0.55, 0.10],
+  [0.30, 0.60],
+  [0.15, 0.30],
+];
+
+const ev = poker.layeredPotChipEvFromEquitiesWithRake(
+  layerPots,
+  equities,
+  0.05,
+  3,
+);
+const ev0 = poker.layeredPotChipEvFromEquities(layerPots, equities);
+console.log({ ev, ev0 });
+```
+
+```text title="Output"
+{
+  ev: [ 120.55000000000001, 282.3, 141.15 ],
+  ev0: [ 122.5, 285, 142.5 ]
+}
+```
+
+## See also
+
+- [`sidePotLadderFromCommitments`](/docs/reference/api/side-pots/side-pot-ladder#sidePotLadderFromCommitments)
+- [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcome)
+- [`rakeFromPot`](/docs/reference/api/pot-odds-and-ev/rake#rakeFromPot)

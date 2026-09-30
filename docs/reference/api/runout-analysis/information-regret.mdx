@@ -1,0 +1,58 @@
+---
+title: "Information regret"
+sidebar_label: "Information regret"
+sidebar_position: 8
+description: "Chip EV gap between **clairvoyant** play (seeing the final runout) and **realistic** call/fold EV on the current board against a weighted range."
+api_functions: ["exactInformationRegretVsClairvoyant"]
+---
+
+# Information regret
+
+<ApiFamilyHeader category="Runout analysis" suit="♣" functions={["exactInformationRegretVsClairvoyant"]} />
+
+## `exactInformationRegretVsClairvoyant` \{#exactInformationRegretVsClairvoyant\}
+
+Chip EV gap between **clairvoyant** play (seeing the final runout) and **realistic** call/fold EV on the current board against a weighted range.
+
+```ts
+exactInformationRegretVsClairvoyant(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  range: Float64Array | SparseRangeSpec,
+  potBeforeCall: number,
+  toCall: number
+): number;
+```
+
+You want to quantify **information regret** on one street — how many chips hero gives up by not knowing the runout when facing a call decision vs a weighted villain range.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const regret = poker.exactInformationRegretVsClairvoyant(
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', '2c'],
+  range,
+  100,
+  50,
+);
+
+console.log('EV gap (chips):', regret);
+```
+
+```text title="Output"
+EV gap (chips): 0.060269670079506454
+```
+
+Positive values mean hero's realistic line leaves chips on the table relative to clairvoyant play. `potBeforeCall` and `toCall` are the pot and call size before hero acts.
+
+**Returns** Scalar `number` — chip EV difference (clairvoyant minus realistic optimal).
+
+## See also
+
+- [`exactHeroEquityRunoutQuantiles`](/docs/reference/api/runout-analysis/runout-equity-quantiles#exactHeroEquityRunoutQuantiles)
+- [`materializeVillainRangeAfterBlockers`](/docs/reference/api/ranges/range-blockers#materializeVillainRangeAfterBlockers)
+- [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots)

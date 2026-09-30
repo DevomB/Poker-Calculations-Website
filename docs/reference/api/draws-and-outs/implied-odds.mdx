@@ -1,0 +1,101 @@
+---
+title: "Implied odds"
+sidebar_label: "Implied odds"
+sidebar_position: 7
+description: "Average extra future win needed for a neutral call; +∞ if equity ≤ 0."
+api_functions: ["impliedBreakevenFutureWin", "impliedOddsRequiredEquityFromFutureWin", "reverseImpliedOddsMinEquity"]
+---
+
+# Implied odds
+
+<ApiFamilyHeader category="Draws & outs" suit="♥" functions={["impliedBreakevenFutureWin","impliedOddsRequiredEquityFromFutureWin","reverseImpliedOddsMinEquity"]} />
+
+## `impliedBreakevenFutureWin` \{#impliedBreakevenFutureWin\}
+
+Average extra future win needed for a neutral call; `+∞` if equity ≤ 0.
+
+```ts
+impliedBreakevenFutureWin(potBeforeCall: number, toCall: number, equity: number): number;
+```
+
+Quantify **how much extra you must win on later streets** when your current-street call equity alone is below breakeven—implied odds in chip terms. Compare the result to realistic future winnings when chasing draws.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pot = 80;
+const toCall = 40;
+const equity = 0.18; // below breakeven now
+
+const need = poker.impliedBreakevenFutureWin(pot, toCall, equity);
+console.log('extra future win needed:', need);
+
+const be = poker.breakevenCallEquity(pot, toCall);
+console.log('breakeven without implied:', be);
+```
+
+```text title="Output"
+extra future win needed: 62.22222222222226
+breakeven without implied: 0.3333333333333333
+```
+
+## `impliedOddsRequiredEquityFromFutureWin` \{#impliedOddsRequiredEquityFromFutureWin\}
+
+Equity needed given extra future win.
+
+```ts
+impliedOddsRequiredEquityFromFutureWin(
+  potBeforeCall: number,
+  toCall: number,
+  futureWin: number
+): number;
+```
+
+Inverse of [`impliedBreakevenFutureWin`](/docs/reference/api/draws-and-outs/implied-odds#impliedBreakevenFutureWin): equity needed when you expect a fixed extra win on later streets.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const potBeforeCall = 80;
+const toCall = 40;
+const futureWin = 120;
+
+const need = poker.impliedOddsRequiredEquityFromFutureWin(potBeforeCall, toCall, futureWin);
+console.log(need);
+
+const future = poker.impliedBreakevenFutureWin(potBeforeCall, toCall, need);
+console.log(future); // ≈ futureWin
+```
+
+```text title="Output"
+0.16666666666666666
+80.00000000000003
+```
+
+## `reverseImpliedOddsMinEquity` \{#reverseImpliedOddsMinEquity\}
+
+Minimum equity for reverse-implied bound.
+
+```ts
+reverseImpliedOddsMinEquity(
+  potBeforeCall: number,
+  toCall: number,
+  maxFutureLoss: number
+): number;
+```
+
+Minimum equity for a call when you cap future **losses** at `maxFutureLoss`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+// Call 50 into 100, but you expect to lose another 200 on later streets when behind
+console.log(poker.reverseImpliedOddsMinEquity(100, 50, 200).toFixed(3));
+```
+
+```text title="Output"
+0.143
+```
+
+## See also
+
+- [`breakevenCallEquity`](/docs/reference/api/pot-odds-and-ev/pot-odds#breakevenCallEquity)

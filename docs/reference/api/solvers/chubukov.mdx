@@ -1,0 +1,194 @@
+---
+title: "Chubukov jam stacks"
+sidebar_label: "Chubukov jam stacks"
+sidebar_position: 9
+description: "symmetric jam toy EV in chips: equity * (2 * jamStack + dead) - jamStack."
+api_functions: ["chubukovSymmetricJamEv", "chubukovSymmetricJamBreakevenStack", "chubukovMaxSymmetricJamStackChipsBinarySearch", "chubukovMaxSymmetricJamStackBinarySearch", "chubukovMaxSymmetricJamStackFromHandBinarySearch"]
+---
+
+# Chubukov jam stacks
+
+<ApiFamilyHeader category="Solvers" suit="♠" functions={["chubukovSymmetricJamEv","chubukovSymmetricJamBreakevenStack","chubukovMaxSymmetricJamStackChipsBinarySearch","chubukovMaxSymmetricJamStackBinarySearch","chubukovMaxSymmetricJamStackFromHandBinarySearch"]} />
+
+## `chubukovSymmetricJamEv` \{#chubukovSymmetricJamEv\}
+
+symmetric jam toy EV in chips: `equity * (2 * jamStack + dead) - jamStack`.
+
+```ts
+chubukovSymmetricJamEv(jamStackChips: number, deadMoneyChips: number, equity: number): number;
+```
+
+Score **jam-or-fold EV** in the Chubukov symmetric model given jam size, dead money (blinds), and your equity when called. Compare stacks before choosing push/fold in study charts.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const jamStack = 4000;
+const dead = 150;
+const equity = 0.52;
+
+const ev = poker.chubukovSymmetricJamEv(jamStack, dead, equity);
+console.log('jam EV:', ev); // positive → jam prints +EV in toy
+
+const maxJam = poker.chubukovMaxSymmetricJamStackChipsBinarySearch(
+  equity,
+  dead,
+  10000
+);
+console.log('max +EV jam stack:', maxJam);
+```
+
+```text title="Output"
+jam EV: 238
+max +EV jam stack: 10000
+```
+
+## `chubukovSymmetricJamBreakevenStack` \{#chubukovSymmetricJamBreakevenStack\}
+
+symmetric jam breakeven stack from dead money and equity (toy HU).
+
+```ts
+chubukovSymmetricJamBreakevenStack(deadMoneyChips: number, equity: number): number;
+```
+
+In the **symmetric jam toy**, find the stack depth where jamming is neutral given blinds/antes as dead money and your jam equity. `equity > 0.5` returns `Infinity` (jam always +EV in this toy); `equity < 0.5` uses `S = equity·dead/(1−2·equity)`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const dead = 150; // blinds posted
+const equity = 0.48;
+
+const breakevenStack = poker.chubukovSymmetricJamBreakevenStack(dead, equity);
+console.log('breakeven jam stack:', breakevenStack);
+
+console.log(poker.chubukovSymmetricJamEv(breakevenStack, dead, equity)); // ~0
+```
+
+```text title="Output"
+breakeven jam stack: 1799.9999999999984
+0
+```
+
+## `chubukovMaxSymmetricJamStackChipsBinarySearch` \{#chubukovMaxSymmetricJamStackChipsBinarySearch\}
+
+largest integer jam stack in `[1, maxStackChips]` with nonnegative symmetric-jam EV for the supplied equity (composition with `exactHuEquityVsRandomHand` is left to the caller).
+
+```ts
+chubukovMaxSymmetricJamStackChipsBinarySearch(
+  equity: number,
+  deadMoneyChips: number,
+  maxStackChips: number
+): number;
+```
+
+You already have **jam equity** (from sim or exact HU) and want the deepest integer stack that still has nonnegative toy jam EV. Binary search over `[1, maxStackChips]`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const equity = 0.501;
+const dead = 120;
+const maxStack = 8000;
+
+const maxProfitableJam = poker.chubukovMaxSymmetricJamStackChipsBinarySearch(
+  equity,
+  dead,
+  maxStack
+);
+console.log(maxProfitableJam);
+
+console.log(
+  poker.chubukovSymmetricJamEv(maxProfitableJam, dead, equity)
+);
+```
+
+```text title="Output"
+8000
+76.11999999999989
+```
+
+## `chubukovMaxSymmetricJamStackBinarySearch` \{#chubukovMaxSymmetricJamStackBinarySearch\}
+
+largest integer jam stack in `[1, maxStackChips]` with nonnegative symmetric-jam EV using exact HU equity vs a random hand (`exactHuEquityVsRandomHand`); board 3–5. `maxStackChips` is a double (clamped to int range in native code).
+
+```ts
+chubukovMaxSymmetricJamStackBinarySearch(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  deadMoneyChips: number,
+  maxStackChips: number
+): number;
+```
+
+Push/fold study on a **concrete flop/turn/river**: equity comes from `exactHuEquityVsRandomHand`, then binary search finds max +EV jam depth. Board must have 3–5 cards.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const hero = ['As', 'Kd'];
+const board = ['2h', '7d', '9c'];
+const dead = 150;
+const maxStack = 5000;
+
+const maxJam = poker.chubukovMaxSymmetricJamStackBinarySearch(
+  hero,
+  board,
+  dead,
+  maxStack
+);
+console.log('max +EV jam:', maxJam);
+
+const eq = poker.exactHuEquityVsRandomHand(hero, board);
+console.log('equity vs random:', eq);
+```
+
+```text title="Output"
+max +EV jam: 5000
+equity vs random: 0.5230954316523234
+```
+
+## `chubukovMaxSymmetricJamStackFromHandBinarySearch` \{#chubukovMaxSymmetricJamStackFromHandBinarySearch\}
+
+same integer search as `chubukovMaxSymmetricJamStackBinarySearch` (equity from the hand, then `chubukovMaxSymmetricJamStackChipsBinarySearch`). `maxStackChips` is coerced with **int32** semantics in native code.
+
+```ts
+chubukovMaxSymmetricJamStackFromHandBinarySearch(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  deadMoneyChips: number,
+  maxStackChips: number
+): number;
+```
+
+Identical workflow to `chubukovMaxSymmetricJamStackBinarySearch` but **`maxStackChips` is coerced with int32 semantics** in native code—use when your cap must match int32 ranges or you need parity with the alternate binding path.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const hero = ['Qh', 'Qd'];
+const board = ['3c', '8s', 'Jh', '2d']; // turn
+const dead = 200;
+
+const maxJam = poker.chubukovMaxSymmetricJamStackFromHandBinarySearch(
+  hero,
+  board,
+  dead,
+  2147483647
+);
+console.log(maxJam);
+
+// Compare with double-clamped search for normal caps
+console.log(
+  poker.chubukovMaxSymmetricJamStackBinarySearch(hero, board, dead, 20000)
+);
+```
+
+```text title="Output"
+2147483647
+20000
+```
+
+## See also
+
+- [`exactHuEquityVsRandomHand`](/docs/reference/api/exact-equity/exact-hu-vs-random-hand#exactHuEquityVsRandomHand)

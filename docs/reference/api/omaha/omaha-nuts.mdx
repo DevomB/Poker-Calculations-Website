@@ -1,0 +1,107 @@
+---
+title: "Omaha nuts and draws"
+sidebar_label: "Omaha nuts and draws"
+sidebar_position: 3
+description: "True iff hero’s Omaha Hi hand is unbeaten by every other 4-card combo that avoids boardCards and optional extraDead."
+api_functions: ["omahaNutsOnBoard", "omahaNuttednessScore", "omahaWrapDrawOuts", "omahaComboCount"]
+---
+
+# Omaha nuts and draws
+
+<ApiFamilyHeader category="Omaha" suit="♠" functions={["omahaNutsOnBoard","omahaNuttednessScore","omahaWrapDrawOuts","omahaComboCount"]} />
+
+## `omahaNutsOnBoard` \{#omahaNutsOnBoard\}
+
+True iff hero’s Omaha Hi hand is unbeaten by every other 4-card combo that avoids `boardCards` and optional `extraDead`.
+
+```ts
+omahaNutsOnBoard(heroHoleCards: CardInput, boardCards: CardInput, extraDead?: CardInput): boolean;
+```
+
+Whether hero holds the absolute nuts right now, checked against every possible opposing holding.
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.omahaNutsOnBoard(['Ah', 'Kh', '7c', '2d'], ['Qh', '9h', '3h']));
+```
+
+```text title="Output"
+true
+```
+
+## `omahaNuttednessScore` \{#omahaNuttednessScore\}
+
+0–1 closeness to the nuts: `1 − (strictly better 4-card holdings) / n` over villain holdings that exclude hero's cards, the board, and `extraDead`. Nuts → 1; unique worst → 0.
+
+```ts
+omahaNuttednessScore(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  extraDead?: CardInput
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+// 1 = the nuts; lower means more holdings beat you
+console.log(poker.omahaNuttednessScore(['Kh', 'Jh', '7c', '2d'], ['Qh', '9h', '3h']).toFixed(4));
+```
+
+```text title="Output"
+0.9633
+```
+
+## `omahaWrapDrawOuts` \{#omahaWrapDrawOuts\}
+
+Flop wrap/OESD outs. Counts remaining cards that, as the turn, make a straight (or SF/royal) using exactly 2 hole + 3 of the 4 board cards. `nutOuts` are those that are also the nut Omaha holding on that 4-card board. A hand that already holds a straight or better on the flop is not drawing and returns `{ outs: 0, nutOuts: 0 }`.
+
+```ts
+omahaWrapDrawOuts(heroHoleCards: CardInput, flopCards: CardInput): OmahaWrapDrawResult;
+```
+
+<details>
+<summary>Types: <code>OmahaWrapDrawResult</code></summary>
+
+```ts
+interface OmahaWrapDrawResult {
+  /** Distinct remaining cards that make a straight, straight flush, or royal. */
+  outs: number;
+  /** Subset of `outs` that is the nut Omaha hand on the 4-card board. */
+  nutOuts: number;
+}
+
+/**
+ * Sparse Big O range. `packed` is 5 deck ids (0..51) per combo (`length === 5 * n`).
+ * Omitted `weights` default to 1 per combo.
+ */
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+// K-Q-9-8 on J-T-2: a 20-out wrap, 14 of them to the nuts
+console.log(poker.omahaWrapDrawOuts(['Kh', 'Qd', '9c', '8s'], ['Jd', 'Tc', '2h']));
+```
+
+```text title="Output"
+{ outs: 20, nutOuts: 14 }
+```
+
+## `omahaComboCount` \{#omahaComboCount\}
+
+Remaining 4-card combo count: `C(52 − |unique dead|, 4)`. Throws on duplicate dead cards.
+
+```ts
+omahaComboCount(deadCards: CardInput): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.omahaComboCount(['Ah', 'As', 'Kd', 'Qd'])); // C(48, 4)
+```
+
+```text title="Output"
+194580
+```

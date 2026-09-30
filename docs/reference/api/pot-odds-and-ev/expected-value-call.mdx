@@ -1,0 +1,121 @@
+---
+title: "Call EV"
+sidebar_label: "Call EV"
+sidebar_position: 2
+description: "Chip EV of calling once vs folding (0): equity × pot − (1 − equity) × toCall, where pot is everything in the middle before hero's call (villain's bet included)."
+api_functions: ["expectedValueCall", "expectedValueCallWithRake", "callOrFoldChipEvDelta"]
+---
+
+# Call EV
+
+<ApiFamilyHeader category="Pot odds & EV" suit="♥" functions={["expectedValueCall","expectedValueCallWithRake","callOrFoldChipEvDelta"]} />
+
+## `expectedValueCall` \{#expectedValueCall\}
+
+Chip EV of calling once vs folding (0): `equity × pot − (1 − equity) × toCall`, where `pot` is everything in the middle before hero's call (villain's bet included). Zero exactly at `breakevenCallEquity(pot, toCall)`.
+
+```ts
+expectedValueCall(equity: number, pot: number, toCall: number): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const equity = 0.4;
+const potBeforeCall = 90;
+const toCall = 30;
+
+const evCall = poker.expectedValueCall(equity, potBeforeCall, toCall);
+const evFold = 0;
+console.log({ evCall, profitable: evCall > evFold });
+
+// Breakeven equity for the same spot
+const need = poker.breakevenCallEquity(potBeforeCall, toCall);
+console.log({ need, hasEdge: equity > need });
+```
+
+```text title="Output"
+{ evCall: 18, profitable: true }
+{ need: 0.25, hasEdge: true }
+```
+
+## `expectedValueCallWithRake` \{#expectedValueCallWithRake\}
+
+Chip EV of calling vs folding when the final heads-up pot (after call) pays rake like `breakevenCallEquityWithRake`.
+
+```ts
+expectedValueCallWithRake(
+  equity: number,
+  potBeforeCall: number,
+  toCall: number,
+  rakeFraction: number,
+  rakeCap: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const equity = 0.38;
+const potBeforeCall = 90;
+const toCall = 30;
+const rakeFraction = 0.05;
+const rakeCap = 3;
+
+const ev = poker.expectedValueCallWithRake(
+  equity,
+  potBeforeCall,
+  toCall,
+  rakeFraction,
+  rakeCap,
+);
+console.log(ev);
+
+const need = poker.breakevenCallEquityWithRake(
+  potBeforeCall,
+  toCall,
+  rakeFraction,
+  rakeCap,
+);
+console.log({ need, call: equity > need, ev });
+```
+
+```text title="Output"
+14.46
+{ need: 0.2564102564102564, call: true, ev: 14.46 }
+```
+
+## `callOrFoldChipEvDelta` \{#callOrFoldChipEvDelta\}
+
+Call EV minus fold EV (0).
+
+```ts
+callOrFoldChipEvDelta(equity: number, pot: number, toCall: number): number;
+```
+
+Chip EV of calling minus folding (fold EV = 0). Equals [`expectedValueCall`](/docs/reference/api/pot-odds-and-ev/expected-value-call#expectedValueCall).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const equity = 0.38;
+const pot = 100;
+const toCall = 50;
+
+console.log(
+  poker.callOrFoldChipEvDelta(equity, pot, toCall),
+  poker.expectedValueCall(equity, pot, toCall),
+);
+```
+
+```text title="Output"
+7 7
+```
+
+## See also
+
+- [`breakevenCallEquity`](/docs/reference/api/pot-odds-and-ev/pot-odds#breakevenCallEquity)
+- [`potOddsRatio`](/docs/reference/api/pot-odds-and-ev/pot-odds#potOddsRatio)
+- [`breakevenCallEquityWithRake`](/docs/reference/api/pot-odds-and-ev/rake#breakevenCallEquityWithRake)
+- [`rakeFromPot`](/docs/reference/api/pot-odds-and-ev/rake#rakeFromPot)
+- [`decideAction`](/docs/reference/api/bots/decide-action#decideAction)

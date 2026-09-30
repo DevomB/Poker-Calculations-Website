@@ -1,0 +1,174 @@
+---
+title: "Nash charts"
+sidebar_label: "Nash charts"
+sidebar_position: 7
+description: "Per-hand max stack in BB that still jams at Nash (indifference / threshold)."
+api_functions: ["nashJamFoldChart169", "nashCallChart169", "nashIndifferenceStackBb"]
+---
+
+# Nash charts
+
+<ApiFamilyHeader category="Solvers" suit="♠" functions={["nashJamFoldChart169","nashCallChart169","nashIndifferenceStackBb"]} />
+
+## `nashJamFoldChart169` \{#nashJamFoldChart169\}
+
+Per-hand max stack in BB that still jams at Nash (indifference / threshold).
+
+```ts
+nashJamFoldChart169(
+  bigBlindOrOptions: number | NashPushFoldOptions,
+  ante?: number,
+  stackBb?: number
+): Float64Array;
+```
+
+<details>
+<summary>Types: <code>NashPushFoldOptions</code></summary>
+
+```ts
+interface NashPushFoldOptions {
+  stackBb?: number;
+  heroStack?: number;
+  villainStack?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  /** Total ante already in the pot (chips). */
+  ante?: number;
+  maxIterations?: number;
+  tolerance?: number;
+  equityIterations?: number;
+  equitySeed?: number;
+  otherStacks?: F64VectorInput;
+  payouts?: F64VectorInput;
+  maxStackBb?: number;
+  nOpponents?: number;
+  stacks?: F64VectorInput;
+  shoverStack?: number;
+  callerStacks?: F64VectorInput;
+}
+
+/** 81-class 6+ range: notations, notation-weight map, or Float64Array 81 / 169 (2–5 weights must be 0). */
+```
+
+
+</details>
+
+A classic push/fold chart: for each of the 169 hand classes, the deepest stack (in BB) that still jams.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const chart = poker.nashJamFoldChart169({ equityIterations: 60 });
+// Index 0 is 22, 168 is AA; the search stops at 40 bb
+console.log('AA', chart[168], '| 22', chart[0]);
+```
+
+```text title="Output"
+AA 40 | 22 40
+```
+
+## `nashCallChart169` \{#nashCallChart169\}
+
+Per-hand max stack in BB that still calls a jam at Nash.
+
+```ts
+nashCallChart169(
+  bigBlindOrOptions: number | NashPushFoldOptions,
+  ante?: number,
+  stackBb?: number
+): Float64Array;
+```
+
+<details>
+<summary>Types: <code>NashPushFoldOptions</code></summary>
+
+```ts
+interface NashPushFoldOptions {
+  stackBb?: number;
+  heroStack?: number;
+  villainStack?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  /** Total ante already in the pot (chips). */
+  ante?: number;
+  maxIterations?: number;
+  tolerance?: number;
+  equityIterations?: number;
+  equitySeed?: number;
+  otherStacks?: F64VectorInput;
+  payouts?: F64VectorInput;
+  maxStackBb?: number;
+  nOpponents?: number;
+  stacks?: F64VectorInput;
+  shoverStack?: number;
+  callerStacks?: F64VectorInput;
+}
+
+/** 81-class 6+ range: notations, notation-weight map, or Float64Array 81 / 169 (2–5 weights must be 0). */
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const chart = poker.nashCallChart169({ equityIterations: 60 });
+console.log('AA', chart[168], '| 22', chart[0].toFixed(1));
+```
+
+```text title="Output"
+AA 40 | 22 11.7
+```
+
+## `nashIndifferenceStackBb` \{#nashIndifferenceStackBb\}
+
+Stack in BB where jam EV ≈ fold EV vs a Nash caller for one hand (`"AKo"` or 0..168).
+
+```ts
+nashIndifferenceStackBb(
+  hand: string | number,
+  maxStackBbOrOptions?: number | NashPushFoldOptions,
+  smallBlind?: number,
+  bigBlind?: number,
+  ante?: number
+): number;
+```
+
+<details>
+<summary>Types: <code>NashPushFoldOptions</code></summary>
+
+```ts
+interface NashPushFoldOptions {
+  stackBb?: number;
+  heroStack?: number;
+  villainStack?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  /** Total ante already in the pot (chips). */
+  ante?: number;
+  maxIterations?: number;
+  tolerance?: number;
+  equityIterations?: number;
+  equitySeed?: number;
+  otherStacks?: F64VectorInput;
+  payouts?: F64VectorInput;
+  maxStackBb?: number;
+  nOpponents?: number;
+  stacks?: F64VectorInput;
+  shoverStack?: number;
+  callerStacks?: F64VectorInput;
+}
+
+/** 81-class 6+ range: notations, notation-weight map, or Float64Array 81 / 169 (2–5 weights must be 0). */
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.nashIndifferenceStackBb('K9o', { equityIterations: 60 }).toFixed(1));
+```
+
+```text title="Output"
+26.0
+```

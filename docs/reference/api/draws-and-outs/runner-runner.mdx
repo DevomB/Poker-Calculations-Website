@@ -1,0 +1,97 @@
+---
+title: "Runner-runner"
+sidebar_label: "Runner-runner"
+sidebar_position: 5
+description: "runner-runner flush, both cards from suit: C(s,2)/C(u,2)."
+api_functions: ["runnerRunnerBackdoorFlushTwoCardProbability", "runnerRunnerBackdoorFlushOneCardProbability", "runnerRunnerStraightDrawHitProbability"]
+---
+
+# Runner-runner
+
+<ApiFamilyHeader category="Draws & outs" suit="♥" functions={["runnerRunnerBackdoorFlushTwoCardProbability","runnerRunnerBackdoorFlushOneCardProbability","runnerRunnerStraightDrawHitProbability"]} />
+
+## `runnerRunnerBackdoorFlushTwoCardProbability` \{#runnerRunnerBackdoorFlushTwoCardProbability\}
+
+runner-runner flush, both cards from suit: C(s,2)/C(u,2).
+
+```ts
+runnerRunnerBackdoorFlushTwoCardProbability(suitCardsRemaining: number, unseenCards: number): number;
+```
+
+Backdoor flush draws need **both** remaining cards of the suit. Pass how many cards of that suit remain in the deck and how many unseen cards total (usually 47 on the flop).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+// Two hearts left in deck, 47 unseen on flop
+const p = poker.runnerRunnerBackdoorFlushTwoCardProbability(2, 47);
+console.log(p); // C(2,2)/C(47,2) = 1/1081 ≈ 0.000925
+
+// Four hearts remain
+console.log(poker.runnerRunnerBackdoorFlushTwoCardProbability(4, 47));
+```
+
+```text title="Output"
+0.0009250693802035153
+0.005550416281221091
+```
+
+## `runnerRunnerBackdoorFlushOneCardProbability` \{#runnerRunnerBackdoorFlushOneCardProbability\}
+
+One-card backdoor flush probability.
+
+```ts
+runnerRunnerBackdoorFlushOneCardProbability(
+  suitCardsRemaining: number,
+  unseenCards: number
+): number;
+```
+
+One-card backdoor flush probability: `suitRemaining / unseen`. Upper bound on the two-card runner model when only one street remains.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const suitRemaining = 10; // hearts left among 47 unseen cards
+console.log(poker.runnerRunnerBackdoorFlushOneCardProbability(suitRemaining, 47).toFixed(4)); // needs one more heart
+console.log(poker.runnerRunnerBackdoorFlushTwoCardProbability(suitRemaining, 47).toFixed(4)); // needs two more
+```
+
+```text title="Output"
+0.2128
+0.0416
+```
+
+## `runnerRunnerStraightDrawHitProbability` \{#runnerRunnerStraightDrawHitProbability\}
+
+structured straight-draw runner model (distinct straight-completing unseen cards). `straightKind`: 0 = gutshot (4 outs), 1 = open-ended (8), 2 = double-belly buster (8). For full-card flop→river P(straight or better) use `straightMadeFlopToRiverExactProbability`.
+
+```ts
+runnerRunnerStraightDrawHitProbability(
+  straightKind: 0 | 1 | 2,
+  deadAmongPatternOuts: number,
+  unseenAfterFlop: number
+): number;
+```
+
+Structured **runner–runner straight** patterns (gutshot, open-ender, double belly buster) when you know how many pattern outs are dead. For full-card straight-or-better equity use `straightMadeFlopToRiverExactProbability` under Monte Carlo.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+// Open-ended straight draw pattern, 1 dead among pattern outs, 47 unseen
+const p = poker.runnerRunnerStraightDrawHitProbability(1, 1, 47);
+console.log(p);
+
+// Gutshot pattern
+console.log(poker.runnerRunnerStraightDrawHitProbability(0, 0, 47));
+```
+
+```text title="Output"
+0.2784458834412581
+0.16466234967622573
+```
+
+## See also
+
+- [`flopToRiverAtLeastOneHitProbability`](/docs/reference/api/draws-and-outs/at-least-one-hit#flopToRiverAtLeastOneHitProbability)
+- [`straightMadeFlopToRiverExactProbability`](/docs/reference/api/runout-analysis/made-hand-probability#straightMadeFlopToRiverExactProbability)

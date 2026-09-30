@@ -4,8 +4,42 @@ title: 'Errors & validation'
 
 # Errors and validation
 
-Invalid or duplicate cards throw `Error` from native code. Overlapping card sets between two hands throw on [`compareBestHands`](/docs/reference/api/hands-and-equity/compare-best-hands) unless you pass `{ assumeDisjoint: true }` and **guarantee** the two lists share no deck ids (within-hand duplicates are still rejected; wrong overlap guarantees produce incorrect comparison results).
+Every problem with your input comes back as an ordinary JavaScript `Error` (usually a `TypeError` for the wrong shape or a plain `Error` for impossible poker), so a `try`/`catch` is all you need. No input crashes the Node process: every export is swept with thousands of malformed and edge-case calls before each release.
 
-For **packed** `Uint8Array` / Node `Buffer` input, each byte must be a deck id **`0..51`**; invalid bytes include an index in the message (for example `invalid packed card at index 2`).
+```js
+const poker = require('poker-calculations');
 
-Use [`validateCardString`](/docs/reference/api/hands-and-equity/validate-card-string) and [`cardStringsHaveDuplicate`](/docs/reference/api/hands-and-equity/card-strings-have-duplicate) (accepts `CardInput`) before building larger pipelines.
+for (const attempt of [
+  () => poker.spr(-1, 100),
+  () => poker.simulateHandOutcome(['Ah'], [], 1000, 1),
+  () => poker.simulateHandOutcome(['Ah', 'Kh'], ['Ah', '2c', '3d'], 1000, 1),
+  () => poker.evaluateBestHand(['Zz', 'Ah']),
+]) {
+  try {
+    attempt();
+  } catch (e) {
+    console.log(`${e.name}: ${e.message}`);
+  }
+}
+```
+
+```text title="Output"
+Error: potChips must be a finite non-negative number
+Error: hero hand must be exactly 2 cards
+Error: duplicate card in hero hand or board
+TypeError: invalid card at index 0
+```
+
+## Cards
+
+- Invalid or duplicate cards throw. Use [`validateCardString`](/docs/reference/api/hand-evaluation/card-strings#validateCardString) and [`cardStringsHaveDuplicate`](/docs/reference/api/hand-evaluation/card-strings#cardStringsHaveDuplicate) to check user input before it reaches a larger pipeline.
+- For packed `Uint8Array` / `Buffer` input, each byte must be a deck id `0..51`; the message names the bad index (for example `invalid packed card at index 2`).
+- [`compareBestHands`](/docs/reference/api/hand-evaluation/compare-best-hands#compareBestHands) rejects two lists that share a card unless you pass `{ assumeDisjoint: true }`. Only pass it when you guarantee there is no overlap: with a wrong guarantee the comparison is meaningless.
+
+## Numbers
+
+Chip and probability arguments must be finite numbers. Negative stacks, pots, and bets throw, and an argument of the wrong type throws a `TypeError`. A few functions clamp instead of throwing where a clamp is the natural answer (for example the Kelly fraction never exceeds 1).
+
+## Async functions
+
+A rejected promise carries the same `Error`. Aborting through an `AbortSignal` rejects with an `AbortError` instead.

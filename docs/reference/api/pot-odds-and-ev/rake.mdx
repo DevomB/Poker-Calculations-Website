@@ -1,0 +1,149 @@
+---
+title: "Rake"
+sidebar_label: "Rake"
+sidebar_position: 4
+description: "Rake model: min(fraction×pot, cap)."
+api_functions: ["rakeFromPot", "breakevenCallEquityWithRake", "netPotAfterRake", "netPotAfterCallAndRake"]
+---
+
+# Rake
+
+<ApiFamilyHeader category="Pot odds & EV" suit="♥" functions={["rakeFromPot","breakevenCallEquityWithRake","netPotAfterRake","netPotAfterCallAndRake"]} />
+
+## `rakeFromPot` \{#rakeFromPot\}
+
+Rake model: min(fraction×pot, cap).
+
+```ts
+rakeFromPot(potChips: number, rakeFraction: number, rakeCap: number): number;
+```
+
+Use to show rake dollars in a breakdown, or to sanity-check [`breakevenCallEquityWithRake`](/docs/reference/api/pot-odds-and-ev/rake#breakevenCallEquityWithRake) and [`expectedValueCallWithRake`](/docs/reference/api/pot-odds-and-ev/expected-value-call#expectedValueCallWithRake) (those apply rake to the **final** pot after a call). `rakeFraction` must not exceed `1` for this model.
+
+```js title="Example"
+const poker = require('poker-calculations');
+// 90 in the middle (villain's bet included) + hero's 30 call = 120 final pot
+console.log(poker.rakeFromPot(120, 0.05, 3)); // min(6, 3) = 3
+
+// Breakeven equity for that call once rake comes out: 30 / (120 - 3)
+console.log(poker.breakevenCallEquityWithRake(90, 30, 0.05, 3).toFixed(4));
+```
+
+```text title="Output"
+3
+0.2564
+```
+
+## `breakevenCallEquityWithRake` \{#breakevenCallEquityWithRake\}
+
+breakeven call equity with rake taken from final pot.
+
+```ts
+breakevenCallEquityWithRake(
+  potBeforeCall: number,
+  toCall: number,
+  rakeFraction: number,
+  rakeCap: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const potBeforeCall = 100;
+const toCall = 50;
+const rakeFraction = 0.05;
+const rakeCap = 4;
+
+const need = poker.breakevenCallEquityWithRake(
+  potBeforeCall,
+  toCall,
+  rakeFraction,
+  rakeCap,
+);
+console.log(need);
+
+const noRake = poker.breakevenCallEquity(potBeforeCall, toCall);
+console.log({ noRake, withRake: need, rakeRaisesThreshold: need > noRake });
+
+const ev = poker.expectedValueCallWithRake(
+  0.4,
+  potBeforeCall,
+  toCall,
+  rakeFraction,
+  rakeCap,
+);
+console.log(ev);
+```
+
+```text title="Output"
+0.3424657534246575
+{
+  noRake: 0.3333333333333333,
+  withRake: 0.3424657534246575,
+  rakeRaisesThreshold: true
+}
+8.400000000000006
+```
+
+## `netPotAfterRake` \{#netPotAfterRake\}
+
+Pot minus rake: `pot − rakeFromPot`.
+
+```ts
+netPotAfterRake(potChips: number, rakeFraction: number, rakeCap: number): number;
+```
+
+Pot chips **after** rake is removed: `pot − rakeFromPot`. Use in breakdowns next to [`rakeFromPot`](/docs/reference/api/pot-odds-and-ev/rake#rakeFromPot).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pot = 150;
+const rakeFraction = 0.05;
+const rakeCap = 3;
+
+const rake = poker.rakeFromPot(pot, rakeFraction, rakeCap);
+const net = poker.netPotAfterRake(pot, rakeFraction, rakeCap);
+console.log({ rake, net }); // net + rake === pot
+```
+
+```text title="Output"
+{ rake: 3, net: 147 }
+```
+
+## `netPotAfterCallAndRake` \{#netPotAfterCallAndRake\}
+
+Net pot after HU call and rake.
+
+```ts
+netPotAfterCallAndRake(
+  potBeforeCall: number,
+  toCall: number,
+  rakeFraction: number,
+  rakeCap: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const potBeforeCall = 90;
+const toCall = 30;
+const rakeFraction = 0.05;
+const rakeCap = 3;
+
+const net = poker.netPotAfterCallAndRake(potBeforeCall, toCall, rakeFraction, rakeCap);
+const finalPot = potBeforeCall + 2 * toCall;
+console.log({ finalPot, net });
+```
+
+```text title="Output"
+{ finalPot: 150, net: 117 }
+```
+
+## See also
+
+- [`expectedValueCallWithRake`](/docs/reference/api/pot-odds-and-ev/expected-value-call#expectedValueCallWithRake)
+- [Pot & EV index](/docs/reference/api/pot-odds-and-ev)
+- [`breakevenCallEquity`](/docs/reference/api/pot-odds-and-ev/pot-odds#breakevenCallEquity)

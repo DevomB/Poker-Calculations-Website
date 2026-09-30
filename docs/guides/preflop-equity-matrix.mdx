@@ -2,14 +2,53 @@
 title: Preflop equity matrix
 ---
 
+# Preflop equity matrix
 
-[`buildPreflopEquityMatrix`](/docs/reference/api/hands-and-equity/build-preflop-equity-matrix) returns a `Float64Array` of length `169 * 169` (row-major). Each cell is Monte Carlo equity for canonical preflop hands with disjoint suits.
+[`buildPreflopEquityMatrix`](/docs/reference/api/monte-carlo/preflop-equity-matrix#buildPreflopEquityMatrix) simulates every one of the 169 × 169 preflop matchups and returns them in one `Float64Array` (row-major, length 28,561). Build it once, cache it, and look up any matchup instantly.
 
 ```js
 const poker = require('poker-calculations');
-const m = poker.buildPreflopEquityMatrix({ iterations: 5000, seed: 42, threads: 4 });
+
+const m = poker.buildPreflopEquityMatrix({ iterations: 300, seed: 42, threads: 8 });
+console.log(m.length);
 ```
 
-Options match [`PreflopMatrixOptions`](/docs/reference/types/preflop-matrix-options): `iterations`, `seed`, and `threads` (parallel C++ workers inside the native call).
+```text title="Output"
+28561
+```
 
-For `i ≠ j`, `M[j,i] = 1 - M[i,j]` (row-major indexing). See [Numerical semantics](/docs/concepts/numerical-semantics#preflop-equity-matrix).
+`iterations` is the number of Monte Carlo trials per cell and `threads` the number of native worker threads. A few hundred trials is enough to explore; use thousands for tables you publish.
+
+## Finding a hand
+
+Rows and columns use the package's 169-hand order, which groups hands by their lower card from deuce up: the pair first, then each higher card suited and offsuit (`22, 32s, 32o, 42s, …, A2o, 33, 43s, …, KK, AKs, AKo, AA`). `22` is index 0 and `AA` is index 168. The same order is used by the [Nash push/fold charts](/docs/reference/api/solvers/nash-charts).
+
+```js
+const RANKS = '23456789TJQKA';
+const HANDS = [];
+for (let lo = 0; lo < 13; lo++) {
+  for (let hi = lo; hi < 13; hi++) {
+    if (hi === lo) HANDS.push(RANKS[hi] + RANKS[lo]);
+    else HANDS.push(RANKS[hi] + RANKS[lo] + 's', RANKS[hi] + RANKS[lo] + 'o');
+  }
+}
+const equity = (a, b) => m[HANDS.indexOf(a) * 169 + HANDS.indexOf(b)];
+
+console.log(HANDS[0], HANDS[168]);
+console.log('AA vs KK ', equity('AA', 'KK').toFixed(3));
+console.log('AKs vs QQ', equity('AKs', 'QQ').toFixed(3));
+console.log('22 vs AKo', equity('22', 'AKo').toFixed(3));
+```
+
+```text title="Output"
+22 AA
+AA vs KK  0.805
+AKs vs QQ 0.520
+22 vs AKo 0.523
+```
+
+At 300 trials per cell each number carries a few points of Monte Carlo noise (AA vs KK is about 0.82 exactly); raise `iterations` when you need tighter values.
+
+The two sides of every matchup add up to one: `M[j][i] = 1 − M[i][j]` for `i ≠ j`. Each cell deals the two hands with disjoint suits; see [Numerical semantics](/docs/concepts/numerical-semantics#preflop-equity-matrix).
+
+For exact equity between two specific hands, use [`exactHuEquityVsKnownHand`](/docs/reference/api/exact-equity/exact-hu-vs-known-hand#exactHuEquityVsKnownHand) instead.

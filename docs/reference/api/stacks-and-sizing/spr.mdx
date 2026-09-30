@@ -1,0 +1,133 @@
+---
+title: "Stack-to-pot ratio"
+sidebar_label: "Stack-to-pot ratio"
+sidebar_position: 1
+description: "Stack-to-pot ratio: effectiveStackChips / potChips."
+api_functions: ["spr", "sprAfterCall", "sprAfterBet", "sprAfterRaise", "stackToPotAfterCall"]
+---
+
+# Stack-to-pot ratio
+
+<ApiFamilyHeader category="Stacks & sizing" suit="♦" functions={["spr","sprAfterCall","sprAfterBet","sprAfterRaise","stackToPotAfterCall"]} />
+
+## `spr` \{#spr\}
+
+Stack-to-pot ratio: `effectiveStackChips / potChips`. Returns `Infinity` when the pot is `0` and the stack is positive; `0` when both are `0`.
+
+```ts
+spr(potChips: number, effectiveStackChips: number): number;
+```
+
+Use when you need **SPR** after a pot and effective stack are known—postflop planning, commitment checks, or labeling spots as shallow vs deep relative to the pot.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+console.log(poker.spr(90, 270)); // 3 — 270 effective over 90 pot
+```
+
+```text title="Output"
+3
+```
+
+## `sprAfterCall` \{#sprAfterCall\}
+
+SPR after a heads-up call: `(effectiveStackBeforeCall − toCall) / (potBeforeCall + toCall)`. `potBeforeCall` already includes villain's bet, as in `expectedValueCall`. Throws if `toCall` exceeds stack.
+
+```ts
+sprAfterCall(potBeforeCall: number, toCall: number, effectiveStackBeforeCall: number): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+// 90 in the middle (villain's 30 bet included), 270 behind: 240 left over a 120 pot
+console.log(poker.sprAfterCall(90, 30, 270)); // 2
+console.log(poker.spr(90, 270));             // 3 before the call
+```
+
+```text title="Output"
+2
+3
+```
+
+## `sprAfterBet` \{#sprAfterBet\}
+
+SPR after hero bets heads-up.
+
+```ts
+sprAfterBet(potBeforeBet: number, betSize: number, effectiveStackBeforeBet: number): number;
+```
+
+Stack-to-pot ratio **after** hero bets and is called heads-up: `(stack − bet) / (pot + 2×bet)`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const potBeforeBet = 100;
+const betSize = 50;
+const stack = 400;
+
+const spr = poker.sprAfterBet(potBeforeBet, betSize, stack);
+console.log(spr); // 350 / 200 = 1.75
+```
+
+```text title="Output"
+1.75
+```
+
+## `sprAfterRaise` \{#sprAfterRaise\}
+
+SPR after open/raise heads-up.
+
+```ts
+sprAfterRaise(potBeforeRaise: number, raiseSize: number, effectiveStackBeforeRaise: number): number;
+```
+
+SPR after an open/raise that is called — same geometry as [`sprAfterBet`](/docs/reference/api/stacks-and-sizing/spr#sprAfterBet).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const sprBet = poker.sprAfterBet(100, 50, 400);
+const sprRaise = poker.sprAfterRaise(100, 50, 400);
+console.log(sprBet === sprRaise); // true
+```
+
+```text title="Output"
+true
+```
+
+## `stackToPotAfterCall` \{#stackToPotAfterCall\}
+
+Stack:pot ratio after call (inverse SPR).
+
+```ts
+stackToPotAfterCall(
+  potBeforeCall: number,
+  toCall: number,
+  effectiveStackBeforeCall: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const potBeforeCall = 100;
+const toCall = 50;
+const stack = 300;
+
+const spr = poker.sprAfterCall(potBeforeCall, toCall, stack);
+const stp = poker.stackToPotAfterCall(potBeforeCall, toCall, stack);
+console.log(spr * stp); // ≈ 1
+```
+
+```text title="Output"
+1
+```
+
+## See also
+
+- [`effectiveStack`](/docs/reference/api/stacks-and-sizing/effective-stack#effectiveStack)
+- [`commitmentRatio`](/docs/reference/api/stacks-and-sizing/commitment#commitmentRatio)
+- [`commitmentRatioAfterBet`](/docs/reference/api/stacks-and-sizing/commitment#commitmentRatioAfterBet)
+- [`expectedValueRaise`](/docs/reference/api/pot-odds-and-ev/expected-value-raise#expectedValueRaise)

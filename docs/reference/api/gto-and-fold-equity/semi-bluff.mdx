@@ -1,0 +1,115 @@
+---
+title: "Semi-bluff"
+sidebar_label: "Semi-bluff"
+sidebar_position: 4
+description: "Two-outcome model; may exceed 1 if line is −EV even if villain always folds."
+api_functions: ["breakevenFoldEquitySemiBluff", "breakevenFoldEquitySemiBluffWithRake", "breakevenFoldEquitySemiBluffWithAnte"]
+---
+
+# Semi-bluff
+
+<ApiFamilyHeader category="GTO & fold equity" suit="♣" functions={["breakevenFoldEquitySemiBluff","breakevenFoldEquitySemiBluffWithRake","breakevenFoldEquitySemiBluffWithAnte"]} />
+
+## `breakevenFoldEquitySemiBluff` \{#breakevenFoldEquitySemiBluff\}
+
+Two-outcome model; may exceed 1 if line is −EV even if villain always folds.
+
+```ts
+breakevenFoldEquitySemiBluff(
+  potBeforeHeroBet: number,
+  heroBetSize: number,
+  equityWhenCalled: number,
+  totalPotIfCalled: number
+): number;
+```
+
+Semi-bluffs: you win the pot when villain folds and have **nonzero equity** when called. Pass equity when called and the total pot size if called (including your bet). Result can exceed `1` if the line is losing even when villain always folds.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const pot = 80;
+const bet = 55;
+const equityWhenCalled = 0.2;
+const totalPotIfCalled = pot + 2 * bet; // 190
+
+// Fold equity at which the semi-bluff breaks even. At 32%+ equity it is +EV even when always called.
+console.log(poker.breakevenFoldEquitySemiBluff(pot, bet, equityWhenCalled, totalPotIfCalled).toFixed(3));
+```
+
+```text title="Output"
+0.175
+```
+
+## `breakevenFoldEquitySemiBluffWithRake` \{#breakevenFoldEquitySemiBluffWithRake\}
+
+semi-bluff FE with rake on `totalPotIfCalled`.
+
+```ts
+breakevenFoldEquitySemiBluffWithRake(
+  potBeforeHeroBet: number,
+  heroBetSize: number,
+  equityWhenCalled: number,
+  totalPotIfCalled: number,
+  rakeFraction: number,
+  rakeCap: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const fe = poker.breakevenFoldEquitySemiBluffWithRake(
+  90,
+  60,
+  0.28,
+  90 + 2 * 60,
+  0.05,
+  5
+);
+console.log(fe);
+
+const noRake = poker.breakevenFoldEquitySemiBluff(90, 60, 0.28, 210);
+console.log('without rake:', noRake);
+```
+
+```text title="Output"
+0.028077753779697564
+without rake: 0.01315789473684206
+```
+
+## `breakevenFoldEquitySemiBluffWithAnte` \{#breakevenFoldEquitySemiBluffWithAnte\}
+
+Semi-bluff fold equity with ante.
+
+```ts
+breakevenFoldEquitySemiBluffWithAnte(
+  potBeforeHeroBet: number,
+  heroBetSize: number,
+  equityWhenCalled: number,
+  totalPotIfCalled: number,
+  anteToPost: number
+): number;
+```
+
+Semi-bluff breakeven fold equity with ante in the won-pot model.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const fe = poker.breakevenFoldEquitySemiBluffWithAnte(
+  100, 50,
+  0.35,  // equity when called
+  200,   // total pot if called
+  5,     // ante
+);
+console.log(fe);
+```
+
+```text title="Output"
+0
+```
+
+## See also
+
+- [`breakevenFoldEquityPureBluff`](/docs/reference/api/gto-and-fold-equity/pure-bluff#breakevenFoldEquityPureBluff)
+- [`rakeFromPot`](/docs/reference/api/pot-odds-and-ev/rake#rakeFromPot)

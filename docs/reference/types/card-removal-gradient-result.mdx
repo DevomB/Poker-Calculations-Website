@@ -5,7 +5,7 @@ sidebar_position: 6
 
 # `CardRemovalGradientResult`
 
-Returned by [`exactEquityCardRemovalGradient`](/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient) and [`exactEquityCardRemovalGradientAsync`](/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient-async).
+Returned by [`exactEquityCardRemovalGradient`](/docs/reference/api/runout-analysis/card-removal#exactEquityCardRemovalGradient) and [`exactEquityCardRemovalGradientAsync`](/docs/reference/api/runout-analysis/card-removal#exactEquityCardRemovalGradientAsync).
 
 | Field | Type | Meaning |
 | --- | --- | --- |
@@ -16,22 +16,30 @@ Returned by [`exactEquityCardRemovalGradient`](/docs/reference/api/combinatorics
 
 For each deck index `d` not already dead (hero, board, blockers), `gradient[d] = baseEquity - equity(d)`, where `equity(d)` is exact HU equity vs the range after additionally removing card `d` from the deck. Positive values mean equity **drops** when that card is dead (typical for cards that improve villain combos).
 
-Blocked or already-dead indices are `0`. Contrast with the heuristic [`equityDeltaIfCardRemoved`](/docs/reference/api/heuristics-and-draws/equity-delta-if-card-removed), which uses Monte Carlo.
+Blocked or already-dead indices are `0`. Contrast with the heuristic [`equityDeltaIfCardRemoved`](/docs/reference/api/runout-analysis/card-removal#equityDeltaIfCardRemoved), which uses Monte Carlo.
 
 ## Example
 
 ```js
 const poker = require('poker-calculations');
 
-const range = new Float64Array(1326);
-range.fill(1 / 1326);
+// A small range on the turn keeps the exact enumeration fast
+const range = poker.rangeFromNotationWeights([
+  { notation: 'KK', weight: 1 },
+  { notation: 'QQ', weight: 1 },
+  { notation: 'AJs', weight: 1 },
+]);
 
 const { gradient, baseEquity } = poker.exactEquityCardRemovalGradient(
   ['Ah', 'Kh'],
-  ['Qh', 'Jh', '2c'],
+  ['Qh', 'Jh', '2c', '7s'],
   range,
 );
-console.log({ baseEquity, gradientAt50: gradient[50] });
+console.log({ baseEquity: baseEquity.toFixed(4), ifAcIsDead: gradient[48].toFixed(4) });
+```
+
+```text title="Output"
+{ baseEquity: '0.3084', ifAcIsDead: '0.0061' }
 ```
 
 ## See also

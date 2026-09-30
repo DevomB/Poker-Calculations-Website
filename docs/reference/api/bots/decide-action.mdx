@@ -1,0 +1,330 @@
+---
+title: "decideAction"
+sidebar_label: "decideAction"
+sidebar_position: 1
+description: "Rule-based action using MC equity (or strength fallback when sim count is 0), pot odds, call EV; see [decideAction contract](/docs/reference/types/native-poker-state)."
+api_functions: ["decideAction", "decideActionAsync", "decideActionWithDiagnostics"]
+---
+
+# decideAction
+
+<ApiFamilyHeader category="Bots & game state" suit="♥" functions={["decideAction","decideActionAsync","decideActionWithDiagnostics"]} />
+
+## `decideAction` \{#decideAction\}
+
+Rule-based action using MC equity (or strength fallback when sim count is 0), pot odds, call EV; see [decideAction contract](/docs/reference/types/native-poker-state).
+
+```ts
+decideAction(
+  state: NativePokerState | PokerStateBytes,
+  config: NativeBotConfig,
+  opponentModel?: NativeOpponentModel | null,
+  heroSeat?: number
+): DecisionResult;
+```
+
+<details>
+<summary>Types: <code>DecisionResult</code>, <code>NativePokerState</code>, <code>NativeBotConfig</code>, <code>NativeOpponentModel</code></summary>
+
+```ts
+interface DecisionResult {
+  action: 'fold' | 'call' | 'raise' | 'check';
+  raiseBy: number;
+}
+
+interface NativePokerState {
+  players: Array<{
+    name?: string;
+    holeCards: CardInput;
+    stack?: number;
+    committedThisStreet?: number;
+    totalCommittedHand?: number;
+    folded?: boolean;
+    seat?: number;
+  }>;
+  communityCards: CardInput;
+  phase: string;
+  pot?: number;
+  currentBet?: number;
+  buttonSeat?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  actingIndex?: number;
+  lastRaiseIncrement?: number;
+  streetOpeningIndex?: number;
+  actedThisStreet: boolean[];
+}
+
+interface NativeBotConfig {
+  aggressionThreshold?: number;
+  riskTolerance?: number;
+  monteCarloSimulations?: number;
+  monteCarloVillains?: number;
+  raisePotFraction?: number;
+  opponentAggressionWeight?: number;
+  rngSeed?: number;
+}
+
+interface NativeOpponentModel {
+  aggressionFactor?: number;
+  callFrequency?: number;
+  foldFrequency?: number;
+}
+
+/** `format: 'slim'` on `evaluateBestHand` — category ordinal + encoded strength only. */
+```
+
+Field notes: [`DecisionResult`](/docs/reference/types/decision-result) · [`NativePokerState`](/docs/reference/types/native-poker-state) · [`NativeBotConfig`](/docs/reference/types/native-bot-config) · [`NativeOpponentModel`](/docs/reference/types/native-opponent-model)
+
+</details>
+
+Wire a rule-based villain or research bot in your own engine—automated opponents in simulators, not live assistance on third-party sites. Pass a complete `NativePokerState` snapshot each decision.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const state = {
+  players: [
+    { holeCards: ['Ah', 'Kh'], stack: 200, seat: 0, committedThisStreet: 0 },
+    { holeCards: ['7c', '7d'], stack: 180, seat: 1, folded: false },
+  ],
+  communityCards: ['Qh', 'Jh', '2c'],
+  phase: 'flop',
+  pot: 30,
+  currentBet: 10,
+  smallBlind: 1,
+  bigBlind: 2,
+  actedThisStreet: [false, true],
+};
+
+const decision = poker.decideAction(
+  state,
+  { monteCarloSimulations: 2000, rngSeed: 1, aggressionThreshold: 0.55 },
+  null,
+  0,
+);
+
+console.log(decision.action, decision.raiseBy);
+```
+
+```text title="Output"
+raise 17
+```
+
+## `decideActionAsync` \{#decideActionAsync\}
+
+Same as `decideAction`; runs on the libuv thread pool (non-blocking).
+
+```ts
+decideActionAsync(
+  state: NativePokerState | PokerStateBytes,
+  config: NativeBotConfig,
+  opponentModel?: NativeOpponentModel | null,
+  heroSeat?: number,
+  options?: AsyncOptions
+): Promise<DecisionResult>;
+```
+
+<details>
+<summary>Types: <code>DecisionResult</code>, <code>NativePokerState</code>, <code>NativeBotConfig</code>, <code>NativeOpponentModel</code></summary>
+
+```ts
+interface DecisionResult {
+  action: 'fold' | 'call' | 'raise' | 'check';
+  raiseBy: number;
+}
+
+interface NativePokerState {
+  players: Array<{
+    name?: string;
+    holeCards: CardInput;
+    stack?: number;
+    committedThisStreet?: number;
+    totalCommittedHand?: number;
+    folded?: boolean;
+    seat?: number;
+  }>;
+  communityCards: CardInput;
+  phase: string;
+  pot?: number;
+  currentBet?: number;
+  buttonSeat?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  actingIndex?: number;
+  lastRaiseIncrement?: number;
+  streetOpeningIndex?: number;
+  actedThisStreet: boolean[];
+}
+
+interface NativeBotConfig {
+  aggressionThreshold?: number;
+  riskTolerance?: number;
+  monteCarloSimulations?: number;
+  monteCarloVillains?: number;
+  raisePotFraction?: number;
+  opponentAggressionWeight?: number;
+  rngSeed?: number;
+}
+
+interface NativeOpponentModel {
+  aggressionFactor?: number;
+  callFrequency?: number;
+  foldFrequency?: number;
+}
+
+/** `format: 'slim'` on `evaluateBestHand` — category ordinal + encoded strength only. */
+```
+
+Field notes: [`DecisionResult`](/docs/reference/types/decision-result) · [`NativePokerState`](/docs/reference/types/native-poker-state) · [`NativeBotConfig`](/docs/reference/types/native-bot-config) · [`NativeOpponentModel`](/docs/reference/types/native-opponent-model)
+
+</details>
+
+Bots and simulators that call `decideAction` often and must keep the JS thread responsive. Optional [`AsyncOptions`](/docs/reference/types/async-options) cancel Monte Carlo inside `decideAction` via `AbortSignal`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const state = {
+  players: [
+    { holeCards: ['Ah', 'Kh'], stack: 200, seat: 0, committedThisStreet: 0 },
+    { holeCards: ['7c', '7d'], stack: 180, seat: 1, committedThisStreet: 10 },
+  ],
+  communityCards: ['Qh', 'Jh', '2c'],
+  phase: 'flop',
+  pot: 30,
+  currentBet: 10,
+  smallBlind: 1,
+  bigBlind: 2,
+  actingIndex: 0,
+  actedThisStreet: [false, true],
+};
+const d = await poker.decideActionAsync(state, { monteCarloSimulations: 2000, rngSeed: 1 }, null, 0);
+console.log(d.action, d.raiseBy);
+```
+
+```text title="Output"
+raise 17
+```
+
+## `decideActionWithDiagnostics` \{#decideActionWithDiagnostics\}
+
+Run native decision logic and include legal-action and EV diagnostics.
+
+```ts
+decideActionWithDiagnostics(
+  state: NativePokerState | PokerStateBytes,
+  config: NativeBotConfig,
+  opponentModel?: NativeOpponentModel | null,
+  heroSeat?: number
+): DecisionDiagnosticResult;
+```
+
+<details>
+<summary>Types: <code>DecisionDiagnosticResult</code>, <code>NativePokerState</code>, <code>NativeBotConfig</code>, <code>NativeOpponentModel</code>, <code>DecisionResult</code></summary>
+
+```ts
+interface DecisionDiagnosticResult {
+  decision: DecisionResult;
+  legalActions: LegalActionSummaryResult;
+  ev?: ActionEvBreakdownResult;
+  reason: string;
+  error?: string;
+}
+
+interface NativePokerState {
+  players: Array<{
+    name?: string;
+    holeCards: CardInput;
+    stack?: number;
+    committedThisStreet?: number;
+    totalCommittedHand?: number;
+    folded?: boolean;
+    seat?: number;
+  }>;
+  communityCards: CardInput;
+  phase: string;
+  pot?: number;
+  currentBet?: number;
+  buttonSeat?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  actingIndex?: number;
+  lastRaiseIncrement?: number;
+  streetOpeningIndex?: number;
+  actedThisStreet: boolean[];
+}
+
+interface NativeBotConfig {
+  aggressionThreshold?: number;
+  riskTolerance?: number;
+  monteCarloSimulations?: number;
+  monteCarloVillains?: number;
+  raisePotFraction?: number;
+  opponentAggressionWeight?: number;
+  rngSeed?: number;
+}
+
+interface NativeOpponentModel {
+  aggressionFactor?: number;
+  callFrequency?: number;
+  foldFrequency?: number;
+}
+
+/** `format: 'slim'` on `evaluateBestHand` — category ordinal + encoded strength only. */
+
+interface DecisionResult {
+  action: 'fold' | 'call' | 'raise' | 'check';
+  raiseBy: number;
+}
+```
+
+Field notes: [`DecisionDiagnosticResult`](/docs/reference/types/decision-diagnostic-result) · [`NativePokerState`](/docs/reference/types/native-poker-state) · [`NativeBotConfig`](/docs/reference/types/native-bot-config) · [`NativeOpponentModel`](/docs/reference/types/native-opponent-model) · [`DecisionResult`](/docs/reference/types/decision-result)
+
+</details>
+
+Use `decideActionWithDiagnostics` when you need to run native decision logic and include legal-action and EV diagnostics.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const state = {
+  players: [
+    {holeCards: ['Ah', 'Kh'], stack: 200, seat: 0, committedThisStreet: 0},
+    {holeCards: ['7c', '7d'], stack: 180, seat: 1, folded: false},
+  ],
+  communityCards: ['Qh', 'Jh', '2c'],
+  phase: 'flop',
+  pot: 30,
+  currentBet: 10,
+  smallBlind: 1,
+  bigBlind: 2,
+  actingIndex: 0,
+  actedThisStreet: [false, true],
+};
+
+const result = poker.decideActionWithDiagnostics(state, {monteCarloSimulations: 0});
+console.log(result);
+```
+
+```text title="Output"
+{
+  decision: { action: 'fold', raiseBy: 0 },
+  legalActions: {
+    canFold: true,
+    canCheck: false,
+    canCall: true,
+    canRaise: true,
+    toCall: 10,
+    minRaiseTo: 12,
+    maxRaiseTo: 200,
+    actingIndex: 0
+  },
+  reason: 'rule-based equity and pot-odds decision'
+}
+```
+
+## See also
+
+- [decideAction guide](/docs/guides/decide-action)
+- [NativeBotConfig](/docs/reference/types/native-bot-config)
+- [AsyncOptions](/docs/reference/types/async-options)
+- [NativePokerState](/docs/reference/types/native-poker-state)

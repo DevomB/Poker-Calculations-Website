@@ -1,0 +1,117 @@
+---
+title: "Multiway equity"
+sidebar_label: "Multiway equity"
+sidebar_position: 4
+description: "Exact n-way equity for 3–6 known hole pairs (n<3 is rejected; use HU APIs)."
+api_functions: ["exactMultiwayEquityKnownHands", "exactThreeWayEquityKnownHands", "exactFourWayEquityKnownHands", "exactMultiwayEquityWithDeadCards"]
+---
+
+# Multiway equity
+
+<ApiFamilyHeader category="Exact equity" suit="♦" functions={["exactMultiwayEquityKnownHands","exactThreeWayEquityKnownHands","exactFourWayEquityKnownHands","exactMultiwayEquityWithDeadCards"]} />
+
+## `exactMultiwayEquityKnownHands` \{#exactMultiwayEquityKnownHands\}
+
+Exact n-way equity for 3–6 known hole pairs (n&lt;3 is rejected; use HU APIs). Enumerates remaining boards. Optional dead/muck.
+
+```ts
+exactMultiwayEquityKnownHands(
+  holeHands: CardInput[],
+  boardCards: CardInput,
+  deadCards?: CardInput
+): number[];
+```
+
+Exact equity for 3 to 6 known hands, the classic "everyone flips over their cards" calculator.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const eq = poker.exactMultiwayEquityKnownHands(
+  [['Ah', 'Ad'], ['Kh', 'Kd'], ['7s', '6s']],
+  ['Ks', '8s', '2c'],
+);
+console.log(eq.map((e) => e.toFixed(4)));
+```
+
+```text title="Output"
+[ '0.0443', '0.6711', '0.2846' ]
+```
+
+## `exactThreeWayEquityKnownHands` \{#exactThreeWayEquityKnownHands\}
+
+Exact 3-way equity for known holes. Board 0–5 cards; optional dead/muck. Equities length 3, sum to 1. Ties split `1/tiedAtBest`.
+
+```ts
+exactThreeWayEquityKnownHands(
+  hand0: CardInput,
+  hand1: CardInput,
+  hand2: CardInput,
+  boardCards: CardInput,
+  deadCards?: CardInput
+): number[];
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const eq = poker.exactThreeWayEquityKnownHands(['Ah', 'Ad'], ['Kh', 'Kd'], ['7s', '6s'], []);
+console.log(eq.map((e) => e.toFixed(4)));
+```
+
+```text title="Output"
+[ '0.6122', '0.1577', '0.2300' ]
+```
+
+## `exactFourWayEquityKnownHands` \{#exactFourWayEquityKnownHands\}
+
+Exact 4-way equity for known holes. Equities length 4, sum to 1.
+
+```ts
+exactFourWayEquityKnownHands(
+  hand0: CardInput,
+  hand1: CardInput,
+  hand2: CardInput,
+  hand3: CardInput,
+  boardCards: CardInput,
+  deadCards?: CardInput
+): number[];
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const eq = poker.exactFourWayEquityKnownHands(
+  ['Ah', 'Ad'], ['Kh', 'Kd'], ['Qs', 'Js'], ['7c', '7d'],
+  ['2h', '9s', 'Tc'],
+);
+console.log(eq.map((e) => e.toFixed(4)));
+```
+
+```text title="Output"
+[ '0.6061', '0.0329', '0.2890', '0.0720' ]
+```
+
+## `exactMultiwayEquityWithDeadCards` \{#exactMultiwayEquityWithDeadCards\}
+
+Same as `exactMultiwayEquityKnownHands` with required dead/muck cards.
+
+```ts
+exactMultiwayEquityWithDeadCards(
+  holeHands: CardInput[],
+  boardCards: CardInput,
+  deadCards: CardInput
+): number[];
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+// A folded player showed the Ac and 8s
+const eq = poker.exactMultiwayEquityWithDeadCards(
+  [['Ah', 'Ad'], ['Kh', 'Kd'], ['7s', '6s']],
+  ['Ks', '8s', '2c'],
+  ['Ac', '8d'],
+);
+console.log(eq.map((e) => e.toFixed(4)));
+```
+
+```text title="Output"
+[ '0.0061', '0.6890', '0.3049' ]
+```

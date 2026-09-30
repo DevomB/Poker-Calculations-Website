@@ -1,0 +1,130 @@
+---
+title: "Big O equity"
+sidebar_label: "Big O equity"
+sidebar_position: 8
+description: "Exact HU Big O equity vs a known 5-card hand."
+api_functions: ["exactHuBigOEquityVsKnown", "simulateBigOEquityVsRandom", "simulateBigOEquityVsRange", "bigOMultiwayEquityMc"]
+---
+
+# Big O equity
+
+<ApiFamilyHeader category="Omaha" suit="♠" functions={["exactHuBigOEquityVsKnown","simulateBigOEquityVsRandom","simulateBigOEquityVsRange","bigOMultiwayEquityMc"]} />
+
+## `exactHuBigOEquityVsKnown` \{#exactHuBigOEquityVsKnown\}
+
+Exact HU Big O equity vs a known 5-card hand. Board 0–5; remaining runouts enumerated. Ties count as 0.5.
+
+```ts
+exactHuBigOEquityVsKnown(
+  heroHoleCards: CardInput,
+  villainHoleCards: CardInput,
+  boardCards: CardInput
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const eq = poker.exactHuBigOEquityVsKnown(
+  ['Ah', 'Kh', 'Qd', 'Jd', '2c'],
+  ['9s', '8s', '7c', '6c', '5d'],
+  ['Th', '4h', '3s'],
+);
+console.log(eq.toFixed(4));
+```
+
+```text title="Output"
+0.6532
+```
+
+## `simulateBigOEquityVsRandom` \{#simulateBigOEquityVsRandom\}
+
+Monte Carlo Big O equity vs a uniform random 5-card villain.
+
+```ts
+simulateBigOEquityVsRandom(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  trials: number,
+  seed: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.simulateBigOEquityVsRandom(['Ah', 'Kh', 'Qd', 'Jd', '2c'], [], 20000, 42).toFixed(3));
+```
+
+```text title="Output"
+0.573
+```
+
+## `simulateBigOEquityVsRange` \{#simulateBigOEquityVsRange\}
+
+Monte Carlo Big O equity vs a sparse weighted 5-card range (`BigORangeSpec`).
+
+```ts
+simulateBigOEquityVsRange(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  range: BigORangeSpec,
+  trials: number,
+  seed: number
+): number;
+```
+
+<details>
+<summary>Types: <code>BigORangeSpec</code></summary>
+
+```ts
+interface BigORangeSpec {
+  packed: Uint8Array | number[];
+  weights?: F64VectorInput;
+}
+
+/**
+ * 8-or-better low. `ranks` are high-to-low with Ace=1 … 8=8.
+ * `key` is packed for comparison (smaller is better). Non-qualifying: `qualifies=false`, `key=0xFFFFFFFF`.
+ */
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const { packCards } = require('poker-calculations/encode');
+const range = { packed: packCards(['9s', '8s', '7c', '6c', '5d', 'Ks', 'Kc', 'Qs', 'Qc', '4d']) };
+console.log(poker.simulateBigOEquityVsRange(['Ah', 'Kh', 'Qd', 'Jd', '2c'], [], range, 20000, 42).toFixed(3));
+```
+
+```text title="Output"
+0.478
+```
+
+## `bigOMultiwayEquityMc` \{#bigOMultiwayEquityMc\}
+
+Monte Carlo pot-share equity for 3–4 known 5-card hands. Returned array sums to ~1.
+
+```ts
+bigOMultiwayEquityMc(
+  holeHands: CardInput[],
+  boardCards: CardInput,
+  trials: number,
+  seed: number
+): number[];
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const eq = poker.bigOMultiwayEquityMc(
+  [['Ah', 'Kh', 'Qd', 'Jd', '2c'], ['9s', '8s', '7c', '6c', '5d'], ['Ks', 'Kc', 'Qs', 'Qc', '4d']],
+  [],
+  20000,
+  42,
+);
+console.log(eq.map((e) => e.toFixed(3)));
+```
+
+```text title="Output"
+[ '0.351', '0.372', '0.277' ]
+```

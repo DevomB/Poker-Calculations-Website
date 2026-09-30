@@ -1,0 +1,78 @@
+---
+title: "Combos from notation"
+sidebar_label: "Combos from notation"
+sidebar_position: 1
+description: "NLHE combo count from shorthand (AA→6, AKs→4, AKo→12); throws on invalid notation."
+api_functions: ["preflopCombosFromNotation", "preflopCombosFromNotationsList", "preflopCombosFromNotationMinusBlockers"]
+---
+
+# Combos from notation
+
+<ApiFamilyHeader category="Ranges" suit="♦" functions={["preflopCombosFromNotation","preflopCombosFromNotationsList","preflopCombosFromNotationMinusBlockers"]} />
+
+## `preflopCombosFromNotation` \{#preflopCombosFromNotation\}
+
+NLHE combo count from shorthand (`AA`→6, `AKs`→4, `AKo`→12); throws on invalid notation.
+
+```ts
+preflopCombosFromNotation(notation: string): number;
+```
+
+Use when a range cell or study note uses **standard preflop labels** and you need how many combos that cell represents before weighting or blocking.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+console.log(poker.preflopCombosFromNotation('AA'));  // 6
+console.log(poker.preflopCombosFromNotation('AKs')); // 4
+console.log(poker.preflopCombosFromNotation('AKo')); // 12
+```
+
+```text title="Output"
+6
+4
+12
+```
+
+## `preflopCombosFromNotationsList` \{#preflopCombosFromNotationsList\}
+
+Sum of `preflopCombosFromNotation` over the list; empty list → `0`.
+
+```ts
+preflopCombosFromNotationsList(notations: string[]): number;
+```
+
+Use when a **range is several cells** (e.g. `['AA', 'AKs']`) and you need total combo count for range mass or blocker math without looping in application code.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+console.log(poker.preflopCombosFromNotationsList(['AA', 'AKs'])); // 10
+console.log(poker.preflopCombosFromNotationsList([]));            // 0
+```
+
+```text title="Output"
+10
+0
+```
+
+## `preflopCombosFromNotationMinusBlockers` \{#preflopCombosFromNotationMinusBlockers\}
+
+Combos of `notation` ("AA", "AKs", "AKo") whose two cards are both outside `deadCards`.
+
+```ts
+preflopCombosFromNotationMinusBlockers(notation: string, deadCards: CardInput): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.preflopCombosFromNotation('AKs'));                            // 4
+console.log(poker.preflopCombosFromNotationMinusBlockers('AKs', ['Ah']));       // 3
+console.log(poker.preflopCombosFromNotationMinusBlockers('AKs', ['Ah', 'Kd'])); // 2
+```
+
+```text title="Output"
+4
+3
+2
+```

@@ -1,0 +1,132 @@
+---
+title: "Harrington M and Q"
+sidebar_label: "Harrington M and Q"
+sidebar_position: 3
+description: "Harrington M = stack / (sb + bb + antes)."
+api_functions: ["harringtonM", "harringtonMEffective", "harringtonMEffectiveActiveAntes", "harringtonQ", "orbitCostChips"]
+---
+
+# Harrington M and Q
+
+<ApiFamilyHeader category="Stacks & sizing" suit="♦" functions={["harringtonM","harringtonMEffective","harringtonMEffectiveActiveAntes","harringtonQ","orbitCostChips"]} />
+
+## `harringtonM` \{#harringtonM\}
+
+Harrington M = stack / (sb + bb + antes).
+
+```ts
+harringtonM(stackChips: number, smallBlind: number, bigBlind: number, totalAntes: number): number;
+```
+
+Use in tournament study tools to compare stack depth to the cost of one round of blinds and antes (classic Harrington zones: green / yellow / red / dead).
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.harringtonM(12000, 100, 200, 200)); // 12000 / (100 + 200 + 200) = 24
+```
+
+```text title="Output"
+24
+```
+
+## `harringtonMEffective` \{#harringtonMEffective\}
+
+effective M = stack / (sb + bb + antePerActivePlayer * numActivePlayers).
+
+```ts
+harringtonMEffective(
+  stackChips: number,
+  smallBlind: number,
+  bigBlind: number,
+  antePerActivePlayer: number,
+  numActivePlayers: number
+): number;
+```
+
+Use when antes are **uniform per active seat** but not every seat is in the hand—tighter M than full-table [`harringtonM`](/docs/reference/api/stacks-and-sizing/harrington-m#harringtonM) when players are sitting out.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+// 400 stack, 1/2, 1 ante per active seat, 4 active → same as total antes 4 with harringtonM
+console.log(poker.harringtonMEffective(400, 1, 2, 1, 4));
+```
+
+```text title="Output"
+57.142857142857146
+```
+
+## `harringtonMEffectiveActiveAntes` \{#harringtonMEffectiveActiveAntes\}
+
+effective M with per-seat antes (active seats only); sum of array is total antes in denominator.
+
+```ts
+harringtonMEffectiveActiveAntes(
+  stackChips: number,
+  smallBlind: number,
+  bigBlind: number,
+  antesFromActiveSeats: F64VectorInput
+): number;
+```
+
+Use when active seats post **different ante amounts** (bounty events, uneven structures)—matches [`harringtonM`](/docs/reference/api/stacks-and-sizing/harrington-m#harringtonM) when the array sums to `totalAntes`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const m = poker.harringtonMEffectiveActiveAntes(400, 1, 2, [1, 2, 1]);
+// Equivalent to harringtonM(400, 1, 2, 4) when total antes = 4
+console.log(m);
+```
+
+```text title="Output"
+57.142857142857146
+```
+
+## `harringtonQ` \{#harringtonQ\}
+
+Harrington Q: `heroStack / mean(stacks)` (vs average table stack); all stacks must be positive.
+
+```ts
+harringtonQ(heroStack: number, stacks: number[]): number;
+```
+
+Use when you need **stack leverage vs the field**—Q > 1 means above average, Q &lt; 1 means short relative to the table mean (not chip-ICM).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+// Hero 400, table 300 and 500 → mean 400 → Q = 1
+console.log(poker.harringtonQ(400, [300, 500]));
+```
+
+```text title="Output"
+1
+```
+
+## `orbitCostChips` \{#orbitCostChips\}
+
+One orbit posted cost: `smallBlind + bigBlind + sum(antesFromSeats)`.
+
+```ts
+orbitCostChips(smallBlind: number, bigBlind: number, antesFromSeats: number[]): number;
+```
+
+Use as the **denominator building block** for Harrington M, survival estimates, or “how many orbits until I blind out” without recomputing sb + bb + antes.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+console.log(poker.orbitCostChips(1, 2, []));           // 3
+console.log(poker.orbitCostChips(1, 2, [0.5, 0.5])); // 4
+```
+
+```text title="Output"
+3
+4
+```
+
+## See also
+
+- [`normalizedStackFractions`](/docs/reference/api/stacks-and-sizing/effective-stack#normalizedStackFractions)
+- [`stackInBigBlinds`](/docs/reference/api/stacks-and-sizing/effective-stack#stackInBigBlinds)

@@ -1,120 +1,107 @@
+/**
+ * The API reference must match the installed poker-calculations exactly:
+ *   - every export in index.d.ts is listed once in src/data/api-families.json, and nothing else is
+ *   - every family and category has its page, and there are no stray API pages
+ *   - every function has a `## \`name\` \{#name\}` section on its family page
+ *   - every signature block equals the declaration(s) in index.d.ts
+ * Run: pnpm check:docs
+ */
 import {createRequire} from 'node:module';
-import {existsSync, readFileSync, readdirSync} from 'node:fs';
-import {join, dirname} from 'node:path';
+import fs from 'node:fs';
+import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const require = createRequire(join(root, 'package.json'));
-const pkgMain = require.resolve('poker-calculations');
-const installedDtsPath = join(dirname(pkgMain), 'index.d.ts');
-const monorepoDtsPath = join(root, '../NPM/index.d.ts');
+const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+const require = createRequire(path.join(root, 'package.json'));
+const dtsPath = path.join(path.dirname(require.resolve('poker-calculations')), 'index.d.ts');
+const dts = fs.readFileSync(dtsPath, 'utf8').replace(/\r\n/g, '\n');
+const families = JSON.parse(fs.readFileSync(path.join(root, 'src/data/api-families.json'), 'utf8'));
+const apiDir = path.join(root, 'docs/reference/api');
+const errors = [];
 
-function exportNamesFromIndexDts(dts) {
-  const marker = 'export interface PokerCalculations {';
-  const start = dts.indexOf(marker);
-  if (start < 0) {
-    throw new Error('PokerCalculations interface not found in index.d.ts');
-  }
+// Declarations per export, overloads included, dedented as the pages show them.
+function declarations() {
+  const start = dts.indexOf('export interface PokerCalculations');
   let i = dts.indexOf('{', start) + 1;
   let depth = 1;
   const begin = i;
   while (i < dts.length && depth > 0) {
-    const ch = dts[i++];
-    if (ch === '{') depth++;
-    else if (ch === '}') depth--;
+    if (dts[i] === '{') depth++;
+    else if (dts[i] === '}') depth--;
+    i++;
   }
-  const body = dts.slice(begin, i - 1);
-  const names = [...body.matchAll(/^\s{2}([a-zA-Z][a-zA-Z0-9]*)\s*\(/gm)].map((m) => m[1]);
-  return [...new Set(names)].sort();
+  const lines = dts.slice(begin, i - 1).split('\n');
+  // Members sit one level deeper than the interface line (the types may live inside a namespace).
+  const ifaceLine = dts.slice(dts.lastIndexOf('\n', start) + 1, start + 1);
+  const indent = ' '.repeat(ifaceLine.length - ifaceLine.trimStart().length + 2);
+  const member = new RegExp(`^${indent}([A-Za-z_]\\w*)\\s*[(<]`);
+  const map = new Map();
+  for (let k = 0; k < lines.length; k++) {
+    const m = lines[k].match(member);
+    if (!m) continue;
+    let decl = '';
+    let open = 0;
+    let started = false;
+    for (; k < lines.length; k++) {
+      decl += (decl ? '\n' : '') + (lines[k].startsWith(indent) ? lines[k].slice(indent.length) : lines[k].trimStart());
+      for (const ch of lines[k]) {
+        if (ch === '(') {
+          open++;
+          started = true;
+        } else if (ch === ')') open--;
+      }
+      if (started && open === 0 && /;\s*$/.test(lines[k])) break;
+    }
+    map.set(m[1], [...(map.get(m[1]) ?? []), decl]);
+  }
+  return map;
 }
 
-function resolveIndexDtsPath() {
-  const installedDts = readFileSync(installedDtsPath, 'utf8');
-  if (!existsSync(monorepoDtsPath)) {
-    return installedDtsPath;
-  }
-  const monorepoDts = readFileSync(monorepoDtsPath, 'utf8');
-  const installedCount = exportNamesFromIndexDts(installedDts).length;
-  const monorepoCount = exportNamesFromIndexDts(monorepoDts).length;
-  if (monorepoCount > installedCount) {
-    console.warn(
-      `Using ../NPM/index.d.ts (${monorepoCount} exports) — installed poker-calculations has ${installedCount}. Publish and bump Website dependency.`,
-    );
-    return monorepoDtsPath;
-  }
-  return installedDtsPath;
-}
-
-const indexDtsPath = resolveIndexDtsPath();
-
-const apiRoot = join(root, 'docs/reference/api');
-
-const categories = readdirSync(apiRoot, {withFileTypes: true})
-  .filter((d) => d.isDirectory())
-  .map((d) => d.name);
-
-const docSlugs = new Set();
-for (const cat of categories) {
-  const dir = join(apiRoot, cat);
-  for (const f of readdirSync(dir)) {
-    if (f.endsWith('.mdx') && f !== 'index.mdx') {
-      docSlugs.add(f.replace(/\.mdx$/, ''));
+const decls = declarations();
+const listed = new Map();
+const expectedFiles = new Set();
+for (const section of families.sections) {
+  for (const cat of section.categories) {
+    expectedFiles.add(`${cat.slug}/index.mdx`);
+    for (const fam of cat.families) {
+      const rel = `${cat.slug}/${fam.slug}.mdx`;
+      expectedFiles.add(rel);
+      const file = path.join(apiDir, rel);
+      const page = fs.existsSync(file) ? fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n') : null;
+      if (!page) errors.push(`missing page ${rel}`);
+      for (const fn of fam.functions) {
+        listed.set(fn, (listed.get(fn) ?? 0) + 1);
+        if (!page) continue;
+        // Heading IDs use the MDX-safe escaped form: ## `name` \{#name\}
+        const heading = `## \`${fn}\` \\{#${fn}\\}`;
+        const at = page.indexOf(heading);
+        if (at < 0) {
+          errors.push(`${rel}: no section for ${fn}`);
+          continue;
+        }
+        const sig = page.slice(at).match(/```ts\n([\s\S]*?)\n```/);
+        const want = (decls.get(fn) ?? []).join('\n');
+        if (want && (!sig || sig[1] !== want)) errors.push(`${rel}: signature of ${fn} differs from index.d.ts`);
+      }
     }
   }
 }
 
-const unique = exportNamesFromIndexDts(readFileSync(indexDtsPath, 'utf8'));
-
-function toSlug(name) {
-  return name.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '');
+for (const fn of decls.keys()) if (!listed.has(fn)) errors.push(`export ${fn} is not on any API page`);
+for (const [fn, n] of listed) {
+  if (!decls.has(fn)) errors.push(`${fn} is documented but not exported`);
+  if (n > 1) errors.push(`${fn} is listed ${n} times`);
 }
 
-const missing = [];
-const extra = [];
-for (const name of unique) {
-  const slug = toSlug(name);
-  if (!docSlugs.has(slug)) missing.push(name);
-}
-for (const slug of docSlugs) {
-  const expected = unique.find((n) => toSlug(n) === slug);
-  if (!expected) extra.push(slug);
-}
-
-if (missing.length || extra.length) {
-  if (missing.length) {
-    console.error('Missing API docs for exports:', missing.join(', '));
+for (const dir of fs.readdirSync(apiDir, {withFileTypes: true})) {
+  if (!dir.isDirectory()) continue;
+  for (const f of fs.readdirSync(path.join(apiDir, dir.name))) {
+    if (f.endsWith('.mdx') && !expectedFiles.has(`${dir.name}/${f}`)) errors.push(`stray page ${dir.name}/${f}`);
   }
-  if (extra.length) {
-    console.error('Extra doc slugs without export:', extra.join(', '));
-  }
+}
+
+if (errors.length) {
+  for (const e of errors) console.error(`✗ ${e}`);
   process.exit(1);
 }
-
-const countsByCategory = Object.fromEntries(
-  categories.map((cat) => [
-    cat,
-    readdirSync(join(apiRoot, cat)).filter((f) => f.endsWith('.mdx') && f !== 'index.mdx').length,
-  ]),
-);
-
-const overviewPath = join(apiRoot, 'index.mdx');
-const overview = readFileSync(overviewPath, 'utf8');
-const countMismatches = [];
-for (const m of overview.matchAll(
-  /\|\s*\[([^\]]+)\]\(\/docs\/reference\/api\/([^)]+)\)\s*\|\s*(\d+)\s*\|/g,
-)) {
-  const slug = m[2];
-  const claimed = Number(m[3]);
-  const actual = countsByCategory[slug];
-  if (actual === undefined) {
-    countMismatches.push(`unknown category slug in overview: ${slug}`);
-  } else if (actual !== claimed) {
-    countMismatches.push(`${slug}: overview says ${claimed}, folder has ${actual}`);
-  }
-}
-if (countMismatches.length) {
-  console.error('API overview export counts mismatch:', countMismatches.join('; '));
-  process.exit(1);
-}
-
-console.log(`OK: ${unique.length} exports covered by ${docSlugs.size} MDX pages.`);
+console.log(`OK: ${decls.size} exports on ${expectedFiles.size - families.sections.flatMap((s) => s.categories).length} pages; signatures match ${path.relative(root, dtsPath)}.`);

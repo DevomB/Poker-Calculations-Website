@@ -1,0 +1,39 @@
+---
+title: "Side-pot breakeven"
+sidebar_label: "Side-pot breakeven"
+sidebar_position: 3
+description: "Breakeven equity for hero side-pot layer."
+api_functions: ["sidePotBreakevenCallEquity"]
+---
+
+# Side-pot breakeven
+
+<ApiFamilyHeader category="Side pots" suit="♣" functions={["sidePotBreakevenCallEquity"]} />
+
+## `sidePotBreakevenCallEquity` \{#sidePotBreakevenCallEquity\}
+
+Breakeven equity for hero side-pot layer.
+
+```ts
+sidePotBreakevenCallEquity(layerPotChips: number, toCall: number): number;
+```
+
+Breakeven equity for a call into a **single layer** pot: `toCall / (layerPot + toCall)`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const layerPot = 150;
+const toCall = 50;
+
+console.log(poker.sidePotBreakevenCallEquity(layerPot, toCall)); // 50/200
+```
+
+```text title="Output"
+0.25
+```
+
+## See also
+
+- [`sidePotLadderFromCommitments`](/docs/reference/api/side-pots/side-pot-ladder#sidePotLadderFromCommitments)
+- [`layeredPotChipEvFromEquities`](/docs/reference/api/side-pots/layered-pot-ev#layeredPotChipEvFromEquities)

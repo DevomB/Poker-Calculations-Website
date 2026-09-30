@@ -1,0 +1,147 @@
+---
+title: "ICM plus bounties"
+sidebar_label: "ICM plus bounties"
+sidebar_position: 2
+description: "ICMBU: freezeout icmExpectedPayouts plus pkoExpectedBountyCollection."
+api_functions: ["pkoIcmbuPayouts", "pkoBountyRiskPremium", "pkoFgsPayouts"]
+---
+
+# ICM plus bounties
+
+<ApiFamilyHeader category="Bounties" suit="♦" functions={["pkoIcmbuPayouts","pkoBountyRiskPremium","pkoFgsPayouts"]} />
+
+## `pkoIcmbuPayouts` \{#pkoIcmbuPayouts\}
+
+ICMBU: freezeout `icmExpectedPayouts` plus `pkoExpectedBountyCollection`. Zero bounties match freezeout ICM. Zero-stack seats get last-place prizes.
+
+```ts
+pkoIcmbuPayouts(
+  stacks: F64VectorInput,
+  payouts: F64VectorInput,
+  bountyValues: F64VectorInput,
+  returnFormat?: F64ReturnFormat
+): PkoIcmbuResult;
+```
+
+<details>
+<summary>Types: <code>PkoIcmbuResult</code></summary>
+
+```ts
+interface PkoIcmbuResult {
+  icm: number[] | Float64Array;
+  bounty: number[] | Float64Array;
+  icmbu: number[] | Float64Array;
+}
+
+/** Freezeout vs ICMBU and chip-share of the bounty pool vs expected collection. */
+```
+
+
+</details>
+
+Final-table $EV when every player carries a bounty: freezeout ICM plus expected bounty collection.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const r = poker.pkoIcmbuPayouts([5000, 3000, 2000], [500, 300, 200], [50, 30, 20]);
+console.log(r);
+```
+
+```text title="Output"
+{
+  icm: [ 383.92857142857144, 327.5, 288.57142857142856 ],
+  bounty: [ 31.638297872340424, 21.940649496080624, 8.421052631578947 ],
+  icmbu: [ 415.5668693009119, 349.4406494960806, 296.9924812030075 ]
+}
+```
+
+## `pkoBountyRiskPremium` \{#pkoBountyRiskPremium\}
+
+Freezeout ICM vs ICMBU, and chip-EV share of the bounty pool vs expected collection (`bountyRiskPremium` = chip share − expected collection).
+
+```ts
+pkoBountyRiskPremium(
+  stacks: F64VectorInput,
+  payouts: F64VectorInput,
+  bountyValues: F64VectorInput
+): PkoBountyRiskPremiumResult;
+```
+
+<details>
+<summary>Types: <code>PkoBountyRiskPremiumResult</code></summary>
+
+```ts
+interface PkoBountyRiskPremiumResult {
+  freezeoutIcm: number[];
+  icmbu: number[];
+  icmbuMinusFreezeout: number[];
+  chipShareBountyEv: number[];
+  bountyRiskPremium: number[];
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.pkoBountyRiskPremium([5000, 3000, 2000], [500, 300, 200], [50, 30, 20]));
+```
+
+```text title="Output"
+{
+  freezeoutIcm: [ 383.92857142857144, 327.5, 288.57142857142856 ],
+  icmbu: [ 415.5668693009119, 349.4406494960806, 296.9924812030075 ],
+  icmbuMinusFreezeout: [ 31.638297872340424, 21.940649496080624, 8.421052631578947 ],
+  chipShareBountyEv: [ 50, 30, 20 ],
+  bountyRiskPremium: [ 18.361702127659576, 8.059350503919376, 11.578947368421053 ]
+}
+```
+
+## `pkoFgsPayouts` \{#pkoFgsPayouts\}
+
+Average-position FGS orbits, then ICMBU on surviving stacks. `orbits === 0` matches `pkoIcmbuPayouts` on the original stacks.
+
+```ts
+pkoFgsPayouts(
+  stacks: F64VectorInput,
+  payouts: F64VectorInput,
+  bountyValues: F64VectorInput,
+  orbits: number,
+  smallBlind: number,
+  bigBlind: number,
+  ante?: number,
+  returnFormat?: F64ReturnFormat
+): PkoIcmbuResult;
+```
+
+<details>
+<summary>Types: <code>PkoIcmbuResult</code></summary>
+
+```ts
+interface PkoIcmbuResult {
+  icm: number[] | Float64Array;
+  bounty: number[] | Float64Array;
+  icmbu: number[] | Float64Array;
+}
+
+/** Freezeout vs ICMBU and chip-share of the bounty pool vs expected collection. */
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+// Two orbits of 100/200 blinds, then ICM plus bounties on the surviving stacks
+const r = poker.pkoFgsPayouts([5000, 3000, 2000], [500, 300, 200], [50, 30, 20], 2, 100, 200);
+console.log(r);
+```
+
+```text title="Output"
+{
+  icm: [ 394.22648790382425, 327.72030506682773, 278.05320702934796 ],
+  bounty: [ 32.625362059782724, 21.742503940000173, 6.60774375631466 ],
+  icmbu: [ 426.851849963607, 349.4628090068279, 284.66095078566264 ]
+}
+```

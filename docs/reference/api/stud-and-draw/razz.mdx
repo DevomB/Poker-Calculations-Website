@@ -1,0 +1,128 @@
+---
+title: "Razz"
+sidebar_label: "Razz"
+sidebar_position: 2
+description: "Razz (7-card A-to-5 low)."
+api_functions: ["evaluateRazzHand", "exactHuRazzEquityVsKnown", "simulateRazzEquityVsRandom", "razzWheelIsNuts"]
+---
+
+# Razz
+
+<ApiFamilyHeader category="Stud, razz & 2-7" suit="♦" functions={["evaluateRazzHand","exactHuRazzEquityVsKnown","simulateRazzEquityVsRandom","razzWheelIsNuts"]} />
+
+## `evaluateRazzHand` \{#evaluateRazzHand\}
+
+Razz (7-card A-to-5 low). Aces low. Straights and flushes do **not** count. Best 5 from **3–7** cards. Lower `strength` is better. Wheel is A2345. `kickers` are ace-low values (A=0 … K=12), unlike the hold'em evaluators; hands with fewer than 5 cards pad with 13. Distinct from 2-7 lowball.
+
+```ts
+evaluateRazzHand(cards: CardInput, options?: EvaluateBestHandOptions): HandEvalResult;
+evaluateRazzHand(cards: CardInput, options: { format: 'slim' }): HandEvalResultSlim;
+```
+
+<details>
+<summary>Types: <code>HandEvalResultSlim</code>, <code>HandEvalResult</code>, <code>EvaluateBestHandOptions</code>, <code>EvaluateBestHandFormat</code></summary>
+
+```ts
+interface HandEvalResultSlim {
+  rankCategory: number;
+  strength: number;
+}
+
+interface HandEvalResult {
+  /** Category label (interned at module load). */
+  rank: string;
+  /** 0..9 — same order as `handRankCategoryOrder` / `highCard` … `royalFlush`. */
+  rankCategory: number;
+  /** Same bit layout as `evaluateHandStrength` (`pack_hand_strength`). */
+  strength: number;
+  /** Five encoded kicker values (tie-break order); omitted when `format: 'slim'`. */
+  kickers: number[];
+}
+
+interface EvaluateBestHandOptions {
+  format?: EvaluateBestHandFormat;
+}
+
+type EvaluateBestHandFormat = 'full' | 'slim';
+```
+
+Field notes: [`HandEvalResultSlim`](/docs/reference/types/hand-eval-result-slim) · [`HandEvalResult`](/docs/reference/types/hand-eval-result)
+
+</details>
+
+Razz is ace-to-five low: aces are low, straights and flushes do not count, and a lower `strength` is better.
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.evaluateRazzHand(['Ah', '2d', '3c', '5s', '7h', 'Kd', 'Kc']));
+```
+
+```text title="Output"
+{
+  rankCategory: 0,
+  strength: 410128,
+  rank: 'highCard',
+  kickers: [ 6, 4, 2, 1, 0 ]
+}
+```
+
+## `exactHuRazzEquityVsKnown` \{#exactHuRazzEquityVsKnown\}
+
+Exact HU razz equity. Same dealing rules as stud; lower A-5 low wins.
+
+```ts
+exactHuRazzEquityVsKnown(
+  heroCards: CardInput,
+  villainCards: CardInput,
+  extraDead?: CardInput
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+// Fifth street; exact enumeration needs five or more cards each
+console.log(poker.exactHuRazzEquityVsKnown(['Ah', '2d', '3c', '5s', 'Kh'], ['6s', '7c', '8h', '4d', '2h']).toFixed(4));
+```
+
+```text title="Output"
+0.4471
+```
+
+## `simulateRazzEquityVsRandom` \{#simulateRazzEquityVsRandom\}
+
+Monte Carlo razz: random matching-street villain, complete both to 7.
+
+```ts
+simulateRazzEquityVsRandom(
+  heroCards: CardInput,
+  trials: number,
+  seed: number,
+  extraDead?: CardInput
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.simulateRazzEquityVsRandom(['Ah', '2d', '3c'], 20000, 42).toFixed(3));
+```
+
+```text title="Output"
+0.736
+```
+
+## `razzWheelIsNuts` \{#razzWheelIsNuts\}
+
+True iff the best 5-card A-5 low is A2345 (suited wheel still counts).
+
+```ts
+razzWheelIsNuts(cards: CardInput): boolean;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.razzWheelIsNuts(['Ah', '2d', '3c', '4s', '5h', 'Kd', 'Kc']));
+```
+
+```text title="Output"
+true
+```

@@ -1,0 +1,321 @@
+---
+title: "Made-hand probability"
+sidebar_label: "Made-hand probability"
+sidebar_position: 5
+description: "Exact flush+ by river enumeration."
+api_functions: ["flushMadeFlopToRiverExactProbability", "flushMadeFlopToRiverExactProbabilityAsync", "straightMadeFlopToRiverExactProbability", "straightMadeFlopToRiverExactProbabilityAsync", "fullHouseMadeFlopToRiverExactProbability", "fullHouseMadeFlopToRiverExactProbabilityAsync", "tripsMadeFlopToRiverExactProbability", "tripsMadeFlopToRiverExactProbabilityAsync", "twoPairMadeFlopToRiverExactProbability", "twoPairMadeFlopToRiverExactProbabilityAsync"]
+---
+
+# Made-hand probability
+
+<ApiFamilyHeader category="Runout analysis" suit="♣" functions={["flushMadeFlopToRiverExactProbability","flushMadeFlopToRiverExactProbabilityAsync","straightMadeFlopToRiverExactProbability","straightMadeFlopToRiverExactProbabilityAsync","fullHouseMadeFlopToRiverExactProbability","fullHouseMadeFlopToRiverExactProbabilityAsync","tripsMadeFlopToRiverExactProbability","tripsMadeFlopToRiverExactProbabilityAsync","twoPairMadeFlopToRiverExactProbability","twoPairMadeFlopToRiverExactProbabilityAsync"]} />
+
+## `flushMadeFlopToRiverExactProbability` \{#flushMadeFlopToRiverExactProbability\}
+
+Exact flush+ by river enumeration.
+
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+
+```ts
+flushMadeFlopToRiverExactProbability(
+  heroHoleCards: CardInput,
+  flopThree: CardInput,
+  knownDead: CardInput
+): number;
+```
+
+Exact probability hero makes **flush or better** by the river via uniform turn+river enumeration.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const hole = ['Ah', 'Kh'];
+const flop = ['2h', '7d', '9c'];
+const dead = ['Qh'];
+
+const pFlush = poker.flushMadeFlopToRiverExactProbability(hole, flop, dead);
+console.log(pFlush);
+```
+
+```text title="Output"
+0.034782608695652174
+```
+
+## `flushMadeFlopToRiverExactProbabilityAsync` \{#flushMadeFlopToRiverExactProbabilityAsync\}
+
+Async flush made; optional AbortSignal.
+
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+
+Optional trailing `{ signal?: AbortSignal }` via [`AsyncOptions`](/docs/reference/types/async-options).
+
+```ts
+flushMadeFlopToRiverExactProbabilityAsync(
+  heroHoleCards: CardInput,
+  flopThree: CardInput,
+  knownDead: CardInput,
+  options?: AsyncOptions
+): Promise<number>;
+```
+
+Async sibling of [`flushMadeFlopToRiverExactProbability`](/docs/reference/api/runout-analysis/made-hand-probability#flushMadeFlopToRiverExactProbability). Optional [`AsyncOptions`](/docs/reference/types/async-options) for cancellation.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const p = await poker.flushMadeFlopToRiverExactProbabilityAsync(['Ah', 'Kh'], ['Qh', '7h', '2c'], []);
+console.log(p.toFixed(4));
+```
+
+```text title="Output"
+0.3497
+```
+
+## `straightMadeFlopToRiverExactProbability` \{#straightMadeFlopToRiverExactProbability\}
+
+P(best 7-card hand is straight or straight flush) after two uniformly random **distinct** cards from the remaining deck (unordered two-card subset; same distribution as turn+river multiset). `flopThree` length 3; `knownDead` may be empty.
+
+```ts
+straightMadeFlopToRiverExactProbability(
+  heroHoleCards: CardInput,
+  flopThree: CardInput,
+  knownDead: CardInput
+): number;
+```
+
+Use when a pattern-based runner model is not enough and you need the exact flop→river chance that hero’s best seven-card hand is a straight or straight flush. Pass villain/blocker cards in `knownDead` so they are removed from the deck.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pStraight = poker.straightMadeFlopToRiverExactProbability(
+  ['9h', '8h'],
+  ['7h', '6d', '2c'],
+  ['Kh', '5s'],
+);
+console.log(pStraight);
+```
+
+```text title="Output"
+0.2777777777777778
+```
+
+`flopThree` must be length 3; `knownDead` may be empty.
+
+## `straightMadeFlopToRiverExactProbabilityAsync` \{#straightMadeFlopToRiverExactProbabilityAsync\}
+
+Same as `straightMadeFlopToRiverExactProbability`; runs on the libuv thread pool (non-blocking).
+
+```ts
+straightMadeFlopToRiverExactProbabilityAsync(
+  heroHoleCards: CardInput,
+  flopThree: CardInput,
+  knownDead: CardInput,
+  options?: AsyncOptions
+): Promise<number>;
+```
+
+Async sibling of [`straightMadeFlopToRiverExactProbability`](/docs/reference/api/runout-analysis/made-hand-probability#straightMadeFlopToRiverExactProbability). Optional [`AsyncOptions`](/docs/reference/types/async-options) for `AbortSignal` cancellation.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const p = await poker.straightMadeFlopToRiverExactProbabilityAsync(['9h', '8h'], ['Th', '7c', '2d'], []);
+console.log(p.toFixed(4));
+```
+
+```text title="Output"
+0.3016
+```
+
+## `fullHouseMadeFlopToRiverExactProbability` \{#fullHouseMadeFlopToRiverExactProbability\}
+
+Exact full house+ by river.
+
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+
+```ts
+fullHouseMadeFlopToRiverExactProbability(
+  heroHoleCards: CardInput,
+  flopThree: CardInput,
+  knownDead: CardInput
+): number;
+```
+
+Exact **full house or better** by the river.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const hole = ['Ah', 'Ad'];
+const flop = ['Ac', '7d', '9c'];
+const dead = [];
+
+console.log(poker.fullHouseMadeFlopToRiverExactProbability(hole, flop, dead));
+```
+
+```text title="Output"
+0.333950046253469
+```
+
+## `fullHouseMadeFlopToRiverExactProbabilityAsync` \{#fullHouseMadeFlopToRiverExactProbabilityAsync\}
+
+Async full house made.
+
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+
+Optional trailing `{ signal?: AbortSignal }` via [`AsyncOptions`](/docs/reference/types/async-options).
+
+```ts
+fullHouseMadeFlopToRiverExactProbabilityAsync(
+  heroHoleCards: CardInput,
+  flopThree: CardInput,
+  knownDead: CardInput,
+  options?: AsyncOptions
+): Promise<number>;
+```
+
+Async full-house-made enumeration.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const hole = ['Ah', 'Ad'];
+const flop = ['Ac', '7d', '9c'];
+
+const p = await poker.fullHouseMadeFlopToRiverExactProbabilityAsync(hole, flop, []);
+console.log(p);
+```
+
+```text title="Output"
+0.333950046253469
+```
+
+## `tripsMadeFlopToRiverExactProbability` \{#tripsMadeFlopToRiverExactProbability\}
+
+Exact trips+ by river.
+
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+
+```ts
+tripsMadeFlopToRiverExactProbability(
+  heroHoleCards: CardInput,
+  flopThree: CardInput,
+  knownDead: CardInput
+): number;
+```
+
+Exact **trips or better** by the river.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const hole = ['Ah', 'Kd'];
+const flop = ['Ac', '7h', '9c'];
+
+console.log(poker.tripsMadeFlopToRiverExactProbability(hole, flop, []));
+```
+
+```text title="Output"
+0.09250693802035152
+```
+
+## `tripsMadeFlopToRiverExactProbabilityAsync` \{#tripsMadeFlopToRiverExactProbabilityAsync\}
+
+Async trips made.
+
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+
+Optional trailing `{ signal?: AbortSignal }` via [`AsyncOptions`](/docs/reference/types/async-options).
+
+```ts
+tripsMadeFlopToRiverExactProbabilityAsync(
+  heroHoleCards: CardInput,
+  flopThree: CardInput,
+  knownDead: CardInput,
+  options?: AsyncOptions
+): Promise<number>;
+```
+
+Async trips-made enumeration.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const hole = ['Ah', 'Kd'];
+const flop = ['Ac', '7h', '9c'];
+
+const p = await poker.tripsMadeFlopToRiverExactProbabilityAsync(hole, flop, []);
+console.log(p);
+```
+
+```text title="Output"
+0.09250693802035152
+```
+
+## `twoPairMadeFlopToRiverExactProbability` \{#twoPairMadeFlopToRiverExactProbability\}
+
+Exact two pair+ by river.
+
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+
+```ts
+twoPairMadeFlopToRiverExactProbability(
+  heroHoleCards: CardInput,
+  flopThree: CardInput,
+  knownDead: CardInput
+): number;
+```
+
+Exact **two pair or better** by the river.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const hole = ['Ah', 'Kd'];
+const flop = ['Ac', '7d', '9c'];
+
+console.log(poker.twoPairMadeFlopToRiverExactProbability(hole, flop, []));
+```
+
+```text title="Output"
+0.4671600370027752
+```
+
+## `twoPairMadeFlopToRiverExactProbabilityAsync` \{#twoPairMadeFlopToRiverExactProbabilityAsync\}
+
+Async two pair+ made.
+
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+
+Optional trailing `{ signal?: AbortSignal }` via [`AsyncOptions`](/docs/reference/types/async-options).
+
+```ts
+twoPairMadeFlopToRiverExactProbabilityAsync(
+  heroHoleCards: CardInput,
+  flopThree: CardInput,
+  knownDead: CardInput,
+  options?: AsyncOptions
+): Promise<number>;
+```
+
+Async two-pair-made enumeration.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const hole = ['Ah', 'Kd'];
+const flop = ['Ac', '7d', '9c'];
+
+const p = await poker.twoPairMadeFlopToRiverExactProbabilityAsync(hole, flop, []);
+console.log(p);
+```
+
+```text title="Output"
+0.4671600370027752
+```
+
+## See also
+
+- [`exactHeroCategoryJointFlopToRiver`](/docs/reference/api/runout-analysis/hand-category-by-river#exactHeroCategoryJointFlopToRiver)
+- [AsyncOptions](/docs/reference/types/async-options)
+- [`runnerRunnerStraightDrawHitProbability`](/docs/reference/api/draws-and-outs/runner-runner#runnerRunnerStraightDrawHitProbability)
+- [`flopToRiverAtLeastOneHitProbability`](/docs/reference/api/draws-and-outs/at-least-one-hit#flopToRiverAtLeastOneHitProbability)

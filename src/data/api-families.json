@@ -1,0 +1,1304 @@
+{
+  "$comment": "Every poker-calculations export belongs to exactly one family. A family is one API page; the first function is the page's primary. `pnpm check:docs` fails if an export is missing here or listed twice.",
+  "sections": [
+    {
+      "title": "Hold'em hands & equity",
+      "categories": [
+        {
+          "slug": "hand-evaluation",
+          "title": "Hand evaluation",
+          "suit": "♠",
+          "blurb": "Rank 1–7 card hands, compare them, and parse card strings.",
+          "families": [
+            {
+              "slug": "evaluate-best-hand",
+              "title": "Best hand",
+              "functions": [
+                "evaluateBestHand",
+                "evaluateHandCategory",
+                "handRankCategoryOrder"
+              ]
+            },
+            {
+              "slug": "evaluate-hand-strength",
+              "title": "Hand strength",
+              "functions": [
+                "evaluateHandStrength",
+                "evaluateHandStrengthFast",
+                "evaluateHandStrengthFastBatch"
+              ]
+            },
+            {
+              "slug": "compare-best-hands",
+              "title": "Compare hands",
+              "functions": [
+                "compareBestHands"
+              ]
+            },
+            {
+              "slug": "card-strings",
+              "title": "Card strings",
+              "functions": [
+                "parseCompactCardList",
+                "validateCardString",
+                "canonicalCardString",
+                "cardStringsHaveDuplicate"
+              ]
+            },
+            {
+              "slug": "benchmark-evaluator",
+              "title": "Evaluator benchmark",
+              "functions": [
+                "benchmarkEvaluatorThroughput",
+                "benchmarkEvaluatorThroughputAsync"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "monte-carlo",
+          "title": "Monte Carlo equity",
+          "suit": "♥",
+          "blurb": "Seeded simulation against random hands or weighted ranges, sync, async, threaded, or batched.",
+          "families": [
+            {
+              "slug": "simulate-hand-outcome",
+              "title": "Simulate a hand",
+              "functions": [
+                "simulateHandOutcome",
+                "simulateHandOutcomeAsync",
+                "simulateHandOutcomeDetailed"
+              ]
+            },
+            {
+              "slug": "parallel-hand-simulation",
+              "title": "Threaded simulation",
+              "functions": [
+                "parallelHandSimulation",
+                "parallelHandSimulationAsync"
+              ]
+            },
+            {
+              "slug": "simulate-hand-outcome-batch",
+              "title": "Batch simulation",
+              "functions": [
+                "simulateHandOutcomeBatch",
+                "simulateHandOutcomeBatchPacked"
+              ]
+            },
+            {
+              "slug": "simulate-equity-vs-range",
+              "title": "Equity vs a range",
+              "functions": [
+                "simulateEquityVsRange"
+              ]
+            },
+            {
+              "slug": "preflop-equity-matrix",
+              "title": "Preflop equity matrix",
+              "functions": [
+                "buildPreflopEquityMatrix"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "exact-equity",
+          "title": "Exact equity",
+          "suit": "♦",
+          "blurb": "Full enumeration of every runout: heads-up, multiway, and side pots.",
+          "families": [
+            {
+              "slug": "exact-hu-vs-random-hand",
+              "title": "Heads-up vs a random hand",
+              "functions": [
+                "exactHuEquityVsRandomHand",
+                "exactHuEquityVsRandomHandAsync",
+                "exactHuEquityVsRandomHandBatch"
+              ]
+            },
+            {
+              "slug": "exact-hu-vs-known-hand",
+              "title": "Heads-up vs a known hand",
+              "functions": [
+                "exactHuEquityVsKnownHand"
+              ]
+            },
+            {
+              "slug": "exact-hu-vs-range",
+              "title": "Heads-up vs a range",
+              "functions": [
+                "exactHuEquityVsRange"
+              ]
+            },
+            {
+              "slug": "exact-multiway-equity",
+              "title": "Multiway equity",
+              "functions": [
+                "exactMultiwayEquityKnownHands",
+                "exactThreeWayEquityKnownHands",
+                "exactFourWayEquityKnownHands",
+                "exactMultiwayEquityWithDeadCards"
+              ]
+            },
+            {
+              "slug": "exact-multiway-win-tie-lose",
+              "title": "Win, split, lose",
+              "functions": [
+                "exactMultiwayWinTieLoseKnownHands",
+                "exactThreeWayWinTieLoseKnownHands",
+                "exactMultiwayTieFrequency"
+              ]
+            },
+            {
+              "slug": "exact-multiway-side-pot-ev",
+              "title": "Side-pot chip EV",
+              "functions": [
+                "exactMultiwaySidePotChipEv"
+              ]
+            },
+            {
+              "slug": "exact-multiway-runouts",
+              "title": "Runout counts and extremes",
+              "functions": [
+                "exactMultiwayBestWorstRunout",
+                "exactMultiwayRunoutCount"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "runout-analysis",
+          "title": "Runout analysis",
+          "suit": "♣",
+          "blurb": "What the turn and river do to your hand: vulnerability, quantiles, made-hand odds, card removal.",
+          "families": [
+            {
+              "slug": "runout-vulnerability",
+              "title": "Runout vulnerability",
+              "functions": [
+                "exactHeroRunoutVulnerability",
+                "exactHeroRunoutVulnerabilityAsync"
+              ]
+            },
+            {
+              "slug": "runout-equity-quantiles",
+              "title": "Equity quantiles",
+              "functions": [
+                "exactHeroEquityRunoutQuantiles",
+                "exactHeroEquityRunoutQuantilesAsync"
+              ]
+            },
+            {
+              "slug": "villain-leapfrog-outs",
+              "title": "Villain leapfrog outs",
+              "functions": [
+                "exactVillainLeapfrogOutCounts"
+              ]
+            },
+            {
+              "slug": "hand-category-by-river",
+              "title": "Hand category by the river",
+              "functions": [
+                "exactHeroCategoryJointFlopToRiver",
+                "exactHeroCategoryAtLeastFlopToRiver",
+                "exactHeroCategoryAtLeastFlopToRiverAsync"
+              ]
+            },
+            {
+              "slug": "made-hand-probability",
+              "title": "Made-hand probability",
+              "functions": [
+                "flushMadeFlopToRiverExactProbability",
+                "flushMadeFlopToRiverExactProbabilityAsync",
+                "straightMadeFlopToRiverExactProbability",
+                "straightMadeFlopToRiverExactProbabilityAsync",
+                "fullHouseMadeFlopToRiverExactProbability",
+                "fullHouseMadeFlopToRiverExactProbabilityAsync",
+                "tripsMadeFlopToRiverExactProbability",
+                "tripsMadeFlopToRiverExactProbabilityAsync",
+                "twoPairMadeFlopToRiverExactProbability",
+                "twoPairMadeFlopToRiverExactProbabilityAsync"
+              ]
+            },
+            {
+              "slug": "dominated-combos",
+              "title": "Dominated combos",
+              "functions": [
+                "exactRangeDominatedComboFraction"
+              ]
+            },
+            {
+              "slug": "card-removal",
+              "title": "Card removal",
+              "functions": [
+                "exactEquityCardRemovalGradient",
+                "exactEquityCardRemovalGradientAsync",
+                "equityDeltaIfCardRemoved"
+              ]
+            },
+            {
+              "slug": "information-regret",
+              "title": "Information regret",
+              "functions": [
+                "exactInformationRegretVsClairvoyant"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "hand-potential",
+          "title": "Hand potential",
+          "suit": "♠",
+          "blurb": "Billings-style HS, PPot, NPot, EHS and EHS² against a range, plus bucketing for abstractions.",
+          "families": [
+            {
+              "slug": "hand-potential-breakdown",
+              "title": "Potential breakdown",
+              "functions": [
+                "handPotentialBreakdown",
+                "handStrengthVsRange",
+                "positivePotentialVsRange",
+                "negativePotentialVsRange",
+                "twoStreetPositivePotential",
+                "twoStreetNegativePotential"
+              ]
+            },
+            {
+              "slug": "effective-hand-strength",
+              "title": "Effective hand strength",
+              "functions": [
+                "effectiveHandStrength",
+                "effectiveHandStrengthSquared"
+              ]
+            },
+            {
+              "slug": "combo-ehs-table",
+              "title": "EHS for every combo",
+              "functions": [
+                "comboEhsTableVsRange"
+              ]
+            },
+            {
+              "slug": "ehs-buckets",
+              "title": "EHS buckets",
+              "functions": [
+                "ehs2BucketsVsRange",
+                "equityBucketFromEhs",
+                "bucketMassFromRange",
+                "flopBucketStrategyTo1326",
+                "flopBucketCountDefault"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Betting math",
+      "categories": [
+        {
+          "slug": "pot-odds-and-ev",
+          "title": "Pot odds & EV",
+          "suit": "♥",
+          "blurb": "Call, raise, and multiway EV with one pot convention, rake included.",
+          "families": [
+            {
+              "slug": "pot-odds",
+              "title": "Pot odds",
+              "functions": [
+                "potOddsRatio",
+                "breakevenCallEquity"
+              ]
+            },
+            {
+              "slug": "expected-value-call",
+              "title": "Call EV",
+              "functions": [
+                "expectedValueCall",
+                "expectedValueCallWithRake",
+                "callOrFoldChipEvDelta"
+              ]
+            },
+            {
+              "slug": "expected-value-raise",
+              "title": "Raise EV",
+              "functions": [
+                "expectedValueRaise",
+                "expectedValueRaiseWithRake",
+                "breakevenRaiseEquity"
+              ]
+            },
+            {
+              "slug": "rake",
+              "title": "Rake",
+              "functions": [
+                "rakeFromPot",
+                "breakevenCallEquityWithRake",
+                "netPotAfterRake",
+                "netPotAfterCallAndRake"
+              ]
+            },
+            {
+              "slug": "antes",
+              "title": "Posted antes",
+              "functions": [
+                "breakevenCallEquityWithPostedAnte"
+              ]
+            },
+            {
+              "slug": "pot-size",
+              "title": "Pot size after action",
+              "functions": [
+                "potSizeAfterHuCall",
+                "potSizeAfterHuBet"
+              ]
+            },
+            {
+              "slug": "ev-per-big-blind",
+              "title": "EV in big blinds",
+              "functions": [
+                "expectedValuePerBigBlind"
+              ]
+            },
+            {
+              "slug": "odds-display",
+              "title": "Odds display",
+              "functions": [
+                "formatPotOdds",
+                "potOddsRatioDisplay",
+                "formatPotOddsReducedFraction",
+                "breakevenCallEquityFromPotOddsDisplayRatio",
+                "potOddsDisplayRatioFromBreakevenCallEquity",
+                "equityToWinningOddsAgainst",
+                "winningOddsAgainstToEquity"
+              ]
+            },
+            {
+              "slug": "multiway-calls",
+              "title": "Multiway calls",
+              "functions": [
+                "multiwayExpectedValueCall",
+                "multiwaySymmetricBreakevenCallEquity",
+                "multiwaySymmetricBreakevenCallEquityWithShare",
+                "multiwaySymmetricBreakevenCallEquityWithRake",
+                "multiwaySymmetricBreakevenCallEquityWithShareAndRake"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "stacks-and-sizing",
+          "title": "Stacks & sizing",
+          "suit": "♦",
+          "blurb": "SPR, effective stacks, Harrington M, commitment, and geometric bet plans.",
+          "families": [
+            {
+              "slug": "spr",
+              "title": "Stack-to-pot ratio",
+              "functions": [
+                "spr",
+                "sprAfterCall",
+                "sprAfterBet",
+                "sprAfterRaise",
+                "stackToPotAfterCall"
+              ]
+            },
+            {
+              "slug": "effective-stack",
+              "title": "Effective stack",
+              "functions": [
+                "effectiveStack",
+                "stackInBigBlinds",
+                "normalizedStackFractions"
+              ]
+            },
+            {
+              "slug": "harrington-m",
+              "title": "Harrington M and Q",
+              "functions": [
+                "harringtonM",
+                "harringtonMEffective",
+                "harringtonMEffectiveActiveAntes",
+                "harringtonQ",
+                "orbitCostChips"
+              ]
+            },
+            {
+              "slug": "commitment",
+              "title": "Commitment",
+              "functions": [
+                "commitmentRatio",
+                "commitmentRatioAfterBet"
+              ]
+            },
+            {
+              "slug": "bet-sizing",
+              "title": "Bet sizing",
+              "functions": [
+                "betAsPotFraction",
+                "betSizeToMatchPotFraction",
+                "nlMinimumRaiseToTotal"
+              ]
+            },
+            {
+              "slug": "geometric-sizing",
+              "title": "Geometric sizing",
+              "functions": [
+                "geometricStreetSizingPlan",
+                "geometricPotAfterMatchedPotFractions",
+                "geometricPotAfterSingleMatchedBet"
+              ]
+            },
+            {
+              "slug": "value-sizing",
+              "title": "Thin value",
+              "functions": [
+                "thinValueMargin",
+                "betSizingIndifferencePoint"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "gto-and-fold-equity",
+          "title": "GTO & fold equity",
+          "suit": "♣",
+          "blurb": "Defense frequencies, bluff ratios, and breakeven fold equity from one street to three.",
+          "families": [
+            {
+              "slug": "minimum-defense-frequency",
+              "title": "Minimum defense frequency",
+              "functions": [
+                "minimumDefenseFrequency",
+                "alphaFrequency",
+                "minimumDefenseFrequencyWithRake",
+                "alphaFrequencyWithRake"
+              ]
+            },
+            {
+              "slug": "bluff-to-value",
+              "title": "Bluff-to-value ratio",
+              "functions": [
+                "bluffToValueRatio",
+                "valueToBluffRatio",
+                "bluffToValueRatioWithRake",
+                "valueToBluffRatioWithRake"
+              ]
+            },
+            {
+              "slug": "pure-bluff",
+              "title": "Pure bluff",
+              "functions": [
+                "breakevenFoldEquityPureBluff",
+                "breakevenFoldEquityPureBluffWithRake",
+                "breakevenFoldEquityPureBluffWithAnte"
+              ]
+            },
+            {
+              "slug": "semi-bluff",
+              "title": "Semi-bluff",
+              "functions": [
+                "breakevenFoldEquitySemiBluff",
+                "breakevenFoldEquitySemiBluffWithRake",
+                "breakevenFoldEquitySemiBluffWithAnte"
+              ]
+            },
+            {
+              "slug": "multi-street-bluffs",
+              "title": "Multi-street bluffs",
+              "functions": [
+                "twoStreetPureBluffEv",
+                "twoStreetPureBluffEvWithRake",
+                "twoStreetPureBluffSameFoldEquity",
+                "breakevenFoldEquityFirstStreetPureBluff",
+                "breakevenFoldEquitySecondStreetPureBluff",
+                "threeStreetPureBluffEv",
+                "threeStreetPureBluffSameFoldEquity"
+              ]
+            },
+            {
+              "slug": "open-raise",
+              "title": "Open-raise fold equity",
+              "functions": [
+                "openRaiseBreakevenFoldEquity"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "draws-and-outs",
+          "title": "Draws & outs",
+          "suit": "♥",
+          "blurb": "Rule of 2 and 4, exact hypergeometric hit odds, overlapping outs, blockers, implied odds.",
+          "families": [
+            {
+              "slug": "rule-of-two-and-four",
+              "title": "Rule of 2 and 4",
+              "functions": [
+                "ruleOfTwoEquity",
+                "ruleOfFourEquity",
+                "estimatedOutsFromRuleOfTwo",
+                "estimatedOutsFromRuleOfFour"
+              ]
+            },
+            {
+              "slug": "hypergeometric",
+              "title": "Hit odds",
+              "functions": [
+                "hypergeometricOneCardHitProbability",
+                "hypergeometricTwoCardHitProbability",
+                "hypergeometricTwoCardMissProbability"
+              ]
+            },
+            {
+              "slug": "at-least-one-hit",
+              "title": "At least one hit",
+              "functions": [
+                "flopToRiverAtLeastOneHitProbability",
+                "flopToTurnAtLeastOneHitProbability",
+                "turnToRiverAtLeastOneHitProbability",
+                "flopToRiverAtLeastOneHitDisjointOutsSum",
+                "flopToTurnAtLeastOneHitDisjointOutsSum",
+                "turnToRiverAtLeastOneHitDisjointOutsSum"
+              ]
+            },
+            {
+              "slug": "overlapping-outs",
+              "title": "Overlapping outs",
+              "functions": [
+                "flopToRiverAtLeastOneHitUnionTwoCategories",
+                "flopToRiverAtLeastOneHitUnionThreeCategories",
+                "flopToRiverAtLeastOneHitUnionFourCategories",
+                "flopToTurnAtLeastOneHitUnionTwoCategories",
+                "flopToTurnAtLeastOneHitUnionThreeCategories",
+                "flopToTurnAtLeastOneHitUnionFourCategories",
+                "turnToRiverAtLeastOneHitUnionTwoCategories",
+                "turnToRiverAtLeastOneHitUnionThreeCategories",
+                "turnToRiverAtLeastOneHitUnionFourCategories"
+              ]
+            },
+            {
+              "slug": "runner-runner",
+              "title": "Runner-runner",
+              "functions": [
+                "runnerRunnerBackdoorFlushTwoCardProbability",
+                "runnerRunnerBackdoorFlushOneCardProbability",
+                "runnerRunnerStraightDrawHitProbability"
+              ]
+            },
+            {
+              "slug": "blockers",
+              "title": "Blockers",
+              "functions": [
+                "blockerAdjustedOuts",
+                "suitBlockerFraction"
+              ]
+            },
+            {
+              "slug": "implied-odds",
+              "title": "Implied odds",
+              "functions": [
+                "impliedBreakevenFutureWin",
+                "impliedOddsRequiredEquityFromFutureWin",
+                "reverseImpliedOddsMinEquity"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Ranges",
+      "categories": [
+        {
+          "slug": "ranges",
+          "title": "Ranges",
+          "suit": "♦",
+          "blurb": "Build, combine, measure, and compare 1326-combo ranges.",
+          "families": [
+            {
+              "slug": "preflop-combos",
+              "title": "Combos from notation",
+              "functions": [
+                "preflopCombosFromNotation",
+                "preflopCombosFromNotationsList",
+                "preflopCombosFromNotationMinusBlockers"
+              ]
+            },
+            {
+              "slug": "range-algebra",
+              "title": "Range algebra",
+              "functions": [
+                "normalizeSparseRange",
+                "mergeSparseRanges",
+                "intersectSparseRanges",
+                "subtractSparseRange",
+                "pruneRangeByMinWeight",
+                "normalizedRangeWeightSum"
+              ]
+            },
+            {
+              "slug": "range-statistics",
+              "title": "Range statistics",
+              "functions": [
+                "rangeComboCount",
+                "rangeTopCombos",
+                "rangeWeightTopKMass",
+                "rangeCoverageFraction",
+                "rangeShannonEntropy",
+                "rangeGiniCoefficient",
+                "villainPolarizedRangeScore"
+              ]
+            },
+            {
+              "slug": "range-distance",
+              "title": "Range distance",
+              "functions": [
+                "rangeDistanceJensenShannon",
+                "rangeDistanceL1",
+                "rangeDistanceL2",
+                "rangeCosineSimilarity"
+              ]
+            },
+            {
+              "slug": "range-buckets",
+              "title": "Notation and hand-class buckets",
+              "functions": [
+                "rangeFromNotationWeights",
+                "rangeBucketWeightsByNotation",
+                "rangeBucketWeightsByHandClass"
+              ]
+            },
+            {
+              "slug": "range-blockers",
+              "title": "Blockers and removal",
+              "functions": [
+                "materializeVillainRangeAfterBlockers",
+                "rangeBlockerPressureByCard",
+                "blockerMatrixByCard",
+                "rangeRemovalSensitivityVsHero"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "suit-isomorphism",
+          "title": "Suit isomorphism",
+          "suit": "♣",
+          "blurb": "Canonical boards and suit permutations: 22,100 flops collapse to 1,755.",
+          "families": [
+            {
+              "slug": "canonical-boards",
+              "title": "Canonical boards",
+              "functions": [
+                "canonicalFlopBoard",
+                "canonicalBoard",
+                "canonicalHolesAndBoard",
+                "suitPermFromCanonicalFlop"
+              ]
+            },
+            {
+              "slug": "suit-permutations",
+              "title": "Suit permutations",
+              "functions": [
+                "applySuitPermToCards",
+                "applySuitPermToRange1326"
+              ]
+            },
+            {
+              "slug": "flop-index",
+              "title": "Flop index",
+              "functions": [
+                "isomorphicFlopIndex",
+                "flopIndexToCanonical",
+                "countCanonicalFlops",
+                "isomorphicFlopOrbitSize",
+                "canonicalFlopCfrKey"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Solvers",
+      "categories": [
+        {
+          "slug": "solvers",
+          "title": "Solvers",
+          "suit": "♠",
+          "blurb": "River CFR, exploitability, Nash push/fold charts, and closed-form jam math.",
+          "families": [
+            {
+              "slug": "river-cfr",
+              "title": "River CFR",
+              "functions": [
+                "cfrRiverBetCallFoldSolve",
+                "solveHuRiverCheckBetTree",
+                "fictitiousPlayRiver"
+              ]
+            },
+            {
+              "slug": "exploitability",
+              "title": "Exploitability",
+              "functions": [
+                "exploitabilityRiver",
+                "bestResponseRiver",
+                "evOfStrategyProfile",
+                "strategySupportSize"
+              ]
+            },
+            {
+              "slug": "regret-matching",
+              "title": "Regret matching",
+              "functions": [
+                "regretMatchingStrategy",
+                "cfrNodeReachUpdate"
+              ]
+            },
+            {
+              "slug": "polarized-river-bet",
+              "title": "Polarized river bet",
+              "functions": [
+                "solveRiverPolarizedIndifferenceBet"
+              ]
+            },
+            {
+              "slug": "nash-heads-up",
+              "title": "Nash heads-up push/fold",
+              "functions": [
+                "nashHeadsUpJamCallSolve",
+                "nashHeadsUpJamRange",
+                "nashHeadsUpCallRange",
+                "nashIcmHeadsUpJamCallSolve"
+              ]
+            },
+            {
+              "slug": "nash-blind-vs-blind",
+              "title": "Nash blind vs blind",
+              "functions": [
+                "nashBlindVsBlindSolve"
+              ]
+            },
+            {
+              "slug": "nash-charts",
+              "title": "Nash charts",
+              "functions": [
+                "nashJamFoldChart169",
+                "nashCallChart169",
+                "nashIndifferenceStackBb"
+              ]
+            },
+            {
+              "slug": "symmetric-push-fold",
+              "title": "Symmetric push/fold",
+              "functions": [
+                "solveSymmetricPushFoldThreshold",
+                "pushFoldSymmetricEv",
+                "pushFoldSymmetricBreakevenEquity"
+              ]
+            },
+            {
+              "slug": "chubukov",
+              "title": "Chubukov jam stacks",
+              "functions": [
+                "chubukovSymmetricJamEv",
+                "chubukovSymmetricJamBreakevenStack",
+                "chubukovMaxSymmetricJamStackChipsBinarySearch",
+                "chubukovMaxSymmetricJamStackBinarySearch",
+                "chubukovMaxSymmetricJamStackFromHandBinarySearch"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Tournaments",
+      "categories": [
+        {
+          "slug": "icm",
+          "title": "ICM",
+          "suit": "♥",
+          "blurb": "Harville and Weitzman ICM, bubble factors, deals, and final-table spots.",
+          "families": [
+            {
+              "slug": "icm-expected-payouts",
+              "title": "ICM payouts",
+              "functions": [
+                "icmExpectedPayouts",
+                "icmExpectedPayoutsWeitzman",
+                "icmHarvilleSkillAdjustedPayouts"
+              ]
+            },
+            {
+              "slug": "harville-probabilities",
+              "title": "Finish probabilities",
+              "functions": [
+                "icmHarvillePlacementProbabilities",
+                "icmWinProbabilitiesHarville",
+                "icmTopKFinishProbabilities",
+                "icmLastPlaceProbabilitiesHarville"
+              ]
+            },
+            {
+              "slug": "stack-sensitivity",
+              "title": "Stack sensitivity",
+              "functions": [
+                "icmHarvilleStackJacobian"
+              ]
+            },
+            {
+              "slug": "bubble-factor",
+              "title": "Bubble factor",
+              "functions": [
+                "icmPairwiseBubbleFactor",
+                "icmCallingBubbleFactor"
+              ]
+            },
+            {
+              "slug": "deals-and-chops",
+              "title": "Deals and chops",
+              "functions": [
+                "icmChopNegotiationAnalysis",
+                "icmEqualChopPayouts",
+                "icmChopSurplusVsEqualSplit",
+                "icmChipLeaderPremiumVsEqualChop",
+                "icmExpectedPayoutsDeltaFromChipChop",
+                "icmDealEvPerChip"
+              ]
+            },
+            {
+              "slug": "payout-structure",
+              "title": "Payout structure",
+              "functions": [
+                "icmTotalPrizePool",
+                "icmPayoutStructureGini",
+                "icmSatelliteAdvanceProbability"
+              ]
+            },
+            {
+              "slug": "future-game-simulation",
+              "title": "Blinds and dead pots",
+              "functions": [
+                "fgsPayoutsBlindSchedule",
+                "icmPayoutsAfterBlindPost",
+                "icmDeadPotDollarEv"
+              ]
+            },
+            {
+              "slug": "tournament-duel",
+              "title": "Tournament duel",
+              "functions": [
+                "tournamentDuelAbsorptionProbabilities"
+              ]
+            },
+            {
+              "slug": "spin-and-go",
+              "title": "Spin & Go",
+              "functions": [
+                "spinGoIcmEv",
+                "spinGoPayouts"
+              ]
+            },
+            {
+              "slug": "preflop-spots",
+              "title": "Preflop all-in spots",
+              "functions": [
+                "squeezeEv",
+                "fourBetJamEv",
+                "threeBetPotCommitEv"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "bounties",
+          "title": "Bounties",
+          "suit": "♦",
+          "blurb": "Progressive and mystery bounties: knockout odds, ICMBU, and bounty-aware calls.",
+          "families": [
+            {
+              "slug": "knockout-probabilities",
+              "title": "Knockout probabilities",
+              "functions": [
+                "pkoKnockoutProbabilityMatrix",
+                "pkoExpectedBountyCollection"
+              ]
+            },
+            {
+              "slug": "icmbu",
+              "title": "ICM plus bounties",
+              "functions": [
+                "pkoIcmbuPayouts",
+                "pkoBountyRiskPremium",
+                "pkoFgsPayouts"
+              ]
+            },
+            {
+              "slug": "bounty-decisions",
+              "title": "Bounty-aware decisions",
+              "functions": [
+                "pkoCallEvVsShove",
+                "pkoJamEvVsFold",
+                "pkoCoveringHuntEv"
+              ]
+            },
+            {
+              "slug": "bounty-structures",
+              "title": "Bounty structures",
+              "functions": [
+                "progressiveKoPostedBounty",
+                "mysteryBountyExpectedValue",
+                "pkoWinnerTakeRemainingBounties"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "side-pots",
+          "title": "Side pots",
+          "suit": "♣",
+          "blurb": "Build side-pot layers from commitments and turn equities into chip EV.",
+          "families": [
+            {
+              "slug": "side-pot-ladder",
+              "title": "Side-pot ladder",
+              "functions": [
+                "sidePotLadderFromCommitments",
+                "sidePotLayersTotalChips",
+                "sidePotLayerCount"
+              ]
+            },
+            {
+              "slug": "layered-pot-ev",
+              "title": "Layered pot EV",
+              "functions": [
+                "layeredPotChipEvFromEquities",
+                "layeredPotChipEvFromEquitiesWithRake"
+              ]
+            },
+            {
+              "slug": "side-pot-breakeven",
+              "title": "Side-pot breakeven",
+              "functions": [
+                "sidePotBreakevenCallEquity"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Other games",
+      "categories": [
+        {
+          "slug": "omaha",
+          "title": "Omaha",
+          "suit": "♠",
+          "blurb": "PLO, PLO-8, and Big O: evaluation, exact and Monte Carlo equity, nuttedness.",
+          "families": [
+            {
+              "slug": "omaha-evaluation",
+              "title": "Omaha evaluation",
+              "functions": [
+                "evaluateOmahaBestHand",
+                "evaluateOmahaHandStrength"
+              ]
+            },
+            {
+              "slug": "omaha-equity",
+              "title": "Omaha equity",
+              "functions": [
+                "exactHuOmahaEquityVsKnown",
+                "simulateOmahaEquityVsRandom",
+                "simulateOmahaEquityVsRange",
+                "omahaMultiwayEquityMc"
+              ]
+            },
+            {
+              "slug": "omaha-nuts",
+              "title": "Omaha nuts and draws",
+              "functions": [
+                "omahaNutsOnBoard",
+                "omahaNuttednessScore",
+                "omahaWrapDrawOuts",
+                "omahaComboCount"
+              ]
+            },
+            {
+              "slug": "omaha-hi-lo-evaluation",
+              "title": "Hi-Lo evaluation",
+              "functions": [
+                "evaluateOmahaHiLo",
+                "evaluateOmahaLoHand",
+                "omahaLoQualifies"
+              ]
+            },
+            {
+              "slug": "omaha-hi-lo-equity",
+              "title": "Hi-Lo equity",
+              "functions": [
+                "exactHuOmahaHiLoEquity",
+                "simulateOmahaHiLoEquity",
+                "omahaScoopProbabilityMc",
+                "omahaQuarterProbabilityMc",
+                "omahaHiLoMultiwayMc"
+              ]
+            },
+            {
+              "slug": "omaha-hi-lo-nuts",
+              "title": "Hi-Lo nuts",
+              "functions": [
+                "omahaHiLoNuttedness",
+                "omahaLoNutsOnBoard"
+              ]
+            },
+            {
+              "slug": "big-o-evaluation",
+              "title": "Big O evaluation",
+              "functions": [
+                "evaluateBigOBestHand",
+                "evaluateBigOHandStrength",
+                "bigONutsOnBoard",
+                "bigOComboCount"
+              ]
+            },
+            {
+              "slug": "big-o-equity",
+              "title": "Big O equity",
+              "functions": [
+                "exactHuBigOEquityVsKnown",
+                "simulateBigOEquityVsRandom",
+                "simulateBigOEquityVsRange",
+                "bigOMultiwayEquityMc"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "short-deck",
+          "title": "Short deck",
+          "suit": "♥",
+          "blurb": "6+ Hold'em on the 36-card deck, where a flush beats a full house.",
+          "families": [
+            {
+              "slug": "short-deck-evaluation",
+              "title": "Short deck evaluation",
+              "functions": [
+                "evaluateShortDeckBestHand",
+                "evaluateShortDeckHandStrength",
+                "evaluateShortDeckCategory",
+                "shortDeckStraightIsWheel",
+                "shortDeckVsHoldemCategoryFlip"
+              ]
+            },
+            {
+              "slug": "short-deck-equity",
+              "title": "Short deck equity",
+              "functions": [
+                "exactHuShortDeckEquityVsKnown",
+                "simulateShortDeckEquityVsRandom",
+                "simulateShortDeckEquityVsRange",
+                "shortDeckRemainingComboCount"
+              ]
+            },
+            {
+              "slug": "short-deck-nash",
+              "title": "Short deck Nash",
+              "functions": [
+                "shortDeckNashHuJamRange"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "stud-and-draw",
+          "title": "Stud, razz & 2-7",
+          "suit": "♦",
+          "blurb": "Seven-card stud, razz, and Kansas City 2-7 single draw.",
+          "families": [
+            {
+              "slug": "stud",
+              "title": "Seven-card stud",
+              "functions": [
+                "evaluateStudBestHand",
+                "exactHuStudEquityVsKnown",
+                "simulateStudEquityVsRandom",
+                "studDeadCardDeck"
+              ]
+            },
+            {
+              "slug": "razz",
+              "title": "Razz",
+              "functions": [
+                "evaluateRazzHand",
+                "exactHuRazzEquityVsKnown",
+                "simulateRazzEquityVsRandom",
+                "razzWheelIsNuts"
+              ]
+            },
+            {
+              "slug": "deuce-seven-evaluation",
+              "title": "2-7 evaluation",
+              "functions": [
+                "evaluateDeuceSevenHand",
+                "evaluateDeuceSevenCategory",
+                "deuceSevenIsPat",
+                "deuceSevenNutsPat",
+                "deuceSevenRoughVsSmooth"
+              ]
+            },
+            {
+              "slug": "deuce-seven-equity",
+              "title": "2-7 equity",
+              "functions": [
+                "deuceSevenDrawEquityVsKnown",
+                "deuceSevenMultiwayShowdown"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Tools",
+      "categories": [
+        {
+          "slug": "statistics",
+          "title": "Statistics & bankroll",
+          "suit": "♣",
+          "blurb": "Confidence intervals, Monte Carlo sample sizes, Kelly staking, and risk of ruin.",
+          "families": [
+            {
+              "slug": "confidence-intervals",
+              "title": "Confidence intervals",
+              "functions": [
+                "wilsonScoreInterval",
+                "agrestiCoullInterval",
+                "normalWaldBinomialInterval",
+                "binomialProportionCiWidth"
+              ]
+            },
+            {
+              "slug": "monte-carlo-error",
+              "title": "Monte Carlo error",
+              "functions": [
+                "monteCarloStandardError",
+                "monteCarloTrialsForStandardErrorBound",
+                "monteCarloTrialsForWilsonHalfWidth",
+                "monteCarloTrialsForHoeffdingBound"
+              ]
+            },
+            {
+              "slug": "kelly",
+              "title": "Kelly criterion",
+              "functions": [
+                "kellyCriterionBinary",
+                "halfKellyCriterionBinary",
+                "quarterKellyCriterionBinary",
+                "eighthKellyCriterionBinary",
+                "kellyCriterionBinaryClamped"
+              ]
+            },
+            {
+              "slug": "risk-of-ruin",
+              "title": "Risk of ruin",
+              "functions": [
+                "riskOfRuinDiffusionApprox",
+                "bankrollForTargetRorDiffusion",
+                "varianceToStandardDeviationPerHand"
+              ]
+            },
+            {
+              "slug": "fold-frequency-posterior",
+              "title": "Fold-frequency posterior",
+              "functions": [
+                "betaBinomialFoldPosterior"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "opponent-modeling",
+          "title": "Opponent modeling",
+          "suit": "♠",
+          "blurb": "Posteriors and tendency estimates from observed actions.",
+          "families": [
+            {
+              "slug": "fold-to-cbet",
+              "title": "Fold to c-bet",
+              "functions": [
+                "opponentFoldToCbetPosterior"
+              ]
+            },
+            {
+              "slug": "aggression-factor",
+              "title": "Aggression factor",
+              "functions": [
+                "opponentAggressionFactor"
+              ]
+            },
+            {
+              "slug": "range-elasticity",
+              "title": "Range elasticity",
+              "functions": [
+                "opponentRangeElasticityFromSizing"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "bots",
+          "title": "Bots & game state",
+          "suit": "♥",
+          "blurb": "decideAction over serialized table state, legal actions, and the PKST packed format.",
+          "families": [
+            {
+              "slug": "decide-action",
+              "title": "decideAction",
+              "functions": [
+                "decideAction",
+                "decideActionAsync",
+                "decideActionWithDiagnostics"
+              ]
+            },
+            {
+              "slug": "bot-policy-batch",
+              "title": "Batch bot policy",
+              "functions": [
+                "runBotPolicyBatch"
+              ]
+            },
+            {
+              "slug": "legal-actions",
+              "title": "Legal actions",
+              "functions": [
+                "legalActionSummary",
+                "actionMaskFromState"
+              ]
+            },
+            {
+              "slug": "poker-state",
+              "title": "Poker state",
+              "functions": [
+                "validatePokerState",
+                "encodePokerState",
+                "decodePokerState",
+                "stateToFeatureVector"
+              ]
+            },
+            {
+              "slug": "bot-config",
+              "title": "Bot config",
+              "functions": [
+                "normalizeBotConfig"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

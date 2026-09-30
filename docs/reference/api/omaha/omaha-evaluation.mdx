@@ -1,0 +1,95 @@
+---
+title: "Omaha evaluation"
+sidebar_label: "Omaha evaluation"
+sidebar_position: 1
+description: "Best 5-card Omaha Hi hand: exactly 2 hole + exactly 3 board."
+api_functions: ["evaluateOmahaBestHand", "evaluateOmahaHandStrength"]
+---
+
+# Omaha evaluation
+
+<ApiFamilyHeader category="Omaha" suit="♠" functions={["evaluateOmahaBestHand","evaluateOmahaHandStrength"]} />
+
+## `evaluateOmahaBestHand` \{#evaluateOmahaBestHand\}
+
+Best 5-card Omaha Hi hand: exactly 2 hole + exactly 3 board. `holeCards` must be 4 cards; `boardCards` must be 3–5 (flop C(4,2)=6, river C(4,2)*C(5,3)=60). Same `HandEvalResult` shape as `evaluateBestHand`.
+
+```ts
+evaluateOmahaBestHand(
+  holeCards: CardInput,
+  boardCards: CardInput,
+  options?: EvaluateBestHandOptions
+): HandEvalResult;
+evaluateOmahaBestHand(
+  holeCards: CardInput,
+  boardCards: CardInput,
+  options: { format: 'slim' }
+): HandEvalResultSlim;
+```
+
+<details>
+<summary>Types: <code>HandEvalResultSlim</code>, <code>HandEvalResult</code>, <code>EvaluateBestHandOptions</code>, <code>EvaluateBestHandFormat</code></summary>
+
+```ts
+interface HandEvalResultSlim {
+  rankCategory: number;
+  strength: number;
+}
+
+interface HandEvalResult {
+  /** Category label (interned at module load). */
+  rank: string;
+  /** 0..9 — same order as `handRankCategoryOrder` / `highCard` … `royalFlush`. */
+  rankCategory: number;
+  /** Same bit layout as `evaluateHandStrength` (`pack_hand_strength`). */
+  strength: number;
+  /** Five encoded kicker values (tie-break order); omitted when `format: 'slim'`. */
+  kickers: number[];
+}
+
+interface EvaluateBestHandOptions {
+  format?: EvaluateBestHandFormat;
+}
+
+type EvaluateBestHandFormat = 'full' | 'slim';
+```
+
+Field notes: [`HandEvalResultSlim`](/docs/reference/types/hand-eval-result-slim) · [`HandEvalResult`](/docs/reference/types/hand-eval-result)
+
+</details>
+
+Omaha hands must use exactly two hole cards and three board cards. Returns the same shape as `evaluateBestHand`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+// Four hearts on board, but hero holds only one heart: no flush in Omaha
+console.log(poker.evaluateOmahaBestHand(['Ah', 'Kd', 'Qc', 'Js'], ['2h', '5h', '8h', '9h', 'Tc']));
+```
+
+```text title="Output"
+{
+  rankCategory: 4,
+  strength: 67764224,
+  rank: 'straight',
+  kickers: [ 10, 0, 0, 0, 0 ]
+}
+```
+
+## `evaluateOmahaHandStrength` \{#evaluateOmahaHandStrength\}
+
+Omaha Hi strength using the same `pack_hand_strength` encoding as `evaluateHandStrength` (5-card rank + kickers). Not a 7-card best-of-9.
+
+```ts
+evaluateOmahaHandStrength(holeCards: CardInput, boardCards: CardInput): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const a = poker.evaluateOmahaHandStrength(['Ah', 'Kh', 'Qc', 'Js'], ['2h', '5h', '8h']);
+const b = poker.evaluateOmahaHandStrength(['Ad', 'Kd', 'Qs', 'Jc'], ['2h', '5h', '8h']);
+console.log(a > b); // the flush beats ace-high
+```
+
+```text title="Output"
+true
+```

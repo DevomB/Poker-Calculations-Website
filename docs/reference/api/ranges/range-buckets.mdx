@@ -1,0 +1,141 @@
+---
+title: "Notation and hand-class buckets"
+sidebar_label: "Notation and hand-class buckets"
+sidebar_position: 5
+description: "Build a dense range from notation-weight entries."
+api_functions: ["rangeFromNotationWeights", "rangeBucketWeightsByNotation", "rangeBucketWeightsByHandClass"]
+---
+
+# Notation and hand-class buckets
+
+<ApiFamilyHeader category="Ranges" suit="♦" functions={["rangeFromNotationWeights","rangeBucketWeightsByNotation","rangeBucketWeightsByHandClass"]} />
+
+## `rangeFromNotationWeights` \{#rangeFromNotationWeights\}
+
+Build a dense range from notation-weight entries.
+
+```ts
+rangeFromNotationWeights(entries: RangeNotationWeight[]): Float64Array;
+```
+
+Use `rangeFromNotationWeights` when you need to build a dense range from notation-weight entries.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = poker.rangeFromNotationWeights([
+  { notation: 'AA', weight: 1 },
+  { notation: 'AKs', weight: 1 },
+  { notation: 'AKo', weight: 0.5 },
+]);
+console.log(range.length, poker.rangeComboCount(range)); // 6 + 4 + 12 combos
+```
+
+```text title="Output"
+1326 22
+```
+
+## `rangeBucketWeightsByNotation` \{#rangeBucketWeightsByNotation\}
+
+Aggregate combo weights into notation buckets such as AKs and QQ.
+
+```ts
+rangeBucketWeightsByNotation(range: SparseRangeSpec | Float64Array): RangeNotationWeight[];
+```
+
+<details>
+<summary>Types: <code>RangeNotationWeight</code></summary>
+
+```ts
+interface RangeNotationWeight {
+  notation: string;
+  weight: number;
+}
+```
+
+Field notes: [`RangeNotationWeight`](/docs/reference/types/range-notation-weight)
+
+</details>
+
+Use `rangeBucketWeightsByNotation` when you need to aggregate combo weights into notation buckets such as AKs and QQ.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const result = poker.rangeBucketWeightsByNotation(range, 5);
+console.log(result);
+```
+
+```text title="Output"
+[
+  { notation: 'K2o', weight: 0.00904977375565611 },
+  { notation: 'Q5o', weight: 0.00904977375565611 },
+  { notation: '32o', weight: 0.00904977375565611 },
+  { notation: 'A3o', weight: 0.00904977375565611 },
+  { notation: '42o', weight: 0.00904977375565611 },
+  { notation: 'KJo', weight: 0.00904977375565611 },
+  { notation: '52o', weight: 0.00904977375565611 },
+  { notation: 'A4o', weight: 0.00904977375565611 },
+  { notation: '62o', weight: 0.00904977375565611 },
+  { notation: '54o', weight: 0.00904977375565611 },
+  { notation: '72o', weight: 0.00904977375565611 },
+  { notation: 'K3o', weight: 0.00904977375565611 },
+  { notation: '82o', weight: 0.00904977375565611 },
+  { notation: '64o', weight: 0.00904977375565611 },
+  { notation: '92o', weight: 0.00904977375565611 },
+…
+```
+
+## `rangeBucketWeightsByHandClass` \{#rangeBucketWeightsByHandClass\}
+
+Bucket range mass into practical preflop hand classes.
+
+```ts
+rangeBucketWeightsByHandClass(range: SparseRangeSpec | Float64Array): RangeClassWeights;
+```
+
+<details>
+<summary>Types: <code>RangeClassWeights</code></summary>
+
+```ts
+interface RangeClassWeights {
+  pairs: number;
+  suitedBroadways: number;
+  offsuitBroadways: number;
+  suitedConnectors: number;
+  suitedAces: number;
+  other: number;
+}
+```
+
+Field notes: [`RangeClassWeights`](/docs/reference/types/range-class-weights)
+
+</details>
+
+Use `rangeBucketWeightsByHandClass` when you need to bucket range mass into practical preflop hand classes.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const result = poker.rangeBucketWeightsByHandClass(range, 5);
+console.log(result);
+```
+
+```text title="Output"
+{
+  pairs: 0.05882352941176463,
+  suitedBroadways: 0.018099547511312226,
+  offsuitBroadways: 0.05429864253393659,
+  suitedConnectors: 0.027149321266968344,
+  suitedAces: 0.027149321266968344,
+  other: 0.8144796380090471
+}
+```
+
+## See also
+
+- [`materializeVillainRangeAfterBlockers`](/docs/reference/api/ranges/range-blockers#materializeVillainRangeAfterBlockers)
+- [Sparse range input](/docs/concepts/sparse-range-input)

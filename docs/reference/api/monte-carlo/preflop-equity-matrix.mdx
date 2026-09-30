@@ -1,0 +1,47 @@
+---
+title: "Preflop equity matrix"
+sidebar_label: "Preflop equity matrix"
+sidebar_position: 5
+description: "Preflop 169×169 equity matrix (row-major Float64Array, length 169*169)."
+api_functions: ["buildPreflopEquityMatrix"]
+---
+
+# Preflop equity matrix
+
+<ApiFamilyHeader category="Monte Carlo equity" suit="♥" functions={["buildPreflopEquityMatrix"]} />
+
+## `buildPreflopEquityMatrix` \{#buildPreflopEquityMatrix\}
+
+Preflop 169×169 equity matrix (row-major `Float64Array`, length `169*169`).
+
+```ts
+buildPreflopEquityMatrix(options?: PreflopMatrixOptions): Float64Array;
+```
+
+<details>
+<summary>Types: <code>PreflopMatrixOptions</code></summary>
+
+```ts
+interface PreflopMatrixOptions {
+  iterations?: number;
+  seed?: number;
+  threads?: number;
+}
+```
+
+Field notes: [`PreflopMatrixOptions`](/docs/reference/types/preflop-matrix-options)
+
+</details>
+
+Use for heatmaps, correlation studies, or batch preflop analysis.
+
+```js title="Example"
+const poker = require('poker-calculations');
+// 169×169 hand classes, row-major; a few hundred trials per cell is enough to explore
+const m = poker.buildPreflopEquityMatrix({ iterations: 200, seed: 1, threads: 4 });
+console.log(m.length); // 28561
+```
+
+```text title="Output"
+28561
+```

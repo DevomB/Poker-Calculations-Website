@@ -1,0 +1,126 @@
+---
+title: "Equity quantiles"
+sidebar_label: "Equity quantiles"
+sidebar_position: 2
+description: "Exact **distribution** of hero equity over all turn/river runouts — mean, variance, and p05/p50/p95 — vs a random villain or an optional weighted range."
+api_functions: ["exactHeroEquityRunoutQuantiles", "exactHeroEquityRunoutQuantilesAsync"]
+---
+
+# Equity quantiles
+
+<ApiFamilyHeader category="Runout analysis" suit="♣" functions={["exactHeroEquityRunoutQuantiles","exactHeroEquityRunoutQuantilesAsync"]} />
+
+## `exactHeroEquityRunoutQuantiles` \{#exactHeroEquityRunoutQuantiles\}
+
+Exact **distribution** of hero equity over all turn/river runouts — mean, variance, and p05/p50/p95 — vs a random villain or an optional weighted range.
+
+```ts
+exactHeroEquityRunoutQuantiles(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  range?: Float64Array | SparseRangeSpec
+): HeroEquityRunoutQuantilesResult;
+```
+
+<details>
+<summary>Types: <code>HeroEquityRunoutQuantilesResult</code></summary>
+
+```ts
+interface HeroEquityRunoutQuantilesResult {
+  mean: number;
+  variance: number;
+  p05: number;
+  p50: number;
+  p95: number;
+  n: number;
+}
+```
+
+Field notes: [`HeroEquityRunoutQuantilesResult`](/docs/reference/types/hero-equity-runout-quantiles-result)
+
+</details>
+
+Mean equity on a draw-heavy board hides bad runouts — enumerate all completions and read the **spread** (tail risk, variance) for study or bot thresholds.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const hero = ['Ah', 'Kh'];
+const flop = ['Qh', 'Jh', '2c'];
+
+const q = poker.exactHeroEquityRunoutQuantiles(hero, flop);
+
+console.log('Mean:', q.mean);
+console.log('p05 / p50 / p95:', q.p05, q.p50, q.p95);
+console.log('Runouts:', q.n);
+```
+
+```text title="Output"
+Mean: 0.7633009091843457
+p05 / p50 / p95: 0.36414141414141415 0.8767676767676768 1
+Runouts: 1081
+```
+
+Omit `range` for equity vs a uniform random villain; pass `Float64Array(1326)` or sparse spec for a weighted range (heavier). Board must be **3 or 4** cards.
+
+**Returns** [`HeroEquityRunoutQuantilesResult`](/docs/reference/types/hero-equity-runout-quantiles-result).
+
+## `exactHeroEquityRunoutQuantilesAsync` \{#exactHeroEquityRunoutQuantilesAsync\}
+
+Non-blocking [`exactHeroEquityRunoutQuantiles`](/docs/reference/api/runout-analysis/runout-equity-quantiles#exactHeroEquityRunoutQuantiles) — same runout equity distribution with optional `AbortSignal`.
+
+```ts
+exactHeroEquityRunoutQuantilesAsync(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  range?: Float64Array | SparseRangeSpec,
+  options?: AsyncOptions
+): Promise<HeroEquityRunoutQuantilesResult>;
+```
+
+<details>
+<summary>Types: <code>HeroEquityRunoutQuantilesResult</code></summary>
+
+```ts
+interface HeroEquityRunoutQuantilesResult {
+  mean: number;
+  variance: number;
+  p05: number;
+  p50: number;
+  p95: number;
+  n: number;
+}
+```
+
+Field notes: [`HeroEquityRunoutQuantilesResult`](/docs/reference/types/hero-equity-runout-quantiles-result)
+
+</details>
+
+Same as sync, but with a **weighted villain range** or when enumeration would block the server — use `await` and optional cancellation.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const q = await poker.exactHeroEquityRunoutQuantilesAsync(
+  ['Ah', 'Kh'],
+  ['Qh', 'Jh', '2c'],
+  range,
+);
+
+console.log('Mean:', q.mean, 'p05:', q.p05, 'p95:', q.p95);
+```
+
+```text title="Output"
+Mean: 0.7633009091843457 p05: 0.36414141414141427 p95: 1
+```
+
+**Returns** [`HeroEquityRunoutQuantilesResult`](/docs/reference/types/hero-equity-runout-quantiles-result).
+
+## See also
+
+- [`exactHuEquityVsRange`](/docs/reference/api/exact-equity/exact-hu-vs-range#exactHuEquityVsRange)
+- [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots)
+- [AsyncOptions](/docs/reference/types/async-options)

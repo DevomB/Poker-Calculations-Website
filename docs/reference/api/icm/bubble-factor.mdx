@@ -1,0 +1,67 @@
+---
+title: "Bubble factor"
+sidebar_label: "Bubble factor"
+sidebar_position: 4
+description: "pairwise bubble factor (finite differences on icmExpectedPayouts)."
+api_functions: ["icmPairwiseBubbleFactor", "icmCallingBubbleFactor"]
+---
+
+# Bubble factor
+
+<ApiFamilyHeader category="ICM" suit="♥" functions={["icmPairwiseBubbleFactor","icmCallingBubbleFactor"]} />
+
+## `icmPairwiseBubbleFactor` \{#icmPairwiseBubbleFactor\}
+
+pairwise bubble factor (finite differences on `icmExpectedPayouts`).
+
+```ts
+icmPairwiseBubbleFactor(
+  stacks: number[],
+  payouts: number[],
+  heroIndex: number,
+  villainIndex: number,
+  potChips: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const stacks = [9000, 8500, 3000];
+const payouts = [6000, 3600, 2400];
+// Hero (seat 0) vs the short stack (seat 2) for a 3000-chip pot
+const bf = poker.icmPairwiseBubbleFactor(stacks, payouts, 0, 2, 3000);
+console.log(bf.toFixed(3)); // above 1: losing costs more $ than winning gains
+```
+
+```text title="Output"
+1.063
+```
+
+## `icmCallingBubbleFactor` \{#icmCallingBubbleFactor\}
+
+Calling bubble factor for one hero-vs-villain all-in: `(EV_now - EV_lose) / (EV_win - EV_now)` after transferring `chipsAtRisk`. Distinct from `icmPairwiseBubbleFactor`. Tiny gain with a real loss returns `+Infinity`.
+
+```ts
+icmCallingBubbleFactor(
+  stacks: F64VectorInput,
+  payouts: F64VectorInput,
+  heroIndex: number,
+  villainIndex: number,
+  chipsAtRisk: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+// Calling off 2000 chips against the short stack on a 3-handed bubble
+console.log(poker.icmCallingBubbleFactor([5000, 3000, 2000], [500, 300, 0], 1, 2, 2000).toFixed(3));
+```
+
+```text title="Output"
+1.182
+```
+
+## See also
+
+- [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts)
+- [`multiwaySymmetricBreakevenCallEquity`](/docs/reference/api/pot-odds-and-ev/multiway-calls#multiwaySymmetricBreakevenCallEquity)

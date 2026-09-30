@@ -1,0 +1,351 @@
+---
+title: "Overlapping outs"
+sidebar_label: "Overlapping outs"
+sidebar_position: 4
+description: "two out categories with card-level overlap; sharedAb = intersection size."
+api_functions: ["flopToRiverAtLeastOneHitUnionTwoCategories", "flopToRiverAtLeastOneHitUnionThreeCategories", "flopToRiverAtLeastOneHitUnionFourCategories", "flopToTurnAtLeastOneHitUnionTwoCategories", "flopToTurnAtLeastOneHitUnionThreeCategories", "flopToTurnAtLeastOneHitUnionFourCategories", "turnToRiverAtLeastOneHitUnionTwoCategories", "turnToRiverAtLeastOneHitUnionThreeCategories", "turnToRiverAtLeastOneHitUnionFourCategories"]
+---
+
+# Overlapping outs
+
+<ApiFamilyHeader category="Draws & outs" suit="♥" functions={["flopToRiverAtLeastOneHitUnionTwoCategories","flopToRiverAtLeastOneHitUnionThreeCategories","flopToRiverAtLeastOneHitUnionFourCategories","flopToTurnAtLeastOneHitUnionTwoCategories","flopToTurnAtLeastOneHitUnionThreeCategories","flopToTurnAtLeastOneHitUnionFourCategories","turnToRiverAtLeastOneHitUnionTwoCategories","turnToRiverAtLeastOneHitUnionThreeCategories","turnToRiverAtLeastOneHitUnionFourCategories"]} />
+
+## `flopToRiverAtLeastOneHitUnionTwoCategories` \{#flopToRiverAtLeastOneHitUnionTwoCategories\}
+
+two out categories with card-level overlap; `sharedAb` = intersection size. Uses union cardinality `outsA + outsB - sharedAb` in the two-draw formula.
+
+```ts
+flopToRiverAtLeastOneHitUnionTwoCategories(
+  unseenAfterFlop: number,
+  outsA: number,
+  outsB: number,
+  sharedAb: number
+): number;
+```
+
+Combine **flush outs and straight outs** when some cards count toward both (overlap). Union size is `outsA + outsB - sharedAb` before the two-street hit formula runs.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const unseen = 47;
+const flushOuts = 9;
+const straightOuts = 4;
+const shared = 1; // one card is both flush and straight out
+
+const p = poker.flopToRiverAtLeastOneHitUnionTwoCategories(
+  unseen,
+  flushOuts,
+  straightOuts,
+  shared
+);
+console.log(p);
+```
+
+```text title="Output"
+0.44958371877890846
+```
+
+## `flopToRiverAtLeastOneHitUnionThreeCategories` \{#flopToRiverAtLeastOneHitUnionThreeCategories\}
+
+three categories; union = `oa+ob+oc - sab - sac - sbc + sabc`.
+
+```ts
+flopToRiverAtLeastOneHitUnionThreeCategories(
+  unseenAfterFlop: number,
+  outsA: number,
+  outsB: number,
+  outsC: number,
+  sharedAb: number,
+  sharedAc: number,
+  sharedBc: number,
+  sharedAbc: number
+): number;
+```
+
+Three-way out overlap (e.g. flush + straight + pair outs) needs **inclusion–exclusion on card counts** before applying the flop→river formula. Pass pairwise and triple intersection sizes as actual cards, not combo counts.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const p = poker.flopToRiverAtLeastOneHitUnionThreeCategories(
+  47, // unseen after flop
+  9, 4, 3, // outs A, B, C
+  1, 0, 0, // shared AB, AC, BC
+  0         // shared ABC
+);
+console.log(p);
+```
+
+```text title="Output"
+0.5411655874190564
+```
+
+## `flopToRiverAtLeastOneHitUnionFourCategories` \{#flopToRiverAtLeastOneHitUnionFourCategories\}
+
+four out categories; inclusion–exclusion on **card counts** (pair/triple/four-way intersection sizes). Pair order (0,1)(0,2)(0,3)(1,2)(1,3)(2,3); triples (0,1,2)(0,1,3)(0,2,3)(1,2,3); last arg four-way.
+
+```ts
+flopToRiverAtLeastOneHitUnionFourCategories(
+  unseenAfterFlop: number,
+  outsA: number,
+  outsB: number,
+  outsC: number,
+  outsD: number,
+  s01: number,
+  s02: number,
+  s03: number,
+  s12: number,
+  s13: number,
+  s23: number,
+  s012: number,
+  s013: number,
+  s023: number,
+  s123: number,
+  fourWay: number
+): number;
+```
+
+Maximum structured overlap case: four out families with all pairwise, triple, and four-way **shared card counts**. Pair indices follow `(0,1)(0,2)(0,3)(1,2)(1,3)(2,3)` as documented in `index.d.ts`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+// Toy: four small categories, mostly disjoint
+const p = poker.flopToRiverAtLeastOneHitUnionFourCategories(
+  47,
+  4, 4, 3, 2,       // outs A–D
+  0, 0, 0, 0, 0, 0, // pairwise shared
+  0, 0, 0, 0,       // triple shared
+  0                 // four-way shared
+);
+console.log(p);
+```
+
+```text title="Output"
+0.4810360777058279
+```
+
+## `flopToTurnAtLeastOneHitUnionTwoCategories` \{#flopToTurnAtLeastOneHitUnionTwoCategories\}
+
+Two overlapping categories, one street (flop→turn).
+
+```ts
+flopToTurnAtLeastOneHitUnionTwoCategories(
+  unseen: number,
+  outsA: number,
+  outsB: number,
+  sharedAb: number
+): number;
+```
+
+Flop→turn hit rate when two out categories overlap (e.g. flush + straight). Union size is `outsA + outsB - sharedAb` before the one-street formula.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const unseen = 47;
+const flushOuts = 9;
+const straightOuts = 4;
+const shared = 1; // one card counts toward both
+
+const p = poker.flopToTurnAtLeastOneHitUnionTwoCategories(
+  unseen,
+  flushOuts,
+  straightOuts,
+  shared,
+);
+console.log(p); // 12/47 — same union logic as flop→river, one card only
+```
+
+```text title="Output"
+0.2553191489361702
+```
+
+## `flopToTurnAtLeastOneHitUnionThreeCategories` \{#flopToTurnAtLeastOneHitUnionThreeCategories\}
+
+Three categories with inclusion–exclusion, one street.
+
+```ts
+flopToTurnAtLeastOneHitUnionThreeCategories(
+  unseen: number,
+  outsA: number,
+  outsB: number,
+  outsC: number,
+  sharedAb: number,
+  sharedAc: number,
+  sharedBc: number,
+  sharedAbc: number
+): number;
+```
+
+Three overlapping out families on flop→turn. Pass pairwise and triple **shared card counts**; inclusion–exclusion runs before the one-street hit formula.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+// Mostly disjoint toy categories on the turn
+const p = poker.flopToTurnAtLeastOneHitUnionThreeCategories(
+  47,
+  9, 4, 2, // outs A, B, C
+  0, 0, 0, // shared AB, AC, BC
+  0,       // shared ABC
+);
+console.log(p);
+```
+
+```text title="Output"
+0.3191489361702128
+```
+
+## `flopToTurnAtLeastOneHitUnionFourCategories` \{#flopToTurnAtLeastOneHitUnionFourCategories\}
+
+Four categories with inclusion–exclusion, one street.
+
+```ts
+flopToTurnAtLeastOneHitUnionFourCategories(
+  unseen: number,
+  outsA: number,
+  outsB: number,
+  outsC: number,
+  outsD: number,
+  s01: number,
+  s02: number,
+  s03: number,
+  s12: number,
+  s13: number,
+  s23: number,
+  s012: number,
+  s013: number,
+  s023: number,
+  s123: number,
+  fourWay: number
+): number;
+```
+
+Four out categories on flop→turn. Pair indices `(0,1)(0,2)(0,3)(1,2)(1,3)(2,3)` then triples then four-way — same layout as [`flopToRiverAtLeastOneHitUnionFourCategories`](/docs/reference/api/draws-and-outs/overlapping-outs#flopToRiverAtLeastOneHitUnionFourCategories).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const p = poker.flopToTurnAtLeastOneHitUnionFourCategories(
+  47,
+  4, 4, 3, 2,
+  0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0,
+  0,
+);
+console.log(p);
+```
+
+```text title="Output"
+0.2765957446808511
+```
+
+## `turnToRiverAtLeastOneHitUnionTwoCategories` \{#turnToRiverAtLeastOneHitUnionTwoCategories\}
+
+Two overlapping categories, turn→river.
+
+```ts
+turnToRiverAtLeastOneHitUnionTwoCategories(
+  unseen: number,
+  outsA: number,
+  outsB: number,
+  sharedAb: number
+): number;
+```
+
+Turn→river with two overlapping out categories. Mirror of [`flopToTurnAtLeastOneHitUnionTwoCategories`](/docs/reference/api/draws-and-outs/overlapping-outs#flopToTurnAtLeastOneHitUnionTwoCategories) on the river street.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const unseen = 44;
+const p = poker.turnToRiverAtLeastOneHitUnionTwoCategories(unseen, 9, 4, 1);
+console.log(p); // 12/44
+```
+
+```text title="Output"
+0.2727272727272727
+```
+
+## `turnToRiverAtLeastOneHitUnionThreeCategories` \{#turnToRiverAtLeastOneHitUnionThreeCategories\}
+
+Three categories, turn→river.
+
+```ts
+turnToRiverAtLeastOneHitUnionThreeCategories(
+  unseen: number,
+  outsA: number,
+  outsB: number,
+  outsC: number,
+  sharedAb: number,
+  sharedAc: number,
+  sharedBc: number,
+  sharedAbc: number
+): number;
+```
+
+Three categories on turn→river with full inclusion–exclusion on card counts.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const p = poker.turnToRiverAtLeastOneHitUnionThreeCategories(44, 9, 4, 2, 0, 0, 0, 0);
+console.log(p);
+```
+
+```text title="Output"
+0.3409090909090909
+```
+
+## `turnToRiverAtLeastOneHitUnionFourCategories` \{#turnToRiverAtLeastOneHitUnionFourCategories\}
+
+Four categories, turn→river.
+
+```ts
+turnToRiverAtLeastOneHitUnionFourCategories(
+  unseen: number,
+  outsA: number,
+  outsB: number,
+  outsC: number,
+  outsD: number,
+  s01: number,
+  s02: number,
+  s03: number,
+  s12: number,
+  s13: number,
+  s23: number,
+  s012: number,
+  s013: number,
+  s023: number,
+  s123: number,
+  fourWay: number
+): number;
+```
+
+Four categories on turn→river with inclusion–exclusion on card counts.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const p = poker.turnToRiverAtLeastOneHitUnionFourCategories(
+  44,
+  4, 4, 3, 2,
+  0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0,
+  0,
+);
+console.log(p);
+```
+
+```text title="Output"
+0.29545454545454547
+```
+
+## See also
+
+- [`flopToRiverAtLeastOneHitProbability`](/docs/reference/api/draws-and-outs/at-least-one-hit#flopToRiverAtLeastOneHitProbability)
+- [`flopToRiverAtLeastOneHitDisjointOutsSum`](/docs/reference/api/draws-and-outs/at-least-one-hit#flopToRiverAtLeastOneHitDisjointOutsSum)
+- [`flopToTurnAtLeastOneHitProbability`](/docs/reference/api/draws-and-outs/at-least-one-hit#flopToTurnAtLeastOneHitProbability)
+- [`turnToRiverAtLeastOneHitProbability`](/docs/reference/api/draws-and-outs/at-least-one-hit#turnToRiverAtLeastOneHitProbability)

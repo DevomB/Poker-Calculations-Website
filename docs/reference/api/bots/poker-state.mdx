@@ -1,0 +1,299 @@
+---
+title: "Poker state"
+sidebar_label: "Poker state"
+sidebar_position: 4
+description: "Validate a native poker state and return structured errors."
+api_functions: ["validatePokerState", "encodePokerState", "decodePokerState", "stateToFeatureVector"]
+---
+
+# Poker state
+
+<ApiFamilyHeader category="Bots & game state" suit="♥" functions={["validatePokerState","encodePokerState","decodePokerState","stateToFeatureVector"]} />
+
+## `validatePokerState` \{#validatePokerState\}
+
+Validate a native poker state and return structured errors.
+
+```ts
+validatePokerState(state: NativePokerState | PokerStateBytes): PokerStateValidationResult;
+```
+
+<details>
+<summary>Types: <code>PokerStateValidationResult</code>, <code>NativePokerState</code></summary>
+
+```ts
+interface PokerStateValidationResult {
+  valid: boolean;
+  errors: string[];
+}
+
+interface NativePokerState {
+  players: Array<{
+    name?: string;
+    holeCards: CardInput;
+    stack?: number;
+    committedThisStreet?: number;
+    totalCommittedHand?: number;
+    folded?: boolean;
+    seat?: number;
+  }>;
+  communityCards: CardInput;
+  phase: string;
+  pot?: number;
+  currentBet?: number;
+  buttonSeat?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  actingIndex?: number;
+  lastRaiseIncrement?: number;
+  streetOpeningIndex?: number;
+  actedThisStreet: boolean[];
+}
+```
+
+Field notes: [`PokerStateValidationResult`](/docs/reference/types/poker-state-validation-result) · [`NativePokerState`](/docs/reference/types/native-poker-state)
+
+</details>
+
+Use `validatePokerState` when you need to validate a native poker state and return structured errors.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const state = {
+  players: [
+    {holeCards: ['Ah', 'Kh'], stack: 200, seat: 0, committedThisStreet: 0},
+    {holeCards: ['7c', '7d'], stack: 180, seat: 1, folded: false},
+  ],
+  communityCards: ['Qh', 'Jh', '2c'],
+  phase: 'flop',
+  pot: 30,
+  currentBet: 10,
+  smallBlind: 1,
+  bigBlind: 2,
+  actingIndex: 0,
+  actedThisStreet: [false, true],
+};
+
+const result = poker.validatePokerState(state, {monteCarloSimulations: 0});
+console.log(result);
+```
+
+```text title="Output"
+{ valid: true, errors: [] }
+```
+
+## `encodePokerState` \{#encodePokerState\}
+
+PKST binary encoding of `NativePokerState`.
+
+```ts
+encodePokerState(state: NativePokerState): PokerStateBytes;
+```
+
+<details>
+<summary>Types: <code>PokerStateBytes</code>, <code>NativePokerState</code></summary>
+
+```ts
+type PokerStateBytes = Uint8Array;
+
+/** Optional last argument on `*Async` exports for cooperative cancellation. */
+
+interface NativePokerState {
+  players: Array<{
+    name?: string;
+    holeCards: CardInput;
+    stack?: number;
+    committedThisStreet?: number;
+    totalCommittedHand?: number;
+    folded?: boolean;
+    seat?: number;
+  }>;
+  communityCards: CardInput;
+  phase: string;
+  pot?: number;
+  currentBet?: number;
+  buttonSeat?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  actingIndex?: number;
+  lastRaiseIncrement?: number;
+  streetOpeningIndex?: number;
+  actedThisStreet: boolean[];
+}
+```
+
+Field notes: [`NativePokerState`](/docs/reference/types/native-poker-state)
+
+</details>
+
+Cache or transmit table snapshots without re-parsing nested JS objects on every `decideAction` call.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const state = {
+  players: [
+    { holeCards: ['Ah', 'Kh'], stack: 200, seat: 0, committedThisStreet: 0 },
+    { holeCards: ['7c', '7d'], stack: 180, seat: 1, committedThisStreet: 10 },
+  ],
+  communityCards: ['Qh', 'Jh', '2c'],
+  phase: 'flop',
+  pot: 30,
+  currentBet: 10,
+  smallBlind: 1,
+  bigBlind: 2,
+  actingIndex: 0,
+  actedThisStreet: [false, true],
+};
+const bytes = poker.encodePokerState(state);
+console.log(bytes.constructor.name, bytes.length);
+// Every state-taking API also accepts these bytes directly
+console.log(poker.decideAction(bytes, { monteCarloSimulations: 500, rngSeed: 1 }, null, 0).action);
+```
+
+```text title="Output"
+Uint8Array 80
+raise
+```
+
+## `decodePokerState` \{#decodePokerState\}
+
+Decode PKST bytes to `NativePokerState` (camelCase).
+
+```ts
+decodePokerState(bytes: PokerStateBytes): NativePokerState;
+```
+
+<details>
+<summary>Types: <code>NativePokerState</code></summary>
+
+```ts
+interface NativePokerState {
+  players: Array<{
+    name?: string;
+    holeCards: CardInput;
+    stack?: number;
+    committedThisStreet?: number;
+    totalCommittedHand?: number;
+    folded?: boolean;
+    seat?: number;
+  }>;
+  communityCards: CardInput;
+  phase: string;
+  pot?: number;
+  currentBet?: number;
+  buttonSeat?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  actingIndex?: number;
+  lastRaiseIncrement?: number;
+  streetOpeningIndex?: number;
+  actedThisStreet: boolean[];
+}
+```
+
+Field notes: [`NativePokerState`](/docs/reference/types/native-poker-state)
+
+</details>
+
+Inspect PKST bytes or round-trip for debugging.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const state = {
+  players: [
+    { holeCards: ['Ah', 'Kh'], stack: 200, seat: 0, committedThisStreet: 0 },
+    { holeCards: ['7c', '7d'], stack: 180, seat: 1, committedThisStreet: 10 },
+  ],
+  communityCards: ['Qh', 'Jh', '2c'],
+  phase: 'flop',
+  pot: 30,
+  currentBet: 10,
+  smallBlind: 1,
+  bigBlind: 2,
+  actingIndex: 0,
+  actedThisStreet: [false, true],
+};
+const bytes = poker.encodePokerState(state);
+const back = poker.decodePokerState(bytes);
+console.log(back.phase, back.communityCards, back.players.length);
+```
+
+```text title="Output"
+Flop [ 'Qh', 'Jh', '2c' ] 2
+```
+
+## `stateToFeatureVector` \{#stateToFeatureVector\}
+
+Convert a poker state into a compact numeric feature vector.
+
+```ts
+stateToFeatureVector(state: NativePokerState | PokerStateBytes): Float64Array;
+```
+
+<details>
+<summary>Types: <code>NativePokerState</code></summary>
+
+```ts
+interface NativePokerState {
+  players: Array<{
+    name?: string;
+    holeCards: CardInput;
+    stack?: number;
+    committedThisStreet?: number;
+    totalCommittedHand?: number;
+    folded?: boolean;
+    seat?: number;
+  }>;
+  communityCards: CardInput;
+  phase: string;
+  pot?: number;
+  currentBet?: number;
+  buttonSeat?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  actingIndex?: number;
+  lastRaiseIncrement?: number;
+  streetOpeningIndex?: number;
+  actedThisStreet: boolean[];
+}
+```
+
+Field notes: [`NativePokerState`](/docs/reference/types/native-poker-state)
+
+</details>
+
+Use `stateToFeatureVector` when you need to convert a poker state into a compact numeric feature vector.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const state = {
+  players: [
+    {holeCards: ['Ah', 'Kh'], stack: 200, seat: 0, committedThisStreet: 0},
+    {holeCards: ['7c', '7d'], stack: 180, seat: 1, folded: false},
+  ],
+  communityCards: ['Qh', 'Jh', '2c'],
+  phase: 'flop',
+  pot: 30,
+  currentBet: 10,
+  smallBlind: 1,
+  bigBlind: 2,
+  actingIndex: 0,
+  actedThisStreet: [false, true],
+};
+
+const result = poker.stateToFeatureVector(state, {monteCarloSimulations: 0});
+console.log(result);
+```
+
+```text title="Output"
+Float64Array(8) [
+  2, 3, 30, 10,
+  1, 2,  0,  0
+]
+```
+
+## See also
+
+- [`decideAction`](/docs/reference/api/bots/decide-action#decideAction)
+- [NativePokerState](/docs/reference/types/native-poker-state)
+- [Packed poker state](/docs/concepts/packed-poker-state)

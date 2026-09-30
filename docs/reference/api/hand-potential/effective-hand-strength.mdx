@@ -1,0 +1,58 @@
+---
+title: "Effective hand strength"
+sidebar_label: "Effective hand strength"
+sidebar_position: 2
+description: "EHS = HS × (1 − NPot) + (1 − HS) × PPot."
+api_functions: ["effectiveHandStrength", "effectiveHandStrengthSquared"]
+---
+
+# Effective hand strength
+
+<ApiFamilyHeader category="Hand potential" suit="♠" functions={["effectiveHandStrength","effectiveHandStrengthSquared"]} />
+
+## `effectiveHandStrength` \{#effectiveHandStrength\}
+
+EHS = HS × (1 − NPot) + (1 − HS) × PPot.
+
+```ts
+effectiveHandStrength(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  range: Float64Array | SparseRangeSpec
+): number;
+```
+
+EHS folds current strength and draw potential into one number in `[0, 1]`, a common input to bet/check heuristics.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = new Float64Array(1326).fill(1); // every combo
+console.log(poker.effectiveHandStrength(['9h', '8h'], ['Th', '7c', '2h'], range).toFixed(3));
+```
+
+```text title="Output"
+0.504
+```
+
+## `effectiveHandStrengthSquared` \{#effectiveHandStrengthSquared\}
+
+Billings' two-opponent form: EHS2 = HS² × (1 − NPot) + (1 − HS²) × PPot.
+
+```ts
+effectiveHandStrengthSquared(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  range: Float64Array | SparseRangeSpec
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = new Float64Array(1326).fill(1); // every combo
+// Squares HS, which rewards made hands over draws of the same EHS
+console.log(poker.effectiveHandStrengthSquared(['9h', '8h'], ['Th', '7c', '2h'], range).toFixed(3));
+```
+
+```text title="Output"
+0.425
+```

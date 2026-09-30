@@ -1,0 +1,126 @@
+---
+title: "Big O evaluation"
+sidebar_label: "Big O evaluation"
+sidebar_position: 7
+description: "Best 5-card Big O hand: exactly 2 hole + exactly 3 board."
+api_functions: ["evaluateBigOBestHand", "evaluateBigOHandStrength", "bigONutsOnBoard", "bigOComboCount"]
+---
+
+# Big O evaluation
+
+<ApiFamilyHeader category="Omaha" suit="♠" functions={["evaluateBigOBestHand","evaluateBigOHandStrength","bigONutsOnBoard","bigOComboCount"]} />
+
+## `evaluateBigOBestHand` \{#evaluateBigOBestHand\}
+
+Best 5-card Big O hand: exactly 2 hole + exactly 3 board. `holeCards` must be 5 cards; `boardCards` must be 3–5 (flop C(5,2)=10, river C(5,2)*C(5,3)=100). Same `HandEvalResult` shape as `evaluateBestHand`.
+
+```ts
+evaluateBigOBestHand(
+  holeCards: CardInput,
+  boardCards: CardInput,
+  options?: EvaluateBestHandOptions
+): HandEvalResult;
+evaluateBigOBestHand(
+  holeCards: CardInput,
+  boardCards: CardInput,
+  options: { format: 'slim' }
+): HandEvalResultSlim;
+```
+
+<details>
+<summary>Types: <code>HandEvalResultSlim</code>, <code>HandEvalResult</code>, <code>EvaluateBestHandOptions</code>, <code>EvaluateBestHandFormat</code></summary>
+
+```ts
+interface HandEvalResultSlim {
+  rankCategory: number;
+  strength: number;
+}
+
+interface HandEvalResult {
+  /** Category label (interned at module load). */
+  rank: string;
+  /** 0..9 — same order as `handRankCategoryOrder` / `highCard` … `royalFlush`. */
+  rankCategory: number;
+  /** Same bit layout as `evaluateHandStrength` (`pack_hand_strength`). */
+  strength: number;
+  /** Five encoded kicker values (tie-break order); omitted when `format: 'slim'`. */
+  kickers: number[];
+}
+
+interface EvaluateBestHandOptions {
+  format?: EvaluateBestHandFormat;
+}
+
+type EvaluateBestHandFormat = 'full' | 'slim';
+```
+
+Field notes: [`HandEvalResultSlim`](/docs/reference/types/hand-eval-result-slim) · [`HandEvalResult`](/docs/reference/types/hand-eval-result)
+
+</details>
+
+Big O is five-card Omaha: still exactly two hole cards and three board cards.
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.evaluateBigOBestHand(['Ah', 'Kh', 'Qd', 'Jd', '2c'], ['Th', '9h', '3h']));
+```
+
+```text title="Output"
+{
+  rankCategory: 5,
+  strength: 84719729,
+  rank: 'flush',
+  kickers: [ 12, 11, 8, 7, 1 ]
+}
+```
+
+## `evaluateBigOHandStrength` \{#evaluateBigOHandStrength\}
+
+Big O strength using the same `pack_hand_strength` encoding as `evaluateHandStrength` (5-card rank + kickers). Not a 10-card best-of-N.
+
+```ts
+evaluateBigOHandStrength(holeCards: CardInput, boardCards: CardInput): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.evaluateBigOHandStrength(['Ah', 'Kh', 'Qd', 'Jd', '2c'], ['Th', '9h', '3h']));
+```
+
+```text title="Output"
+84719729
+```
+
+## `bigONutsOnBoard` \{#bigONutsOnBoard\}
+
+True iff hero’s Big O hand is unbeaten by every other 5-card combo that avoids `boardCards` and optional `extraDead`.
+
+```ts
+bigONutsOnBoard(heroHoleCards: CardInput, boardCards: CardInput, extraDead?: CardInput): boolean;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.bigONutsOnBoard(['Ah', 'Kh', 'Qd', 'Jd', '2c'], ['Th', '9h', '3h']));
+```
+
+```text title="Output"
+true
+```
+
+## `bigOComboCount` \{#bigOComboCount\}
+
+Remaining 5-card combo count: `C(52 − |unique dead|, 5)`. Throws on duplicate dead cards.
+
+```ts
+bigOComboCount(deadCards: CardInput): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.bigOComboCount(['Ah', 'Kh', 'Qd', 'Jd', '2c'])); // C(47, 5)
+```
+
+```text title="Output"
+1533939
+```

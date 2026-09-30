@@ -1,0 +1,70 @@
+---
+title: "Regret matching"
+sidebar_label: "Regret matching"
+sidebar_position: 3
+description: "Regret matching: max(r,0)/sum."
+api_functions: ["regretMatchingStrategy", "cfrNodeReachUpdate"]
+---
+
+# Regret matching
+
+<ApiFamilyHeader category="Solvers" suit="♠" functions={["regretMatchingStrategy","cfrNodeReachUpdate"]} />
+
+## `regretMatchingStrategy` \{#regretMatchingStrategy\}
+
+Regret matching: `max(r,0)/sum`. Uniform if every regret is ≤ 0.
+
+```ts
+regretMatchingStrategy(regrets: F64VectorInput): Float64Array;
+```
+
+The core CFR update: turn cumulative regrets into a strategy.
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(Array.from(poker.regretMatchingStrategy([3, -1, 1])));
+console.log(Array.from(poker.regretMatchingStrategy([-2, -1, 0]))); // uniform when nothing is positive
+```
+
+```text title="Output"
+[ 0.75, 0, 0.25 ]
+[ 0.3333333333333333, 0.3333333333333333, 0.3333333333333333 ]
+```
+
+## `cfrNodeReachUpdate` \{#cfrNodeReachUpdate\}
+
+One CFR info-set step: `regret += reach * instantaneous`, then regret-match.
+
+```ts
+cfrNodeReachUpdate(
+  cumulativeRegrets: F64VectorInput,
+  instantaneousRegrets: F64VectorInput,
+  reach?: number
+): CfrNodeUpdateResult;
+```
+
+<details>
+<summary>Types: <code>CfrNodeUpdateResult</code></summary>
+
+```ts
+interface CfrNodeUpdateResult {
+  regrets: Float64Array;
+  strategy: Float64Array;
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const r = poker.cfrNodeReachUpdate([1, 0, -1], [0.5, 1.5, 0], 0.8);
+console.log(r);
+```
+
+```text title="Output"
+{
+  regrets: Float64Array(3) [ 1.4, 1.2000000000000002, -1 ],
+  strategy: Float64Array(3) [ 0.5384615384615384, 0.46153846153846156, 0 ]
+}
+```

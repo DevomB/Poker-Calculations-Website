@@ -1,0 +1,109 @@
+---
+title: "Side-pot ladder"
+sidebar_label: "Side-pot ladder"
+sidebar_position: 1
+description: "side-pot ladder from per-player committed chips."
+api_functions: ["sidePotLadderFromCommitments", "sidePotLayersTotalChips", "sidePotLayerCount"]
+---
+
+# Side-pot ladder
+
+<ApiFamilyHeader category="Side pots" suit="♣" functions={["sidePotLadderFromCommitments","sidePotLayersTotalChips","sidePotLayerCount"]} />
+
+## `sidePotLadderFromCommitments` \{#sidePotLadderFromCommitments\}
+
+side-pot ladder from per-player committed chips.
+
+```ts
+sidePotLadderFromCommitments(committedChips: F64VectorInput): SidePotLayer[];
+```
+
+<details>
+<summary>Types: <code>SidePotLayer</code></summary>
+
+```ts
+interface SidePotLayer {
+  potChips: number;
+  playerCapContribution: number[];
+}
+```
+
+Field notes: [`SidePotLayer`](/docs/reference/types/side-pot-layer)
+
+</details>
+
+All-in side pots: pass each player’s **total chips committed** this hand to get ordered layers `{ potChips, playerCapContribution[] }`. Feed layers into equity-by-layer EV or display pot breakdown UIs.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const committed = [100, 300, 300, 50]; // seat 0 short, seat 3 shorter
+const layers = poker.sidePotLadderFromCommitments(committed);
+console.log(layers);
+
+console.log(poker.sidePotLayersTotalChips(layers));
+```
+
+```text title="Output"
+[
+  { potChips: 200, playerCapContribution: [ 50, 50, 50, 50 ] },
+  { potChips: 150, playerCapContribution: [ 50, 50, 50, 0 ] },
+  { potChips: 400, playerCapContribution: [ 0, 200, 200, 0 ] }
+]
+750
+```
+
+## `sidePotLayersTotalChips` \{#sidePotLayersTotalChips\}
+
+Sum of `potChips` over side-pot layers.
+
+```ts
+sidePotLayersTotalChips(layers: SidePotLayer[]): number;
+```
+
+Quick **total chips in play** across main and side pots after building a ladder—sanity checks, pot display, and comparing to table `pot` field before EV attribution.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const layers = poker.sidePotLadderFromCommitments([200, 500, 500, 100]);
+const total = poker.sidePotLayersTotalChips(layers);
+console.log('total in all layers:', total);
+
+layers.forEach((layer, i) => {
+  console.log(`layer ${i}:`, layer.potChips);
+});
+```
+
+```text title="Output"
+total in all layers: 1300
+layer 0: 400
+layer 1: 300
+layer 2: 600
+```
+
+## `sidePotLayerCount` \{#sidePotLayerCount\}
+
+Number of side-pot layers.
+
+```ts
+sidePotLayerCount(committedChips: F64VectorInput): number;
+```
+
+Number of side-pot layers from committed chip counts — same as `sidePotLadderFromCommitments(...).length`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const committed = [100, 200, 500];
+const layers = poker.sidePotLadderFromCommitments(committed);
+console.log(poker.sidePotLayerCount(committed), layers.length);
+```
+
+```text title="Output"
+3 3
+```
+
+## See also
+
+- [`layeredPotChipEvFromEquities`](/docs/reference/api/side-pots/layered-pot-ev#layeredPotChipEvFromEquities)

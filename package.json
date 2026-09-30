@@ -13,14 +13,11 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
-    "fetch:downloads": "node scripts/fetch-ytd-downloads.mjs",
+    "fetch:downloads": "node scripts/fetch-downloads.mjs",
+    "build:hero-hands": "node scripts/build-hero-hands.mjs",
     "check:docs": "node scripts/check-docs-coverage.mjs",
-    "check:sidebar": "node scripts/check-sidebar-coverage.mjs",
-    "check:index-integrity": "node scripts/check-index-integrity.mjs",
-    "fix:sidebar-order": "node scripts/fix-sidebar-order.mjs",
-    "lint:api-signatures": "node scripts/lint-api-signatures.mjs",
-    "validate:snippets": "node scripts/validate-snippets.mjs",
-    "check:all": "pnpm check:docs && pnpm check:sidebar && pnpm check:index-integrity && pnpm lint:api-signatures && pnpm validate:snippets && pnpm typecheck"
+    "check:examples": "node scripts/examples.mjs",
+    "check:all": "pnpm check:docs && pnpm check:examples && pnpm typecheck"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.1",
@@ -40,7 +37,7 @@
     "@docusaurus/tsconfig": "3.10.1",
     "@docusaurus/types": "3.10.1",
     "@types/react": "^19.0.0",
-    "poker-calculations": "3.0.0",
+    "poker-calculations": "4.0.2",
     "typescript": "~6.0.2"
   },
   "browserslist": {

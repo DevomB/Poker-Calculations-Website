@@ -1,0 +1,72 @@
+---
+title: "Knockout probabilities"
+sidebar_label: "Knockout probabilities"
+sidebar_position: 1
+description: "PKO knockout matrix, entry i*n+j = P(i collects j's bounty)."
+api_functions: ["pkoKnockoutProbabilityMatrix", "pkoExpectedBountyCollection"]
+---
+
+# Knockout probabilities
+
+<ApiFamilyHeader category="Bounties" suit="♦" functions={["pkoKnockoutProbabilityMatrix","pkoExpectedBountyCollection"]} />
+
+## `pkoKnockoutProbabilityMatrix` \{#pkoKnockoutProbabilityMatrix\}
+
+PKO knockout matrix, entry `i*n+j` = P(i collects j's bounty). P(j busts) = 1 − stack_j/total (Harville first place). Given a bust, collectors are weighted by stack_i × stack_i/(stack_i+stack_j) over the players covering j (everyone else when nobody covers). Columns sum to P(j busts), so every bounty except the winner's own is paid out. Diagonal 0. Flat n×n row-major `Float64Array` plus `n`.
+
+```ts
+pkoKnockoutProbabilityMatrix(stacks: F64VectorInput): PkoKnockoutMatrixResult;
+```
+
+<details>
+<summary>Types: <code>PkoKnockoutMatrixResult</code></summary>
+
+```ts
+interface PkoKnockoutMatrixResult {
+  matrix: Float64Array;
+  n: number;
+}
+
+/** Freezeout ICM plus expected bounty collection (ICMBU). */
+```
+
+
+</details>
+
+Who is likely to collect whose bounty, from stacks alone. Feed it into bounty-aware ICM or use it to size up a final table.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const { matrix, n } = poker.pkoKnockoutProbabilityMatrix([5000, 3000, 2000]);
+for (let i = 0; i < n; i++) {
+  console.log(Array.from(matrix.slice(i * n, i * n + n), (p) => p.toFixed(3)).join('  '));
+}
+```
+
+```text title="Output"
+0.000  0.700  0.532
+0.332  0.000  0.268
+0.168  0.000  0.000
+```
+
+## `pkoExpectedBountyCollection` \{#pkoExpectedBountyCollection\}
+
+E[bounty $] per player: sum_j bountyValue[j] * P(i knocks j). Self-bounty ignored.
+
+```ts
+pkoExpectedBountyCollection(
+  stacks: F64VectorInput,
+  bountyValues: F64VectorInput,
+  returnFormat?: F64ReturnFormat
+): number[] | Float64Array;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const collected = poker.pkoExpectedBountyCollection([5000, 3000, 2000], [50, 30, 20]);
+console.log(collected.map((d) => d.toFixed(2)));
+```
+
+```text title="Output"
+[ '31.64', '21.94', '8.42' ]
+```

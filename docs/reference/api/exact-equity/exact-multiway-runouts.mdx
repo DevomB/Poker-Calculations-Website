@@ -1,0 +1,76 @@
+---
+title: "Runout counts and extremes"
+sidebar_label: "Runout counts and extremes"
+sidebar_position: 7
+description: "Best and worst next-street card for hero (player 0) by exact equity after that card."
+api_functions: ["exactMultiwayBestWorstRunout", "exactMultiwayRunoutCount"]
+---
+
+# Runout counts and extremes
+
+<ApiFamilyHeader category="Exact equity" suit="♦" functions={["exactMultiwayBestWorstRunout","exactMultiwayRunoutCount"]} />
+
+## `exactMultiwayBestWorstRunout` \{#exactMultiwayBestWorstRunout\}
+
+Best and worst next-street card for hero (player 0) by exact equity after that card. Turn card when board has 3; river card when board has 4. Otherwise `{ supported: false }`.
+
+```ts
+exactMultiwayBestWorstRunout(
+  holeHands: CardInput[],
+  boardCards: CardInput,
+  deadCards?: CardInput
+): MultiwayBestWorstRunoutResult;
+```
+
+<details>
+<summary>Types: <code>MultiwayBestWorstRunoutResult</code></summary>
+
+```ts
+interface MultiwayBestWorstRunoutResult {
+  supported: boolean;
+  bestCard?: string;
+  worstCard?: string;
+  bestEquity?: number;
+  worstEquity?: number;
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const r = poker.exactMultiwayBestWorstRunout([['Ah', 'Ad'], ['Kh', 'Kd'], ['7s', '6s']], ['Ks', '8s', '2c']);
+console.log(r);
+```
+
+```text title="Output"
+{
+  supported: true,
+  bestCard: 'Ac',
+  worstCard: '3s',
+  bestEquity: 0.8095238095238095,
+  worstEquity: 0
+}
+```
+
+## `exactMultiwayRunoutCount` \{#exactMultiwayRunoutCount\}
+
+Number of remaining boards given holes + board + optional dead.
+
+```ts
+exactMultiwayRunoutCount(
+  holeHands: CardInput[],
+  boardCards: CardInput,
+  deadCards?: CardInput
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.exactMultiwayRunoutCount([['Ah', 'Ad'], ['Kh', 'Kd'], ['7s', '6s']], ['Ks', '8s', '2c']));
+```
+
+```text title="Output"
+903
+```

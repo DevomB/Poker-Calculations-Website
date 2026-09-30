@@ -5,30 +5,41 @@ title: Monte Carlo equity
 
 Card lists accept **`CardInput`** (`string[]` or packed `Uint8Array`) — see [Packed card input](/docs/concepts/packed-card-input).
 
-- [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome) — single-threaded estimate vs random villain(s)
-- [`simulateHandOutcomeAsync`](/docs/reference/api/monte-carlo/simulate-hand-outcome-async) — same, non-blocking; optional [`AbortSignal`](/docs/reference/types/async-options)
-- [`parallelHandSimulation`](/docs/reference/api/monte-carlo/parallel-hand-simulation) — chunked workers with distinct seeds
-- [`parallelHandSimulationAsync`](/docs/reference/api/monte-carlo/parallel-hand-simulation-async) — non-blocking parallel MC; optional cancellation
-- [`simulateHandOutcomeBatch`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch) — many spots → `Float64Array`
-- [`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand) — exact enumeration (preflop or board 3–5 cards)
-- [`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome-detailed) — equity with SE and Wilson CI in one call
-- [`simulateEquityVsRange`](/docs/reference/api/monte-carlo/simulate-equity-vs-range) — MC vs a weighted villain range
-- [`exactHuEquityVsKnownHand`](/docs/reference/api/hands-and-equity/exact-hu-equity-vs-known-hand) — exact HU when villain holes are known
-- [`exactHuEquityVsRange`](/docs/reference/api/hands-and-equity/exact-hu-equity-vs-range) — exact HU vs a weighted range (see [Range equity (exact)](/docs/guides/range-equity-exact))
+- [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcome) — single-threaded estimate vs random villain(s)
+- [`simulateHandOutcomeAsync`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcome) — same, non-blocking; optional [`AbortSignal`](/docs/reference/types/async-options)
+- [`parallelHandSimulation`](/docs/reference/api/monte-carlo/parallel-hand-simulation#parallelHandSimulation) — chunked workers with distinct seeds
+- [`parallelHandSimulationAsync`](/docs/reference/api/monte-carlo/parallel-hand-simulation#parallelHandSimulation) — non-blocking parallel MC; optional cancellation
+- [`simulateHandOutcomeBatch`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch#simulateHandOutcomeBatch) — many spots → `Float64Array`
+- [`exactHuEquityVsRandomHand`](/docs/reference/api/exact-equity/exact-hu-vs-random-hand#exactHuEquityVsRandomHand) — exact enumeration (preflop or board 3–5 cards)
+- [`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcome) — equity with SE and Wilson CI in one call
+- [`simulateEquityVsRange`](/docs/reference/api/monte-carlo/simulate-equity-vs-range#simulateEquityVsRange) — MC vs a weighted villain range
+- [`exactHuEquityVsKnownHand`](/docs/reference/api/exact-equity/exact-hu-vs-known-hand#exactHuEquityVsKnownHand) — exact HU when villain holes are known
+- [`exactHuEquityVsRange`](/docs/reference/api/exact-equity/exact-hu-vs-range#exactHuEquityVsRange) — exact HU vs a weighted range (see [Range equity (exact)](/docs/guides/range-equity-exact))
 
 See [Batch equity](/docs/guides/batch-equity) for packed batch layouts.
 
 ## Cancellation
 
-All six `*Async` exports in this area (and [`decideActionAsync`](/docs/reference/api/strategy/decide-action-async), [`benchmarkEvaluatorThroughputAsync`](/docs/reference/api/hands-and-equity/benchmark-evaluator-throughput-async)) accept an optional trailing [`AsyncOptions`](/docs/reference/types/async-options) object with `signal?: AbortSignal`. Aborting rejects the Promise with `AbortError` and stops cooperative work in the native layer.
+All six `*Async` exports in this area (and [`decideActionAsync`](/docs/reference/api/bots/decide-action#decideActionAsync), [`benchmarkEvaluatorThroughputAsync`](/docs/reference/api/hand-evaluation/benchmark-evaluator#benchmarkEvaluatorThroughputAsync)) accept an optional trailing [`AsyncOptions`](/docs/reference/types/async-options) object with `signal?: AbortSignal`. Aborting rejects the Promise with `AbortError` and stops cooperative work in the native layer.
 
 ```js
+const poker = require('poker-calculations');
+
 const ac = new AbortController();
-const pending = poker.simulateHandOutcomeAsync(hole, board, 2_000_000, 42, 1, {
+const pending = poker.simulateHandOutcomeAsync(['Ah', 'Kh'], ['Qh', 'Jh', '2c'], 50_000_000, 42, 1, {
   signal: ac.signal,
 });
-await new Promise((r) => setImmediate(r));
-ac.abort();
+setTimeout(() => ac.abort(), 50); // e.g. the user closed the page
+
+try {
+  await pending;
+} catch (e) {
+  console.log(e.name);
+}
 ```
 
-Use a fixed `seed` for reproducible research; increase `numSimulations` until [`monteCarloStandardError`](/docs/reference/api/statistics-and-risk/monte-carlo-standard-error) is acceptable.
+```text title="Output"
+AbortError
+```
+
+Use a fixed `seed` for reproducible research; increase `numSimulations` until [`monteCarloStandardError`](/docs/reference/api/statistics/monte-carlo-error#monteCarloStandardError) is acceptable.

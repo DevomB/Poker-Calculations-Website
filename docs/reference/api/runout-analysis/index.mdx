@@ -1,0 +1,22 @@
+---
+title: "Runout analysis"
+sidebar_label: "Runout analysis"
+description: "What the turn and river do to your hand: vulnerability, quantiles, made-hand odds, card removal."
+---
+
+# Runout analysis
+
+<p className="apiLead">What the turn and river do to your hand: vulnerability, quantiles, made-hand odds, card removal.</p>
+
+23 functions on 8 pages.
+
+| Page | Functions |
+| --- | --- |
+| [Runout vulnerability](./runout-vulnerability) | [`exactHeroRunoutVulnerability`](./runout-vulnerability#exactHeroRunoutVulnerability) · [`exactHeroRunoutVulnerabilityAsync`](./runout-vulnerability#exactHeroRunoutVulnerabilityAsync) |
+| [Equity quantiles](./runout-equity-quantiles) | [`exactHeroEquityRunoutQuantiles`](./runout-equity-quantiles#exactHeroEquityRunoutQuantiles) · [`exactHeroEquityRunoutQuantilesAsync`](./runout-equity-quantiles#exactHeroEquityRunoutQuantilesAsync) |
+| [Villain leapfrog outs](./villain-leapfrog-outs) | [`exactVillainLeapfrogOutCounts`](./villain-leapfrog-outs#exactVillainLeapfrogOutCounts) |
+| [Hand category by the river](./hand-category-by-river) | [`exactHeroCategoryJointFlopToRiver`](./hand-category-by-river#exactHeroCategoryJointFlopToRiver) · [`exactHeroCategoryAtLeastFlopToRiver`](./hand-category-by-river#exactHeroCategoryAtLeastFlopToRiver) · [`exactHeroCategoryAtLeastFlopToRiverAsync`](./hand-category-by-river#exactHeroCategoryAtLeastFlopToRiverAsync) |
+| [Made-hand probability](./made-hand-probability) | [`flushMadeFlopToRiverExactProbability`](./made-hand-probability#flushMadeFlopToRiverExactProbability) · [`flushMadeFlopToRiverExactProbabilityAsync`](./made-hand-probability#flushMadeFlopToRiverExactProbabilityAsync) · [`straightMadeFlopToRiverExactProbability`](./made-hand-probability#straightMadeFlopToRiverExactProbability) · [`straightMadeFlopToRiverExactProbabilityAsync`](./made-hand-probability#straightMadeFlopToRiverExactProbabilityAsync) · [`fullHouseMadeFlopToRiverExactProbability`](./made-hand-probability#fullHouseMadeFlopToRiverExactProbability) · [`fullHouseMadeFlopToRiverExactProbabilityAsync`](./made-hand-probability#fullHouseMadeFlopToRiverExactProbabilityAsync) · [`tripsMadeFlopToRiverExactProbability`](./made-hand-probability#tripsMadeFlopToRiverExactProbability) · [`tripsMadeFlopToRiverExactProbabilityAsync`](./made-hand-probability#tripsMadeFlopToRiverExactProbabilityAsync) · [`twoPairMadeFlopToRiverExactProbability`](./made-hand-probability#twoPairMadeFlopToRiverExactProbability) · [`twoPairMadeFlopToRiverExactProbabilityAsync`](./made-hand-probability#twoPairMadeFlopToRiverExactProbabilityAsync) |
+| [Dominated combos](./dominated-combos) | [`exactRangeDominatedComboFraction`](./dominated-combos#exactRangeDominatedComboFraction) |
+| [Card removal](./card-removal) | [`exactEquityCardRemovalGradient`](./card-removal#exactEquityCardRemovalGradient) · [`exactEquityCardRemovalGradientAsync`](./card-removal#exactEquityCardRemovalGradientAsync) · [`equityDeltaIfCardRemoved`](./card-removal#equityDeltaIfCardRemoved) |
+| [Information regret](./information-regret) | [`exactInformationRegretVsClairvoyant`](./information-regret#exactInformationRegretVsClairvoyant) |

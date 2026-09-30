@@ -204,25 +204,11 @@ Once the rest of the site is migrated:
 
 ---
 
-## 4. Files that still need work
+## 4. Status
 
-These files were intentionally **not** touched during the landing-page
-rebuild. They are your scope.
+The landing page, the docs chrome (sidebar, TOC, breadcrumbs, pagination, tabs, search), the API family pages, and the Example / Output code blocks all use these tokens. Headings use the display face `--poker-font-display` (Fraunces); code uses `--poker-font-mono` (JetBrains Mono).
 
-| Path                                                  | What to fix |
-| ----------------------------------------------------- | ----------- |
-| `Website/src/css/custom.css`                          | Audit every selector below "LANDING uses its own module" and ensure each value resolves to a semantic alias (no raw hex except inside `:root`). Remove legacy aliases once site is migrated. |
-| `Website/src/pages/404.tsx`                           | Plain page — use a small felt-tinted card, ghost button, and the cream text token. |
-| `Website/src/theme/**` (if/when swizzled)            | Ensure any swizzled Docusaurus component uses tokens, not hex. |
-| `Website/docs/**/*.md` / `*.mdx`                      | Inline HTML/CSS in MDX should reference tokens. Search MDX for `style="color:` or `style={{color`. |
-| `Website/static/img/social-card.svg`                  | Recolor the social card so it matches the felt + gold palette. |
-| `Website/static/img/logo.svg`                         | Current logo is a generic placeholder. If replacing, use felt green + gold. |
-| Search modal (`.DocSearch-*`)                         | The button border is already token-driven. The full modal needs: bg `--poker-ink-800`, hit text `--poker-chip-50`, hit highlight `--poker-gold-500`. |
-| Pagination (`.pagination-nav__link`)                  | bg `--poker-bg-elevated`, border `--poker-border`, hover border `--poker-gold-600`. |
-| TOC right-rail (`.table-of-contents`)                | Active link `--poker-gold-400`, default `--poker-chip-300`, hover `--poker-chip-100`. |
-| Breadcrumbs (`.breadcrumbs__link`)                    | Default `--poker-chip-300`, active `--poker-chip-50`, separator `--poker-ink-400`. |
-| Tabs (`.tabs__item--active`)                          | Border-bottom 2px `--poker-gold-500`, color `--poker-chip-50`. |
-| Mermaid / diagrams (if present)                       | Theme variables: primary `--poker-felt-600`, primaryText `--poker-chip-50`, lineColor `--poker-ink-400`, mainBkg `--poker-ink-700`. |
+`static/img/social-card.png` is a 1200×630 render of the homepage hero; regenerate it when the hero changes.
 
 ---
 

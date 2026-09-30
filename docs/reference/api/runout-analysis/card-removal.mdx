@@ -1,0 +1,137 @@
+---
+title: "Card removal"
+sidebar_label: "Card removal"
+sidebar_position: 7
+description: "Exact **52-vector** sensitivity of HU equity vs a range when each remaining deck card is treated as dead — plus baseline equity."
+api_functions: ["exactEquityCardRemovalGradient", "exactEquityCardRemovalGradientAsync", "equityDeltaIfCardRemoved"]
+---
+
+# Card removal
+
+<ApiFamilyHeader category="Runout analysis" suit="♣" functions={["exactEquityCardRemovalGradient","exactEquityCardRemovalGradientAsync","equityDeltaIfCardRemoved"]} />
+
+## `exactEquityCardRemovalGradient` \{#exactEquityCardRemovalGradient\}
+
+Exact **52-vector** sensitivity of HU equity vs a range when each remaining deck card is treated as dead — plus baseline equity.
+
+```ts
+exactEquityCardRemovalGradient(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  range: Float64Array | SparseRangeSpec
+): CardRemovalGradientResult;
+```
+
+<details>
+<summary>Types: <code>CardRemovalGradientResult</code></summary>
+
+```ts
+interface CardRemovalGradientResult {
+  gradient: Float64Array;
+  baseEquity: number;
+}
+
+/**
+ * Polarized river bet that makes a bluff-catcher indifferent when the whole range bets:
+ * with value share v = value/(value+bluffs), `betSize = (1 − v) × pot / (2v − 1)` (requires
+ * v > 0.5; otherwise `betSize` is `Infinity` because every size is a profitable call).
+ */
+```
+
+Field notes: [`CardRemovalGradientResult`](/docs/reference/types/card-removal-gradient-result)
+
+</details>
+
+You need **exact** card-removal effects on equity vs a weighted range — for blocker analysis, study backends, or comparing to the Monte Carlo heuristic [`equityDeltaIfCardRemoved`](/docs/reference/api/runout-analysis/card-removal#equityDeltaIfCardRemoved).
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = poker.rangeFromNotationWeights([{ notation: 'KK', weight: 1 }, { notation: 'QQ', weight: 1 }, { notation: 'AJs', weight: 1 }]);
+const { baseEquity, gradient } = poker.exactEquityCardRemovalGradient(['Ah', 'Kh'], ['Qh', 'Jh', '2c', '7s'], range);
+console.log(baseEquity.toFixed(4), gradient.length);
+```
+
+```text title="Output"
+0.3084 52
+```
+
+**Returns** [`CardRemovalGradientResult`](/docs/reference/types/card-removal-gradient-result).
+
+## `exactEquityCardRemovalGradientAsync` \{#exactEquityCardRemovalGradientAsync\}
+
+Non-blocking [`exactEquityCardRemovalGradient`](/docs/reference/api/runout-analysis/card-removal#exactEquityCardRemovalGradient) — same 52-vector gradient with optional cancellation.
+
+```ts
+exactEquityCardRemovalGradientAsync(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  range: Float64Array | SparseRangeSpec,
+  options?: AsyncOptions
+): Promise<CardRemovalGradientResult>;
+```
+
+<details>
+<summary>Types: <code>CardRemovalGradientResult</code></summary>
+
+```ts
+interface CardRemovalGradientResult {
+  gradient: Float64Array;
+  baseEquity: number;
+}
+
+/**
+ * Polarized river bet that makes a bluff-catcher indifferent when the whole range bets:
+ * with value share v = value/(value+bluffs), `betSize = (1 − v) × pot / (2v − 1)` (requires
+ * v > 0.5; otherwise `betSize` is `Infinity` because every size is a profitable call).
+ */
+```
+
+Field notes: [`CardRemovalGradientResult`](/docs/reference/types/card-removal-gradient-result)
+
+</details>
+
+Same as sync when the exact gradient over a full range would block the event loop — use `await` and optional `AbortSignal`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = poker.rangeFromNotationWeights([{ notation: 'KK', weight: 1 }, { notation: 'QQ', weight: 1 }, { notation: 'AJs', weight: 1 }]);
+const { baseEquity } = await poker.exactEquityCardRemovalGradientAsync(['Ah', 'Kh'], ['Qh', 'Jh', '2c', '7s'], range);
+console.log(baseEquity.toFixed(4));
+```
+
+```text title="Output"
+0.3084
+```
+
+**Returns** [`CardRemovalGradientResult`](/docs/reference/types/card-removal-gradient-result).
+
+## `equityDeltaIfCardRemoved` \{#equityDeltaIfCardRemoved\}
+
+Change in exact range equity when `removedDeckIndex` is treated as dead.
+
+```ts
+equityDeltaIfCardRemoved(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  range: Float64Array | SparseRangeSpec,
+  removedDeckIndex: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = new Float64Array(1326).fill(1);
+// How does hero's equity move if the Ac (deck id 48) is dead?
+const delta = poker.equityDeltaIfCardRemoved(['Ah', 'Kd'], ['Qh', 'Jc', '2s', '9d'], range, 48);
+console.log(delta.toFixed(4));
+```
+
+```text title="Output"
+-0.0157
+```
+
+## See also
+
+- [`exactHuEquityVsRange`](/docs/reference/api/exact-equity/exact-hu-vs-range#exactHuEquityVsRange)
+- [AsyncOptions](/docs/reference/types/async-options)
+- [CardRemovalGradientResult](/docs/reference/types/card-removal-gradient-result)

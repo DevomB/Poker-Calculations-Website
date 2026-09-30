@@ -13,21 +13,17 @@ const npmPkg = require(path.join(pokerPkgRoot, 'package.json')) as {
 };
 
 const downloadsPath = path.join(__dirname, 'src/data/downloads.json');
-let downloadsFormatted = '1.6k';
+// All-time npm downloads at build time; the homepage refreshes it live in the browser.
+let downloads = 0;
 try {
-  const data = JSON.parse(fs.readFileSync(downloadsPath, 'utf8')) as {
-    formatted?: string;
-  };
-  if (data.formatted) {
-    downloadsFormatted = data.formatted;
-  }
+  downloads = (JSON.parse(fs.readFileSync(downloadsPath, 'utf8')) as {total?: number}).total ?? 0;
 } catch {
-  // missing on first clone — fallback
+  // missing file: the homepage fetches the number itself
 }
 
 const config: Config = {
   title: 'Poker Calculations',
-  tagline: 'NL Hold’em engine, equity, and chip math for Node.js',
+  tagline: 'Poker math for Node.js: equity, pot odds, ICM, solvers, and eight variants',
   favicon: 'img/favicon.ico',
 
   future: {
@@ -94,7 +90,7 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: 'img/social-card.svg',
+    image: 'img/social-card.png',
     colorMode: {
       defaultMode: 'dark',
       disableSwitch: true,
@@ -114,7 +110,7 @@ const config: Config = {
           position: 'left',
         },
         {
-          to: '/docs/guides/decide-action',
+          to: '/docs/guides',
           label: 'Guides',
           position: 'left',
         },
@@ -135,28 +131,26 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Documentation',
+          title: 'Docs',
           items: [
             {label: 'Introduction', to: '/docs/intro'},
-            {label: 'decideAction guide', to: '/docs/guides/decide-action'},
-            {label: 'Concepts', to: '/docs/concepts/card-notation'},
-            {label: 'TypeScript types', to: '/docs/reference/types'},
-            {label: 'API Reference', to: '/docs/reference/api'},
-            {label: 'Installation', to: '/docs/getting-started/installation'},
+            {label: 'Quick start', to: '/docs/getting-started/quick-start'},
+            {label: 'Guides', to: '/docs/guides'},
+            {label: 'API reference', to: '/docs/reference/api'},
+            {label: 'Types', to: '/docs/reference/types'},
           ],
         },
         {
           title: 'Package',
           items: [
-            {
-              label: 'npm',
-              href: 'https://www.npmjs.com/package/poker-calculations',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/DevomB/Poker-Calculations',
-            },
+            {label: 'npm', href: 'https://www.npmjs.com/package/poker-calculations'},
+            {label: 'GitHub', href: 'https://github.com/DevomB/Poker-Calculations'},
+            {label: 'Changelog', href: 'https://github.com/DevomB/Poker-Calculations/blob/main/CHANGELOG.md'},
           ],
+        },
+        {
+          title: 'More',
+          items: [{label: 'Geometry of Poker', href: 'https://geometry-of-poker.devomb.com'}],
         },
       ],
       copyright: `© ${new Date().getFullYear()} Poker Calculations · v${npmPkg.version}`,
@@ -170,7 +164,7 @@ const config: Config = {
       {
         name: 'description',
         content:
-          'Official documentation for poker-calculations: hand evaluation, Monte Carlo equity, decideAction, pot odds, ICM, and more.',
+          'Documentation for poker-calculations: exact and Monte Carlo equity, pot odds, ICM, bounties, solvers, and eight poker variants for Node.js.',
       },
       {name: 'keywords', content: 'poker, holdem, equity, ICM, node, npm'},
     ],
@@ -178,7 +172,7 @@ const config: Config = {
 
   customFields: {
     packageVersion: npmPkg.version,
-    downloadsFormatted,
+    downloads,
   },
 };
 

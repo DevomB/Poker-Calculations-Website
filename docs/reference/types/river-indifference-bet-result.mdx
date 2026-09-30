@@ -5,7 +5,7 @@ sidebar_position: 39
 
 # `RiverIndifferenceBetResult`
 
-Returned by [`solveRiverPolarizedIndifferenceBet`](/docs/reference/api/subgame-theory/solve-river-polarized-indifference-bet).
+Returned by [`solveRiverPolarizedIndifferenceBet`](/docs/reference/api/solvers/polarized-river-bet#solveRiverPolarizedIndifferenceBet).
 
 | Field | Type | Meaning |
 | --- | --- | --- |
@@ -31,6 +31,15 @@ const r = poker.solveRiverPolarizedIndifferenceBet(
 console.log(r);
 ```
 
+```text title="Output"
+{
+  betSize: 50,
+  bluffFrequency: 1,
+  defenderMdf: 0.6666666666666666,
+  evAtIndifference: 0
+}
+```
+
 ## See also
 
-[`solveRiverPolarizedIndifferenceBet`](/docs/reference/api/subgame-theory/solve-river-polarized-indifference-bet)
+[`solveRiverPolarizedIndifferenceBet`](/docs/reference/api/solvers/polarized-river-bet#solveRiverPolarizedIndifferenceBet)

@@ -1,0 +1,62 @@
+---
+title: "Thin value"
+sidebar_label: "Thin value"
+sidebar_position: 7
+description: "Return the chip-EV margin of a thin value bet."
+api_functions: ["thinValueMargin", "betSizingIndifferencePoint"]
+---
+
+# Thin value
+
+<ApiFamilyHeader category="Stacks & sizing" suit="♦" functions={["thinValueMargin","betSizingIndifferencePoint"]} />
+
+## `thinValueMargin` \{#thinValueMargin\}
+
+Return the chip-EV margin of a thin value bet.
+
+```ts
+thinValueMargin(heroEquityWhenCalled: number, pot: number, betSize: number): number;
+```
+
+Use `thinValueMargin` when you need to return the chip-EV margin of a thin value bet.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const result = poker.thinValueMargin(range, range, ['Qh', 'Jh', '2c'], 100, [33, 66, 100]);
+console.log(result);
+```
+
+```text title="Output"
+0
+```
+
+## `betSizingIndifferencePoint` \{#betSizingIndifferencePoint\}
+
+Solve a simple bet-size indifference point from fold frequency and called equity.
+
+```ts
+betSizingIndifferencePoint(pot: number, foldFrequency: number, equityWhenCalled: number): number;
+```
+
+Use `betSizingIndifferencePoint` when you need to solve a simple bet-size indifference point from fold frequency and called equity.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const result = poker.betSizingIndifferencePoint(range, range, ['Qh', 'Jh', '2c'], 100, [33, 66, 100]);
+console.log(result);
+```
+
+```text title="Output"
+0
+```
+
+## See also
+
+- [`betAsPotFraction`](/docs/reference/api/stacks-and-sizing/bet-sizing#betAsPotFraction)
+- [`expectedValueRaise`](/docs/reference/api/pot-odds-and-ev/expected-value-raise#expectedValueRaise)

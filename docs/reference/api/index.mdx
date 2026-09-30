@@ -1,39 +1,27 @@
 ---
-title: 'API Overview'
+title: 'API reference'
+sidebar_label: 'Overview'
 slug: /reference/api
+description: 'Every poker-calculations function, grouped by what you are trying to do.'
 ---
 
-import Link from '@docusaurus/Link';
-import {
-	apiReferenceCategories,
-	apiReferenceTotalExports,
-} from '@site/src/data/api-reference';
+import ApiCatalog from '@site/src/components/ApiCatalog';
+import {apiFunctionCount, apiPageCount} from '@site/src/data/api';
 
 # API reference
 
-**{apiReferenceTotalExports}** native functions, grouped below. Each page includes **Import**, **When to use**, and **How to use**.
+<p className="apiLead">{apiFunctionCount} functions on {apiPageCount} pages. Each page covers one job: the main function first, then its variants (async, batched, with rake, other streets) on the same page, each with its signature, types, and an example you can run.</p>
 
-<table>
-	<thead>
-		<tr>
-			<th>Category</th>
-			<th>Exports</th>
-		</tr>
-	</thead>
-	<tbody>
-		{apiReferenceCategories.map((category) => (
-			<tr key={category.to}>
-				<td>
-					<Link to={category.to}>{category.title}</Link>
-				</td>
-				<td>{category.count}</td>
-			</tr>
-		))}
-	</tbody>
-</table>
+<ApiCatalog />
 
-[TypeScript types](/docs/reference/types) for `decideAction`, batch specs, and result objects. [`AsyncOptions`](/docs/reference/types/async-options) documents optional `AbortSignal` cancellation on all `*Async` exports.
+## Conventions
 
-## `poker-calculations/encode` subpath
+- **Cards** are strings like `'Ah'` or `'Td'`, or packed deck ids in a `Uint8Array`. See [Card notation](/docs/concepts/card-notation) and [Packed card input](/docs/concepts/packed-card-input).
+- **Ranges** are 1326 weights, dense (`Float64Array(1326)`) or sparse. See [Sparse range input](/docs/concepts/sparse-range-input).
+- **Pots**: `pot` / `potBeforeCall` is everything in the middle when hero acts, villain's bet included. See [Numerical semantics](/docs/concepts/numerical-semantics#pot-convention-chip-math).
+- **Errors** are thrown as ordinary JavaScript `Error`s; see [Errors and validation](/docs/concepts/errors-and-validation).
+- **`*Async` functions** run on the libuv thread pool and accept an optional `{ signal }` to cancel.
 
-Six pure-JS helpers (`packCards`, `unpackCards`, `cardStringToDeckIndex`, `deckIndexToCardString`, `packPokerState`, `unpackPokerState`) ship on the optional subpath—no extra native exports. See [Packed card input](/docs/concepts/packed-card-input#helpers-poker-calculationsencode) and [Packed poker state](/docs/concepts/packed-poker-state#encodejs-helpers).
+## `poker-calculations/encode`
+
+Six pure-JS helpers ship on an optional subpath: `packCards`, `unpackCards`, `cardStringToDeckIndex`, `deckIndexToCardString`, `packPokerState`, `unpackPokerState`. See [Packed card input](/docs/concepts/packed-card-input#helpers-poker-calculationsencode) and [Packed poker state](/docs/concepts/packed-poker-state#encodejs-helpers).

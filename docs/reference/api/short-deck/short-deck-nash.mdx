@@ -1,0 +1,54 @@
+---
+title: "Short deck Nash"
+sidebar_label: "Short deck Nash"
+sidebar_position: 3
+description: "HU jam/fold Nash frequencies, length 81, stacks in BB."
+api_functions: ["shortDeckNashHuJamRange"]
+---
+
+# Short deck Nash
+
+<ApiFamilyHeader category="Short deck" suit="♥" functions={["shortDeckNashHuJamRange"]} />
+
+## `shortDeckNashHuJamRange` \{#shortDeckNashHuJamRange\}
+
+HU jam/fold Nash frequencies, length 81, stacks in BB. Same fictitious-play idea as `nashHeadsUpJamRange` but 6+ equities.
+
+```ts
+shortDeckNashHuJamRange(
+  stackBbOrOptions: number | ShortDeckNashOptions,
+  smallBlind?: number,
+  bigBlind?: number,
+  ante?: number
+): Float64Array;
+```
+
+<details>
+<summary>Types: <code>ShortDeckNashOptions</code></summary>
+
+```ts
+interface ShortDeckNashOptions {
+  stackBb?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  ante?: number;
+  maxIterations?: number;
+  tolerance?: number;
+  equityIterations?: number;
+  equitySeed?: number;
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const jam = poker.shortDeckNashHuJamRange({ stackBb: 10, equityIterations: 40 });
+// 81 classes from 66 (index 0) up to AA (index 80)
+console.log(jam.length, jam[80], jam[0].toFixed(2));
+```
+
+```text title="Output"
+81 1 0.01
+```

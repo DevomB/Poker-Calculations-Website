@@ -1,39 +1,86 @@
 ---
-title: simulateHandOutcomeBatch
-sidebar_position: 13
+title: "Batch simulation"
+sidebar_label: "Batch simulation"
+sidebar_position: 3
+description: "Monte Carlo equity for many spots; returns Float64Array (optional preallocated out)."
+api_functions: ["simulateHandOutcomeBatch", "simulateHandOutcomeBatchPacked"]
 ---
 
-# `simulateHandOutcomeBatch`
+# Batch simulation
 
-<div className="apiSignature">{`simulateHandOutcomeBatch(specs: SimBatchSpec[], out?: Float64Array): Float64Array`}</div>
+<ApiFamilyHeader category="Monte Carlo equity" suit="♥" functions={["simulateHandOutcomeBatch","simulateHandOutcomeBatchPacked"]} />
 
-## Import
+## `simulateHandOutcomeBatch` \{#simulateHandOutcomeBatch\}
 
-```js
-const poker = require('poker-calculations');
+Monte Carlo equity for many spots; returns `Float64Array` (optional preallocated `out`).
+
+```ts
+simulateHandOutcomeBatch(specs: SimBatchSpec[], out?: Float64Array): Float64Array;
 ```
 
-ESM (Node):
+<details>
+<summary>Types: <code>SimBatchSpec</code></summary>
 
-```js
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const poker = require('poker-calculations');
+```ts
+interface SimBatchSpec {
+  holeCards: CardInput;
+  board: CardInput;
+  numSimulations: number;
+  seed: number;
+  villains?: number;
+}
+
+/** Serialized game state (camelCase) passed to `decideAction`. */
 ```
 
-## When to use
+Field notes: [`SimBatchSpec`](/docs/reference/types/sim-batch-spec)
+
+</details>
 
 Range builders and dashboards that need many MC equities in one native call—amortizes N-API and card-parse overhead vs looping `simulateHandOutcome`.
 
-## How to use
-
-```js
+```js title="Example"
 const poker = require('poker-calculations');
+const specs = [
+  { holeCards: ['Ah', 'Kh'], board: ['Qh', 'Jh', '2c'], numSimulations: 5000, seed: 42, villains: 1 },
+  { holeCards: ['7c', '7d'], board: [], numSimulations: 5000, seed: 42, villains: 2 },
+];
+console.log(Array.from(poker.simulateHandOutcomeBatch(specs), (e) => e.toFixed(3)));
+```
 
-const specs = [{ holeCards: ['Ah','Kh'], board: ['Qh','Jh','2c'], numSimulations: 5000, seed: 42, villains: 1 }];
-const out = poker.simulateHandOutcomeBatch(specs);
+```text title="Output"
+[ '0.764', '0.464' ]
+```
+
+## `simulateHandOutcomeBatchPacked` \{#simulateHandOutcomeBatchPacked\}
+
+Packed batch: `holes` length `2*n`, `boards` length `5*n`, `meta` `Uint32Array` `[numSim, seed, villains]` per row.
+
+```ts
+simulateHandOutcomeBatchPacked(
+  holes: Uint8Array,
+  boards: Uint8Array,
+  meta: Uint32Array,
+  out?: Float64Array
+): Float64Array;
+```
+
+Same as batch specs, but holes/boards/meta are packed: `holes` length `2×n`, `boards` `5×n`, `meta` `Uint32Array` with `[numSim, seed, villains]` per row.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const { packCards } = require('poker-calculations/encode');
+const holes = packCards(['Ah', 'Kh']);
+const boards = packCards(['Qh', 'Jh', '2c', '3d', '4s']); // 5 slots per spot
+const meta = new Uint32Array([5000, 42, 1]);               // [numSimulations, seed, villains] per spot
+console.log(poker.simulateHandOutcomeBatchPacked(holes, boards, meta));
+```
+
+```text title="Output"
+Float64Array(1) [ 0.3718000054359436 ]
 ```
 
 ## See also
 
-[Batch equity guide](/docs/guides/batch-equity) · [`simulateHandOutcomeBatchPacked`](./simulate-hand-outcome-batch-packed)
+- [Batch equity guide](/docs/guides/batch-equity)
+- [Packed card input](/docs/concepts/packed-card-input)

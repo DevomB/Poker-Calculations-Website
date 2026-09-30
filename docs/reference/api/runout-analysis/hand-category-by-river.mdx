@@ -1,0 +1,117 @@
+---
+title: "Hand category by the river"
+sidebar_label: "Hand category by the river"
+sidebar_position: 4
+description: "Joint distribution of hero **hand category on the turn** and **category on the river** after enumerating all turn/river runouts from a fixed flop."
+api_functions: ["exactHeroCategoryJointFlopToRiver", "exactHeroCategoryAtLeastFlopToRiver", "exactHeroCategoryAtLeastFlopToRiverAsync"]
+---
+
+# Hand category by the river
+
+<ApiFamilyHeader category="Runout analysis" suit="♣" functions={["exactHeroCategoryJointFlopToRiver","exactHeroCategoryAtLeastFlopToRiver","exactHeroCategoryAtLeastFlopToRiverAsync"]} />
+
+## `exactHeroCategoryJointFlopToRiver` \{#exactHeroCategoryJointFlopToRiver\}
+
+Joint distribution of hero **hand category on the turn** and **category on the river** after enumerating all turn/river runouts from a fixed flop.
+
+```ts
+exactHeroCategoryJointFlopToRiver(
+  heroHoleCards: CardInput,
+  flopThree: CardInput,
+  knownDead?: CardInput
+): {
+  /** 9×9 row-major `[turnCategory * 9 + riverCategory]`; royal flush is folded into straight flush (8). */
+  jointMatrix: Float64Array;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const hero = ['Ah', 'Kh'];
+const flop = ['Qh', 'Jh', '2c'];
+
+const { jointMatrix } = poker.exactHeroCategoryJointFlopToRiver(hero, flop);
+
+console.log('Matrix length:', jointMatrix.length);
+console.log('P(turn cat 0, river cat 0):', jointMatrix[0]);
+console.log('Sum (should be ~1):', [...jointMatrix].reduce((a, b) => a + b, 0));
+```
+
+```text title="Output"
+Matrix length: 81
+P(turn cat 0, river cat 0): 0
+Sum (should be ~1): 1.0000000000000002
+```
+
+## `exactHeroCategoryAtLeastFlopToRiver` \{#exactHeroCategoryAtLeastFlopToRiver\}
+
+P(category ≥ threshold) by river.
+
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+
+```ts
+exactHeroCategoryAtLeastFlopToRiver(
+  heroHoleCards: CardInput,
+  flopThree: CardInput,
+  knownDead: CardInput,
+  minCategoryOrder: number
+): number;
+```
+
+P(hero best hand ≥ `minCategoryOrder`) by river. Category order matches [`handRankCategoryOrder`](/docs/reference/api/hand-evaluation/evaluate-best-hand#handRankCategoryOrder).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const hole = ['Ah', 'Kh'];
+const flop = ['2h', '7d', '9c'];
+const minCategoryOrder = 6; // flush tier — see handRankCategoryOrder
+
+const p = poker.exactHeroCategoryAtLeastFlopToRiver(hole, flop, [], minCategoryOrder);
+console.log(p);
+```
+
+```text title="Output"
+0
+```
+
+## `exactHeroCategoryAtLeastFlopToRiverAsync` \{#exactHeroCategoryAtLeastFlopToRiverAsync\}
+
+Async category-at-least enumeration.
+
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+
+Optional trailing `{ signal?: AbortSignal }` via [`AsyncOptions`](/docs/reference/types/async-options).
+
+```ts
+exactHeroCategoryAtLeastFlopToRiverAsync(
+  heroHoleCards: CardInput,
+  flopThree: CardInput,
+  knownDead: CardInput,
+  minCategoryOrder: number,
+  options?: AsyncOptions
+): Promise<number>;
+```
+
+Async category-at-least enumeration.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const hole = ['Ah', 'Kh'];
+const flop = ['2h', '7d', '9c'];
+
+const p = await poker.exactHeroCategoryAtLeastFlopToRiverAsync(hole, flop, [], 6);
+console.log(p);
+```
+
+```text title="Output"
+0
+```
+
+## See also
+
+- [`exactHeroRunoutVulnerability`](/docs/reference/api/runout-analysis/runout-vulnerability#exactHeroRunoutVulnerability)
+- [`exactHeroEquityRunoutQuantiles`](/docs/reference/api/runout-analysis/runout-equity-quantiles#exactHeroEquityRunoutQuantiles)
+- [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots)
+- [AsyncOptions](/docs/reference/types/async-options)

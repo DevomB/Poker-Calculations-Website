@@ -1,0 +1,55 @@
+---
+title: "Fold to c-bet"
+sidebar_label: "Fold to c-bet"
+sidebar_position: 1
+description: "Update a beta-binomial estimate for fold-to-c-bet frequency."
+api_functions: ["opponentFoldToCbetPosterior"]
+---
+
+# Fold to c-bet
+
+<ApiFamilyHeader category="Opponent modeling" suit="♠" functions={["opponentFoldToCbetPosterior"]} />
+
+## `opponentFoldToCbetPosterior` \{#opponentFoldToCbetPosterior\}
+
+Update a beta-binomial estimate for fold-to-c-bet frequency.
+
+```ts
+opponentFoldToCbetPosterior(
+  priorAlpha: number,
+  priorBeta: number,
+  folds: number,
+  continues: number
+): BetaBinomialFoldPosterior;
+```
+
+<details>
+<summary>Types: <code>BetaBinomialFoldPosterior</code></summary>
+
+```ts
+interface BetaBinomialFoldPosterior {
+  alpha: number;
+  beta: number;
+  posteriorMean: number;
+}
+```
+
+Field notes: [`BetaBinomialFoldPosterior`](/docs/reference/types/beta-binomial-fold-posterior)
+
+</details>
+
+Use `opponentFoldToCbetPosterior` when you need to update a beta-binomial estimate for fold-to-c-bet frequency.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const result = poker.opponentFoldToCbetPosterior(1, 1, 7, 5);
+console.log(result);
+```
+
+```text title="Output"
+{ alpha: 8, beta: 6, posteriorMean: 0.5714285714285714 }
+```
+
+## See also
+
+- [NativeOpponentModel](/docs/reference/types/native-opponent-model)
