@@ -1,0 +1,88 @@
+---
+title: "Heads-up vs a random hand"
+sidebar_label: "Heads-up vs a random hand"
+sidebar_position: 1
+description: "exact HU vs random villain hand; board empty or 3–5 cards."
+api_functions: ["exactHuEquityVsRandomHand", "exactHuEquityVsRandomHandAsync", "exactHuEquityVsRandomHandBatch"]
+---
+
+# Heads-up vs a random hand
+
+<ApiFamilyHeader category="Exact equity" suit="♦" functions={["exactHuEquityVsRandomHand","exactHuEquityVsRandomHandAsync","exactHuEquityVsRandomHandBatch"]} />
+
+## `exactHuEquityVsRandomHand` \{#exactHuEquityVsRandomHand\}
+exact HU vs random villain hand; board empty or 3–5 cards.
+
+```ts
+exactHuEquityVsRandomHand(heroHoleCards: CardInput, boardCards: CardInput): number;
+```
+
+Use for **preflop** (empty `boardCards`) and for flop, turn, or river (3–5 board cards) when you need exact equity vs a random unknown hand—study spots, preflop tools, or feeding [`chubukovMaxSymmetricJamStackBinarySearch`](/docs/reference/api/solvers/chubukov#chubukovMaxSymmetricJamStackBinarySearch). Prefer [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcome) when the board has **1–2** cards (incomplete board) or you need multi-villain Monte Carlo sampling.
+
+```js title="Example"
+const poker = require('poker-calculations');
+// Exact vs a random hand: a turn board enumerates every villain hand and river card
+console.log(poker.exactHuEquityVsRandomHand(['Ah', 'Kd'], ['Qh', 'Jc', '2s', '9d']).toFixed(4));
+// A preflop call enumerates every board too: exact, but it takes a while
+// poker.exactHuEquityVsRandomHand(['Ah', 'Kd'], []);
+```
+
+```text title="Output"
+0.5013
+```
+
+## `exactHuEquityVsRandomHandAsync` \{#exactHuEquityVsRandomHandAsync\}
+Same as `exactHuEquityVsRandomHand`; runs on the libuv thread pool (non-blocking).
+
+```ts
+exactHuEquityVsRandomHandAsync(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  options?: AsyncOptions
+): Promise<number>;
+```
+
+Non-blocking exact HU equity (preflop or board 3–5 cards) when enumeration would block the main thread. Optional [`AsyncOptions`](/docs/reference/types/async-options) cancel via `AbortSignal`. Board rules match the sync export.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const eq = await poker.exactHuEquityVsRandomHandAsync(['Ah', 'Kd'], ['Qh', 'Jc', '2s', '9d']);
+console.log(eq.toFixed(4));
+```
+
+```text title="Output"
+0.5013
+```
+
+## `exactHuEquityVsRandomHandBatch` \{#exactHuEquityVsRandomHandBatch\}
+```ts
+exactHuEquityVsRandomHandBatch(
+  holes: Uint8Array,
+  boards: Uint8Array,
+  boardCards: number,
+  out?: Float64Array
+): Float64Array;
+```
+
+Many exact HU spots with packed cards; `boardCards` is 3–5 per row.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const { packCards } = require('poker-calculations/encode');
+// Two flop spots: 2 hole + 3 board cards each
+const holes = packCards(['Ah', 'Kh', '7c', '7d']);
+const boards = packCards(['Qh', 'Jh', '2c', 'Ks', '8d', '2c']);
+const eq = poker.exactHuEquityVsRandomHandBatch(holes, boards, 3);
+console.log(Array.from(eq, (e) => e.toFixed(4)));
+```
+
+```text title="Output"
+[ '0.7633', '0.6307' ]
+```
+
+## See also
+
+- [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcome)
+- [`chubukovMaxSymmetricJamStackFromHandBinarySearch`](/docs/reference/api/solvers/chubukov#chubukovMaxSymmetricJamStackFromHandBinarySearch)
+- [AsyncOptions](/docs/reference/types/async-options)
+- [Batch equity guide](/docs/guides/batch-equity)

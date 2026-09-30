@@ -1,41 +1,56 @@
 # Maintaining documentation
 
-**Cross-repo / CI:** See [AGENTS.md](./AGENTS.md) — do not commit `file:../NPM` or other local path dependencies; use a published `poker-calculations` version and an updated `pnpm-lock.yaml`.
+**Cross-repo / CI:** see [AGENTS.md](./AGENTS.md). Depend on a published `poker-calculations` version; never commit `file:../NPM`.
 
-API pages under `docs/reference/api/` are **hand-written MDX**. Do not generate doc content from `index.d.ts` or `binding.cpp`, and **do not add** repo scripts that scaffold or overwrite MDX (they drift from exports and mislead maintainers).
+## How the API reference is organized
 
-In `NPM/`, maintain `native/binding_register.cpp` by hand alongside new bindings—no codegen for the export table.
+- `src/data/api-families.json` is the single source of truth: seven sections, their categories, and the **family pages** in each. Every export belongs to exactly one family; the first function in a family is the page's primary.
+- Each family is one MDX page at `docs/reference/api/<category>/<family>.mdx`, with one section per function:
 
-**Do not add migration guides** (`migrating-v2`, `MIGRATION_v2.md`, versioned upgrade pages, or “added in vX” labels). Document current behavior only. Do not keep stub pages for removed exports—delete the MDX and update `check:docs` if needed.
+  ````mdx
+  ## `functionName` \{#functionName\}
 
-**Do not use internal feature IDs** (`P1`, `P22`, etc.) in MDX, README, or public JSDoc—describe behavior by function name instead.
+  What it does (from the JSDoc in index.d.ts, edited for readers).
 
-## Content accuracy checklist (when adding or editing docs)
+  ```ts
+  <the declaration, copied exactly from index.d.ts>
+  ```
 
-1. Copy `apiSignature` and constraints from `NPM/index.d.ts` (installed `poker-calculations` in Website).
-2. Cross-check Monte Carlo, exact HU, ICM, and intervals against `NPM/NUMERICAL.md`.
-3. No “PKST v1” product wording—use **PKST packed state**; wire **layout version byte** only in the PKST concept page.
-4. Run from `Website/`:
+  ```js title="Example"
+  const poker = require('poker-calculations');
+  ...
+  ```
 
-   ```bash
-   pnpm check:all
-   pnpm build
-   ```
+  ```text title="Output"
+  <filled in by pnpm check:examples --write>
+  ```
+  ````
 
-   `validate:snippets` requires a loadable native `poker-calculations` addon (prebuilt npm binary on CI; local skip with exit 0 if the addon cannot load).
+- The sidebar (`sidebars.ts`), the API overview, the category cards, and the homepage counts are all generated from `api-families.json`. Do not hard-code counts.
 
-5. Before PR: `rg '\bP\d+' Website/docs NPM/index.d.ts NPM/include/poker` — expect no doc/comment hits (C++ pot variable `P0` in `poker_math.cpp` is fine).
+## When the package changes
 
-When the NPM package adds or renames an export:
+1. Bump `poker-calculations` in `package.json`, run `pnpm install`, commit `pnpm-lock.yaml`.
+2. Run `pnpm check:docs`. It fails when an export is missing from `api-families.json`, when a documented function no longer exists, when a page or section is missing, or when a signature block differs from `index.d.ts`.
+3. Add new functions to a family in `api-families.json` (or a new family page), write the section, then run `pnpm check:examples --write` to fill in real output.
+4. Remove pages for deleted functions, and add a redirect in `vercel.json` from the old URL.
 
-1. Update `NPM/index.d.ts` and native bindings (`NPM/native/binding_register.cpp` registers exports).
-2. Add or edit the matching `.mdx` under the correct category folder (kebab-case slug from camelCase).
-3. Include **Import**, **When to use**, and **How to use** with a realistic snippet. Document current behavior only.
-4. Run from `Website/`:
+## Examples
 
-   ```bash
-   pnpm check:docs
-   pnpm build
-   ```
+- Every `js` block runs. `pnpm check:examples` executes all of them against the installed package and fails if any throws; Vercel runs it before each build.
+- API page examples run on their own. Guide and concept pages run their blocks in order as one script, so later blocks may use earlier variables, but must not redeclare them.
+- Never type an output by hand. Write the code, then `pnpm check:examples --write`. Monte Carlo digits differ slightly between platforms; title an output block `Output (varies)` if it should never be rewritten.
+- Comments in examples that state a value must match the output.
 
-`check:docs` verifies every `PokerCalculations` export in `index.d.ts` has a corresponding MDX slug, and that every API MDX page maps to a current export.
+## Style
+
+- Document current behavior only: no migration guides, no "added in vX" labels.
+- The pot convention is package-wide: `pot` / `potBeforeCall` includes villain's bet. Keep examples consistent with [Numerical semantics](docs/concepts/numerical-semantics.mdx).
+- Hand-class arrays use the 169 order `22, 32s, 32o, …, AKo, AA` (index 0 is 22, 168 is AA).
+
+## Checks
+
+```bash
+pnpm check:all   # check:docs + check:examples + typecheck
+pnpm build
+```

@@ -1,0 +1,20 @@
+---
+title: "Ranges"
+sidebar_label: "Ranges"
+description: "Build, combine, measure, and compare 1326-combo ranges."
+---
+
+# Ranges
+
+<p className="apiLead">Build, combine, measure, and compare 1326-combo ranges.</p>
+
+27 functions on 6 pages.
+
+| Page | Functions |
+| --- | --- |
+| [Combos from notation](./preflop-combos) | [`preflopCombosFromNotation`](./preflop-combos#preflopCombosFromNotation) · [`preflopCombosFromNotationsList`](./preflop-combos#preflopCombosFromNotationsList) · [`preflopCombosFromNotationMinusBlockers`](./preflop-combos#preflopCombosFromNotationMinusBlockers) |
+| [Range algebra](./range-algebra) | [`normalizeSparseRange`](./range-algebra#normalizeSparseRange) · [`mergeSparseRanges`](./range-algebra#mergeSparseRanges) · [`intersectSparseRanges`](./range-algebra#intersectSparseRanges) · [`subtractSparseRange`](./range-algebra#subtractSparseRange) · [`pruneRangeByMinWeight`](./range-algebra#pruneRangeByMinWeight) · [`normalizedRangeWeightSum`](./range-algebra#normalizedRangeWeightSum) |
+| [Range statistics](./range-statistics) | [`rangeComboCount`](./range-statistics#rangeComboCount) · [`rangeTopCombos`](./range-statistics#rangeTopCombos) · [`rangeWeightTopKMass`](./range-statistics#rangeWeightTopKMass) · [`rangeCoverageFraction`](./range-statistics#rangeCoverageFraction) · [`rangeShannonEntropy`](./range-statistics#rangeShannonEntropy) · [`rangeGiniCoefficient`](./range-statistics#rangeGiniCoefficient) · [`villainPolarizedRangeScore`](./range-statistics#villainPolarizedRangeScore) |
+| [Range distance](./range-distance) | [`rangeDistanceJensenShannon`](./range-distance#rangeDistanceJensenShannon) · [`rangeDistanceL1`](./range-distance#rangeDistanceL1) · [`rangeDistanceL2`](./range-distance#rangeDistanceL2) · [`rangeCosineSimilarity`](./range-distance#rangeCosineSimilarity) |
+| [Notation and hand-class buckets](./range-buckets) | [`rangeFromNotationWeights`](./range-buckets#rangeFromNotationWeights) · [`rangeBucketWeightsByNotation`](./range-buckets#rangeBucketWeightsByNotation) · [`rangeBucketWeightsByHandClass`](./range-buckets#rangeBucketWeightsByHandClass) |
+| [Blockers and removal](./range-blockers) | [`materializeVillainRangeAfterBlockers`](./range-blockers#materializeVillainRangeAfterBlockers) · [`rangeBlockerPressureByCard`](./range-blockers#rangeBlockerPressureByCard) · [`blockerMatrixByCard`](./range-blockers#blockerMatrixByCard) · [`rangeRemovalSensitivityVsHero`](./range-blockers#rangeRemovalSensitivityVsHero) |

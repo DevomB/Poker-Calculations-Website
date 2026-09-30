@@ -1,0 +1,170 @@
+---
+title: "Hi-Lo equity"
+sidebar_label: "Hi-Lo equity"
+sidebar_position: 5
+description: "Exact HU PLO-8 vs a known 4-card hand."
+api_functions: ["exactHuOmahaHiLoEquity", "simulateOmahaHiLoEquity", "omahaScoopProbabilityMc", "omahaQuarterProbabilityMc", "omahaHiLoMultiwayMc"]
+---
+
+# Hi-Lo equity
+
+<ApiFamilyHeader category="Omaha" suit="♠" functions={["exactHuOmahaHiLoEquity","simulateOmahaHiLoEquity","omahaScoopProbabilityMc","omahaQuarterProbabilityMc","omahaHiLoMultiwayMc"]} />
+
+## `exactHuOmahaHiLoEquity` \{#exactHuOmahaHiLoEquity\}
+Exact HU PLO-8 vs a known 4-card hand. Board 0–5. No qualifying low → high takes the full pot.
+
+```ts
+exactHuOmahaHiLoEquity(
+  heroHoleCards: CardInput,
+  villainHoleCards: CardInput,
+  boardCards: CardInput
+): OmahaHiLoEquity;
+```
+
+<details>
+<summary>Types: <code>OmahaHiLoEquity</code></summary>
+
+```ts
+interface OmahaHiLoEquity {
+  hiEquity: number;
+  loEquity: number;
+  scoopEquity: number;
+  quarterRate: number;
+  potShare: number;
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const r = poker.exactHuOmahaHiLoEquity(['Ah', '2h', '3c', 'Kd'], ['Ks', 'Kc', 'Qs', 'Jd'], ['4s', '7d', '8c']);
+console.log(r);
+```
+
+```text title="Output"
+{
+  hiEquity: 0.1902439024390244,
+  loEquity: 1,
+  scoopEquity: 0.1902439024390244,
+  quarterRate: 0,
+  potShare: 0.5951219512195122
+}
+```
+
+## `simulateOmahaHiLoEquity` \{#simulateOmahaHiLoEquity\}
+Monte Carlo PLO-8. `villainHoleCards` null → uniform random 4-card opponent.
+
+```ts
+simulateOmahaHiLoEquity(
+  heroHoleCards: CardInput,
+  villainHoleCards: CardInput | null,
+  boardCards: CardInput,
+  trials: number,
+  seed: number
+): OmahaHiLoEquity;
+```
+
+<details>
+<summary>Types: <code>OmahaHiLoEquity</code></summary>
+
+```ts
+interface OmahaHiLoEquity {
+  hiEquity: number;
+  loEquity: number;
+  scoopEquity: number;
+  quarterRate: number;
+  potShare: number;
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+// null villain = a uniformly random four-card hand
+console.log(poker.simulateOmahaHiLoEquity(['Ah', '2h', '3c', 'Kd'], null, [], 20000, 42));
+```
+
+```text title="Output"
+{
+  hiEquity: 0.50165,
+  loEquity: 0.46355,
+  scoopEquity: 0.43145,
+  quarterRate: 0.03255,
+  potShare: 0.5997375
+}
+```
+
+## `omahaScoopProbabilityMc` \{#omahaScoopProbabilityMc\}
+P(hero wins both halves, or wins high when no low exists).
+
+```ts
+omahaScoopProbabilityMc(
+  heroHoleCards: CardInput,
+  villainHoleCards: CardInput,
+  boardCards: CardInput,
+  trials: number,
+  seed: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.omahaScoopProbabilityMc(['Ah', '2h', '3c', 'Kd'], ['Ks', 'Kc', 'Qs', 'Jd'], [], 20000, 42).toFixed(3));
+```
+
+```text title="Output"
+0.402
+```
+
+## `omahaQuarterProbabilityMc` \{#omahaQuarterProbabilityMc\}
+P(exactly one side is a tie and the other is won or lost).
+
+```ts
+omahaQuarterProbabilityMc(
+  heroHoleCards: CardInput,
+  villainHoleCards: CardInput,
+  boardCards: CardInput,
+  trials: number,
+  seed: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.omahaQuarterProbabilityMc(['Ah', '2h', '3c', 'Kd'], ['As', '2c', 'Qs', 'Jd'], [], 20000, 42).toFixed(3));
+```
+
+```text title="Output"
+0.355
+```
+
+## `omahaHiLoMultiwayMc` \{#omahaHiLoMultiwayMc\}
+3-way chip EV with hi/lo halves and quartering. Exactly 3 known 4-card hands. No qualifying low → high takes the full pot, split among high winners.
+
+```ts
+omahaHiLoMultiwayMc(
+  holeHands: CardInput[],
+  boardCards: CardInput,
+  trials: number,
+  seed: number
+): number[];
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const ev = poker.omahaHiLoMultiwayMc(
+  [['Ah', '2h', '3c', 'Kd'], ['Ks', 'Kc', 'Qs', 'Jd'], ['As', '4c', '5d', '9h']],
+  [],
+  20000,
+  42,
+);
+console.log(ev.map((e) => e.toFixed(3)));
+```
+
+```text title="Output"
+[ '0.406', '0.365', '0.229' ]
+```

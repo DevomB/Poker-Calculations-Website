@@ -1,0 +1,54 @@
+---
+title: "Compare hands"
+sidebar_label: "Compare hands"
+sidebar_position: 3
+description: "Compare the best hands made from two card lists (1–7 cards each)."
+api_functions: ["compareBestHands"]
+---
+
+# Compare hands
+
+<ApiFamilyHeader category="Hand evaluation" suit="♠" functions={["compareBestHands"]} />
+
+## `compareBestHands` \{#compareBestHands\}
+Compare the best hands made from two card lists (1–7 cards each). Returns `1` when the first list wins, `-1` when the second wins, and `0` for a split.
+
+```ts
+compareBestHands(cardsA: CardInput, cardsB: CardInput, options?: CompareBestHandsOptions): number;
+```
+
+<details>
+<summary>Types: <code>CompareBestHandsOptions</code></summary>
+
+```ts
+interface CompareBestHandsOptions {
+  /** Skip overlap check between A and B when you guarantee disjoint deck ids. Default false. */
+  assumeDisjoint?: boolean;
+}
+```
+
+
+</details>
+
+Use for showdown ordering when each side may have a different number of known cards (partial boards).
+
+```js title="Example"
+const poker = require('poker-calculations');
+// 1: first hand wins, -1: second wins, 0: split
+console.log(poker.compareBestHands(['Ah', 'Kh', 'Qh', 'Jh', 'Th'], ['As', 'Ks', 'Qs', 'Js', '9h'])); // 1
+
+// Packed deck ids skip string parsing on hot paths; assumeDisjoint skips the overlap check
+const { packCards } = require('poker-calculations/encode');
+const a = packCards(['Ah', 'Ad', '7c', '7d', '2s']);
+const b = packCards(['Kh', 'Kd', 'Qc', 'Qd', '3s']);
+console.log(poker.compareBestHands(a, b, { assumeDisjoint: true })); // 1
+```
+
+```text title="Output"
+1
+1
+```
+
+## See also
+
+- [`evaluateBestHand`](/docs/reference/api/hand-evaluation/evaluate-best-hand#evaluateBestHand)

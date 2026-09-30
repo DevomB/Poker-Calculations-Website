@@ -1,21 +1,17 @@
 ---
-title: 'Opponent Modeling'
-unlisted: true
+title: "Opponent modeling"
+sidebar_label: "Opponent modeling"
+description: "Posteriors and tendency estimates from observed actions."
 ---
 
 # Opponent modeling
 
-Opponent tendency estimates, exploit adjustments, and villain range-shift helpers.
+<p className="apiLead">Posteriors and tendency estimates from observed actions.</p>
 
-| Export | Summary |
+3 functions on 3 pages.
+
+| Page | Functions |
 | --- | --- |
-| [`opponentFoldToCbetPosterior`](/docs/reference/api/opponent-modeling/opponent-fold-to-cbet-posterior) | Update a beta-binomial estimate for fold-to-c-bet frequency. |
-| [`opponentAggressionFactor`](/docs/reference/api/opponent-modeling/opponent-aggression-factor) | Compute opponent aggression factor from bets, raises, and calls. |
-| [`opponentShowdownBiasEstimate`](/docs/reference/api/opponent-modeling/opponent-showdown-bias-estimate) | Estimate showdown tendencies from observed hands. |
-| [`opponentRangeElasticityFromSizing`](/docs/reference/api/opponent-modeling/opponent-range-elasticity-from-sizing) | Estimate how continue rate changes as sizing changes. |
-| [`exploitativeBetSizeAdjustment`](/docs/reference/api/opponent-modeling/exploitative-bet-size-adjustment) | Adjust a bet size from opponent elasticity and value density. |
-| [`exploitativeCallThresholdAdjustment`](/docs/reference/api/opponent-modeling/exploitative-call-threshold-adjustment) | Adjust a call threshold from bluff bias and aggression. |
-| [`villainLineRangeShift`](/docs/reference/api/opponent-modeling/villain-line-range-shift) | Shift a villain prior range using an observed action sequence. |
-| [`villainCappedRangeScore`](/docs/reference/api/opponent-modeling/villain-capped-range-score) | Score how capped a villain range appears on the board. |
-| [`villainPolarizedRangeScore`](/docs/reference/api/opponent-modeling/villain-polarized-range-score) | Score how polarized a villain range is. |
-| [`villainFloatFrequencyEstimate`](/docs/reference/api/opponent-modeling/villain-float-frequency-estimate) | Estimate float frequency from made-hand and draw shares. |
+| [Fold to c-bet](./fold-to-cbet) | [`opponentFoldToCbetPosterior`](./fold-to-cbet#opponentFoldToCbetPosterior) |
+| [Aggression factor](./aggression-factor) | [`opponentAggressionFactor`](./aggression-factor#opponentAggressionFactor) |
+| [Range elasticity](./range-elasticity) | [`opponentRangeElasticityFromSizing`](./range-elasticity#opponentRangeElasticityFromSizing) |

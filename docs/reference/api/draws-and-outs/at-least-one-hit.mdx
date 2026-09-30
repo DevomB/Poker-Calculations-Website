@@ -1,0 +1,157 @@
+---
+title: "At least one hit"
+sidebar_label: "At least one hit"
+sidebar_position: 3
+description: "flop→river at least one hit from disjoint out count."
+api_functions: ["flopToRiverAtLeastOneHitProbability", "flopToTurnAtLeastOneHitProbability", "turnToRiverAtLeastOneHitProbability", "flopToRiverAtLeastOneHitDisjointOutsSum", "flopToTurnAtLeastOneHitDisjointOutsSum", "turnToRiverAtLeastOneHitDisjointOutsSum"]
+---
+
+# At least one hit
+
+<ApiFamilyHeader category="Draws & outs" suit="♥" functions={["flopToRiverAtLeastOneHitProbability","flopToTurnAtLeastOneHitProbability","turnToRiverAtLeastOneHitProbability","flopToRiverAtLeastOneHitDisjointOutsSum","flopToTurnAtLeastOneHitDisjointOutsSum","turnToRiverAtLeastOneHitDisjointOutsSum"]} />
+
+## `flopToRiverAtLeastOneHitProbability` \{#flopToRiverAtLeastOneHitProbability\}
+flop→river at least one hit from disjoint out count.
+
+```ts
+flopToRiverAtLeastOneHitProbability(outs: number, unseenAfterFlop: number): number;
+```
+
+Standard **9-out flush draw on the flop**: probability of hitting by the river with one combined out count and no overlap between out types. More accurate than rule-of-four for study tools.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const outs = 9;
+const unseen = 47;
+const p = poker.flopToRiverAtLeastOneHitProbability(outs, unseen);
+console.log(p); // 1 - C(38,2)/C(47,2) ≈ 0.35
+
+console.log(poker.ruleOfFourEquity(outs)); // quick ~36% heuristic
+```
+
+```text title="Output"
+0.3496762257169288
+0.36
+```
+
+## `flopToTurnAtLeastOneHitProbability` \{#flopToTurnAtLeastOneHitProbability\}
+One-card hypergeometric hit rate `outs / unseen`.
+
+```ts
+flopToTurnAtLeastOneHitProbability(outs: number, unseenAfterFlop: number): number;
+```
+
+One card to come on the flop (turn only). Same hypergeometric rate as [`hypergeometricOneCardHitProbability`](/docs/reference/api/draws-and-outs/hypergeometric#hypergeometricOneCardHitProbability) but named for the flop→turn street.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const outs = 9;
+const unseen = 47; // deck after flop (2 hole + 3 flop)
+
+const pTurn = poker.flopToTurnAtLeastOneHitProbability(outs, unseen);
+console.log(pTurn); // 9/47 ≈ 0.191
+
+// Compare to full flop→river two-card draw
+console.log(poker.flopToRiverAtLeastOneHitProbability(outs, unseen));
+```
+
+```text title="Output"
+0.19148936170212766
+0.3496762257169288
+```
+
+## `turnToRiverAtLeastOneHitProbability` \{#turnToRiverAtLeastOneHitProbability\}
+One-street turn→river hit: `outs/unseen`.
+
+```ts
+turnToRiverAtLeastOneHitProbability(outs: number, unseenAfterTurn: number): number;
+```
+
+One card to come on the turn (river only). Use when only the river remains and you have a single disjoint out count.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const outs = 9;
+const unseen = 44; // after turn (2 hole + 4 board)
+
+const pRiver = poker.turnToRiverAtLeastOneHitProbability(outs, unseen);
+console.log(pRiver); // 9/44 ≈ 0.205
+```
+
+```text title="Output"
+0.20454545454545456
+```
+
+## `flopToRiverAtLeastOneHitDisjointOutsSum` \{#flopToRiverAtLeastOneHitDisjointOutsSum\}
+disjoint categories only (must not share outs); sums then same as single-category flop-to-river hit.
+
+```ts
+flopToRiverAtLeastOneHitDisjointOutsSum(unseenAfterFlop: number, outsPerCategory: number[]): number;
+```
+
+You have several **non-overlapping** out buckets (e.g. overcards + gutshot blocks counted separately with no shared cards). Simpler than union helpers when overlap is zero by construction.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const p = poker.flopToRiverAtLeastOneHitDisjointOutsSum(47, [6, 3, 2]);
+console.log(p); // 11 effective outs → same as flopToRiver(11, 47)
+
+console.log(poker.flopToRiverAtLeastOneHitProbability(11, 47));
+```
+
+```text title="Output"
+0.41720629047178537
+0.41720629047178537
+```
+
+## `flopToTurnAtLeastOneHitDisjointOutsSum` \{#flopToTurnAtLeastOneHitDisjointOutsSum\}
+Sum disjoint outs, then one-street hit formula.
+
+```ts
+flopToTurnAtLeastOneHitDisjointOutsSum(unseen: number, outsPerCategory: number[]): number;
+```
+
+Categories do **not** share outs. Sum raw out counts, then apply the one-street hit formula on flop→turn.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const unseen = 47;
+const outsPerCategory = [9, 4]; // flush + gutshot, disjoint
+
+const p = poker.flopToTurnAtLeastOneHitDisjointOutsSum(unseen, outsPerCategory);
+console.log(p); // 13/47
+```
+
+```text title="Output"
+0.2765957446808511
+```
+
+## `turnToRiverAtLeastOneHitDisjointOutsSum` \{#turnToRiverAtLeastOneHitDisjointOutsSum\}
+Sum disjoint outs, turn→river.
+
+```ts
+turnToRiverAtLeastOneHitDisjointOutsSum(unseen: number, outsPerCategory: number[]): number;
+```
+
+Sum disjoint outs on turn→river (one card).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const p = poker.turnToRiverAtLeastOneHitDisjointOutsSum(44, [9, 4]);
+console.log(p); // 13/44
+```
+
+```text title="Output"
+0.29545454545454547
+```
+
+## See also
+
+- [`flopToRiverAtLeastOneHitUnionTwoCategories`](/docs/reference/api/draws-and-outs/overlapping-outs#flopToRiverAtLeastOneHitUnionTwoCategories)
+- [`hypergeometricOneCardHitProbability`](/docs/reference/api/draws-and-outs/hypergeometric#hypergeometricOneCardHitProbability)

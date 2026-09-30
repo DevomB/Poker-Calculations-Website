@@ -2,12 +2,68 @@
 title: Range equity (exact)
 ---
 
+# Range equity, exactly
 
-1. Build a sparse or dense range with blockers removed.
-2. Call `exactHuEquityVsRange(hero, board, range)`.
-3. Compare to `simulateEquityVsRange` if you need a Monte Carlo check.
+How often does A♥Q♦ win on Q♥J♣2♠ against a range of big pairs and AK? Monte Carlo gives an estimate; [`exactHuEquityVsRange`](/docs/reference/api/exact-equity/exact-hu-vs-range#exactHuEquityVsRange) enumerates every villain combo and every runout and gives the answer.
+
+## 1. Build the range
+
+Ranges are 1326 weights, one per two-card combo. Build one from shorthand with [`rangeFromNotationWeights`](/docs/reference/api/ranges/range-buckets#rangeFromNotationWeights). You do not need to remove blockers yourself: the equity functions skip any combo that collides with hero's cards or the board.
 
 ```js
 const poker = require('poker-calculations');
-const eq = poker.exactHuEquityVsRange(['As', 'Ah'], ['Kd', '7c', '2h'], dense1326);
+
+const villain = poker.rangeFromNotationWeights([
+  { notation: 'TT', weight: 1 },
+  { notation: 'JJ', weight: 1 },
+  { notation: 'QQ', weight: 1 },
+  { notation: 'KK', weight: 1 },
+  { notation: 'AA', weight: 1 },
+  { notation: 'AKs', weight: 1 },
+  { notation: 'AKo', weight: 0.5 }, // AKo half the time
+]);
+console.log(poker.rangeComboCount(villain));
 ```
+
+```text title="Output"
+46
+```
+
+## 2. Exact equity
+
+```js
+const hero = ['Ah', 'Qd'];
+const board = ['Qh', 'Jc', '2s'];
+
+const exact = poker.exactHuEquityVsRange(hero, board, villain);
+console.log(exact.toFixed(4));
+```
+
+```text title="Output"
+0.4508
+```
+
+Top pair, top kicker is behind this range: AA, KK, and the sets of queens and jacks are ahead, while TT and AK are drawing thin.
+
+## 3. Check it with Monte Carlo
+
+[`simulateEquityVsRange`](/docs/reference/api/monte-carlo/simulate-equity-vs-range#simulateEquityVsRange) samples villain combos by weight. With enough trials it lands on the exact number:
+
+```js
+const mc = poker.simulateEquityVsRange(hero, board, villain, 200_000, 42);
+console.log(mc.toFixed(4));
+```
+
+```text title="Output"
+0.4507
+```
+
+## Which to use
+
+| | Exact | Monte Carlo |
+| --- | --- | --- |
+| Answer | The true equity | An estimate with standard error |
+| Cost | Grows with range size × runouts; preflop is slow | Fixed by `numSimulations` |
+| Use for | Flop, turn, river spots; tests; tables you cache | Preflop, wide multiway spots, quick UI feedback |
+
+To see how the equity is spread across runouts rather than just its mean, use [`exactHeroEquityRunoutQuantiles`](/docs/reference/api/runout-analysis/runout-equity-quantiles#exactHeroEquityRunoutQuantiles). To see which cards hurt or help, use [`exactEquityCardRemovalGradient`](/docs/reference/api/runout-analysis/card-removal#exactEquityCardRemovalGradient).

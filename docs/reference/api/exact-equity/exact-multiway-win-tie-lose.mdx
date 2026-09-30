@@ -1,0 +1,127 @@
+---
+title: "Win, split, lose"
+sidebar_label: "Win, split, lose"
+sidebar_position: 5
+description: "Exact win / split / lose frequencies for 2..9 known hands (general form of the 3-way export)."
+api_functions: ["exactMultiwayWinTieLoseKnownHands", "exactThreeWayWinTieLoseKnownHands", "exactMultiwayTieFrequency"]
+---
+
+# Win, split, lose
+
+<ApiFamilyHeader category="Exact equity" suit="♦" functions={["exactMultiwayWinTieLoseKnownHands","exactThreeWayWinTieLoseKnownHands","exactMultiwayTieFrequency"]} />
+
+## `exactMultiwayWinTieLoseKnownHands` \{#exactMultiwayWinTieLoseKnownHands\}
+Exact win / split / lose frequencies for 2..9 known hands (general form of the 3-way export).
+
+```ts
+exactMultiwayWinTieLoseKnownHands(
+  holeHands: CardInput[],
+  boardCards: CardInput,
+  deadCards?: CardInput
+): MultiwayWinTieLoseResult;
+```
+
+<details>
+<summary>Types: <code>MultiwayWinTieLoseResult</code></summary>
+
+```ts
+interface MultiwayWinTieLoseResult {
+  win: number[];
+  split: number[];
+  lose: number[];
+}
+```
+
+
+</details>
+
+Separates outright wins from splits, which equity alone blends together.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const r = poker.exactMultiwayWinTieLoseKnownHands(
+  [['Ah', 'Kd'], ['Ac', 'Kh'], ['Qs', 'Qd']],
+  ['Ks', '8s', '2c'],
+);
+console.log({ win: r.win.map((x) => x.toFixed(3)), split: r.split.map((x) => x.toFixed(3)) });
+```
+
+```text title="Output"
+{
+  win: [ '0.000', '0.000', '0.142' ],
+  split: [ '0.858', '0.858', '0.000' ]
+}
+```
+
+## `exactThreeWayWinTieLoseKnownHands` \{#exactThreeWayWinTieLoseKnownHands\}
+Per-player win / split / lose frequencies (win = unique best, split = tied best, lose = rest).
+
+```ts
+exactThreeWayWinTieLoseKnownHands(
+  hand0: CardInput,
+  hand1: CardInput,
+  hand2: CardInput,
+  boardCards: CardInput,
+  deadCards?: CardInput
+): MultiwayWinTieLoseResult;
+```
+
+<details>
+<summary>Types: <code>MultiwayWinTieLoseResult</code></summary>
+
+```ts
+interface MultiwayWinTieLoseResult {
+  win: number[];
+  split: number[];
+  lose: number[];
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const r = poker.exactThreeWayWinTieLoseKnownHands(['Ah', 'Kd'], ['Ac', 'Kh'], ['Qs', 'Qd'], ['Ks', '8s', '2c']);
+console.log(r.win.map((x) => x.toFixed(3)));
+```
+
+```text title="Output"
+[ '0.000', '0.000', '0.142' ]
+```
+
+## `exactMultiwayTieFrequency` \{#exactMultiwayTieFrequency\}
+P(showdown split involving hero) and P(any split).
+
+```ts
+exactMultiwayTieFrequency(
+  holeHands: CardInput[],
+  boardCards: CardInput,
+  deadCards?: CardInput
+): MultiwayTieFrequencyResult;
+```
+
+<details>
+<summary>Types: <code>MultiwayTieFrequencyResult</code></summary>
+
+```ts
+interface MultiwayTieFrequencyResult {
+  /** P(player 0 is tied for best at showdown). */
+  pHeroSplit: number;
+  /** P(two or more players share the best hand at showdown). */
+  pAnySplit: number;
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const r = poker.exactMultiwayTieFrequency([['Ah', 'Kd'], ['Ac', 'Kh'], ['Qs', 'Qd']], ['Ks', '8s', '2c']);
+console.log(r);
+```
+
+```text title="Output"
+{ pHeroSplit: 0.858250276854928, pAnySplit: 0.858250276854928 }
+```

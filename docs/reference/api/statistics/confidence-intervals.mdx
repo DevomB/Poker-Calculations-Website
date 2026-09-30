@@ -1,0 +1,177 @@
+---
+title: "Confidence intervals"
+sidebar_label: "Confidence intervals"
+sidebar_position: 1
+description: "Wilson score interval for a binomial proportion."
+api_functions: ["wilsonScoreInterval", "agrestiCoullInterval", "normalWaldBinomialInterval", "binomialProportionCiWidth"]
+---
+
+# Confidence intervals
+
+<ApiFamilyHeader category="Statistics & bankroll" suit="♣" functions={["wilsonScoreInterval","agrestiCoullInterval","normalWaldBinomialInterval","binomialProportionCiWidth"]} />
+
+## `wilsonScoreInterval` \{#wilsonScoreInterval\}
+Wilson score interval for a binomial proportion.
+
+```ts
+wilsonScoreInterval(successes: number, nTrials: number, z: number): WilsonScoreInterval;
+```
+
+<details>
+<summary>Types: <code>WilsonScoreInterval</code></summary>
+
+```ts
+interface WilsonScoreInterval {
+  lower: number;
+  upper: number;
+}
+```
+
+Field notes: [`WilsonScoreInterval`](/docs/reference/types/wilson-score-interval)
+
+</details>
+
+Show **confidence bands** on observed rates (fold to cbet, WTSD, MC win rate buckets) when sample size is small or the point estimate is near 0 or 1. Wilson intervals behave better than a naive normal approximation in those cases.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const successes = 42;
+const nTrials = 100;
+const z = 1.96; // ~95% normal critical value
+
+const interval = poker.wilsonScoreInterval(successes, nTrials, z);
+const pHat = successes / nTrials;
+
+console.log({
+  point: pHat,
+  lower: interval.lower,
+  upper: interval.upper,
+});
+```
+
+```text title="Output"
+{ point: 0.42, lower: 0.3297825389454565, upper: 0.5161366302507038 }
+```
+
+**Returns** `WilsonScoreInterval` — `{ lower: number, upper: number }` with both bounds in `[0, 1]` for the success proportion successes/nTrials at critical value `z`.
+
+## `agrestiCoullInterval` \{#agrestiCoullInterval\}
+Agresti–Coull interval; same `{ lower, upper }` shape as Wilson.
+
+```ts
+agrestiCoullInterval(successes: number, nTrials: number, z: number): WilsonScoreInterval;
+```
+
+<details>
+<summary>Types: <code>WilsonScoreInterval</code></summary>
+
+```ts
+interface WilsonScoreInterval {
+  lower: number;
+  upper: number;
+}
+```
+
+Field notes: [`WilsonScoreInterval`](/docs/reference/types/wilson-score-interval)
+
+</details>
+
+Alternative to `wilsonScoreInterval` for HUD-style **proportion confidence bands**. Adjusts the effective sample size toward the center; same `{ lower, upper }` return shape as Wilson and Wald helpers.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const folds = 18;
+const spots = 40;
+const z = 1.96;
+
+const ac = poker.agrestiCoullInterval(folds, spots, z);
+const wilson = poker.wilsonScoreInterval(folds, spots, z);
+
+console.log({ agrestiCoull: ac, wilson });
+```
+
+```text title="Output"
+{
+  agrestiCoull: { lower: 0.30699132975881616, upper: 0.601771124166223 },
+  wilson: { lower: 0.313545359660539, upper: 0.5952170942645003 }
+}
+```
+
+**Returns** `WilsonScoreInterval` — `{ lower: number, upper: number }` for the observed rate folds/spots (or any success/trial pair). Bounds are clamped to `[0, 1]`.
+
+## `normalWaldBinomialInterval` \{#normalWaldBinomialInterval\}
+Normal (Wald) interval `p_hat ± z * SE` clamped to `[0,1]`; weak near `0`/`1` with small `n`.
+
+```ts
+normalWaldBinomialInterval(successes: number, nTrials: number, z: number): WilsonScoreInterval;
+```
+
+<details>
+<summary>Types: <code>WilsonScoreInterval</code></summary>
+
+```ts
+interface WilsonScoreInterval {
+  lower: number;
+  upper: number;
+}
+```
+
+Field notes: [`WilsonScoreInterval`](/docs/reference/types/wilson-score-interval)
+
+</details>
+
+Quick **normal approximation** bands when n is moderately large and the proportion is not extremely close to 0 or 1. Prefer `wilsonScoreInterval` or `agrestiCoullInterval` for small n or edge proportions.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const successes = 250;
+const nTrials = 500;
+const z = 1.96;
+
+const wald = poker.normalWaldBinomialInterval(successes, nTrials, z);
+const wilson = poker.wilsonScoreInterval(successes, nTrials, z);
+
+console.log({ wald, wilson, pHat: successes / nTrials });
+```
+
+```text title="Output"
+{
+  wald: { lower: 0.4561730676410041, upper: 0.5438269323589959 },
+  wilson: { lower: 0.4565068971192643, upper: 0.5434931028807357 },
+  pHat: 0.5
+}
+```
+
+**Returns** `WilsonScoreInterval` — `{ lower: number, upper: number }` from p̂ ± z·√(p̂(1−p̂)/nTrials), with endpoints clamped to `[0, 1]`.
+
+## `binomialProportionCiWidth` \{#binomialProportionCiWidth\}
+Wilson interval width for a proportion.
+
+```ts
+binomialProportionCiWidth(successes: number, nTrials: number, z: number): number;
+```
+
+Width of a Wilson (or chosen-z) interval for a binomial proportion — compare to [`wilsonScoreInterval`](/docs/reference/api/statistics/confidence-intervals#wilsonScoreInterval).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const successes = 42;
+const nTrials = 100;
+const z = 1.96;
+
+const w = poker.binomialProportionCiWidth(successes, nTrials, z);
+const interval = poker.wilsonScoreInterval(successes, nTrials, z);
+console.log(w, interval.upper - interval.lower);
+```
+
+```text title="Output"
+0.18635409130524727 0.18635409130524727
+```
+
+## See also
+
+- [`monteCarloTrialsForWilsonHalfWidth`](/docs/reference/api/statistics/monte-carlo-error#monteCarloTrialsForWilsonHalfWidth)

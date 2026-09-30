@@ -1,0 +1,67 @@
+---
+title: "Tournament duel"
+sidebar_label: "Tournament duel"
+sidebar_position: 8
+description: "Discrete **heads-up duel** Markov model: absorption probability, expected hands until elimination, and optional prize EV for the hero."
+api_functions: ["tournamentDuelAbsorptionProbabilities"]
+---
+
+# Tournament duel
+
+<ApiFamilyHeader category="ICM" suit="♥" functions={["tournamentDuelAbsorptionProbabilities"]} />
+
+## `tournamentDuelAbsorptionProbabilities` \{#tournamentDuelAbsorptionProbabilities\}
+Discrete **heads-up duel** Markov model: absorption probability, expected hands until elimination, and optional prize EV for the hero.
+
+```ts
+tournamentDuelAbsorptionProbabilities(
+  heroStack: number,
+  villainStack: number,
+  winProbabilityPerHand: number,
+  chipsPerAllIn: number,
+  winnerPrize?: number
+): TournamentDuelAbsorptionResult;
+```
+
+<details>
+<summary>Types: <code>TournamentDuelAbsorptionResult</code></summary>
+
+```ts
+interface TournamentDuelAbsorptionResult {
+  heroWinProbability: number;
+  /** Expected number of all-ins until someone busts. */
+  expectedHands: number;
+  heroPrizeEv: number;
+}
+```
+
+Field notes: [`TournamentDuelAbsorptionResult`](/docs/reference/types/tournament-duel-absorption-result)
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const r = poker.tournamentDuelAbsorptionProbabilities(
+  25_000,
+  15_000,
+  0.55,
+  5_000,
+  100_000,
+);
+
+console.log('Hero win probability:', r.heroWinProbability);
+console.log('Expected hands:', r.expectedHands);
+console.log('Hero prize EV:', r.heroPrizeEv);
+```
+
+```text title="Output"
+Hero win probability: 0.792498687775579
+Expected hands: 13.399895022046302
+Hero prize EV: 79249.8687775579
+```
+
+## See also
+
+- [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts)
+- [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots)

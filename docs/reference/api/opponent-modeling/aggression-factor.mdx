@@ -1,0 +1,34 @@
+---
+title: "Aggression factor"
+sidebar_label: "Aggression factor"
+sidebar_position: 2
+description: "Compute opponent aggression factor from bets, raises, and calls."
+api_functions: ["opponentAggressionFactor"]
+---
+
+# Aggression factor
+
+<ApiFamilyHeader category="Opponent modeling" suit="♠" functions={["opponentAggressionFactor"]} />
+
+## `opponentAggressionFactor` \{#opponentAggressionFactor\}
+Compute opponent aggression factor from bets, raises, and calls.
+
+```ts
+opponentAggressionFactor(bets: number, raises: number, calls: number): number;
+```
+
+Use `opponentAggressionFactor` when you need to compute opponent aggression factor from bets, raises, and calls.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const result = poker.opponentAggressionFactor(1, 1, 7, 5);
+console.log(result);
+```
+
+```text title="Output"
+0.2857142857142857
+```
+
+## See also
+
+- [NativeOpponentModel](/docs/reference/types/native-opponent-model)

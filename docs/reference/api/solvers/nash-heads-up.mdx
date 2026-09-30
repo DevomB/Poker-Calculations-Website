@@ -1,0 +1,247 @@
+---
+title: "Nash heads-up push/fold"
+sidebar_label: "Nash heads-up push/fold"
+sidebar_position: 5
+api_functions: ["nashHeadsUpJamCallSolve", "nashHeadsUpJamRange", "nashHeadsUpCallRange", "nashIcmHeadsUpJamCallSolve"]
+---
+
+# Nash heads-up push/fold
+
+<ApiFamilyHeader category="Solvers" suit="♠" functions={["nashHeadsUpJamCallSolve","nashHeadsUpJamRange","nashHeadsUpCallRange","nashIcmHeadsUpJamCallSolve"]} />
+
+## `nashHeadsUpJamCallSolve` \{#nashHeadsUpJamCallSolve\}
+```ts
+nashHeadsUpJamCallSolve(
+  stackBbOrOptions: number | NashPushFoldOptions,
+  smallBlind?: number,
+  bigBlind?: number,
+  ante?: number
+): NashJamCallSolveResult;
+```
+
+<details>
+<summary>Types: <code>NashJamCallSolveResult</code>, <code>NashPushFoldOptions</code></summary>
+
+```ts
+interface NashJamCallSolveResult {
+  jam: Float64Array;
+  call: Float64Array;
+  heroEv: number;
+  villainEv: number;
+  iterations: number;
+}
+
+interface NashPushFoldOptions {
+  stackBb?: number;
+  heroStack?: number;
+  villainStack?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  /** Total ante already in the pot (chips). */
+  ante?: number;
+  maxIterations?: number;
+  tolerance?: number;
+  equityIterations?: number;
+  equitySeed?: number;
+  otherStacks?: F64VectorInput;
+  payouts?: F64VectorInput;
+  maxStackBb?: number;
+  nOpponents?: number;
+  stacks?: F64VectorInput;
+  shoverStack?: number;
+  callerStacks?: F64VectorInput;
+}
+
+/** 81-class 6+ range: notations, notation-weight map, or Float64Array 81 / 169 (2–5 weights must be 0). */
+```
+
+
+</details>
+
+Heads-up jam/fold equilibrium for the small blind and the big blind. The first call in a process builds a 169×169 preflop equity table (seconds, more with larger `equityIterations`); later calls reuse it.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const r = poker.nashHeadsUpJamCallSolve({ stackBb: 10, equityIterations: 60 });
+const mass = (v) => Array.from(v).reduce((a, b) => a + b, 0) / 169;
+console.log({ jamShare: mass(r.jam).toFixed(2), callShare: mass(r.call).toFixed(2) });
+```
+
+```text title="Output"
+{ jamShare: '0.71', callShare: '0.41' }
+```
+
+## `nashHeadsUpJamRange` \{#nashHeadsUpJamRange\}
+HU Nash jam frequencies (169). SB jam/fold vs BB call/fold, chip EV. Accepts `stackBb` or `{ stackBb, smallBlind, bigBlind, ante, ... }`.
+
+```ts
+nashHeadsUpJamRange(
+  stackBbOrOptions: number | NashPushFoldOptions,
+  smallBlind?: number,
+  bigBlind?: number,
+  ante?: number
+): Float64Array;
+```
+
+<details>
+<summary>Types: <code>NashPushFoldOptions</code></summary>
+
+```ts
+interface NashPushFoldOptions {
+  stackBb?: number;
+  heroStack?: number;
+  villainStack?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  /** Total ante already in the pot (chips). */
+  ante?: number;
+  maxIterations?: number;
+  tolerance?: number;
+  equityIterations?: number;
+  equitySeed?: number;
+  otherStacks?: F64VectorInput;
+  payouts?: F64VectorInput;
+  maxStackBb?: number;
+  nOpponents?: number;
+  stacks?: F64VectorInput;
+  shoverStack?: number;
+  callerStacks?: F64VectorInput;
+}
+
+/** 81-class 6+ range: notations, notation-weight map, or Float64Array 81 / 169 (2–5 weights must be 0). */
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const jam = poker.nashHeadsUpJamRange({ stackBb: 10, equityIterations: 60 });
+// 169 hand classes from 22 (index 0) up to AA (index 168)
+const share = jam.reduce((a, b) => a + b, 0) / jam.length;
+console.log(jam.length, jam[168], share.toFixed(2));
+```
+
+```text title="Output"
+169 1 0.71
+```
+
+## `nashHeadsUpCallRange` \{#nashHeadsUpCallRange\}
+HU Nash call frequencies vs jam (169), same order and inputs as `nashHeadsUpJamRange`.
+
+```ts
+nashHeadsUpCallRange(
+  stackBbOrOptions: number | NashPushFoldOptions,
+  smallBlind?: number,
+  bigBlind?: number,
+  ante?: number
+): Float64Array;
+```
+
+<details>
+<summary>Types: <code>NashPushFoldOptions</code></summary>
+
+```ts
+interface NashPushFoldOptions {
+  stackBb?: number;
+  heroStack?: number;
+  villainStack?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  /** Total ante already in the pot (chips). */
+  ante?: number;
+  maxIterations?: number;
+  tolerance?: number;
+  equityIterations?: number;
+  equitySeed?: number;
+  otherStacks?: F64VectorInput;
+  payouts?: F64VectorInput;
+  maxStackBb?: number;
+  nOpponents?: number;
+  stacks?: F64VectorInput;
+  shoverStack?: number;
+  callerStacks?: F64VectorInput;
+}
+
+/** 81-class 6+ range: notations, notation-weight map, or Float64Array 81 / 169 (2–5 weights must be 0). */
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const call = poker.nashHeadsUpCallRange({ stackBb: 10, equityIterations: 60 });
+console.log(call[168], call[0]); // AA, 22
+```
+
+```text title="Output"
+1 1
+```
+
+## `nashIcmHeadsUpJamCallSolve` \{#nashIcmHeadsUpJamCallSolve\}
+HU Nash with Harville ICM $EV. `otherStacks` are remaining table stacks; `payouts` is first-to-last prize. Showdown ties use equity split (no chop vector).
+
+```ts
+nashIcmHeadsUpJamCallSolve(options: NashPushFoldOptions): NashJamCallSolveResult;
+```
+
+<details>
+<summary>Types: <code>NashJamCallSolveResult</code>, <code>NashPushFoldOptions</code></summary>
+
+```ts
+interface NashJamCallSolveResult {
+  jam: Float64Array;
+  call: Float64Array;
+  heroEv: number;
+  villainEv: number;
+  iterations: number;
+}
+
+interface NashPushFoldOptions {
+  stackBb?: number;
+  heroStack?: number;
+  villainStack?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  /** Total ante already in the pot (chips). */
+  ante?: number;
+  maxIterations?: number;
+  tolerance?: number;
+  equityIterations?: number;
+  equitySeed?: number;
+  otherStacks?: F64VectorInput;
+  payouts?: F64VectorInput;
+  maxStackBb?: number;
+  nOpponents?: number;
+  stacks?: F64VectorInput;
+  shoverStack?: number;
+  callerStacks?: F64VectorInput;
+}
+
+/** 81-class 6+ range: notations, notation-weight map, or Float64Array 81 / 169 (2–5 weights must be 0). */
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+// Blinds battle on a 4-handed final table; the other two stacks are 30bb each
+const icm = poker.nashIcmHeadsUpJamCallSolve({
+  stackBb: 10, equityIterations: 60,
+  otherStacks: [30, 30], payouts: [50, 30, 20, 0],
+});
+const chip = poker.nashHeadsUpJamCallSolve({ stackBb: 10, equityIterations: 60 });
+const share = (v) => (v.reduce((a, b) => a + b, 0) / v.length).toFixed(2);
+// Busting fourth pays nothing, so the big blind calls much tighter,
+// which in turn lets the small blind jam a little wider.
+console.log({ chip: { jam: share(chip.jam), call: share(chip.call) }, icm: { jam: share(icm.jam), call: share(icm.call) } });
+```
+
+```text title="Output"
+{
+  chip: { jam: '0.71', call: '0.41' },
+  icm: { jam: '0.72', call: '0.30' }
+}
+```

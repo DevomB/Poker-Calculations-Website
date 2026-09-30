@@ -1,0 +1,57 @@
+---
+title: "Spin & Go"
+sidebar_label: "Spin & Go"
+sidebar_position: 9
+description: "Harville ICM $EV for three stacks and a length-3 Spin & Go prize vector."
+api_functions: ["spinGoIcmEv", "spinGoPayouts"]
+---
+
+# Spin & Go
+
+<ApiFamilyHeader category="ICM" suit="♥" functions={["spinGoIcmEv","spinGoPayouts"]} />
+
+## `spinGoIcmEv` \{#spinGoIcmEv\}
+Harville ICM $EV for three stacks and a length-3 Spin & Go prize vector.
+
+```ts
+spinGoIcmEv(
+  stacks: F64VectorInput,
+  payouts: F64VectorInput,
+  returnFormat?: F64ReturnFormat
+): number[] | Float64Array;
+```
+
+Three-handed Spin & Go $EV from stacks and a prize vector; build the prizes with `spinGoPayouts`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const payouts = poker.spinGoPayouts(10, 5);
+console.log(poker.spinGoIcmEv([700, 500, 300], payouts).map((x) => x.toFixed(2)));
+```
+
+```text title="Output"
+[ '18.75', '16.88', '14.38' ]
+```
+
+## `spinGoPayouts` \{#spinGoPayouts\}
+3-max Spin & Go prize vector: `multiplier * buyin`. Default 50/30/20 of the pool. `winnerTakeAll` → 100/0/0. Always length 3.
+
+```ts
+spinGoPayouts(
+  multiplier: number,
+  buyin: number,
+  winnerTakeAll?: boolean,
+  returnFormat?: F64ReturnFormat
+): number[] | Float64Array;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.spinGoPayouts(10, 5));        // $5 buy-in, 10x multiplier
+console.log(poker.spinGoPayouts(10, 5, true));  // winner takes all
+```
+
+```text title="Output"
+[ 25, 15, 10 ]
+[ 50, 0, 0 ]
+```

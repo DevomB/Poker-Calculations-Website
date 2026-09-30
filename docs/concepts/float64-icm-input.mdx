@@ -15,13 +15,26 @@ If you omit `returnFormat`, you get `number[]` in and `number[]` out.
 Pass `'float64'` as the last argument (or `returnFormat` where documented) to receive a **`Float64Array`**:
 
 ```js
+const poker = require('poker-calculations');
+
 const stacks = new Float64Array([12000, 9000, 6000, 3000]);
+const payoutsF64 = new Float64Array([5000, 3000, 2000, 0]);
 
 const pWin = poker.icmWinProbabilitiesHarville(stacks, 'float64');
 const ev = poker.icmExpectedPayouts(stacks, payoutsF64, 'float64');
 
 const placement = poker.icmHarvillePlacementProbabilities(stacks, 'float64');
 // flat n×n row-major when returnFormat is float64
+console.log(pWin, ev, placement.length);
+```
+
+```text title="Output"
+Float64Array(4) [ 0.4, 0.3, 0.2, 0.1 ] Float64Array(4) [
+  3360.3174603174602,
+  2948.809523809524,
+  2358.730158730159,
+  1332.142857142857
+] 16
 ```
 
 ## Covered exports
@@ -44,4 +57,4 @@ import type { F64VectorInput, F64ReturnFormat } from 'poker-calculations';
 
 ## See also
 
-[ICM guide](/docs/guides/icm-and-side-pots) · [`icmWinProbabilitiesHarville`](/docs/reference/api/icm/icm-win-probabilities-harville)
+[ICM guide](/docs/guides/icm-and-side-pots) · [`icmWinProbabilitiesHarville`](/docs/reference/api/icm/harville-probabilities#icmWinProbabilitiesHarville)

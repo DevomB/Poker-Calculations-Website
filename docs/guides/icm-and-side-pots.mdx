@@ -2,13 +2,115 @@
 title: 'ICM & side pots'
 ---
 
+# ICM and side pots
 
-## ICM (Harville)
+Chips are not money in a tournament. Doubling your stack does not double your equity in the prize pool, and busting costs more than the chips you lose. This guide walks one final table through the ICM tools, then splits a multiway all-in into side pots.
 
-Start with [`icmWinProbabilitiesHarville`](/docs/reference/api/icm/icm-win-probabilities-harville) and [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts). Placement matrices and bubble factors are under the [ICM API category](/docs/reference/api/icm/).
+## A final table
 
-For chip-utility ICM (independent Weitzman model, `stack^alpha`), use [`icmExpectedPayoutsWeitzman`](/docs/reference/api/icm/icm-expected-payouts-weitzman) instead of Harville placement math.
+Four players are left, and three get paid.
+
+```js
+const poker = require('poker-calculations');
+
+const stacks = [12_000, 8_000, 5_000, 3_000];
+const payouts = [5_000, 3_000, 2_000, 0];
+
+const ev = poker.icmExpectedPayouts(stacks, payouts);
+console.log(ev.map((x) => Math.round(x)));
+```
+
+```text title="Output"
+[ 3467, 2889, 2202, 1442 ]
+```
+
+The chip leader holds 43% of the chips but gets well under 43% of the prize pool, and the short stack is worth far more than its 11% of the chips suggests. [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts) uses the Harville model; [`icmExpectedPayoutsWeitzman`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts) is an alternative chip-utility model if you want a second opinion.
+
+## Who finishes where
+
+```js
+// Row-major n×n: entry seat * n + place is P(seat finishes in that place)
+const placement = poker.icmHarvillePlacementProbabilities(stacks);
+const n = stacks.length;
+for (let seat = 0; seat < n; seat++) {
+  const row = placement.slice(seat * n, seat * n + n);
+  console.log(`seat ${seat}:`, row.map((p) => p.toFixed(2)).join('  '));
+}
+```
+
+```text title="Output"
+seat 0: 0.43  0.32  0.19  0.07
+seat 1: 0.29  0.31  0.26  0.14
+seat 2: 0.18  0.23  0.31  0.28
+seat 3: 0.11  0.15  0.23  0.51
+```
+
+Each row is a seat and each column a finishing place. Multiplying this matrix by the payouts is exactly what `icmExpectedPayouts` does.
+
+## The bubble factor
+
+How much should the second stack (seat 1) tighten up against the short stack? The bubble factor compares what hero loses by losing a flip to what hero gains by winning it:
+
+```js
+const bf = poker.icmPairwiseBubbleFactor(stacks, payouts, 1, 3, 3_000);
+console.log(bf.toFixed(2));
+```
+
+```text title="Output"
+1.18
+```
+
+A bubble factor of `b` means hero needs `b / (b + 1)` equity to call an all-in that would be a coin flip in a cash game.
+
+## Making a deal
+
+Players often propose a chip chop: split the money in proportion to chips. ICM says that favors the chip leader:
+
+```js
+const deal = poker.icmChopNegotiationAnalysis(stacks, payouts);
+const round = (v) => v.map((x) => Math.round(x));
+console.log('chip chop', round(deal.chipChop));
+console.log('ICM      ', round(deal.icm));
+console.log('surplus  ', round(deal.surplus));
+```
+
+```text title="Output"
+chip chop [ 4286, 2857, 1786, 1071 ]
+ICM       [ 3467, 2889, 2202, 1442 ]
+surplus   [ 819, -32, -416, -370 ]
+```
+
+`surplus` is chip chop minus ICM: what each seat gains or gives up by accepting a chip chop instead of an ICM deal. [`icmChopNegotiationAnalysis`](/docs/reference/api/icm/deals-and-chops#icmChopNegotiationAnalysis) also returns `paretoPairs`, the largest side payment each pair of players could agree on.
 
 ## Side pots
 
-[`sidePotLadderFromCommitments`](/docs/reference/api/side-pots/side-pot-ladder-from-commitments) builds layers; [`layeredPotChipEvFromEquities`](/docs/reference/api/side-pots/layered-pot-chip-ev-from-equities) assigns chip EV per player per layer.
+The short stack is all in for 3,000, seat 2 for 5,000, and seat 0 covers both. [`sidePotLadderFromCommitments`](/docs/reference/api/side-pots/side-pot-ladder#sidePotLadderFromCommitments) builds the layers:
+
+```js
+const layers = poker.sidePotLadderFromCommitments([5_000, 0, 5_000, 3_000]);
+console.log(layers);
+```
+
+```text title="Output"
+[
+  { potChips: 9000, playerCapContribution: [ 3000, 0, 3000, 3000 ] },
+  { potChips: 4000, playerCapContribution: [ 2000, 0, 2000, 0 ] }
+]
+```
+
+Each layer lists its size and who can win it. Give each eligible player an equity for each layer and [`layeredPotChipEvFromEquities`](/docs/reference/api/side-pots/layered-pot-ev#layeredPotChipEvFromEquities) returns expected chips. With known hands, [`exactMultiwaySidePotChipEv`](/docs/reference/api/exact-equity/exact-multiway-side-pot-ev#exactMultiwaySidePotChipEv) does the whole thing exactly:
+
+```js
+const chipEv = poker.exactMultiwaySidePotChipEv(
+  [5_000, 5_000, 3_000],
+  [['Ah', 'Kh'], ['Qs', 'Qd'], ['7c', '7d']],
+  [],
+);
+console.log(chipEv.chipEv.map((x) => Math.round(x)));
+```
+
+```text title="Output"
+[ 5418, 5925, 1658 ]
+```
+
+Chip EV is only half the story at a final table: run the resulting stacks back through `icmExpectedPayouts` to see what the all-in is worth in money.

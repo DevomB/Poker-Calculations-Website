@@ -1,27 +1,24 @@
 ---
-title: ICM
-unlisted: true
+title: "ICM"
+sidebar_label: "ICM"
+description: "Harville and Weitzman ICM, bubble factors, deals, and final-table spots."
 ---
 
 # ICM
 
-**Harville** placement and win probabilities, expected payouts from a prize vector, top-k and last-place conveniences, and pairwise **bubble factors** from payout finite differences.
+<p className="apiLead">Harville and Weitzman ICM, bubble factors, deals, and final-table spots.</p>
 
-Stack inputs are chip counts; payouts length must match player count. Not the same as `normalizedStackFractions` (raw chip share only).
+28 functions on 10 pages.
 
-Stacks (and some outputs) accept `Float64Array` and optional `returnFormat: 'float64'`. See [Float64 ICM input](/docs/concepts/float64-icm-input).
-
-| Export | Summary |
+| Page | Functions |
 | --- | --- |
-| [`icmWinProbabilitiesHarville`](/docs/reference/api/icm/icm-win-probabilities-harville) | First-place probabilities. |
-| [`icmHarvillePlacementProbabilities`](/docs/reference/api/icm/icm-harville-placement-probabilities) | Full `n×n` placement matrix. |
-| [`icmTopKFinishProbabilities`](/docs/reference/api/icm/icm-top-k-finish-probabilities) | P(finish in top `k`). |
-| [`icmLastPlaceProbabilitiesHarville`](/docs/reference/api/icm/icm-last-place-probabilities-harville) | P(finish last). |
-| [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) | Expected $ per seat. |
-| [`icmPairwiseBubbleFactor`](/docs/reference/api/icm/icm-pairwise-bubble-factor) | Loss/gain ratio on payouts. |
-| [`icmExpectedPayoutsWeitzman`](/docs/reference/api/icm/icm-expected-payouts-weitzman) | Independent chip-utility ICM (`stack^alpha`). |
-| [`icmEqualChopPayouts`](/docs/reference/api/icm/icm-equal-chop-payouts) | Equal split of prize pool per seat. |
-| [`icmTotalPrizePool`](/docs/reference/api/icm/icm-total-prize-pool) | Sum of payout ladder. |
-| [`icmDealEvPerChip`](/docs/reference/api/icm/icm-deal-ev-per-chip) | ICM $EV divided by stack. |
-| [`icmSatelliteAdvanceProbability`](/docs/reference/api/icm/icm-satellite-advance-probability) | Per-seat probability of cashing satellite. |
-| [`icmPayoutStructureGini`](/docs/reference/api/icm/icm-payout-structure-gini) | Inequality index of payout ladder. |
+| [ICM payouts](./icm-expected-payouts) | [`icmExpectedPayouts`](./icm-expected-payouts#icmExpectedPayouts) · [`icmExpectedPayoutsWeitzman`](./icm-expected-payouts#icmExpectedPayoutsWeitzman) · [`icmHarvilleSkillAdjustedPayouts`](./icm-expected-payouts#icmHarvilleSkillAdjustedPayouts) |
+| [Finish probabilities](./harville-probabilities) | [`icmHarvillePlacementProbabilities`](./harville-probabilities#icmHarvillePlacementProbabilities) · [`icmWinProbabilitiesHarville`](./harville-probabilities#icmWinProbabilitiesHarville) · [`icmTopKFinishProbabilities`](./harville-probabilities#icmTopKFinishProbabilities) · [`icmLastPlaceProbabilitiesHarville`](./harville-probabilities#icmLastPlaceProbabilitiesHarville) |
+| [Stack sensitivity](./stack-sensitivity) | [`icmHarvilleStackJacobian`](./stack-sensitivity#icmHarvilleStackJacobian) |
+| [Bubble factor](./bubble-factor) | [`icmPairwiseBubbleFactor`](./bubble-factor#icmPairwiseBubbleFactor) · [`icmCallingBubbleFactor`](./bubble-factor#icmCallingBubbleFactor) |
+| [Deals and chops](./deals-and-chops) | [`icmChopNegotiationAnalysis`](./deals-and-chops#icmChopNegotiationAnalysis) · [`icmEqualChopPayouts`](./deals-and-chops#icmEqualChopPayouts) · [`icmChopSurplusVsEqualSplit`](./deals-and-chops#icmChopSurplusVsEqualSplit) · [`icmChipLeaderPremiumVsEqualChop`](./deals-and-chops#icmChipLeaderPremiumVsEqualChop) · [`icmExpectedPayoutsDeltaFromChipChop`](./deals-and-chops#icmExpectedPayoutsDeltaFromChipChop) · [`icmDealEvPerChip`](./deals-and-chops#icmDealEvPerChip) |
+| [Payout structure](./payout-structure) | [`icmTotalPrizePool`](./payout-structure#icmTotalPrizePool) · [`icmPayoutStructureGini`](./payout-structure#icmPayoutStructureGini) · [`icmSatelliteAdvanceProbability`](./payout-structure#icmSatelliteAdvanceProbability) |
+| [Blinds and dead pots](./future-game-simulation) | [`fgsPayoutsBlindSchedule`](./future-game-simulation#fgsPayoutsBlindSchedule) · [`icmPayoutsAfterBlindPost`](./future-game-simulation#icmPayoutsAfterBlindPost) · [`icmDeadPotDollarEv`](./future-game-simulation#icmDeadPotDollarEv) |
+| [Tournament duel](./tournament-duel) | [`tournamentDuelAbsorptionProbabilities`](./tournament-duel#tournamentDuelAbsorptionProbabilities) |
+| [Spin & Go](./spin-and-go) | [`spinGoIcmEv`](./spin-and-go#spinGoIcmEv) · [`spinGoPayouts`](./spin-and-go#spinGoPayouts) |
+| [Preflop all-in spots](./preflop-spots) | [`squeezeEv`](./preflop-spots#squeezeEv) · [`fourBetJamEv`](./preflop-spots#fourBetJamEv) · [`threeBetPotCommitEv`](./preflop-spots#threeBetPotCommitEv) |

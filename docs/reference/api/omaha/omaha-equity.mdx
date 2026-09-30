@@ -1,0 +1,129 @@
+---
+title: "Omaha equity"
+sidebar_label: "Omaha equity"
+sidebar_position: 2
+description: "Exact HU Omaha Hi equity vs a known 4-card hand."
+api_functions: ["exactHuOmahaEquityVsKnown", "simulateOmahaEquityVsRandom", "simulateOmahaEquityVsRange", "omahaMultiwayEquityMc"]
+---
+
+# Omaha equity
+
+<ApiFamilyHeader category="Omaha" suit="♠" functions={["exactHuOmahaEquityVsKnown","simulateOmahaEquityVsRandom","simulateOmahaEquityVsRange","omahaMultiwayEquityMc"]} />
+
+## `exactHuOmahaEquityVsKnown` \{#exactHuOmahaEquityVsKnown\}
+Exact HU Omaha Hi equity vs a known 4-card hand. Board 0–5; remaining runouts enumerated. Ties count as 0.5.
+
+```ts
+exactHuOmahaEquityVsKnown(
+  heroHoleCards: CardInput,
+  villainHoleCards: CardInput,
+  boardCards: CardInput
+): number;
+```
+
+Exact PLO equity for two known hands, enumerating every remaining runout.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const eq = poker.exactHuOmahaEquityVsKnown(
+  ['Ah', 'As', 'Kd', 'Qd'],
+  ['Jh', 'Th', '9c', '8c'],
+  ['7h', '6s', '2d'],
+);
+console.log(eq.toFixed(4));
+```
+
+```text title="Output"
+0.4756
+```
+
+## `simulateOmahaEquityVsRandom` \{#simulateOmahaEquityVsRandom\}
+Monte Carlo Omaha Hi equity vs a uniform random 4-card villain.
+
+```ts
+simulateOmahaEquityVsRandom(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  trials: number,
+  seed: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.simulateOmahaEquityVsRandom(['Ah', 'As', 'Kd', 'Qd'], [], 20000, 42).toFixed(3));
+```
+
+```text title="Output"
+0.657
+```
+
+## `simulateOmahaEquityVsRange` \{#simulateOmahaEquityVsRange\}
+Monte Carlo Omaha Hi equity vs a sparse weighted 4-card range (`OmahaRangeSpec`).
+
+```ts
+simulateOmahaEquityVsRange(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  range: OmahaRangeSpec,
+  trials: number,
+  seed: number
+): number;
+```
+
+<details>
+<summary>Types: <code>OmahaRangeSpec</code></summary>
+
+```ts
+interface OmahaRangeSpec {
+  packed: Uint8Array | number[];
+  weights?: F64VectorInput;
+}
+
+/** Flop wrap/OESD outs: next cards that make a straight under Omaha 2+3. */
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const { packCards } = require('poker-calculations/encode');
+// Two villain holdings, packed 4 deck ids each
+const range = {
+  packed: packCards(['Kh', 'Ks', 'Qh', 'Js', 'Jc', 'Td', '9d', '8c']),
+  weights: [1, 2],
+};
+console.log(poker.simulateOmahaEquityVsRange(['Ah', 'As', 'Kd', 'Qd'], ['7h', '6s', '2d'], range, 20000, 42).toFixed(3));
+```
+
+```text title="Output"
+0.594
+```
+
+## `omahaMultiwayEquityMc` \{#omahaMultiwayEquityMc\}
+Monte Carlo pot-share equity for 3–4 known 4-card hands. Returned array sums to ~1.
+
+```ts
+omahaMultiwayEquityMc(
+  holeHands: CardInput[],
+  boardCards: CardInput,
+  trials: number,
+  seed: number
+): number[];
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const eq = poker.omahaMultiwayEquityMc(
+  [['Ah', 'As', 'Kd', 'Qd'], ['Jh', 'Th', '9c', '8c'], ['Kh', 'Ks', '5c', '4c']],
+  [],
+  20000,
+  42,
+);
+console.log(eq.map((e) => e.toFixed(3)));
+```
+
+```text title="Output"
+[ '0.416', '0.413', '0.171' ]
+```

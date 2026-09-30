@@ -1,0 +1,149 @@
+---
+title: "Preflop all-in spots"
+sidebar_label: "Preflop all-in spots"
+sidebar_position: 10
+description: "Squeeze vs fold (chip EV)."
+api_functions: ["squeezeEv", "fourBetJamEv", "threeBetPotCommitEv"]
+---
+
+# Preflop all-in spots
+
+<ApiFamilyHeader category="ICM" suit="♥" functions={["squeezeEv","fourBetJamEv","threeBetPotCommitEv"]} />
+
+## `squeezeEv` \{#squeezeEv\}
+Squeeze vs fold (chip EV). Fold = 0 (hero has not put chips in). Independent folds vs opener and caller; continue pots add `heroPut` plus matching calls.
+
+```ts
+squeezeEv(
+  pot: number,
+  heroPut: number,
+  openerCall: number,
+  callerCall: number,
+  foldEquityOpener: number,
+  foldEquityCaller: number,
+  equityVsOpener: number,
+  equityVsCaller: number,
+  equityVsBoth: number
+): SqueezeEvResult;
+```
+
+<details>
+<summary>Types: <code>SqueezeEvResult</code></summary>
+
+```ts
+interface SqueezeEvResult {
+  squeezeEv: number;
+  foldEv: number;
+  delta: number;
+}
+```
+
+
+</details>
+
+Chip EV of squeezing over an open and a call, with separate fold equity against each player.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const r = poker.squeezeEv(
+  7.5,   // pot before hero acts (blinds + open + call), in BB
+  11,    // hero's squeeze size
+  8.5,   // opener's call
+  8.5,   // caller's call
+  0.55,  // opener folds
+  0.7,   // caller folds
+  0.42,  // equity vs opener
+  0.45,  // equity vs caller
+  0.3,   // equity vs both
+);
+console.log(r);
+```
+
+```text title="Output"
+{ squeezeEv: 3.1371, foldEv: 0, delta: 3.1371 }
+```
+
+## `fourBetJamEv` \{#fourBetJamEv\}
+4-bet jam pot geometry (not ICM). Fold = 0. `foldEquity === 1` wins `deadPot`. Called: `equity * (deadPot + jam + call) − jam`.
+
+```ts
+fourBetJamEv(
+  deadPot: number,
+  jam: number,
+  call: number,
+  foldEquity: number,
+  equityWhenCalled: number
+): FourBetJamEvResult;
+```
+
+<details>
+<summary>Types: <code>FourBetJamEvResult</code></summary>
+
+```ts
+interface FourBetJamEvResult {
+  jamEv: number;
+  foldEv: number;
+  delta: number;
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+// 25bb jam over a 3-bet into 13.5bb of dead money; villain folds 45%
+console.log(poker.fourBetJamEv(13.5, 25, 17, 0.45, 0.42));
+```
+
+```text title="Output"
+{ jamEv: 5.145499999999999, foldEv: 0, delta: 5.145499999999999 }
+```
+
+## `threeBetPotCommitEv` \{#threeBetPotCommitEv\}
+SPR after the 3-bet. Realized equity = `equity * realization` (default 1). Stack-off when realized equity covers `remaining / (pot + 2*remaining)`.
+
+```ts
+threeBetPotCommitEv(
+  potAfterThreeBet: number,
+  effectiveRemaining: number,
+  equity: number,
+  realization?: number
+): ThreeBetCommitEvResult;
+```
+
+<details>
+<summary>Types: <code>ThreeBetCommitEvResult</code></summary>
+
+```ts
+interface ThreeBetCommitEvResult {
+  spr: number;
+  stackOff: boolean;
+  continueEv: number;
+  foldEv: number;
+}
+
+/**
+ * Heads-up gambler's ruin: each all-in moves `chipsPerAllIn`; hero busts after
+ * ceil(heroStack/chipsPerAllIn) net losses and wins after ceil(villainStack/chipsPerAllIn) net wins.
+ * Closed form, so `heroWinProbability` is the chip share at p = 0.5.
+ */
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+// 3-bet pot of 22bb with 78bb behind, 40% equity
+console.log(poker.threeBetPotCommitEv(22, 78, 0.4));
+```
+
+```text title="Output"
+{
+  spr: 3.5454545454545454,
+  stackOff: false,
+  continueEv: -6.799999999999997,
+  foldEv: 0
+}
+```

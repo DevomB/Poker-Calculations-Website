@@ -1,0 +1,231 @@
+---
+title: "Multi-street bluffs"
+sidebar_label: "Multi-street bluffs"
+sidebar_position: 5
+description: "EV of two-street pure bluff with independent fe1, fe2."
+api_functions: ["twoStreetPureBluffEv", "twoStreetPureBluffEvWithRake", "twoStreetPureBluffSameFoldEquity", "breakevenFoldEquityFirstStreetPureBluff", "breakevenFoldEquitySecondStreetPureBluff", "threeStreetPureBluffEv", "threeStreetPureBluffSameFoldEquity"]
+---
+
+# Multi-street bluffs
+
+<ApiFamilyHeader category="GTO & fold equity" suit="♣" functions={["twoStreetPureBluffEv","twoStreetPureBluffEvWithRake","twoStreetPureBluffSameFoldEquity","breakevenFoldEquityFirstStreetPureBluff","breakevenFoldEquitySecondStreetPureBluff","threeStreetPureBluffEv","threeStreetPureBluffSameFoldEquity"]} />
+
+## `twoStreetPureBluffEv` \{#twoStreetPureBluffEv\}
+EV of two-street pure bluff with independent `fe1`, `fe2`.
+
+```ts
+twoStreetPureBluffEv(
+  potBeforeStreet1: number,
+  betStreet1: number,
+  betStreet2: number,
+  foldEquityStreet1: number,
+  foldEquityStreet2: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const ev = poker.twoStreetPureBluffEv(
+  60,  // pot before flop bet
+  40,  // flop bet
+  110, // turn bet
+  0.45,
+  0.38
+);
+console.log('two-street bluff EV:', ev);
+
+const fe2 = poker.breakevenFoldEquitySecondStreetPureBluff(60, 40, 110, 0.45);
+console.log('breakeven turn FE if flop FE=45%:', fe2);
+```
+
+```text title="Output"
+two-street bluff EV: -3.2500000000000036
+breakeven turn FE if flop FE=45%: 0.4036363636363636
+```
+
+## `twoStreetPureBluffEvWithRake` \{#twoStreetPureBluffEvWithRake\}
+Two-street air EV with rake.
+
+```ts
+twoStreetPureBluffEvWithRake(
+  potBeforeStreet1: number,
+  betStreet1: number,
+  betStreet2: number,
+  foldEquityStreet1: number,
+  foldEquityStreet2: number,
+  rakeFraction: number,
+  rakeCap: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const ev = poker.twoStreetPureBluffEvWithRake(
+  60, 40, 110,
+  0.45, 0.38,
+  0.05, 3,
+);
+const ev0 = poker.twoStreetPureBluffEv(60, 40, 110, 0.45, 0.38);
+console.log({ ev, ev0 });
+```
+
+```text title="Output"
+{ ev: -5.227000000000004, ev0: -3.2500000000000036 }
+```
+
+## `twoStreetPureBluffSameFoldEquity` \{#twoStreetPureBluffSameFoldEquity\}
+same FE both streets, pure air; may return NaN if no root in [0,1].
+
+```ts
+twoStreetPureBluffSameFoldEquity(
+  potBeforeStreet1: number,
+  betStreet1: number,
+  betStreet2: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pot0 = 50;
+const bet1 = 35;
+const bet2 = 90;
+
+const fe = poker.twoStreetPureBluffSameFoldEquity(pot0, bet1, bet2);
+console.log('breakeven FE each street:', fe);
+
+if (!Number.isNaN(fe)) {
+  console.log(poker.twoStreetPureBluffEv(pot0, bet1, bet2, fe, fe));
+}
+```
+
+```text title="Output"
+breakeven FE each street: 0.42165183604067163
+-7.105427357601002e-15
+```
+
+## `breakevenFoldEquityFirstStreetPureBluff` \{#breakevenFoldEquityFirstStreetPureBluff\}
+breakeven first-street FE given second-street FE (may lie outside [0,1]).
+
+```ts
+breakevenFoldEquityFirstStreetPureBluff(
+  potBeforeStreet1: number,
+  betStreet1: number,
+  betStreet2: number,
+  foldEquityStreet2: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const fe1 = poker.breakevenFoldEquityFirstStreetPureBluff(
+  55,
+  35,
+  95,
+  0.4
+);
+console.log('breakeven flop FE:', fe1);
+
+console.log(poker.twoStreetPureBluffEv(55, 35, 95, fe1, 0.4));
+```
+
+```text title="Output"
+breakeven flop FE: 0.4329896907216495
+0
+```
+
+## `breakevenFoldEquitySecondStreetPureBluff` \{#breakevenFoldEquitySecondStreetPureBluff\}
+breakeven second-street FE given first-street FE (may lie outside [0,1]).
+
+```ts
+breakevenFoldEquitySecondStreetPureBluff(
+  potBeforeStreet1: number,
+  betStreet1: number,
+  betStreet2: number,
+  foldEquityStreet1: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const fe2 = poker.breakevenFoldEquitySecondStreetPureBluff(
+  70,
+  45,
+  100,
+  0.5
+);
+console.log('need turn fold equity:', fe2);
+
+console.log(poker.twoStreetPureBluffEv(70, 45, 100, 0.5, fe2)); // ~0 at breakeven
+```
+
+```text title="Output"
+need turn fold equity: 0.28846153846153844
+0
+```
+
+## `threeStreetPureBluffEv` \{#threeStreetPureBluffEv\}
+Three-street pure-bluff chip EV.
+
+```ts
+threeStreetPureBluffEv(
+  potBeforeStreet1: number,
+  betStreet1: number,
+  betStreet2: number,
+  betStreet3: number,
+  foldEquityStreet1: number,
+  foldEquityStreet2: number,
+  foldEquityStreet3: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const ev = poker.threeStreetPureBluffEv(
+  50, 35, 90, 180,
+  0.4, 0.35, 0.3,
+);
+console.log('three-street bluff EV:', ev);
+```
+
+```text title="Output"
+three-street bluff EV: -24.940000000000005
+```
+
+## `threeStreetPureBluffSameFoldEquity` \{#threeStreetPureBluffSameFoldEquity\}
+Same fold equity three streets, pure air.
+
+```ts
+threeStreetPureBluffSameFoldEquity(
+  potBeforeStreet1: number,
+  betStreet1: number,
+  betStreet2: number,
+  betStreet3: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const ev = poker.threeStreetPureBluffSameFoldEquity(
+  50,  // pot before flop bet
+  35,  // flop bet
+  90,  // turn bet
+  180, // river bet
+);
+console.log(ev);
+```
+
+```text title="Output"
+0.4007470211062226
+```
+
+## See also
+
+- [`breakevenFoldEquityPureBluff`](/docs/reference/api/gto-and-fold-equity/pure-bluff#breakevenFoldEquityPureBluff)
+- [`breakevenFoldEquityPureBluffWithAnte`](/docs/reference/api/gto-and-fold-equity/pure-bluff#breakevenFoldEquityPureBluffWithAnte)

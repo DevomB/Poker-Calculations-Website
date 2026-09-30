@@ -1,0 +1,65 @@
+---
+title: "Fold-frequency posterior"
+sidebar_label: "Fold-frequency posterior"
+sidebar_position: 5
+description: "Beta–Binomial update on fold frequency."
+api_functions: ["betaBinomialFoldPosterior"]
+---
+
+# Fold-frequency posterior
+
+<ApiFamilyHeader category="Statistics & bankroll" suit="♣" functions={["betaBinomialFoldPosterior"]} />
+
+## `betaBinomialFoldPosterior` \{#betaBinomialFoldPosterior\}
+Beta–Binomial update on fold frequency.
+
+```ts
+betaBinomialFoldPosterior(
+  priorAlpha: number,
+  priorBeta: number,
+  folds: number,
+  calls: number
+): BetaBinomialFoldPosterior;
+```
+
+<details>
+<summary>Types: <code>BetaBinomialFoldPosterior</code></summary>
+
+```ts
+interface BetaBinomialFoldPosterior {
+  alpha: number;
+  beta: number;
+  posteriorMean: number;
+}
+```
+
+Field notes: [`BetaBinomialFoldPosterior`](/docs/reference/types/beta-binomial-fold-posterior)
+
+</details>
+
+Maintain a **Bayesian belief** about how often a player (or population) folds, updating as you observe folds and calls. Prior is Beta(priorAlpha, priorBeta); observations add folds to α and calls to β.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const priorAlpha = 2;
+const priorBeta = 2;
+const foldsObserved = 7;
+const callsObserved = 3;
+
+const post = poker.betaBinomialFoldPosterior(
+  priorAlpha,
+  priorBeta,
+  foldsObserved,
+  callsObserved,
+);
+
+console.log(post);
+// { alpha: 9, beta: 5, posteriorMean: 9/14 }
+```
+
+```text title="Output"
+{ alpha: 9, beta: 5, posteriorMean: 0.6428571428571429 }
+```
+
+**Returns** `BetaBinomialFoldPosterior` — `{ alpha: number, beta: number, posteriorMean: number }` where posteriorMean = alpha / (alpha + beta) after the conjugate update.

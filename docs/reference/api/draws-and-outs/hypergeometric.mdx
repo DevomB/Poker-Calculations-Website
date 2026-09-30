@@ -1,0 +1,89 @@
+---
+title: "Hit odds"
+sidebar_label: "Hit odds"
+sidebar_position: 2
+description: "one-card hypergeometric hit rate outs/unseenCards."
+api_functions: ["hypergeometricOneCardHitProbability", "hypergeometricTwoCardHitProbability", "hypergeometricTwoCardMissProbability"]
+---
+
+# Hit odds
+
+<ApiFamilyHeader category="Draws & outs" suit="♥" functions={["hypergeometricOneCardHitProbability","hypergeometricTwoCardHitProbability","hypergeometricTwoCardMissProbability"]} />
+
+## `hypergeometricOneCardHitProbability` \{#hypergeometricOneCardHitProbability\}
+one-card hypergeometric hit rate `outs/unseenCards`.
+
+```ts
+hypergeometricOneCardHitProbability(outs: number, unseenCards: number): number;
+```
+
+Exact **single-card** hit probability when outs are disjoint and unseen deck size is known (one street remaining). Foundation for comparing rule-of-two estimates to math.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const outs = 9;
+const unseen = 46; // turn card only
+const p = poker.hypergeometricOneCardHitProbability(outs, unseen);
+console.log(p); // 9/46 ≈ 0.1957
+
+console.log(poker.ruleOfTwoEquity(outs)); // heuristic ~18–20% depending on cap
+```
+
+```text title="Output"
+0.1956521739130435
+0.18
+```
+
+## `hypergeometricTwoCardHitProbability` \{#hypergeometricTwoCardHitProbability\}
+Two-card hypergeometric hit rate.
+
+```ts
+hypergeometricTwoCardHitProbability(outs: number, unseenCards: number): number;
+```
+
+Exact two-card hit rate without enumerating runouts. Equivalent to [`flopToRiverAtLeastOneHitProbability`](/docs/reference/api/draws-and-outs/at-least-one-hit#flopToRiverAtLeastOneHitProbability) for the same `outs` and `unseen`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const outs = 9;
+const unseen = 47;
+
+const pTwo = poker.hypergeometricTwoCardHitProbability(outs, unseen);
+const pFlopRiver = poker.flopToRiverAtLeastOneHitProbability(outs, unseen);
+console.log(pTwo, pFlopRiver); // equal
+```
+
+```text title="Output"
+0.3496762257169288 0.3496762257169288
+```
+
+## `hypergeometricTwoCardMissProbability` \{#hypergeometricTwoCardMissProbability\}
+Complement of two-card hit.
+
+```ts
+hypergeometricTwoCardMissProbability(outs: number, unseenCards: number): number;
+```
+
+Complement of two-card hit — useful for miss rates and sanity checks (`hit + miss === 1`).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const outs = 9;
+const unseen = 47;
+
+const hit = poker.hypergeometricTwoCardHitProbability(outs, unseen);
+const miss = poker.hypergeometricTwoCardMissProbability(outs, unseen);
+console.log(hit + miss); // 1
+```
+
+```text title="Output"
+1
+```
+
+## See also
+
+- [`ruleOfTwoEquity`](/docs/reference/api/draws-and-outs/rule-of-two-and-four#ruleOfTwoEquity)
+- [`flopToRiverAtLeastOneHitProbability`](/docs/reference/api/draws-and-outs/at-least-one-hit#flopToRiverAtLeastOneHitProbability)

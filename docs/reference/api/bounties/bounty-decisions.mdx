@@ -1,0 +1,156 @@
+---
+title: "Bounty-aware decisions"
+sidebar_label: "Bounty-aware decisions"
+sidebar_position: 3
+description: "$EV(call all-in) vs $EV(fold) when villain has a bounty."
+api_functions: ["pkoCallEvVsShove", "pkoJamEvVsFold", "pkoCoveringHuntEv"]
+---
+
+# Bounty-aware decisions
+
+<ApiFamilyHeader category="Bounties" suit="♦" functions={["pkoCallEvVsShove","pkoJamEvVsFold","pkoCoveringHuntEv"]} />
+
+## `pkoCallEvVsShove` \{#pkoCallEvVsShove\}
+$EV(call all-in) vs $EV(fold) when villain has a bounty. Fold leaves stacks as given (pot already posted). Call uses ICM on post-hand stacks; hero collects villain's bounty if the villain busts.
+
+```ts
+pkoCallEvVsShove(
+  stacks: F64VectorInput,
+  payouts: F64VectorInput,
+  bountyValues: F64VectorInput,
+  heroIndex: number,
+  villainIndex: number,
+  pot: number,
+  heroEquityIfCall: PkoOutcomeInput
+): PkoCallEvResult;
+```
+
+<details>
+<summary>Types: <code>PkoCallEvResult</code>, <code>PkoOutcomeInput</code></summary>
+
+```ts
+interface PkoCallEvResult {
+  callEv: number;
+  foldEv: number;
+  delta: number;
+}
+
+type PkoOutcomeInput = number | F64VectorInput;
+```
+
+
+</details>
+
+Deciding whether to call an all-in when the shover carries a bounty you collect by winning.
+
+```js title="Example"
+const poker = require('poker-calculations');
+// Seat 0 (hero) faces a 2000-chip shove from seat 2, 55% equity
+const r = poker.pkoCallEvVsShove([5000, 3000, 2000], [500, 300, 200], [50, 30, 20], 0, 2, 300, 0.55);
+console.log(r);
+```
+
+```text title="Output"
+{
+  callEv: 415.9353813861768,
+  foldEv: 415.5668693009119,
+  delta: 0.36851208526491064
+}
+```
+
+## `pkoJamEvVsFold` \{#pkoJamEvVsFold\}
+$EV(jam) vs $EV(fold) including bounties. Villain folds with `foldEquity`: hero is assigned `pot`. Called: same all-in resolution as `pkoCallEvVsShove`.
+
+```ts
+pkoJamEvVsFold(
+  stacks: F64VectorInput,
+  payouts: F64VectorInput,
+  bountyValues: F64VectorInput,
+  heroIndex: number,
+  villainIndex: number,
+  pot: number,
+  foldEquity: number,
+  equityWhenCalled: PkoOutcomeInput
+): PkoJamEvResult;
+```
+
+<details>
+<summary>Types: <code>PkoJamEvResult</code>, <code>PkoOutcomeInput</code></summary>
+
+```ts
+interface PkoJamEvResult {
+  jamEv: number;
+  foldEv: number;
+  delta: number;
+}
+
+/**
+ * Mystery bounty remaining-prize EV.
+ * `oneDraw` is the weighted mean of one knockout. `allRemaining` is the leftover pool
+ * (winner-take-all). `sampleK` is E[sum of k draws]; equal-weight WOR is exact via linearity.
+ */
+
+type PkoOutcomeInput = number | F64VectorInput;
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const r = poker.pkoJamEvVsFold([5000, 3000, 2000], [500, 300, 200], [50, 30, 20], 2, 0, 300, 0.4, 0.35);
+console.log(r);
+```
+
+```text title="Output"
+{
+  jamEv: 283.9100363478118,
+  foldEv: 296.9924812030075,
+  delta: -13.082444855195718
+}
+```
+
+## `pkoCoveringHuntEv` \{#pkoCoveringHuntEv\}
+Isolate vs a covered shorter stack (HU all-in, rest fold). Default equity is the stack-ratio proxy hunter / (hunter + prey). Check-down is the fold $EV.
+
+```ts
+pkoCoveringHuntEv(
+  stacks: F64VectorInput,
+  payouts: F64VectorInput,
+  bountyValues: F64VectorInput,
+  hunterIndex: number,
+  preyIndex: number,
+  pot: number,
+  equity?: number
+): PkoCoveringHuntResult;
+```
+
+<details>
+<summary>Types: <code>PkoCoveringHuntResult</code></summary>
+
+```ts
+interface PkoCoveringHuntResult {
+  huntEv: number;
+  checkDownEv: number;
+  delta: number;
+  equityUsed: number;
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+// Big stack (seat 0) isolates the short stack (seat 2)
+console.log(poker.pkoCoveringHuntEv([5000, 3000, 2000], [500, 300, 200], [50, 30, 20], 0, 2, 300));
+```
+
+```text title="Output"
+{
+  huntEv: 440.4228342288563,
+  checkDownEv: 415.5668693009119,
+  delta: 24.8559649279444,
+  equityUsed: 0.7142857142857143
+}
+```

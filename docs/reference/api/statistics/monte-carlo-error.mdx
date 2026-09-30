@@ -1,0 +1,131 @@
+---
+title: "Monte Carlo error"
+sidebar_label: "Monte Carlo error"
+sidebar_position: 2
+description: "SE of binomial MC estimate."
+api_functions: ["monteCarloStandardError", "monteCarloTrialsForStandardErrorBound", "monteCarloTrialsForWilsonHalfWidth", "monteCarloTrialsForHoeffdingBound"]
+---
+
+# Monte Carlo error
+
+<ApiFamilyHeader category="Statistics & bankroll" suit="♣" functions={["monteCarloStandardError","monteCarloTrialsForStandardErrorBound","monteCarloTrialsForWilsonHalfWidth","monteCarloTrialsForHoeffdingBound"]} />
+
+## `monteCarloStandardError` \{#monteCarloStandardError\}
+SE of binomial MC estimate.
+
+```ts
+monteCarloStandardError(pHat: number, nTrials: number): number;
+```
+
+After a Monte Carlo run, report **uncertainty** on the estimated equity `pHat` with the standard error of a binomial proportion. Compare to `monteCarloTrialsForStandardErrorBound` when planning how many trials to run.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pHat = 0.412;
+const n = 20000;
+const se = poker.monteCarloStandardError(pHat, n);
+console.log(`equity ${(pHat * 100).toFixed(1)}% ± ${(se * 100).toFixed(2)}% (1 SE)`);
+
+const nNeeded = poker.monteCarloTrialsForStandardErrorBound(pHat, 0.005);
+console.log('trials for SE ≤ 0.5%:', nNeeded);
+```
+
+```text title="Output"
+equity 41.2% ± 0.35% (1 SE)
+trials for SE ≤ 0.5%: 9691
+```
+
+## `monteCarloTrialsForStandardErrorBound` \{#monteCarloTrialsForStandardErrorBound\}
+Smallest integer `n` so `monteCarloStandardError(pHat, n) <= targetSe` (ceil of `p(1-p)/targetSe²`). Requires `pHat` strictly between `0` and `1`.
+
+```ts
+monteCarloTrialsForStandardErrorBound(pHat: number, targetSe: number): number;
+```
+
+Pick a Monte Carlo trial count **before** running equity sims so standard error stays below a target. Requires interior `pHat` strictly between `0` and `1` (use a pilot estimate or 0.5 as conservative planning value).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pilotEquity = 0.38;
+const targetSe = 0.003; // 0.3 percentage points
+
+const n = poker.monteCarloTrialsForStandardErrorBound(pilotEquity, targetSe);
+console.log('run at least', n, 'trials');
+
+const equity = poker.simulateHandOutcome(
+  ['Ah', 'Kh'],
+  ['2h', '7d', '9c'],
+  n,
+  42
+);
+console.log('equity:', equity);
+```
+
+```text title="Output"
+run at least 26178 trials
+equity: 0.5428603887557983
+```
+
+## `monteCarloTrialsForWilsonHalfWidth` \{#monteCarloTrialsForWilsonHalfWidth\}
+Trials needed for target Wilson half-width.
+
+```ts
+monteCarloTrialsForWilsonHalfWidth(
+  pHat: number,
+  targetHalfWidth: number,
+  z: number
+): number;
+```
+
+How many Monte Carlo trials you need so Wilson half-width is at most `targetHalfWidth` at estimate `pHat`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pHat = 0.5;
+const targetHalfWidth = 0.02;
+const z = 1.96;
+
+const n = poker.monteCarloTrialsForWilsonHalfWidth(pHat, targetHalfWidth, z);
+const interval = poker.wilsonScoreInterval(Math.floor(pHat * n), n, z);
+console.log((interval.upper - interval.lower) / 2); // <= targetHalfWidth
+```
+
+```text title="Output"
+0.019968056039560894
+```
+
+## `monteCarloTrialsForHoeffdingBound` \{#monteCarloTrialsForHoeffdingBound\}
+Hoeffding: smallest integer `n` with `n >= ln(2/delta) / (2*epsilon^2)` for MC proportion error `epsilon` with probability at least `1-delta` (any underlying `p`).
+
+```ts
+monteCarloTrialsForHoeffdingBound(epsilon: number, delta: number): number;
+```
+
+Plan Monte Carlo sample size when you need a **distribution-free** guarantee: with probability at least 1−δ, the estimate differs from the true proportion by at most ε, regardless of the unknown p. More conservative than `monteCarloTrialsForStandardErrorBound`, which assumes a planning value for p̂.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const epsilon = 0.01; // ±1 percentage point
+const delta = 0.05; // 5% failure probability
+
+const nHoeffding = poker.monteCarloTrialsForHoeffdingBound(epsilon, delta);
+const nSe = poker.monteCarloTrialsForStandardErrorBound(0.5, epsilon);
+
+console.log({ nHoeffding, nSeAtPHalf: nSe });
+```
+
+```text title="Output"
+{ nHoeffding: 18445, nSeAtPHalf: 2500 }
+```
+
+**Returns** `number` — smallest integer n with n ≥ ln(2/δ) / (2ε²) (Hoeffding bound for a proportion in [0, 1]).
+
+## See also
+
+- [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcome)
+- [`wilsonScoreInterval`](/docs/reference/api/statistics/confidence-intervals#wilsonScoreInterval)
+- [`binomialProportionCiWidth`](/docs/reference/api/statistics/confidence-intervals#binomialProportionCiWidth)

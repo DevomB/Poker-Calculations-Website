@@ -4,53 +4,72 @@ title: Numerical semantics
 
 # Numerical semantics
 
-Summary of RNG, showdown scoring, cancellation, and floating-point conventions. Full detail is in the package [`NUMERICAL.md`](https://github.com/DevomB/Poker-Calculations/blob/main/NUMERICAL.md).
+The conventions every function shares: how pots are counted, how ties split, how randomness is seeded, and how hands are ordered in 169-entry arrays. The package's [`NUMERICAL.md`](https://github.com/DevomB/Poker-Calculations/blob/main/NUMERICAL.md) has the same rules alongside the source.
 
-## Random number generation
+## Pot convention (chip math)
 
-- Monte Carlo uses `std::mt19937` with a user-supplied `seed`.
-- [`parallelHandSimulation`](/docs/reference/api/monte-carlo/parallel-hand-simulation): worker `t` uses seed `baseSeed + t * 9743`.
-- Use fixed `seed` (and trial count) when you need reproducible research numbers.
-
-## Cooperative cancellation
-
-All six `*Async` exports accept optional [`AsyncOptions`](/docs/reference/types/async-options) with `signal?: AbortSignal`. Long native loops check the signal about every **4096** iterations and reject with `AbortError` when aborted.
+- `pot` / `potBeforeCall` is everything in the middle when hero acts, **villain's bet included**.
+- [`expectedValueCall`](/docs/reference/api/pot-odds-and-ev/expected-value-call#expectedValueCall)`(e, pot, toCall) = e × pot − (1 − e) × toCall`, which is zero exactly at [`breakevenCallEquity`](/docs/reference/api/pot-odds-and-ev/pot-odds#breakevenCallEquity)`(pot, toCall) = toCall / (pot + toCall)`.
+- The pot after a heads-up call is `pot + toCall`; after hero bets `b` and is called it is `pot + 2b`. [`sprAfterCall`](/docs/reference/api/stacks-and-sizing/spr#sprAfterCall) and [`potSizeAfterHuCall`](/docs/reference/api/pot-odds-and-ev/pot-size#potSizeAfterHuCall) follow the same rule.
+- Rake variants take rake from that final pot and reduce to their unraked version at zero rake.
+- Multi-street pure bluffs: a fold on street *k* wins the pot plus villain's earlier calls; being called down loses the sum of hero's bets.
 
 ## Showdown equity
 
 | Mode | Hero share when tied for best |
 | --- | --- |
 | Multi-way Monte Carlo (`villains` > 1) | `1 / tiedAtBest` |
-| Heads-up exact enumeration | Win `1`, chop `0.5`, loss `0` |
+| Heads-up, exact or Monte Carlo | Win `1`, chop `0.5`, loss `0` |
 
-See [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome) and [`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand).
+## Board lengths for exact equity
 
-## Exact HU board lengths
+- [`exactHuEquityVsRandomHand`](/docs/reference/api/exact-equity/exact-hu-vs-random-hand#exactHuEquityVsRandomHand) takes an empty board (preflop) or 3–5 cards; 1–2 cards throw.
+- [`exactHuEquityVsKnownHand`](/docs/reference/api/exact-equity/exact-hu-vs-known-hand#exactHuEquityVsKnownHand) and [`exactHuEquityVsRange`](/docs/reference/api/exact-equity/exact-hu-vs-range#exactHuEquityVsRange) take any board of 0–5 cards and enumerate the rest.
 
-[`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand) and related exact HU helpers accept an **empty** board (preflop) or **3–5** board cards. Lengths **1–2** throw.
-
-### Exact enumeration scale (heads-up vs random villain)
-
-| Board | Villain holes | Work (order of magnitude) |
+| Board | Villain | Work (heads-up vs a random hand) |
 | --- | --- | --- |
-| 0 (preflop) | random 2 cards | C(50,2) × C(48,5) runouts |
+| 0 (preflop) | random 2 cards | C(50,2) × C(48,5) runouts: exact, but seconds |
 | 3 (flop) | random 2 cards | C(47,2) × C(45,2) runouts |
-| 5 (river) | random 2 cards | C(45,2) runouts |
+| 5 (river) | random 2 cards | C(45,2) |
 
-[`exactHuEquityVsRange`](/docs/reference/api/hands-and-equity/exact-hu-equity-vs-range) costs O(|range| × runouts per combo). Sparse ranges skip zero-weight combos.
+`exactHuEquityVsRange` costs O(|range| × runouts per combo); sparse ranges skip zero-weight combos.
+
+## Random numbers
+
+- Monte Carlo uses `std::mt19937` seeded with your `seed`. The same seed gives the same result on the same platform.
+- Digits can differ between platforms for the same seed, because C++ standard libraries implement shuffling differently. Differences are within the Monte Carlo error.
+- [`parallelHandSimulation`](/docs/reference/api/monte-carlo/parallel-hand-simulation#parallelHandSimulation): worker `t` uses seed `baseSeed + t × 9743`.
+
+## Hand-class order (169 and 81)
+
+Arrays with one entry per preflop hand class (Nash charts, [`buildPreflopEquityMatrix`](/docs/reference/api/monte-carlo/preflop-equity-matrix#buildPreflopEquityMatrix)) group hands by their lower card, from deuce up: the pair first, then each higher card suited and offsuit. The order starts `22, 32s, 32o, 42s, 42o, …, A2s, A2o, 33, 43s, …` and ends `KK, AKs, AKo, AA`. Index 0 is `22` and index 168 is `AA`. Short-deck arrays use the same order over ranks 6–A (81 classes, `66` to `AA`). The [preflop matrix guide](/docs/guides/preflop-equity-matrix#finding-a-hand) has a helper that builds the list.
 
 ## Preflop equity matrix
 
-[`buildPreflopEquityMatrix`](/docs/reference/api/hands-and-equity/build-preflop-equity-matrix) fills a row-major `169×169` matrix via Monte Carlo with disjoint suit assignment per cell. For `i ≠ j`, `M[j,i] = 1 - M[i,j]`.
+A row-major `169 × 169` matrix filled by Monte Carlo, with the two hands dealt disjoint suits in each cell. For `i ≠ j`, `M[j][i] = 1 − M[i][j]`.
 
 ## Detailed Monte Carlo intervals
 
-[`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome-detailed) Wilson bounds use `wilsonScoreInterval` with `successes = round(estimate × n)`.
+[`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcome) computes Wilson bounds with `wilsonScoreInterval` and `successes = round(estimate × n)`.
 
-## ICM Weitzman
+## ICM
 
-[`icmExpectedPayoutsWeitzman`](/docs/reference/api/icm/icm-expected-payouts-weitzman) uses independent chip utility (`stack^alpha`, default `alpha = 2`). It is **not** Harville placement math.
+- [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts) is Harville: P(first) is proportional to stack, and later places follow recursively.
+- [`icmExpectedPayoutsWeitzman`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts) is an independent chip-utility model (`stack^alpha`, default `alpha = 2`), not Harville.
+- Seats with zero chips have already busted: they take the bottom prizes, and everyone else plays for the rest.
+
+## Bounties
+
+[`pkoKnockoutProbabilityMatrix`](/docs/reference/api/bounties/knockout-probabilities#pkoKnockoutProbabilityMatrix)`[i][j] = P(j busts) × wᵢ / Σ w` with `P(j busts) = 1 − stackⱼ / total` and `wᵢ = stackᵢ² / (stackᵢ + stackⱼ)` over the players who cover `j` (everyone else when nobody does). Columns sum to `P(j busts)`, so every bounty except the eventual winner's own is paid out.
+
+## Tournament duel
+
+[`tournamentDuelAbsorptionProbabilities`](/docs/reference/api/icm/tournament-duel#tournamentDuelAbsorptionProbabilities) is gambler's ruin with `h = ⌈heroStack / chipsPerAllIn⌉` and `v = ⌈villainStack / chipsPerAllIn⌉` steps: `P(hero) = (1 − rʰ) / (1 − rʰ⁺ᵛ)` with `r = (1 − p) / p`, or `h / (h + v)` at `p = 0.5`.
+
+## Cooperative cancellation
+
+All 14 `*Async` exports accept [`AsyncOptions`](/docs/reference/types/async-options) with `signal?: AbortSignal`. Native loops check the signal about every **4096** iterations; an abort rejects the promise with `AbortError`.
 
 ## Floating point
 
-Most APIs return `double`. Batch Monte Carlo paths may use `float` internally and widen results. Prefer exact APIs when the spot is small enough to enumerate.
+Most functions return `double`. Batch Monte Carlo paths may use `float` internally and widen the result. Prefer the exact functions when a spot is small enough to enumerate.

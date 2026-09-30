@@ -1,0 +1,128 @@
+---
+title: "Bluff-to-value ratio"
+sidebar_label: "Bluff-to-value ratio"
+sidebar_position: 2
+description: "Polarized river combo ratio bet / (pot + 2×bet)."
+api_functions: ["bluffToValueRatio", "valueToBluffRatio", "bluffToValueRatioWithRake", "valueToBluffRatioWithRake"]
+---
+
+# Bluff-to-value ratio
+
+<ApiFamilyHeader category="GTO & fold equity" suit="♣" functions={["bluffToValueRatio","valueToBluffRatio","bluffToValueRatioWithRake","valueToBluffRatioWithRake"]} />
+
+## `bluffToValueRatio` \{#bluffToValueRatio\}
+Polarized river combo ratio `bet / (pot + 2×bet)`.
+
+```ts
+bluffToValueRatio(potBeforeBet: number, betSize: number): number;
+```
+
+Balance **bluff combos vs value combos** on a polarized river bet in the toy model. Ratio increases with bet size relative to pot—study charts use this to explain why overbets need fewer bluffs per value hand.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pot = 100;
+const bet = 75;
+
+const b2v = poker.bluffToValueRatio(pot, bet);
+console.log('bluff:value combo ratio', b2v);
+
+const v2b = poker.valueToBluffRatio(pot, bet);
+console.log('value:bluff', v2b);
+```
+
+```text title="Output"
+bluff:value combo ratio 0.3
+value:bluff 3.3333333333333335
+```
+
+## `valueToBluffRatio` \{#valueToBluffRatio\}
+`1 / bluffToValueRatio`; `Infinity` when `betSize` is 0.
+
+```ts
+valueToBluffRatio(potBeforeBet: number, betSize: number): number;
+```
+
+Express **how many value combos per bluff** the toy polarized model needs—inverse of `bluffToValueRatio`. Returns `Infinity` when `betSize` is zero (degenerate sizing).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pot = 50;
+const bet = 50; // pot-sized bet
+
+console.log(poker.valueToBluffRatio(pot, bet));
+console.log(poker.bluffToValueRatio(pot, bet));
+
+console.log(poker.valueToBluffRatio(pot, 0)); // Infinity
+```
+
+```text title="Output"
+3
+0.3333333333333333
+Infinity
+```
+
+## `bluffToValueRatioWithRake` \{#bluffToValueRatioWithRake\}
+Polarized bluff:value ratio with rake.
+
+```ts
+bluffToValueRatioWithRake(
+  potBeforeBet: number,
+  betSize: number,
+  rakeFraction: number,
+  rakeCap: number
+): number;
+```
+
+Polarized bluff:value ratio when rake shrinks the won pot. At most the no-rake [`bluffToValueRatio`](/docs/reference/api/gto-and-fold-equity/bluff-to-value#bluffToValueRatio).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pot = 100;
+const bet = 50;
+const rakeFraction = 0.05;
+const rakeCap = 3;
+
+const ratio = poker.bluffToValueRatioWithRake(pot, bet, rakeFraction, rakeCap);
+console.log(ratio);
+```
+
+```text title="Output"
+0.25380710659898476
+```
+
+## `valueToBluffRatioWithRake` \{#valueToBluffRatioWithRake\}
+Reciprocal bluff:value with rake.
+
+```ts
+valueToBluffRatioWithRake(
+  potBeforeBet: number,
+  betSize: number,
+  rakeFraction: number,
+  rakeCap: number
+): number;
+```
+
+Reciprocal of [`bluffToValueRatioWithRake`](/docs/reference/api/gto-and-fold-equity/bluff-to-value#bluffToValueRatioWithRake).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pot = 100;
+const bet = 50;
+const bluffVal = poker.bluffToValueRatioWithRake(pot, bet, 0.05, 3);
+const valBluff = poker.valueToBluffRatioWithRake(pot, bet, 0.05, 3);
+console.log(bluffVal * valBluff); // ≈ 1
+```
+
+```text title="Output"
+1
+```
+
+## See also
+
+- [`alphaFrequency`](/docs/reference/api/gto-and-fold-equity/minimum-defense-frequency#alphaFrequency)
+- [`betAsPotFraction`](/docs/reference/api/stacks-and-sizing/bet-sizing#betAsPotFraction)

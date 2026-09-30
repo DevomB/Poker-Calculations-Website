@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* =============================================================================
  * POKER PALETTE
@@ -95,7 +95,10 @@
   --ifm-menu-color: var(--poker-chip-200);
   --ifm-menu-color-active: var(--poker-chip-50);
   --ifm-code-font-size: 95%;
+  --poker-font-display: 'Fraunces', Georgia, serif;
+  --poker-font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   --ifm-font-family-base: 'DM Sans', system-ui, sans-serif;
+  --ifm-font-family-monospace: var(--poker-font-mono);
   --ifm-heading-font-family: 'DM Sans', system-ui, sans-serif;
   --ifm-global-radius: 10px;
   --docusaurus-highlighted-code-line-bg: rgba(212, 175, 55, 0.14);
@@ -597,5 +600,149 @@ table td {
   .dsla-search-wrapper {
     margin-left: 0;
     width: 100%;
+  }
+}
+
+/* =============================================================================
+ * DOCS REFINEMENTS (4.x redesign)
+ * ============================================================================= */
+
+/* Page titles in the display face; section headings stay in DM Sans. */
+.theme-doc-markdown h1,
+.markdown h1 {
+  font-family: var(--poker-font-display);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.apiLead {
+  color: var(--poker-chip-200);
+  font-size: 1.1rem;
+  line-height: 1.65;
+}
+
+/* API family pages: each function is an h2 with inline code; give it a divider and weight. */
+.theme-doc-markdown h2:has(> code:first-child) {
+  margin-top: 3rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--poker-border);
+  font-size: 1.35rem;
+}
+
+.theme-doc-markdown h2 > code:first-child {
+  padding: 0.15rem 0.5rem;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: rgba(212, 175, 55, 0.07);
+  color: var(--poker-gold-300);
+  font-size: 0.95em;
+  overflow-wrap: anywhere;
+}
+
+/* Code block titles: "Example" reads as source, "Output" as a terminal on felt. */
+.theme-code-block div[class*='codeBlockTitle'] {
+  padding: 0.45rem 1rem;
+  border-bottom: 1px solid var(--poker-border);
+  background: var(--poker-ink-700);
+  color: var(--poker-chip-300);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.theme-code-block:has(div[class*='codeBlockTitle']:is(:first-child)) + .theme-code-block {
+  margin-top: -0.6rem;
+}
+
+.theme-code-block.language-text div[class*='codeBlockTitle'] {
+  background: linear-gradient(90deg, rgba(14, 107, 58, 0.35), rgba(14, 107, 58, 0.08));
+  color: var(--poker-felt-100);
+}
+
+.theme-code-block.language-text pre,
+.theme-code-block.language-text code {
+  background: var(--poker-ink-800) !important;
+  color: var(--poker-gold-300) !important;
+}
+
+/* Collapsible type declarations under each signature */
+.theme-doc-markdown details {
+  margin: 0 0 1.25rem;
+  padding: 0;
+  border: 1px solid var(--poker-border);
+  border-radius: 10px;
+  background: var(--poker-bg-elevated);
+  --docusaurus-details-decoration-color: var(--poker-gold-600);
+}
+
+.theme-doc-markdown details > summary {
+  padding: 0.55rem 0.9rem;
+  color: var(--poker-chip-200);
+  font-size: 0.85rem;
+}
+
+.theme-doc-markdown details > summary code {
+  font-size: 0.8rem;
+}
+
+.theme-doc-markdown details > div {
+  padding: 0 0.9rem 0.3rem;
+}
+
+/* Sidebar: section labels between API categories */
+.sidebar-section-label {
+  margin: 1.1rem 0 0.25rem;
+  padding: 0 0.75rem;
+  color: var(--poker-gold-600);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.menu__list .menu__list .menu__link {
+  font-size: 0.9rem;
+}
+
+/* Tables: quieter borders, readable on phones */
+.markdown table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.markdown table thead tr {
+  border-bottom: 1px solid var(--poker-border-strong);
+}
+
+.markdown table th,
+.markdown table td {
+  border: 0;
+  border-bottom: 1px solid var(--poker-border);
+  padding: 0.55rem 0.8rem;
+}
+
+.markdown table tr:nth-child(2n) {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+/* Inline code that holds long function names should wrap instead of widening the page. */
+.markdown :not(pre) > code {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 996px) {
+  .theme-doc-markdown h2:has(> code:first-child) {
+    margin-top: 2.25rem;
+    padding-top: 1.25rem;
+  }
+
+  .markdown pre {
+    font-size: 0.82rem;
   }
 }

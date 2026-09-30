@@ -1,0 +1,108 @@
+---
+title: "Blinds and dead pots"
+sidebar_label: "Blinds and dead pots"
+sidebar_position: 7
+description: "FGS across a blind schedule."
+api_functions: ["fgsPayoutsBlindSchedule", "icmPayoutsAfterBlindPost", "icmDeadPotDollarEv"]
+---
+
+# Blinds and dead pots
+
+<ApiFamilyHeader category="ICM" suit="♥" functions={["fgsPayoutsBlindSchedule","icmPayoutsAfterBlindPost","icmDeadPotDollarEv"]} />
+
+## `fgsPayoutsBlindSchedule` \{#fgsPayoutsBlindSchedule\}
+FGS across a blind schedule. Each level applies `orbitsAtLevel[i]` average-position orbits.
+
+```ts
+fgsPayoutsBlindSchedule(
+  stacks: F64VectorInput,
+  payouts: F64VectorInput,
+  smallBlinds: F64VectorInput,
+  bigBlinds: F64VectorInput,
+  antes: F64VectorInput,
+  orbitsAtLevel: F64VectorInput,
+  returnFormat?: F64ReturnFormat
+): number[] | Float64Array;
+```
+
+Future game simulation: ICM after the blinds grind the table down, rather than ICM on current stacks.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const ev = poker.fgsPayoutsBlindSchedule(
+  [5000, 3000, 2000],
+  [500, 300, 200],
+  [100, 200],   // small blinds per level
+  [200, 400],   // big blinds per level
+  [0, 50],      // antes per level
+  [1, 1],       // orbits at each level
+);
+console.log(ev.map((x) => x.toFixed(1)));
+```
+
+```text title="Output"
+[ '402.4', '328.4', '269.1' ]
+```
+
+## `icmPayoutsAfterBlindPost` \{#icmPayoutsAfterBlindPost\}
+Hero posts `heroPost`; every other seat posts `posts[i]`. Subtract (clamp 0), then ICM on remaining stacks. Posted chips are dead for placement.
+
+```ts
+icmPayoutsAfterBlindPost(
+  stacks: F64VectorInput,
+  payouts: F64VectorInput,
+  heroIndex: number,
+  heroPost: number,
+  posts: F64VectorInput,
+  returnFormat?: F64ReturnFormat
+): number[] | Float64Array;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+// Hero (seat 1) posts the 200 big blind, seat 2 posts the 100 small blind
+console.log(poker.icmPayoutsAfterBlindPost([5000, 3000, 2000], [500, 300, 200], 1, 200, [0, 0, 100]));
+```
+
+```text title="Output"
+[ 388.11272397108337, 324.33788336398555, 287.5493926649309 ]
+```
+
+## `icmDeadPotDollarEv` \{#icmDeadPotDollarEv\}
+$EV of hero winning a dead pot of `deadChips` (chips in the middle owned by nobody). Two-point ICM: hero stack += deadChips vs ICM now.
+
+```ts
+icmDeadPotDollarEv(
+  stacks: F64VectorInput,
+  payouts: F64VectorInput,
+  heroIndex: number,
+  deadChips: number
+): IcmDeadPotDollarEvResult;
+```
+
+<details>
+<summary>Types: <code>IcmDeadPotDollarEvResult</code></summary>
+
+```ts
+interface IcmDeadPotDollarEvResult {
+  nowEv: number;
+  winEv: number;
+  delta: number;
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.icmDeadPotDollarEv([5000, 3000, 2000], [500, 300, 200], 2, 600));
+```
+
+```text title="Output"
+{
+  nowEv: 288.57142857142856,
+  winEv: 305.16739963115333,
+  delta: 16.595971059724775
+}
+```

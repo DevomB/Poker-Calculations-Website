@@ -1,0 +1,210 @@
+---
+title: "Deals and chops"
+sidebar_label: "Deals and chops"
+sidebar_position: 5
+description: "Compare **chip-proportional chop** dollars to Harville ICM, per-seat surplus/deficit, and feasible Pareto transfer edges between seats."
+api_functions: ["icmChopNegotiationAnalysis", "icmEqualChopPayouts", "icmChopSurplusVsEqualSplit", "icmChipLeaderPremiumVsEqualChop", "icmExpectedPayoutsDeltaFromChipChop", "icmDealEvPerChip"]
+---
+
+# Deals and chops
+
+<ApiFamilyHeader category="ICM" suit="♥" functions={["icmChopNegotiationAnalysis","icmEqualChopPayouts","icmChopSurplusVsEqualSplit","icmChipLeaderPremiumVsEqualChop","icmExpectedPayoutsDeltaFromChipChop","icmDealEvPerChip"]} />
+
+## `icmChopNegotiationAnalysis` \{#icmChopNegotiationAnalysis\}
+Compare **chip-proportional chop** dollars to Harville ICM, per-seat surplus/deficit, and feasible Pareto transfer edges between seats.
+
+```ts
+icmChopNegotiationAnalysis(
+  stacks: F64VectorInput,
+  payouts: F64VectorInput
+): IcmChopNegotiationAnalysisResult;
+```
+
+<details>
+<summary>Types: <code>IcmChopNegotiationAnalysisResult</code>, <code>IcmChopParetoPair</code></summary>
+
+```ts
+interface IcmChopNegotiationAnalysisResult {
+  chipChop: number[];
+  icm: number[];
+  surplus: number[];
+  totalPrizePool: number;
+  paretoPairs: IcmChopParetoPair[];
+}
+
+interface IcmChopParetoPair {
+  i: number;
+  j: number;
+  maxTransfer: number;
+}
+```
+
+Field notes: [`IcmChopNegotiationAnalysisResult`](/docs/reference/types/icm-chop-negotiation-analysis-result) · [`IcmChopParetoPair`](/docs/reference/types/icm-chop-pareto-pair)
+
+</details>
+
+Players are negotiating a **deal** and you want to show who gains or loses vs ICM under a chip chop, plus directed surplus transfers that keep everyone at least as well off as ICM.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const { chipChop, icm, surplus, paretoPairs, totalPrizePool } =
+  poker.icmChopNegotiationAnalysis(
+    [12000, 8000, 5000, 2000],
+    [10000, 6000, 3000, 1000],
+  );
+
+console.log('Total prize pool:', totalPrizePool);
+surplus.forEach((s, i) => {
+  console.log(i, s > 0 ? 'surplus' : s < 0 ? 'deficit' : 'flat', s);
+});
+console.log('Pareto transfer edges:', paretoPairs.length);
+```
+
+```text title="Output"
+Total prize pool: 20000
+0 surplus 1905.804975897856
+1 surplus 78.1869981869977
+2 deficit -878.825016286316
+3 deficit -1105.1669577985367
+Pareto transfer edges: 4
+```
+
+Positive `surplus[i]` means a chip chop would **overpay** seat `i` relative to Harville ICM.
+
+**Returns** [`IcmChopNegotiationAnalysisResult`](/docs/reference/types/icm-chop-negotiation-analysis-result) — nested [`IcmChopParetoPair`](/docs/reference/types/icm-chop-pareto-pair).
+
+## `icmEqualChopPayouts` \{#icmEqualChopPayouts\}
+Equal split of prize pool per seat.
+
+```ts
+icmEqualChopPayouts(payouts: F64VectorInput, returnFormat?: F64ReturnFormat): number[] | Float64Array;
+```
+
+Split the prize pool **equally** across seats (negotiated equal chop).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const payouts = [5000, 3000, 1500, 500];
+const equal = poker.icmEqualChopPayouts(payouts);
+console.log(equal); // each 2500; sum === 10000
+```
+
+```text title="Output"
+[ 2500, 2500, 2500, 2500 ]
+```
+
+## `icmChopSurplusVsEqualSplit` \{#icmChopSurplusVsEqualSplit\}
+ICM EV minus equal chop per seat.
+
+```ts
+icmChopSurplusVsEqualSplit(
+  stacks: F64VectorInput,
+  payouts: F64VectorInput,
+  returnFormat?: F64ReturnFormat
+): number[] | Float64Array;
+```
+
+Per-seat ICM EV minus equal chop — who gains/loses vs splitting the pool evenly.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const stacks = [10000, 7500, 5000, 2500];
+const payouts = [5000, 3000, 1500, 500];
+
+const surplus = poker.icmChopSurplusVsEqualSplit(stacks, payouts);
+console.log(surplus.reduce((a, b) => a + b, 0)); // ≈ 0
+```
+
+```text title="Output"
+0
+```
+
+## `icmChipLeaderPremiumVsEqualChop` \{#icmChipLeaderPremiumVsEqualChop\}
+Chip leader surplus ratio vs equal chop.
+
+```ts
+icmChipLeaderPremiumVsEqualChop(stacks: F64VectorInput, payouts: F64VectorInput): number;
+```
+
+Chip leader ICM surplus vs equal chop, expressed as a ratio minus 1.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const stacks = [15000, 5000, 3000, 2000];
+const payouts = [5000, 3000, 1500, 500];
+
+console.log(poker.icmChipLeaderPremiumVsEqualChop(stacks, payouts));
+```
+
+```text title="Output"
+0.6030729287762537
+```
+
+## `icmExpectedPayoutsDeltaFromChipChop` \{#icmExpectedPayoutsDeltaFromChipChop\}
+ICM minus chip-proportional chop.
+
+```ts
+icmExpectedPayoutsDeltaFromChipChop(
+  stacks: F64VectorInput,
+  payouts: F64VectorInput,
+  returnFormat?: F64ReturnFormat
+): number[] | Float64Array;
+```
+
+ICM expected payouts minus a **chip-proportional** chop for each seat.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const stacks = [12000, 8000, 5000, 2000];
+const payouts = [10000, 6000, 3000, 1000];
+
+const delta = poker.icmExpectedPayoutsDeltaFromChipChop(stacks, payouts);
+console.log(delta.reduce((a, b) => a + b, 0)); // ≈ 0
+```
+
+```text title="Output"
+-9.094947017729282e-13
+```
+
+## `icmDealEvPerChip` \{#icmDealEvPerChip\}
+ICM $EV divided by stack.
+
+```ts
+icmDealEvPerChip(
+  stacks: F64VectorInput,
+  payouts: F64VectorInput,
+  returnFormat?: F64ReturnFormat
+): number[] | Float64Array;
+```
+
+ICM expected prize divided by stack — $EV per chip for each seat.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const stacks = [10000, 7500, 5000, 2500];
+const payouts = [5000, 3000, 1500, 500];
+
+const evPerChip = poker.icmDealEvPerChip(stacks, payouts);
+console.log(evPerChip);
+```
+
+```text title="Output"
+[
+  0.3296031746031746,
+  0.3843650793650794,
+  0.4641269841269841,
+  0.6002380952380952
+]
+```
+
+## See also
+
+- [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts)
+- [Tournament, runouts, and bots](/docs/guides/tournament-runouts-and-bots)
+- [`normalizedStackFractions`](/docs/reference/api/stacks-and-sizing/effective-stack#normalizedStackFractions)

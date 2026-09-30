@@ -1,0 +1,135 @@
+---
+title: "2-7 evaluation"
+sidebar_label: "2-7 evaluation"
+sidebar_position: 3
+description: "Kansas City 2-7 single draw."
+api_functions: ["evaluateDeuceSevenHand", "evaluateDeuceSevenCategory", "deuceSevenIsPat", "deuceSevenNutsPat", "deuceSevenRoughVsSmooth"]
+---
+
+# 2-7 evaluation
+
+<ApiFamilyHeader category="Stud, razz & 2-7" suit="♦" functions={["evaluateDeuceSevenHand","evaluateDeuceSevenCategory","deuceSevenIsPat","deuceSevenNutsPat","deuceSevenRoughVsSmooth"]} />
+
+## `evaluateDeuceSevenHand` \{#evaluateDeuceSevenHand\}
+Kansas City 2-7 single draw. Ace high; straights and flushes are bad. Lower packed strength is the better low.
+
+```ts
+evaluateDeuceSevenHand(cards: CardInput): number;
+```
+
+Kansas City 2-7 lowball: aces are high and straights and flushes count against you. A lower value is a better hand.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const nuts = poker.evaluateDeuceSevenHand(['7h', '5d', '4c', '3s', '2h']);
+const eightLow = poker.evaluateDeuceSevenHand(['8h', '6d', '4c', '3s', '2h']);
+console.log(nuts < eightLow); // 7-5-4-3-2 is the best hand
+```
+
+```text title="Output"
+true
+```
+
+## `evaluateDeuceSevenCategory` \{#evaluateDeuceSevenCategory\}
+```ts
+evaluateDeuceSevenCategory(cards: CardInput): DeuceSevenCategory;
+```
+
+<details>
+<summary>Types: <code>DeuceSevenCategory</code></summary>
+
+```ts
+type DeuceSevenCategory =
+  | 'nuts'
+  | 'smooth'
+  | 'rough'
+  | 'number'
+  | 'paired'
+  | 'twoPair'
+  | 'trips'
+  | 'straight'
+  | 'flush'
+  | 'fullHouse'
+  | 'quads'
+  | 'straightFlush';
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.evaluateDeuceSevenCategory(['7h', '5d', '4c', '3s', '2h']));
+console.log(poker.evaluateDeuceSevenCategory(['8h', '7d', '4c', '3s', '2h']));
+```
+
+```text title="Output"
+nuts
+rough
+```
+
+## `deuceSevenIsPat` \{#deuceSevenIsPat\}
+Unpaired, no straight, no flush. Default `eightPat=true` treats 8-high as pat; `false` requires 7-high.
+
+```ts
+deuceSevenIsPat(cards: CardInput, eightPat?: boolean | { eightPat?: boolean }): boolean;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.deuceSevenIsPat(['8h', '6d', '4c', '3s', '2h']));        // true
+console.log(poker.deuceSevenIsPat(['8h', '6d', '4c', '3s', '2h'], false)); // needs 7-high
+```
+
+```text title="Output"
+true
+false
+```
+
+## `deuceSevenNutsPat` \{#deuceSevenNutsPat\}
+True iff 7-5-4-3-2 unpaired unsuited.
+
+```ts
+deuceSevenNutsPat(cards: CardInput): boolean;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.deuceSevenNutsPat(['7h', '5d', '4c', '3s', '2h']));
+```
+
+```text title="Output"
+true
+```
+
+## `deuceSevenRoughVsSmooth` \{#deuceSevenRoughVsSmooth\}
+Both hands must be unpaired 8-high. Smooth = second card is not a 7.
+
+```ts
+deuceSevenRoughVsSmooth(a: CardInput, b: CardInput): DeuceSevenRoughSmooth;
+```
+
+<details>
+<summary>Types: <code>DeuceSevenRoughSmooth</code></summary>
+
+```ts
+interface DeuceSevenRoughSmooth {
+  /** `-1` if `a` is better 2-7, `1` if `b` is, `0` tie. */
+  cmp: number;
+  /** Unpaired 8-high whose second card is not a 7. */
+  aSmooth: boolean;
+  bSmooth: boolean;
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.deuceSevenRoughVsSmooth(['8h', '6d', '4c', '3s', '2h'], ['8c', '7d', '4s', '3d', '2c']));
+```
+
+```text title="Output"
+{ cmp: -1, aSmooth: true, bSmooth: false }
+```

@@ -1,0 +1,117 @@
+---
+title: "Raise EV"
+sidebar_label: "Raise EV"
+sidebar_position: 3
+description: "Chip EV of raise vs fold (two-outcome model)."
+api_functions: ["expectedValueRaise", "expectedValueRaiseWithRake", "breakevenRaiseEquity"]
+---
+
+# Raise EV
+
+<ApiFamilyHeader category="Pot odds & EV" suit="♥" functions={["expectedValueRaise","expectedValueRaiseWithRake","breakevenRaiseEquity"]} />
+
+## `expectedValueRaise` \{#expectedValueRaise\}
+Chip EV of raise vs fold (two-outcome model).
+
+```ts
+expectedValueRaise(
+  equityWhenCalled: number,
+  potBeforeRaise: number,
+  raiseSize: number,
+  foldEquity: number,
+  potIfCalled: number
+): number;
+```
+
+Two-outcome raise model: villain folds (`foldEquity`) or calls and you realize `equityWhenCalled` in `potIfCalled`, paying `raiseSize`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const equityWhenCalled = 0.45;
+const potBeforeRaise = 60;
+const raiseSize = 45;
+const foldEquity = 0.35;
+const potIfCalled = potBeforeRaise + 2 * raiseSize;
+
+const ev = poker.expectedValueRaise(
+  equityWhenCalled,
+  potBeforeRaise,
+  raiseSize,
+  foldEquity,
+  potIfCalled,
+);
+console.log('raise EV:', ev);
+```
+
+```text title="Output"
+raise EV: 35.625
+```
+
+## `expectedValueRaiseWithRake` \{#expectedValueRaiseWithRake\}
+Raise EV with rake on called pot.
+
+```ts
+expectedValueRaiseWithRake(
+  equityWhenCalled: number,
+  potBeforeRaise: number,
+  raiseSize: number,
+  foldEquity: number,
+  potIfCalled: number,
+  rakeFraction: number,
+  rakeCap: number
+): number;
+```
+
+Same as [`expectedValueRaise`](/docs/reference/api/pot-odds-and-ev/expected-value-raise#expectedValueRaise) but rake is taken from `potIfCalled` when called.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const ev = poker.expectedValueRaiseWithRake(
+  0.45, 60, 45, 0.35, 150,
+  0.05, 3,
+);
+const evNoRake = poker.expectedValueRaise(0.45, 60, 45, 0.35, 150);
+console.log({ ev, evNoRake }); // ev <= evNoRake
+```
+
+```text title="Output"
+{ ev: 33.697500000000005, evNoRake: 35.625 }
+```
+
+## `breakevenRaiseEquity` \{#breakevenRaiseEquity\}
+Equity needed for neutral raise.
+
+```ts
+breakevenRaiseEquity(
+  potBeforeRaise: number,
+  raiseSize: number,
+  foldEquity: number,
+  potIfCalled: number
+): number;
+```
+
+Equity-when-called that makes [`expectedValueRaise`](/docs/reference/api/pot-odds-and-ev/expected-value-raise#expectedValueRaise) exactly zero for fixed sizing and fold equity.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const potBeforeRaise = 60;
+const raiseSize = 45;
+const foldEquity = 0.35;
+const potIfCalled = 150;
+
+const need = poker.breakevenRaiseEquity(potBeforeRaise, raiseSize, foldEquity, potIfCalled);
+const ev = poker.expectedValueRaise(need, potBeforeRaise, raiseSize, foldEquity, potIfCalled);
+console.log(ev); // ≈ 0
+```
+
+```text title="Output"
+0
+```
+
+## See also
+
+- [`breakevenFoldEquitySemiBluff`](/docs/reference/api/gto-and-fold-equity/semi-bluff#breakevenFoldEquitySemiBluff)
+- [`expectedValueCallWithRake`](/docs/reference/api/pot-odds-and-ev/expected-value-call#expectedValueCallWithRake)

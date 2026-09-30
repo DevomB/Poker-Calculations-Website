@@ -1,0 +1,87 @@
+---
+title: "Hand strength"
+sidebar_label: "Hand strength"
+sidebar_position: 2
+description: "Encoded strength as number (uint64 bit layout: rank in high bits + five kicker nibbles)."
+api_functions: ["evaluateHandStrength", "evaluateHandStrengthFast", "evaluateHandStrengthFastBatch"]
+---
+
+# Hand strength
+
+<ApiFamilyHeader category="Hand evaluation" suit="♠" functions={["evaluateHandStrength","evaluateHandStrengthFast","evaluateHandStrengthFastBatch"]} />
+
+## `evaluateHandStrength` \{#evaluateHandStrength\}
+Encoded strength as `number` (`uint64` bit layout: rank in high bits + five kicker nibbles). Exact integer in IEEE double for sort/compare loops.
+
+```ts
+evaluateHandStrength(holeCards: CardInput, board: CardInput): number;
+```
+
+Use when you need a single sortable scalar for hero vs board—range ordering, fast filters, or bot heuristics when Monte Carlo count is zero. For high-volume paths, prefer [`evaluateHandStrengthFast`](/docs/reference/api/hand-evaluation/evaluate-hand-strength#evaluateHandStrengthFast) or pack cards once with [`poker-calculations/encode`](/docs/concepts/packed-card-input#helpers-poker-calculationsencode).
+
+```js title="Example"
+const poker = require('poker-calculations');
+const a = poker.evaluateHandStrength(['Ah', 'Kh'], ['Qh', 'Jh', 'Th', '2c', '3d']);
+const b = poker.evaluateHandStrength(['7c', '7d'], ['Qh', 'Jh', 'Th', '2c', '3d']);
+console.log(a > b); // higher strength wins
+```
+
+```text title="Output"
+true
+```
+
+## `evaluateHandStrengthFast` \{#evaluateHandStrengthFast\}
+Same encoding as `evaluateHandStrength`, using the in-house stack-only evaluator (`poker-calculations-forge`) used by Monte Carlo and exact enumeration hot paths.
+
+```ts
+evaluateHandStrengthFast(holeCards: CardInput, board: CardInput): number;
+```
+
+Use when you need the same sortable strength scalar as `evaluateHandStrength` but want the faster evaluator (for example high-volume sims or batch ranking). Compare paths with [`benchmarkEvaluatorThroughput`](/docs/reference/api/hand-evaluation/benchmark-evaluator#benchmarkEvaluatorThroughput) on your hardware.
+
+Combined hole and board must be **at most 7** cards (standard Hold'em). With more than seven cards total, [`evaluateHandStrength`](/docs/reference/api/hand-evaluation/evaluate-hand-strength#evaluateHandStrength) still picks the best five from the full list; the fast path uses only the **first seven** (all hole cards, then board cards in order).
+
+```js title="Example"
+const poker = require('poker-calculations');
+const fast = poker.evaluateHandStrengthFast(['Ah', 'Kh'], ['Qh', 'Jh', 'Th', '2c', '3d']);
+const reference = poker.evaluateHandStrength(['Ah', 'Kh'], ['Qh', 'Jh', 'Th', '2c', '3d']);
+console.log(fast === reference); // same encoding, faster evaluator
+```
+
+```text title="Output"
+true
+```
+
+## `evaluateHandStrengthFastBatch` \{#evaluateHandStrengthFastBatch\}
+```ts
+evaluateHandStrengthFastBatch(
+  holes: Uint8Array,
+  boards: Uint8Array,
+  boardCards?: number,
+  out?: Float64Array
+): Float64Array;
+```
+
+Sort or filter many hands using the forge strength encoding in one crossing.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const { packCards } = require('poker-calculations/encode');
+// Two spots: 2 hole cards and 5 board cards each, concatenated
+const holes = packCards(['Ah', 'Kh', '7c', '7d']);
+const boards = packCards(['Qh', 'Jh', 'Th', '2c', '3d', '7h', '8s', '2c', '3d', 'Kc']);
+const strengths = poker.evaluateHandStrengthFastBatch(holes, boards, 5);
+const single = poker.evaluateHandStrengthFast(['Ah', 'Kh'], ['Qh', 'Jh', 'Th', '2c', '3d']);
+console.log(strengths.length, strengths[0] === single); // same values as one call per spot
+```
+
+```text title="Output"
+2 true
+```
+
+## See also
+
+- [`benchmarkEvaluatorThroughput`](/docs/reference/api/hand-evaluation/benchmark-evaluator#benchmarkEvaluatorThroughput)
+- [`evaluateHandCategory`](/docs/reference/api/hand-evaluation/evaluate-best-hand#evaluateHandCategory)
+- [Card notation](/docs/concepts/card-notation)
+- [Batch equity guide](/docs/guides/batch-equity)

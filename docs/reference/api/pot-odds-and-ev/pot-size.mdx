@@ -1,0 +1,57 @@
+---
+title: "Pot size after action"
+sidebar_label: "Pot size after action"
+sidebar_position: 6
+description: "potBeforeCall + toCall: the pot already holds villain's bet, so only hero's call is added."
+api_functions: ["potSizeAfterHuCall", "potSizeAfterHuBet"]
+---
+
+# Pot size after action
+
+<ApiFamilyHeader category="Pot odds & EV" suit="♥" functions={["potSizeAfterHuCall","potSizeAfterHuBet"]} />
+
+## `potSizeAfterHuCall` \{#potSizeAfterHuCall\}
+`potBeforeCall + toCall`: the pot already holds villain's bet, so only hero's call is added.
+
+```ts
+potSizeAfterHuCall(potBeforeCall: number, toCall: number): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+// 80 in the middle already includes villain's 40 bet; hero adds 40 more
+console.log(poker.potSizeAfterHuCall(80, 40)); // 120
+```
+
+```text title="Output"
+120
+```
+
+## `potSizeAfterHuBet` \{#potSizeAfterHuBet\}
+Pot after heads-up bet: `pot+2×bet`.
+
+```ts
+potSizeAfterHuBet(potBeforeBet: number, betSize: number): number;
+```
+
+Chip pot after a heads-up bet that is called: `potBefore + 2×betSize`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const potBeforeBet = 60;
+const betSize = 40;
+
+console.log(poker.potSizeAfterHuBet(potBeforeBet, betSize)); // 140
+```
+
+```text title="Output"
+140
+```
+
+## See also
+
+- [`sprAfterCall`](/docs/reference/api/stacks-and-sizing/spr#sprAfterCall)
+- [`potOddsRatio`](/docs/reference/api/pot-odds-and-ev/pot-odds#potOddsRatio)
+- [`sprAfterBet`](/docs/reference/api/stacks-and-sizing/spr#sprAfterBet)
+- [`betAsPotFraction`](/docs/reference/api/stacks-and-sizing/bet-sizing#betAsPotFraction)

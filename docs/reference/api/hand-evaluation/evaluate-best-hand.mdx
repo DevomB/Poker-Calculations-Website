@@ -1,0 +1,127 @@
+---
+title: "Best hand"
+sidebar_label: "Best hand"
+sidebar_position: 1
+description: "Best five of **1–7** cards."
+api_functions: ["evaluateBestHand", "evaluateHandCategory", "handRankCategoryOrder"]
+---
+
+# Best hand
+
+<ApiFamilyHeader category="Hand evaluation" suit="♠" functions={["evaluateBestHand","evaluateHandCategory","handRankCategoryOrder"]} />
+
+## `evaluateBestHand` \{#evaluateBestHand\}
+Best five of **1–7** cards. Default return is `HandEvalResult` (`rank`, `rankCategory`, `strength`, `kickers`). Pass `{ format: 'slim' }` for `HandEvalResultSlim` (no string rank or kickers).
+
+```ts
+evaluateBestHand(cards: CardInput, options?: EvaluateBestHandOptions): HandEvalResult;
+evaluateBestHand(
+  cards: CardInput,
+  options: { format: 'slim' }
+): HandEvalResultSlim;
+```
+
+<details>
+<summary>Types: <code>HandEvalResultSlim</code>, <code>HandEvalResult</code>, <code>EvaluateBestHandOptions</code>, <code>EvaluateBestHandFormat</code></summary>
+
+```ts
+interface HandEvalResultSlim {
+  rankCategory: number;
+  strength: number;
+}
+
+interface HandEvalResult {
+  /** Category label (interned at module load). */
+  rank: string;
+  /** 0..9 — same order as `handRankCategoryOrder` / `highCard` … `royalFlush`. */
+  rankCategory: number;
+  /** Same bit layout as `evaluateHandStrength` (`pack_hand_strength`). */
+  strength: number;
+  /** Five encoded kicker values (tie-break order); omitted when `format: 'slim'`. */
+  kickers: number[];
+}
+
+interface EvaluateBestHandOptions {
+  format?: EvaluateBestHandFormat;
+}
+
+type EvaluateBestHandFormat = 'full' | 'slim';
+```
+
+Field notes: [`HandEvalResultSlim`](/docs/reference/types/hand-eval-result-slim) · [`HandEvalResult`](/docs/reference/types/hand-eval-result)
+
+</details>
+
+Use when you need the made hand at showdown or on a partial board—hand history tools, showdown validators, or comparing seven-card combinations without Monte Carlo noise.
+
+Use `{ format: 'slim' }` when you only need `rankCategory` and `strength` for sorting or filtering.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const hand = poker.evaluateBestHand(['Ah', 'Ac', 'Kd', 'Ks', 'Qh', 'Jc', '2d']);
+console.log(hand.rank);         // e.g. twoPair (interned string)
+console.log(hand.rankCategory); // e.g. 2
+console.log(hand.strength);     // same encoding as evaluateHandStrength
+console.log(hand.kickers);      // length 5 — internal tie-break encoding
+
+const slim = poker.evaluateBestHand(['Ah', 'Ac', 'Kd', 'Ks', 'Qh'], { format: 'slim' });
+console.log(slim.rankCategory, slim.strength);
+```
+
+```text title="Output"
+twoPair
+2
+34388480
+[ 12, 11, 10, 0, 0 ]
+2 34388480
+```
+
+Throws if any card is invalid or duplicated. Accepts packed `Uint8Array` via `CardInput` — see [Card notation](/docs/concepts/card-notation).
+
+## `evaluateHandCategory` \{#evaluateHandCategory\}
+Category label only (`highCard` … `royalFlush`) for hole cards + board.
+
+```ts
+evaluateHandCategory(holeCards: CardInput, board: CardInput): string;
+```
+
+Use for UI labels, study charts, or filters when you do not need full kicker detail from [`evaluateBestHand`](/docs/reference/api/hand-evaluation/evaluate-best-hand#evaluateBestHand).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const category = poker.evaluateHandCategory(['Ah', 'Kh'], ['Qh', 'Jh', 'Th']);
+console.log(category); // e.g. straight
+```
+
+```text title="Output"
+royalFlush
+```
+
+Labels match [`handRankCategoryOrder`](/docs/reference/api/hand-evaluation/evaluate-best-hand#handRankCategoryOrder).
+
+## `handRankCategoryOrder` \{#handRankCategoryOrder\}
+Integer order `0..9` for `evaluateHandCategory` labels (`highCard` … `royalFlush`); throws if unknown.
+
+```ts
+handRankCategoryOrder(category: string): number;
+```
+
+Use when sorting categories or building charts that need numeric ordering instead of string labels.
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.handRankCategoryOrder('highCard'), poker.handRankCategoryOrder('flush'), poker.handRankCategoryOrder('royalFlush'));
+```
+
+```text title="Output"
+0 5 9
+```
+
+## See also
+
+- [`compareBestHands`](/docs/reference/api/hand-evaluation/compare-best-hands#compareBestHands)
+- [HandEvalResult](/docs/reference/types/hand-eval-result)
+- [Card notation](/docs/concepts/card-notation)
+- [Hand rank labels](/docs/concepts/hand-rank-labels)

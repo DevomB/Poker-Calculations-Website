@@ -1,0 +1,67 @@
+---
+title: "Hi-Lo nuts"
+sidebar_label: "Hi-Lo nuts"
+sidebar_position: 6
+description: "scoopNuts is nut high and nut low, or nut high when the board cannot make a low (high takes the whole pot)."
+api_functions: ["omahaHiLoNuttedness", "omahaLoNutsOnBoard"]
+---
+
+# Hi-Lo nuts
+
+<ApiFamilyHeader category="Omaha" suit="♠" functions={["omahaHiLoNuttedness","omahaLoNutsOnBoard"]} />
+
+## `omahaHiLoNuttedness` \{#omahaHiLoNuttedness\}
+`scoopNuts` is nut high and nut low, or nut high when the board cannot make a low (high takes the whole pot).
+
+```ts
+omahaHiLoNuttedness(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  extraDead?: CardInput
+): OmahaHiLoNuttedness;
+```
+
+<details>
+<summary>Types: <code>OmahaHiLoNuttedness</code></summary>
+
+```ts
+interface OmahaHiLoNuttedness {
+  hiNuts: boolean;
+  loNuts: boolean;
+  scoopNuts: boolean;
+}
+
+/**
+ * Kansas City 2-7 single draw. Ace is **high** (A5432 is Ace-high, not a wheel).
+ * Straights and flushes count against you. Best hand is 7-5-4-3-2 rainbow.
+ * Packed strength uses the same bit layout as `evaluateHandStrength`; **lower is better**.
+ */
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.omahaHiLoNuttedness(['Ah', '2h', '3c', 'Kd'], ['4s', '5d', '8c']));
+```
+
+```text title="Output"
+{ hiNuts: false, loNuts: true, scoopNuts: false }
+```
+
+## `omahaLoNutsOnBoard` \{#omahaLoNutsOnBoard\}
+True iff hero has a qualifying low unbeaten by any other 4-card combo.
+
+```ts
+omahaLoNutsOnBoard(heroHoleCards: CardInput, boardCards: CardInput, extraDead?: CardInput): boolean;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.omahaLoNutsOnBoard(['Ah', '2h', 'Qc', 'Kd'], ['4s', '7d', '8c']));
+```
+
+```text title="Output"
+true
+```

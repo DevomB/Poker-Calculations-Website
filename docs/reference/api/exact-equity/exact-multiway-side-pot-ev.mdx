@@ -1,0 +1,55 @@
+---
+title: "Side-pot chip EV"
+sidebar_label: "Side-pot chip EV"
+sidebar_position: 6
+description: "Side-pot chip EV from commitments and exact equities among players eligible for each layer."
+api_functions: ["exactMultiwaySidePotChipEv"]
+---
+
+# Side-pot chip EV
+
+<ApiFamilyHeader category="Exact equity" suit="♦" functions={["exactMultiwaySidePotChipEv"]} />
+
+## `exactMultiwaySidePotChipEv` \{#exactMultiwaySidePotChipEv\}
+Side-pot chip EV from commitments and exact equities among players eligible for each layer.
+
+```ts
+exactMultiwaySidePotChipEv(
+  committedChips: F64VectorInput,
+  holeHands: CardInput[],
+  boardCards: CardInput,
+  deadCards?: CardInput
+): MultiwaySidePotChipEvResult;
+```
+
+<details>
+<summary>Types: <code>MultiwaySidePotChipEvResult</code></summary>
+
+```ts
+interface MultiwaySidePotChipEvResult {
+  chipEv: number[];
+  layerCount: number;
+}
+```
+
+
+</details>
+
+Chip EV when an all-in created side pots: each layer is split by exact equity among the players eligible for it.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const r = poker.exactMultiwaySidePotChipEv(
+  [1000, 2500, 2500],                          // chips each player committed
+  [['Ah', 'Ad'], ['Kh', 'Kd'], ['Qs', 'Js']],
+  ['Ts', '9s', '2c'],
+);
+console.log(r);
+```
+
+```text title="Output"
+{
+  chipEv: [ 1438.5382059800666, 1521.5946843853822, 3039.8671096345515 ],
+  layerCount: 2
+}
+```

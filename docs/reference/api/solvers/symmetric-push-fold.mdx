@@ -1,0 +1,118 @@
+---
+title: "Symmetric push/fold"
+sidebar_label: "Symmetric push/fold"
+sidebar_position: 8
+description: "Symmetric **push/fold** breakeven equity — minimum hero equity to jam profitably given stacks, blinds, and antes."
+api_functions: ["solveSymmetricPushFoldThreshold", "pushFoldSymmetricEv", "pushFoldSymmetricBreakevenEquity"]
+---
+
+# Symmetric push/fold
+
+<ApiFamilyHeader category="Solvers" suit="♠" functions={["solveSymmetricPushFoldThreshold","pushFoldSymmetricEv","pushFoldSymmetricBreakevenEquity"]} />
+
+## `solveSymmetricPushFoldThreshold` \{#solveSymmetricPushFoldThreshold\}
+Symmetric **push/fold** breakeven equity — minimum hero equity to jam profitably given stacks, blinds, and antes.
+
+```ts
+solveSymmetricPushFoldThreshold(
+  effectiveStack: number,
+  smallBlind: number,
+  bigBlind: number,
+  antePerPlayer: number
+): PushFoldThresholdResult;
+```
+
+<details>
+<summary>Types: <code>PushFoldThresholdResult</code></summary>
+
+```ts
+interface PushFoldThresholdResult {
+  thresholdEquity: number;
+  jamEvAtThreshold: number;
+}
+```
+
+Field notes: [`PushFoldThresholdResult`](/docs/reference/types/push-fold-threshold-result)
+
+</details>
+
+You need a quick **jam threshold** in a symmetric push/fold model — for study charts, bot preflop gates, or comparing to Chubukov-style jam searches.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const { thresholdEquity, jamEvAtThreshold } = poker.solveSymmetricPushFoldThreshold(
+  10,
+  0.5,
+  1,
+  0.1,
+);
+
+console.log('Min equity to jam:', thresholdEquity);
+console.log('Jam EV at threshold (≈ 0):', jamEvAtThreshold);
+```
+
+```text title="Output"
+Min equity to jam: 0.4608294930875576
+Jam EV at threshold (≈ 0): 0
+```
+
+Dead money is `smallBlind + bigBlind + 2 × antePerPlayer`.
+
+**Returns** [`PushFoldThresholdResult`](/docs/reference/types/push-fold-threshold-result).
+
+## `pushFoldSymmetricEv` \{#pushFoldSymmetricEv\}
+Symmetric push/fold chip EV.
+
+```ts
+pushFoldSymmetricEv(equity: number, jamStackChips: number, deadMoneyChips: number): number;
+```
+
+Symmetric push/fold chip EV — alias of [`chubukovSymmetricJamEv`](/docs/reference/api/solvers/chubukov#chubukovSymmetricJamEv).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const equity = 0.48;
+const jamStack = 100;
+const deadMoney = 15;
+
+console.log(
+  poker.pushFoldSymmetricEv(equity, jamStack, deadMoney),
+  poker.chubukovSymmetricJamEv(equity, jamStack, deadMoney),
+);
+```
+
+```text title="Output"
+3.200000000000003 100.47999999999999
+```
+
+## `pushFoldSymmetricBreakevenEquity` \{#pushFoldSymmetricBreakevenEquity\}
+Breakeven equity for symmetric jam.
+
+```ts
+pushFoldSymmetricBreakevenEquity(jamStackChips: number, deadMoneyChips: number): number;
+```
+
+Equity where symmetric jam EV is zero.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const jamStack = 100;
+const deadMoney = 15;
+
+const eq = poker.pushFoldSymmetricBreakevenEquity(jamStack, deadMoney);
+console.log(poker.pushFoldSymmetricEv(eq, jamStack, deadMoney)); // ≈ 0
+```
+
+```text title="Output"
+0
+```
+
+## See also
+
+- [`chubukovMaxSymmetricJamStackBinarySearch`](/docs/reference/api/solvers/chubukov#chubukovMaxSymmetricJamStackBinarySearch)
+- [`decideAction`](/docs/reference/api/bots/decide-action#decideAction)
+- [Kelly & jam](/docs/reference/api/statistics)
+- [`chubukovSymmetricJamEv`](/docs/reference/api/solvers/chubukov#chubukovSymmetricJamEv)

@@ -1,0 +1,39 @@
+---
+title: "Heads-up vs a range"
+sidebar_label: "Heads-up vs a range"
+sidebar_position: 3
+description: "Exact HU vs weighted villain range (dense Float64Array(1326) or sparse spec)."
+api_functions: ["exactHuEquityVsRange"]
+---
+
+# Heads-up vs a range
+
+<ApiFamilyHeader category="Exact equity" suit="♦" functions={["exactHuEquityVsRange"]} />
+
+## `exactHuEquityVsRange` \{#exactHuEquityVsRange\}
+Exact HU vs weighted villain range (dense `Float64Array(1326)` or sparse spec).
+
+```ts
+exactHuEquityVsRange(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  range: Float64Array | SparseRangeSpec
+): number;
+```
+
+Use when villain combos and weights are known (dense 1326-vector or sparse `{ indices, weights }`). Blocked combos are removed automatically.
+
+```js title="Example"
+const poker = require('poker-calculations');
+// Villain range: every pocket pair from TT up and AK
+const range = poker.rangeFromNotationWeights([
+  { notation: 'TT', weight: 1 }, { notation: 'JJ', weight: 1 }, { notation: 'QQ', weight: 1 },
+  { notation: 'KK', weight: 1 }, { notation: 'AA', weight: 1 }, { notation: 'AKs', weight: 1 }, { notation: 'AKo', weight: 1 },
+]);
+const equity = poker.exactHuEquityVsRange(['Ah', 'Qd'], ['Qh', 'Jc', '2s'], range);
+console.log(equity.toFixed(4));
+```
+
+```text title="Output"
+0.4727
+```

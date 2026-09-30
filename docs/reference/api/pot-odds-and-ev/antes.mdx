@@ -1,0 +1,45 @@
+---
+title: "Posted antes"
+sidebar_label: "Posted antes"
+sidebar_position: 5
+description: "Breakeven when hero still posts ante."
+api_functions: ["breakevenCallEquityWithPostedAnte"]
+---
+
+# Posted antes
+
+<ApiFamilyHeader category="Pot odds & EV" suit="♥" functions={["breakevenCallEquityWithPostedAnte"]} />
+
+## `breakevenCallEquityWithPostedAnte` \{#breakevenCallEquityWithPostedAnte\}
+Breakeven when hero still posts ante.
+
+```ts
+breakevenCallEquityWithPostedAnte(
+  potBeforeCall: number,
+  toCall: number,
+  anteToPost: number
+): number;
+```
+
+Breakeven when hero still owes an **ante** on top of the call: `(toCall + ante) / (pot + toCall + ante)`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const potBeforeCall = 100;
+const toCall = 50;
+const ante = 10;
+
+const need = poker.breakevenCallEquityWithPostedAnte(potBeforeCall, toCall, ante);
+const hu = poker.breakevenCallEquity(potBeforeCall, toCall);
+console.log({ need, hu }); // need > hu when ante > 0
+```
+
+```text title="Output"
+{ need: 0.375, hu: 0.3333333333333333 }
+```
+
+## See also
+
+- [`breakevenCallEquity`](/docs/reference/api/pot-odds-and-ev/pot-odds#breakevenCallEquity)
+- [`orbitCostChips`](/docs/reference/api/stacks-and-sizing/harrington-m#orbitCostChips)

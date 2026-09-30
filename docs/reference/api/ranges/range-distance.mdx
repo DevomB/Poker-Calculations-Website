@@ -1,0 +1,96 @@
+---
+title: "Range distance"
+sidebar_label: "Range distance"
+sidebar_position: 4
+description: "Compute Jensen-Shannon distance between two normalized ranges."
+api_functions: ["rangeDistanceJensenShannon", "rangeDistanceL1", "rangeDistanceL2", "rangeCosineSimilarity"]
+---
+
+# Range distance
+
+<ApiFamilyHeader category="Ranges" suit="♦" functions={["rangeDistanceJensenShannon","rangeDistanceL1","rangeDistanceL2","rangeCosineSimilarity"]} />
+
+## `rangeDistanceJensenShannon` \{#rangeDistanceJensenShannon\}
+Compute Jensen-Shannon distance between two normalized ranges.
+
+```ts
+rangeDistanceJensenShannon(a: SparseRangeSpec | Float64Array, b: SparseRangeSpec | Float64Array): number;
+```
+
+Use `rangeDistanceJensenShannon` when you need to compute Jensen-Shannon distance between two normalized ranges.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const a = poker.rangeFromNotationWeights([{ notation: 'AA', weight: 1 }, { notation: 'KK', weight: 1 }]);
+const b = poker.rangeFromNotationWeights([{ notation: 'KK', weight: 1 }, { notation: 'QQ', weight: 1 }]);
+console.log(poker.rangeDistanceJensenShannon(a, a).toFixed(3), poker.rangeDistanceJensenShannon(a, b).toFixed(3));
+```
+
+```text title="Output"
+0.000 0.589
+```
+
+## `rangeDistanceL1` \{#rangeDistanceL1\}
+Compute L1 distance between two normalized ranges.
+
+```ts
+rangeDistanceL1(a: SparseRangeSpec | Float64Array, b: SparseRangeSpec | Float64Array): number;
+```
+
+Use `rangeDistanceL1` when you need to compute L1 distance between two normalized ranges.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const a = poker.rangeFromNotationWeights([{ notation: 'AA', weight: 1 }, { notation: 'KK', weight: 1 }]);
+const b = poker.rangeFromNotationWeights([{ notation: 'KK', weight: 1 }, { notation: 'QQ', weight: 1 }]);
+console.log(poker.rangeDistanceL1(a, b).toFixed(3));
+```
+
+```text title="Output"
+1.000
+```
+
+## `rangeDistanceL2` \{#rangeDistanceL2\}
+Compute Euclidean distance between two normalized ranges.
+
+```ts
+rangeDistanceL2(a: SparseRangeSpec | Float64Array, b: SparseRangeSpec | Float64Array): number;
+```
+
+Use `rangeDistanceL2` when you need to compute Euclidean distance between two normalized ranges.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const a = poker.rangeFromNotationWeights([{ notation: 'AA', weight: 1 }, { notation: 'KK', weight: 1 }]);
+const b = poker.rangeFromNotationWeights([{ notation: 'KK', weight: 1 }, { notation: 'QQ', weight: 1 }]);
+console.log(poker.rangeDistanceL2(a, b).toFixed(3));
+```
+
+```text title="Output"
+0.289
+```
+
+## `rangeCosineSimilarity` \{#rangeCosineSimilarity\}
+Compare two range vectors by cosine similarity.
+
+```ts
+rangeCosineSimilarity(a: SparseRangeSpec | Float64Array, b: SparseRangeSpec | Float64Array): number;
+```
+
+Use `rangeCosineSimilarity` when you need to compare two range vectors by cosine similarity.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const a = poker.rangeFromNotationWeights([{ notation: 'AA', weight: 1 }, { notation: 'KK', weight: 1 }]);
+const b = poker.rangeFromNotationWeights([{ notation: 'KK', weight: 1 }, { notation: 'QQ', weight: 1 }]);
+console.log(poker.rangeCosineSimilarity(a, b).toFixed(3));
+```
+
+```text title="Output"
+0.500
+```
+
+## See also
+
+- [`materializeVillainRangeAfterBlockers`](/docs/reference/api/ranges/range-blockers#materializeVillainRangeAfterBlockers)
+- [Sparse range input](/docs/concepts/sparse-range-input)

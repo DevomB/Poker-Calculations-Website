@@ -1,0 +1,98 @@
+---
+title: "Evaluator benchmark"
+sidebar_label: "Evaluator benchmark"
+sidebar_position: 5
+description: "Benchmark legacy vs forge evaluator throughput on random 7-card spots."
+api_functions: ["benchmarkEvaluatorThroughput", "benchmarkEvaluatorThroughputAsync"]
+---
+
+# Evaluator benchmark
+
+<ApiFamilyHeader category="Hand evaluation" suit="♠" functions={["benchmarkEvaluatorThroughput","benchmarkEvaluatorThroughputAsync"]} />
+
+## `benchmarkEvaluatorThroughput` \{#benchmarkEvaluatorThroughput\}
+Benchmark legacy vs forge evaluator throughput on random 7-card spots.
+
+```ts
+benchmarkEvaluatorThroughput(iterations?: number): EvaluatorBenchmarkResult;
+```
+
+<details>
+<summary>Types: <code>EvaluatorBenchmarkResult</code></summary>
+
+```ts
+interface EvaluatorBenchmarkResult {
+  legacyEvalsPerSecond: number;
+  fastEvalsPerSecond: number;
+  implementation: string;
+}
+
+/** Sparse villain range: parallel `indices` (two deck ids per combo) and `weights`. */
+```
+
+Field notes: [`EvaluatorBenchmarkResult`](/docs/reference/types/evaluator-benchmark-result)
+
+</details>
+
+Use when tuning server hardware or choosing between `evaluateHandStrength` and [`evaluateHandStrengthFast`](/docs/reference/api/hand-evaluation/evaluate-hand-strength#evaluateHandStrengthFast) in production. Optional `iterations` defaults in native code when omitted; must be `>= 1` when provided.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const bench = poker.benchmarkEvaluatorThroughput(50_000);
+console.log(bench);
+// { legacyEvalsPerSecond, fastEvalsPerSecond, implementation }
+```
+
+```text title="Output"
+{
+  legacyEvalsPerSecond: 18126.32328957385,
+  fastEvalsPerSecond: 87104.18985089853,
+  implementation: 'poker-calculations-forge'
+}
+```
+
+## `benchmarkEvaluatorThroughputAsync` \{#benchmarkEvaluatorThroughputAsync\}
+Same as `benchmarkEvaluatorThroughput`; runs on the libuv thread pool (non-blocking).
+
+```ts
+benchmarkEvaluatorThroughputAsync(
+  iterations?: number,
+  options?: AsyncOptions
+): Promise<EvaluatorBenchmarkResult>;
+```
+
+<details>
+<summary>Types: <code>EvaluatorBenchmarkResult</code></summary>
+
+```ts
+interface EvaluatorBenchmarkResult {
+  legacyEvalsPerSecond: number;
+  fastEvalsPerSecond: number;
+  implementation: string;
+}
+
+/** Sparse villain range: parallel `indices` (two deck ids per combo) and `weights`. */
+```
+
+Field notes: [`EvaluatorBenchmarkResult`](/docs/reference/types/evaluator-benchmark-result)
+
+</details>
+
+Run evaluator benchmarks without blocking the event loop. Optional [`AsyncOptions`](/docs/reference/types/async-options) cancel via `AbortSignal`. You may pass only `{ signal }` when `iterations` is omitted (defaults to 200000).
+
+```js title="Example"
+const poker = require('poker-calculations');
+const r = await poker.benchmarkEvaluatorThroughputAsync(200_000);
+console.log(r.implementation, (r.fastEvalsPerSecond / r.legacyEvalsPerSecond).toFixed(1) + 'x faster than the reference evaluator');
+```
+
+```text title="Output"
+poker-calculations-forge 5.8x faster than the reference evaluator
+```
+
+## See also
+
+- [`evaluateHandStrengthFast`](/docs/reference/api/hand-evaluation/evaluate-hand-strength#evaluateHandStrengthFast)
+- [`evaluateHandStrength`](/docs/reference/api/hand-evaluation/evaluate-hand-strength#evaluateHandStrength)
+- [AsyncOptions](/docs/reference/types/async-options)

@@ -5,7 +5,7 @@ sidebar_position: 17
 
 # `HeroEquityRunoutQuantilesResult`
 
-Returned by [`exactHeroEquityRunoutQuantiles`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles) and [`exactHeroEquityRunoutQuantilesAsync`](/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles-async).
+Returned by [`exactHeroEquityRunoutQuantiles`](/docs/reference/api/runout-analysis/runout-equity-quantiles#exactHeroEquityRunoutQuantiles) and [`exactHeroEquityRunoutQuantilesAsync`](/docs/reference/api/runout-analysis/runout-equity-quantiles#exactHeroEquityRunoutQuantilesAsync).
 
 | Field | Type | Meaning |
 | --- | --- | --- |
@@ -30,6 +30,17 @@ const poker = require('poker-calculations');
 const q = poker.exactHeroEquityRunoutQuantiles(['Ah', 'Kh'], ['Qh', 'Jh', '2c']);
 console.log(q);
 // { mean, variance, p05, p50, p95, n }
+```
+
+```text title="Output"
+{
+  mean: 0.7633009091843457,
+  variance: 0.06401584999032402,
+  p05: 0.36414141414141415,
+  p50: 0.8767676767676768,
+  p95: 1,
+  n: 1081
+}
 ```
 
 ## See also

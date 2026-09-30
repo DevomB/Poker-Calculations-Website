@@ -1,0 +1,84 @@
+---
+title: "Geometric sizing"
+sidebar_label: "Geometric sizing"
+sidebar_position: 6
+description: "Generate geometric bet sizes for committing a stack over remaining streets."
+api_functions: ["geometricStreetSizingPlan", "geometricPotAfterMatchedPotFractions", "geometricPotAfterSingleMatchedBet"]
+---
+
+# Geometric sizing
+
+<ApiFamilyHeader category="Stacks & sizing" suit="♦" functions={["geometricStreetSizingPlan","geometricPotAfterMatchedPotFractions","geometricPotAfterSingleMatchedBet"]} />
+
+## `geometricStreetSizingPlan` \{#geometricStreetSizingPlan\}
+Generate geometric bet sizes for committing a stack over remaining streets.
+
+```ts
+geometricStreetSizingPlan(pot: number, effectiveStack: number, streetsRemaining: number): Float64Array;
+```
+
+Use `geometricStreetSizingPlan` when you need to generate geometric bet sizes for committing a stack over remaining streets.
+
+```js title="Example"
+const poker = require('poker-calculations');
+// 10bb pot, 90bb behind, three streets to get it all in
+const plan = poker.geometricStreetSizingPlan(10, 90, 3);
+console.log(Array.from(plan, (x) => x.toFixed(3)));
+```
+
+```text title="Output"
+[ '8.342', '22.260', '59.398' ]
+```
+
+## `geometricPotAfterMatchedPotFractions` \{#geometricPotAfterMatchedPotFractions\}
+pot after `nRounds` of matched pot-fraction betting heads-up.
+
+```ts
+geometricPotAfterMatchedPotFractions(pot0: number, fraction: number, nRounds: number): number;
+```
+
+Model **geometric pot growth** when both players bet the same fraction of the pot each street (`pot0 × (1 + 2f)^n`). Useful for illustrating why deep stacks balloon pots and for planning stack-off lines.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const startPot = 10;
+const betFraction = 0.75; // each player bets 0.75× pot per round, both call
+const rounds = 3;
+
+const pot = poker.geometricPotAfterMatchedPotFractions(startPot, betFraction, rounds);
+console.log(pot); // 10 * (1 + 2*0.75)^3 = 10 * 2.5^3 = 156.25
+```
+
+```text title="Output"
+156.25
+```
+
+## `geometricPotAfterSingleMatchedBet` \{#geometricPotAfterSingleMatchedBet\}
+Pot after one matched bet/raise.
+
+```ts
+geometricPotAfterSingleMatchedBet(pot0: number, betSize: number): number;
+```
+
+Pot after **one** matched bet/raise: `pot0 + 2×betSize`. Single step of [`geometricPotAfterMatchedPotFractions`](/docs/reference/api/stacks-and-sizing/geometric-sizing#geometricPotAfterMatchedPotFractions).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pot0 = 100;
+const betSize = 40;
+
+console.log(poker.geometricPotAfterSingleMatchedBet(pot0, betSize)); // 180
+```
+
+```text title="Output"
+180
+```
+
+## See also
+
+- [`betAsPotFraction`](/docs/reference/api/stacks-and-sizing/bet-sizing#betAsPotFraction)
+- [`expectedValueRaise`](/docs/reference/api/pot-odds-and-ev/expected-value-raise#expectedValueRaise)
+- [`sprAfterCall`](/docs/reference/api/stacks-and-sizing/spr#sprAfterCall)
+- [`potSizeAfterHuBet`](/docs/reference/api/pot-odds-and-ev/pot-size#potSizeAfterHuBet)

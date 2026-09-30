@@ -1,0 +1,129 @@
+---
+title: "Kelly criterion"
+sidebar_label: "Kelly criterion"
+sidebar_position: 3
+description: "full Kelly for binary outcome, netOdds = net profit per unit staked when you win."
+api_functions: ["kellyCriterionBinary", "halfKellyCriterionBinary", "quarterKellyCriterionBinary", "eighthKellyCriterionBinary", "kellyCriterionBinaryClamped"]
+---
+
+# Kelly criterion
+
+<ApiFamilyHeader category="Statistics & bankroll" suit="♣" functions={["kellyCriterionBinary","halfKellyCriterionBinary","quarterKellyCriterionBinary","eighthKellyCriterionBinary","kellyCriterionBinaryClamped"]} />
+
+## `kellyCriterionBinary` \{#kellyCriterionBinary\}
+full Kelly for binary outcome, `netOdds` = net profit per unit staked when you win.
+
+```ts
+kellyCriterionBinary(winProbability: number, netOdds: number): number;
+```
+
+Size **+EV binary bets** with the Kelly fraction `(p·b − (1−p)) / b` where `b` is net odds received on a winning unit stake. Education tools and bankroll simulators use this before applying fractional Kelly discipline.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const winProb = 0.55;
+const netOdds = 1.0; // even money: win 1 per 1 staked
+
+const f = poker.kellyCriterionBinary(winProb, netOdds);
+console.log('Kelly fraction of bankroll:', f); // 0.1
+
+// 2:1 payout → netOdds = 2
+console.log(poker.kellyCriterionBinary(0.4, 2));
+```
+
+```text title="Output"
+Kelly fraction of bankroll: 0.10000000000000009
+0.10000000000000003
+```
+
+## `halfKellyCriterionBinary` \{#halfKellyCriterionBinary\}
+Half Kelly fraction, floored at 0.
+
+```ts
+halfKellyCriterionBinary(winProbability: number, netOdds: number): number;
+```
+
+Half-Kelly fraction for binary outcomes — common live-game discipline vs full [`kellyCriterionBinary`](/docs/reference/api/statistics/kelly#kellyCriterionBinary).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const p = 0.55;
+const b = 1;
+
+const full = poker.kellyCriterionBinary(p, b);
+const half = poker.halfKellyCriterionBinary(p, b);
+console.log(half); // max(0, full/2)
+```
+
+```text title="Output"
+0.050000000000000044
+```
+
+## `quarterKellyCriterionBinary` \{#quarterKellyCriterionBinary\}
+Quarter Kelly fraction.
+
+```ts
+quarterKellyCriterionBinary(winProbability: number, netOdds: number): number;
+```
+
+Quarter-Kelly stake fraction.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const p = 0.55;
+const b = 1;
+console.log(poker.quarterKellyCriterionBinary(p, b));
+```
+
+```text title="Output"
+0.025000000000000022
+```
+
+## `eighthKellyCriterionBinary` \{#eighthKellyCriterionBinary\}
+Eighth Kelly fraction.
+
+```ts
+eighthKellyCriterionBinary(winProbability: number, netOdds: number): number;
+```
+
+Eighth-Kelly stake fraction — very conservative sizing.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const p = 0.55;
+const b = 1;
+console.log(poker.eighthKellyCriterionBinary(p, b));
+```
+
+```text title="Output"
+0.012500000000000011
+```
+
+## `kellyCriterionBinaryClamped` \{#kellyCriterionBinaryClamped\}
+Full Kelly clamped to `[0,1]`.
+
+```ts
+kellyCriterionBinaryClamped(winProbability: number, netOdds: number): number;
+```
+
+Full Kelly clamped to `[0, 1]` so simulators never return negative or >100% bankroll fractions.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const f = poker.kellyCriterionBinaryClamped(0.9, 0.5);
+console.log(f); // in [0, 1]
+```
+
+```text title="Output"
+0.7000000000000001
+```
+
+## See also
+
+- [`riskOfRuinDiffusionApprox`](/docs/reference/api/statistics/risk-of-ruin#riskOfRuinDiffusionApprox)
+- [`chubukovSymmetricJamEv`](/docs/reference/api/solvers/chubukov#chubukovSymmetricJamEv)

@@ -1,34 +1,36 @@
 ---
-title: simulateEquityVsRange
-sidebar_position: 10
+title: "Equity vs a range"
+sidebar_label: "Equity vs a range"
+sidebar_position: 4
+description: "Monte Carlo equity vs weighted villain range."
+api_functions: ["simulateEquityVsRange"]
 ---
 
-# `simulateEquityVsRange`
+# Equity vs a range
 
-Monte Carlo equity vs a weighted villain range.
+<ApiFamilyHeader category="Monte Carlo equity" suit="♥" functions={["simulateEquityVsRange"]} />
 
-<div className="apiSignature">{`simulateEquityVsRange(heroHoleCards, boardCards, range, numSimulations, seed): number`}</div>
+## `simulateEquityVsRange` \{#simulateEquityVsRange\}
+Monte Carlo equity vs weighted villain range.
 
-## Import
-
-```js
-const poker = require('poker-calculations');
+```ts
+simulateEquityVsRange(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  range: Float64Array | SparseRangeSpec,
+  numSimulations: number,
+  seed: number
+): number;
 ```
-
-## When to use
 
 Use when exact enumeration is too heavy or the board is not yet complete for your exact path.
 
-## How to use
-
-```js
+```js title="Example"
 const poker = require('poker-calculations');
+const range = poker.rangeFromNotationWeights([{ notation: 'QQ', weight: 1 }, { notation: 'JJ', weight: 1 }, { notation: 'AKo', weight: 1 }]);
+console.log(poker.simulateEquityVsRange(['Ah', 'Kh'], ['Qh', 'Jh', '2c'], range, 20000, 42).toFixed(3));
+```
 
-const eq = poker.simulateEquityVsRange(
-  ['Ah', 'Kh'],
-  ['Qh', 'Jh', 'Th'],
-  { indices: [10, 11], weights: [1] },
-  10_000,
-  42,
-);
+```text title="Output"
+0.448
 ```

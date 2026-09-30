@@ -1,0 +1,180 @@
+---
+title: "Range algebra"
+sidebar_label: "Range algebra"
+sidebar_position: 2
+description: "Normalize a dense or sparse 1326-combo range into a dense probability vector."
+api_functions: ["normalizeSparseRange", "mergeSparseRanges", "intersectSparseRanges", "subtractSparseRange", "pruneRangeByMinWeight", "normalizedRangeWeightSum"]
+---
+
+# Range algebra
+
+<ApiFamilyHeader category="Ranges" suit="♦" functions={["normalizeSparseRange","mergeSparseRanges","intersectSparseRanges","subtractSparseRange","pruneRangeByMinWeight","normalizedRangeWeightSum"]} />
+
+## `normalizeSparseRange` \{#normalizeSparseRange\}
+Normalize a dense or sparse 1326-combo range into a dense probability vector.
+
+```ts
+normalizeSparseRange(range: SparseRangeSpec | Float64Array): Float64Array;
+```
+
+Use `normalizeSparseRange` when you need to normalize a dense or sparse 1326-combo range into a dense probability vector.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const result = poker.normalizeSparseRange(range, 5);
+console.log(result);
+```
+
+```text title="Output"
+Float64Array(1326) [
+  0.0007541478129713449, 0.0007541478129713449, 0.0007541478129713449,
+  0.0007541478129713449, 0.0007541478129713449, 0.0007541478129713449,
+  0.0007541478129713449, 0.0007541478129713449, 0.0007541478129713449,
+  0.0007541478129713449, 0.0007541478129713449, 0.0007541478129713449,
+  0.0007541478129713449, 0.0007541478129713449, 0.0007541478129713449,
+  0.0007541478129713449, 0.0007541478129713449, 0.0007541478129713449,
+  0.0007541478129713449, 0.0007541478129713449, 0.0007541478129713449,
+  0.0007541478129713449, 0.0007541478129713449, 0.0007541478129713449,
+  0.0007541478129713449, 0.0007541478129713449, 0.0007541478129713449,
+  0.0007541478129713449, 0.0007541478129713449, 0.0007541478129713449,
+  0.0007541478129713449, 0.0007541478129713449, 0.0007541478129713449,
+  0.0007541478129713449, 0.0007541478129713449, 0.0007541478129713449,
+  0.0007541478129713449, 0.0007541478129713449, 0.0007541478129713449,
+  0.0007541478129713449, 0.0007541478129713449, 0.0007541478129713449,
+  0.0007541478129713449, 0.0007541478129713449, 0.0007541478129713449,
+…
+```
+
+## `mergeSparseRanges` \{#mergeSparseRanges\}
+Blend two ranges with caller-supplied weights and normalize the result.
+
+```ts
+mergeSparseRanges(
+  a: SparseRangeSpec | Float64Array,
+  b: SparseRangeSpec | Float64Array,
+  weightA: number,
+  weightB: number
+): Float64Array;
+```
+
+Use `mergeSparseRanges` when you need to blend two ranges with caller-supplied weights and normalize the result.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const value = poker.rangeFromNotationWeights([{ notation: 'AA', weight: 1 }, { notation: 'KK', weight: 1 }]);
+const bluffs = poker.rangeFromNotationWeights([{ notation: 'A5s', weight: 1 }]);
+const mixed = poker.mergeSparseRanges(value, bluffs, 1, 0.5);
+console.log(poker.rangeTopCombos(mixed, 3));
+```
+
+```text title="Output"
+[
+  {
+    comboIndex: 581,
+    cardA: 12,
+    cardB: 48,
+    notation: 'A5s',
+    weight: 0.08333333333333334
+  },
+  {
+    comboIndex: 620,
+    cardA: 13,
+    cardB: 49,
+    notation: 'A5s',
+    weight: 0.08333333333333334
+  },
+  {
+…
+```
+
+## `intersectSparseRanges` \{#intersectSparseRanges\}
+Keep the overlapping mass between two villain ranges.
+
+```ts
+intersectSparseRanges(a: SparseRangeSpec | Float64Array, b: SparseRangeSpec | Float64Array): Float64Array;
+```
+
+Use `intersectSparseRanges` when you need to keep the overlapping mass between two villain ranges.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const a = poker.rangeFromNotationWeights([{ notation: 'AA', weight: 1 }, { notation: 'KK', weight: 1 }]);
+const b = poker.rangeFromNotationWeights([{ notation: 'KK', weight: 0.5 }, { notation: 'QQ', weight: 1 }]);
+const both = poker.intersectSparseRanges(a, b);
+console.log(poker.rangeComboCount(both)); // only KK survives
+```
+
+```text title="Output"
+6
+```
+
+## `subtractSparseRange` \{#subtractSparseRange\}
+Remove one weighted range from another and normalize the remaining mass.
+
+```ts
+subtractSparseRange(base: SparseRangeSpec | Float64Array, remove: SparseRangeSpec | Float64Array): Float64Array;
+```
+
+Use `subtractSparseRange` when you need to remove one weighted range from another and normalize the remaining mass.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const open = poker.rangeFromNotationWeights([{ notation: 'AA', weight: 1 }, { notation: 'KK', weight: 1 }, { notation: 'QQ', weight: 1 }]);
+const threeBet = poker.rangeFromNotationWeights([{ notation: 'AA', weight: 1 }]);
+const flat = poker.subtractSparseRange(open, threeBet);
+console.log(poker.rangeComboCount(flat)); // KK + QQ
+```
+
+```text title="Output"
+12
+```
+
+## `pruneRangeByMinWeight` \{#pruneRangeByMinWeight\}
+Drop low-weight range combos and return a compact sparse range.
+
+```ts
+pruneRangeByMinWeight(range: SparseRangeSpec | Float64Array, minWeight: number): SparseRangeSpec;
+```
+
+Use `pruneRangeByMinWeight` when you need to drop low-weight range combos and return a compact sparse range.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const result = poker.pruneRangeByMinWeight(range, 5);
+console.log(result);
+```
+
+```text title="Output"
+{ indices: [], weights: Float64Array(0) [] }
+```
+
+## `normalizedRangeWeightSum` \{#normalizedRangeWeightSum\}
+Sum of range weights.
+
+```ts
+normalizedRangeWeightSum(weights: F64VectorInput): number;
+```
+
+Sum of dense range weights — sanity check before normalizing or feeding subgame solvers.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const weights = new Float64Array([0.5, 0, 1.2, 0.3]);
+console.log(poker.normalizedRangeWeightSum(weights)); // 2.0
+```
+
+```text title="Output"
+2
+```
+
+## See also
+
+- [`materializeVillainRangeAfterBlockers`](/docs/reference/api/ranges/range-blockers#materializeVillainRangeAfterBlockers)
+- [Sparse range input](/docs/concepts/sparse-range-input)

@@ -1,0 +1,67 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: -0.5rem 0 2rem;
+}
+
+.category {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  align-self: flex-start;
+  padding: 0.2rem 0.7rem 0.2rem 0.55rem;
+  border: 1px solid var(--poker-border);
+  border-radius: 999px;
+  background: var(--poker-bg-elevated);
+  color: var(--poker-text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.suitRed,
+.suitBlack {
+  display: inline-grid;
+  place-items: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  background: var(--poker-card-face);
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.suitRed {
+  color: var(--poker-suit-red);
+}
+
+.suitBlack {
+  color: var(--poker-suit-black);
+}
+
+.jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.fn {
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--poker-border);
+  border-radius: 6px;
+  background: rgba(212, 175, 55, 0.05);
+  color: var(--poker-gold-400);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.78rem;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.fn:hover {
+  border-color: var(--poker-gold-600);
+  background: rgba(212, 175, 55, 0.12);
+  color: var(--poker-gold-300);
+  text-decoration: none;
+}

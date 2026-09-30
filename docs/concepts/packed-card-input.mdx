@@ -28,11 +28,13 @@ This matches the internal layout used by exact-equity enumeration in the native 
 const encode = require('poker-calculations/encode');
 
 const packed = encode.packCards(['Ah', 'Kh', 'Qh']);
-const strings = encode.unpackCards(packed);
-const id = encode.cardStringToDeckIndex('Ah'); // 50
-const card = encode.deckIndexToCardString(50); // 'Ah'
-const stateBytes = encode.packPokerState(gameState);
-const stateObj = encode.unpackPokerState(stateBytes);
+console.log(packed, encode.unpackCards(packed));
+console.log(encode.cardStringToDeckIndex('Ah'), encode.deckIndexToCardString(50));
+```
+
+```text title="Output"
+Uint8Array(3) [ 50, 46, 42 ] [ 'Ah', 'Kh', 'Qh' ]
+50 Ah
 ```
 
 Pre-pack once in your app, then pass `Uint8Array` into hot paths (`simulateHandOutcome`, `evaluateHandStrength`, `exactHuEquityVsRandomHand`, `decideAction` state, etc.) to avoid per-card string parsing at the N-API boundary.
@@ -41,7 +43,11 @@ You can also obtain packed bytes directly from compact text:
 
 ```js
 const poker = require('poker-calculations');
-const packed = poker.parseCompactCardList('AhKhQh', { outFormat: 'packed' });
+console.log(poker.parseCompactCardList('AhKhQh', { outFormat: 'packed' }));
+```
+
+```text title="Output"
+Uint8Array(3) [ 50, 46, 42 ]
 ```
 
 ## TypeScript

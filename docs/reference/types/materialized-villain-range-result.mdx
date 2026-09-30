@@ -5,7 +5,7 @@ sidebar_position: 25
 
 # `MaterializedVillainRangeResult`
 
-Returned by [`materializeVillainRangeAfterBlockers`](/docs/reference/api/subgame-theory/materialize-villain-range-after-blockers) and [`bayesianRangeUpdateFromAction`](/docs/reference/api/subgame-theory/bayesian-range-update-from-action).
+Returned by [`materializeVillainRangeAfterBlockers`](/docs/reference/api/ranges/range-blockers#materializeVillainRangeAfterBlockers) and `bayesianRangeUpdateFromAction`.
 
 | Field | Type | Meaning |
 | --- | --- | --- |
@@ -35,6 +35,14 @@ const { weights1326, liveComboCount, weightSum, shannonEntropy } =
     ['Qh', 'Jh', '2c'],
   );
 console.log({ liveComboCount, weightSum, shannonEntropy });
+```
+
+```text title="Output"
+{
+  liveComboCount: 1081,
+  weightSum: 0.8152337858220184,
+  shannonEntropy: 6.985641817639109
+}
 ```
 
 ## See also

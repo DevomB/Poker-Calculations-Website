@@ -32,13 +32,9 @@ import type { CardInput, NativePokerState } from 'poker-calculations';
 
 | Type | Doc |
 | --- | --- |
-| [`IcmShapleyValuesOptions`](/docs/reference/types/icm-shapley-values-options) | Options for `icmShapleyValues` |
-| [`IcmShapleyValuesResult`](/docs/reference/types/icm-shapley-values-result) | Shapley fair-share $EV |
-| [`IcmFieldPressureIndexResult`](/docs/reference/types/icm-field-pressure-index-result) | Field-wide bubble pressure |
 | [`IcmChopParetoPair`](/docs/reference/types/icm-chop-pareto-pair) | Directed surplus transfer edge |
 | [`IcmChopNegotiationAnalysisResult`](/docs/reference/types/icm-chop-negotiation-analysis-result) | Chip chop vs ICM surplus |
 | [`TournamentDuelAbsorptionResult`](/docs/reference/types/tournament-duel-absorption-result) | HU absorption time and prize EV |
-| [`SidePotLayerTournamentEvRow`](/docs/reference/types/side-pot-layer-tournament-ev-row) | Per-layer chip and ICM EV |
 
 ## Exact runouts and subgame
 
@@ -50,9 +46,7 @@ import type { CardInput, NativePokerState } from 'poker-calculations';
 | [`HeroEquityRunoutQuantilesResult`](/docs/reference/types/hero-equity-runout-quantiles-result) | Runout equity distribution |
 | [`CardRemovalGradientResult`](/docs/reference/types/card-removal-gradient-result) | 52-vector equity sensitivity |
 | [`RiverIndifferenceBetResult`](/docs/reference/types/river-indifference-bet-result) | Polarized river indifference bet |
-| [`StageMinimaxRegretBetResult`](/docs/reference/types/stage-minimax-regret-bet-result) | Minimax regret over bet grid |
 | [`PushFoldThresholdResult`](/docs/reference/types/push-fold-threshold-result) | Symmetric push/fold threshold |
-| [`MultiwayIndependenceGapResult`](/docs/reference/types/multiway-independence-gap-result) | Multiway vs independence gap |
 
 ## Options and batch specs
 
@@ -72,9 +66,9 @@ import type { CardInput, NativePokerState } from 'poker-calculations';
 | `F64VectorInput` | [Float64 ICM input](/docs/concepts/float64-icm-input) |
 | `F64ReturnFormat` | [Float64 ICM input](/docs/concepts/float64-icm-input) |
 | `PokerStateBytes` | [Packed poker state](/docs/concepts/packed-poker-state) |
-| `EvaluateBestHandOptions` | [`evaluateBestHand`](/docs/reference/api/hands-and-equity/evaluate-best-hand) |
-| `ParseCompactCardListOptions` | [`parseCompactCardList`](/docs/reference/api/hands-and-equity/parse-compact-card-list) |
-| `CompareBestHandsOptions` | [`compareBestHands`](/docs/reference/api/hands-and-equity/compare-best-hands) |
+| `EvaluateBestHandOptions` | [`evaluateBestHand`](/docs/reference/api/hand-evaluation/evaluate-best-hand#evaluateBestHand) |
+| `ParseCompactCardListOptions` | [`parseCompactCardList`](/docs/reference/api/hand-evaluation/card-strings#parseCompactCardList) |
+| `CompareBestHandsOptions` | [`compareBestHands`](/docs/reference/api/hand-evaluation/compare-best-hands#compareBestHands) |
 
 ## Range, texture, and diagnostics
 
@@ -83,17 +77,8 @@ import type { CardInput, NativePokerState } from 'poker-calculations';
 | [`RangeComboWeight`](/docs/reference/types/range-combo-weight) | Combo index, cards, notation, and weight in range listings |
 | [`RangeNotationWeight`](/docs/reference/types/range-notation-weight) | Notation label and weight in bucket builders |
 | [`RangeClassWeights`](/docs/reference/types/range-class-weights) | Preflop class bucket masses (pairs, broadways, connectors, …) |
-| [`BoardTextureResult`](/docs/reference/types/board-texture-result) | Pairedness, wetness, staticness, and related board scores |
-| [`CardScore`](/docs/reference/types/card-score) | Deck index, card string, and score for ranked card lists |
-| [`EquityDistributionResult`](/docs/reference/types/equity-distribution-result) | Mean, variance, and p05/p50/p95 equity quantiles |
-| [`RangeCoverageResult`](/docs/reference/types/range-coverage-result) | Made-hand, draw, overcard, and air shares on a board |
-| [`EvGridRow`](/docs/reference/types/ev-grid-row) | One bet-size row in a sizing EV grid |
-| [`EvGridResult`](/docs/reference/types/ev-grid-result) | Full sizing grid with best bet and best EV |
-| [`OpponentBiasResult`](/docs/reference/types/opponent-bias-result) | Showdown frequency and bias estimates |
 | [`LegalActionSummaryResult`](/docs/reference/types/legal-action-summary-result) | Legal flags and raise bounds for a state |
 | [`PokerStateValidationResult`](/docs/reference/types/poker-state-validation-result) | `valid` flag and structured error strings |
 | [`ActionEvBreakdownResult`](/docs/reference/types/action-ev-breakdown-result) | Fold/check/call/raise EV and equity |
 | [`DecisionDiagnosticResult`](/docs/reference/types/decision-diagnostic-result) | Decision plus legality, EV, and reason |
-| [`DecisionFactor`](/docs/reference/types/decision-factor) | Named weighted factor behind a policy choice |
-| [`CandidateAction`](/docs/reference/types/candidate-action) | One legal or candidate action with raise amount |
 

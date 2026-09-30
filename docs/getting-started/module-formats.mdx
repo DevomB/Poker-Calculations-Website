@@ -24,8 +24,11 @@ The package publishes a CommonJS entry (`index.js`); use `createRequire` in nati
 
 ```js
 const encode = require('poker-calculations/encode');
-const packed = encode.packCards(['Ah', 'Kh']);
-const stateBytes = encode.packPokerState(gameState);
+console.log(encode.packCards(['Ah', 'Kh']));
+```
+
+```text title="Output"
+Uint8Array(2) [ 50, 46 ]
 ```
 
 Types: `import type { Card52 } from 'poker-calculations'`; encode helpers are documented under [Packed card input](/docs/concepts/packed-card-input).

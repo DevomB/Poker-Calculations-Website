@@ -1,0 +1,41 @@
+---
+title: "Open-raise fold equity"
+sidebar_label: "Open-raise fold equity"
+sidebar_position: 6
+description: "Fold equity needed to profit open-raising air."
+api_functions: ["openRaiseBreakevenFoldEquity"]
+---
+
+# Open-raise fold equity
+
+<ApiFamilyHeader category="GTO & fold equity" suit="♣" functions={["openRaiseBreakevenFoldEquity"]} />
+
+## `openRaiseBreakevenFoldEquity` \{#openRaiseBreakevenFoldEquity\}
+Fold equity needed to profit open-raising air.
+
+```ts
+openRaiseBreakevenFoldEquity(potBeforeHeroBet: number, heroOpenRaiseSize: number): number;
+```
+
+Fold equity needed to profit open-raising pure air — same as [`breakevenFoldEquityPureBluff`](/docs/reference/api/gto-and-fold-equity/pure-bluff#breakevenFoldEquityPureBluff).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pot = 15; // blinds
+const openSize = 25;
+
+console.log(
+  poker.openRaiseBreakevenFoldEquity(pot, openSize),
+  poker.breakevenFoldEquityPureBluff(pot, openSize),
+);
+```
+
+```text title="Output"
+0.625 0.625
+```
+
+## See also
+
+- [`breakevenFoldEquityPureBluff`](/docs/reference/api/gto-and-fold-equity/pure-bluff#breakevenFoldEquityPureBluff)
+- [`expectedValueRaise`](/docs/reference/api/pot-odds-and-ev/expected-value-raise#expectedValueRaise)

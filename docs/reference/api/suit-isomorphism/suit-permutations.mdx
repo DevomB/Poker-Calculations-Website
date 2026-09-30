@@ -1,0 +1,47 @@
+---
+title: "Suit permutations"
+sidebar_label: "Suit permutations"
+sidebar_position: 2
+description: "Apply a 4-suit perm to any card list; input order is preserved."
+api_functions: ["applySuitPermToCards", "applySuitPermToRange1326"]
+---
+
+# Suit permutations
+
+<ApiFamilyHeader category="Suit isomorphism" suit="♣" functions={["applySuitPermToCards","applySuitPermToRange1326"]} />
+
+## `applySuitPermToCards` \{#applySuitPermToCards\}
+Apply a 4-suit perm to any card list; input order is preserved.
+
+```ts
+applySuitPermToCards(cards: CardInput, perm: number[]): string[];
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const perm = poker.suitPermFromCanonicalFlop(['Kh', '7h', '2d']);
+console.log(poker.applySuitPermToCards(['Ah', 'Qh', 'Ts'], perm));
+```
+
+```text title="Output"
+[ 'Ad', 'Qd', 'Ts' ]
+```
+
+## `applySuitPermToRange1326` \{#applySuitPermToRange1326\}
+Permute a dense 1326 range through the suit map. Total mass is preserved.
+
+```ts
+applySuitPermToRange1326(range: Float64Array, perm: number[]): Float64Array;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const perm = poker.suitPermFromCanonicalFlop(['Kh', '7h', '2d']);
+const range = poker.rangeFromNotationWeights([{ notation: 'AKs', weight: 1 }]);
+const mapped = poker.applySuitPermToRange1326(range, perm);
+console.log(mapped.reduce((a, b) => a + b, 0)); // mass is preserved
+```
+
+```text title="Output"
+1
+```

@@ -1,0 +1,77 @@
+---
+title: "Bot config"
+sidebar_label: "Bot config"
+sidebar_position: 5
+description: "Fill and clamp bot configuration fields to native defaults."
+api_functions: ["normalizeBotConfig"]
+---
+
+# Bot config
+
+<ApiFamilyHeader category="Bots & game state" suit="♥" functions={["normalizeBotConfig"]} />
+
+## `normalizeBotConfig` \{#normalizeBotConfig\}
+Fill and clamp bot configuration fields to native defaults.
+
+```ts
+normalizeBotConfig(config: Partial<NativeBotConfig>): NativeBotConfig;
+```
+
+<details>
+<summary>Types: <code>NativeBotConfig</code></summary>
+
+```ts
+interface NativeBotConfig {
+  aggressionThreshold?: number;
+  riskTolerance?: number;
+  monteCarloSimulations?: number;
+  monteCarloVillains?: number;
+  raisePotFraction?: number;
+  opponentAggressionWeight?: number;
+  rngSeed?: number;
+}
+```
+
+Field notes: [`NativeBotConfig`](/docs/reference/types/native-bot-config)
+
+</details>
+
+Use `normalizeBotConfig` when you need to fill and clamp bot configuration fields to native defaults.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const state = {
+  players: [
+    {holeCards: ['Ah', 'Kh'], stack: 200, seat: 0, committedThisStreet: 0},
+    {holeCards: ['7c', '7d'], stack: 180, seat: 1, folded: false},
+  ],
+  communityCards: ['Qh', 'Jh', '2c'],
+  phase: 'flop',
+  pot: 30,
+  currentBet: 10,
+  smallBlind: 1,
+  bigBlind: 2,
+  actingIndex: 0,
+  actedThisStreet: [false, true],
+};
+
+const result = poker.normalizeBotConfig(state, {monteCarloSimulations: 0});
+console.log(result);
+```
+
+```text title="Output"
+{
+  aggressionThreshold: 0.550000011920929,
+  riskTolerance: 0.9200000166893005,
+  monteCarloSimulations: 800,
+  monteCarloVillains: 1,
+  raisePotFraction: 0.550000011920929,
+  opponentAggressionWeight: 0.05000000074505806,
+  rngSeed: 2463534242
+}
+```
+
+## See also
+
+- [`decideAction`](/docs/reference/api/bots/decide-action#decideAction)
+- [NativePokerState](/docs/reference/types/native-poker-state)

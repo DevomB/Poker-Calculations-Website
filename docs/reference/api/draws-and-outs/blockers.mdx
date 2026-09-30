@@ -1,0 +1,57 @@
+---
+title: "Blockers"
+sidebar_label: "Blockers"
+sidebar_position: 6
+description: "Scale outs by blocker fraction."
+api_functions: ["blockerAdjustedOuts", "suitBlockerFraction"]
+---
+
+# Blockers
+
+<ApiFamilyHeader category="Draws & outs" suit="♥" functions={["blockerAdjustedOuts","suitBlockerFraction"]} />
+
+## `blockerAdjustedOuts` \{#blockerAdjustedOuts\}
+Scale outs by blocker fraction.
+
+```ts
+blockerAdjustedOuts(outs: number, blockerFraction: number): number;
+```
+
+Scale a raw out count down when villains block part of your outs (`outs × (1 - blockerFraction)`), clamped to `[0, outs]`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const rawOuts = 9;
+const blockerFraction = 0.15; // ~15% of outs blocked
+
+const adj = poker.blockerAdjustedOuts(rawOuts, blockerFraction);
+console.log(adj); // 9 * 0.85 = 7.65
+```
+
+```text title="Output"
+7.6499999999999995
+```
+
+## `suitBlockerFraction` \{#suitBlockerFraction\}
+Dead suit cards divided by unseen.
+
+```ts
+suitBlockerFraction(suitCardsDead: number, unseen: number): number;
+```
+
+Fraction of unseen cards that are dead in a given suit — input to [`blockerAdjustedOuts`](/docs/reference/api/draws-and-outs/blockers#blockerAdjustedOuts).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const suitCardsDead = 3; // e.g. two hearts in villain range + one on board
+const unseen = 44;
+
+const frac = poker.suitBlockerFraction(suitCardsDead, unseen);
+console.log(frac); // 3/44
+```
+
+```text title="Output"
+0.06818181818181818
+```

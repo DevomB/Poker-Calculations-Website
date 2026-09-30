@@ -1,37 +1,32 @@
 ---
-title: parallelHandSimulation
-sidebar_position: 8
+title: "Threaded simulation"
+sidebar_label: "Threaded simulation"
+sidebar_position: 2
+description: "Same with worker threads and distinct seeds per chunk."
+api_functions: ["parallelHandSimulation", "parallelHandSimulationAsync"]
 ---
 
-# `parallelHandSimulation`
+# Threaded simulation
 
+<ApiFamilyHeader category="Monte Carlo equity" suit="♥" functions={["parallelHandSimulation","parallelHandSimulationAsync"]} />
+
+## `parallelHandSimulation` \{#parallelHandSimulation\}
 Same with worker threads and distinct seeds per chunk.
 
-<div className="apiSignature">{`parallelHandSimulation(holeCards: CardInput, board: CardInput, numSimulations: number, baseSeed: number, villains: number, numThreads: number): number`}</div>
-
-`CardInput` is `string[]` or `Uint8Array` of deck ids `0..51`. See [Card notation](/docs/concepts/card-notation).
-
-## Import
-
-```js
-const poker = require('poker-calculations');
+```ts
+parallelHandSimulation(
+  holeCards: CardInput,
+  board: CardInput,
+  numSimulations: number,
+  baseSeed: number,
+  villains: number,
+  numThreads: number
+): number;
 ```
-
-ESM (Node):
-
-```js
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const poker = require('poker-calculations');
-```
-
-## When to use
 
 Use on multi-core servers when `simulateHandOutcome` is CPU-bound and you want the same MC model with higher throughput. Each thread advances `baseSeed` so chunks stay independent.
 
-## How to use
-
-```js
+```js title="Example"
 const poker = require('poker-calculations');
 
 const equity = poker.parallelHandSimulation(
@@ -45,8 +40,50 @@ const equity = poker.parallelHandSimulation(
 console.log(equity.toFixed(4));
 ```
 
+```text title="Output"
+0.6682
+```
+
 Board length may be 0–5; known cards must not overlap between hero and board.
+
+## `parallelHandSimulationAsync` \{#parallelHandSimulationAsync\}
+Same as `parallelHandSimulation`; runs on the libuv thread pool (non-blocking).
+
+```ts
+parallelHandSimulationAsync(
+  holeCards: CardInput,
+  board: CardInput,
+  numSimulations: number,
+  baseSeed: number,
+  villains: number,
+  numThreads: number,
+  options?: AsyncOptions
+): Promise<number>;
+```
+
+Non-blocking version of [`parallelHandSimulation`](/docs/reference/api/monte-carlo/parallel-hand-simulation#parallelHandSimulation). Optional [`AsyncOptions`](/docs/reference/types/async-options) cancel long runs via `AbortSignal`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const hole = ['Ah', 'Kh'];
+const board = ['Qh', 'Jh', '2c'];
+const eq = await poker.parallelHandSimulationAsync(hole, board, 20_000, 99, 1, 4);
+console.log(eq.toFixed(3));
+
+// Cancel a long run with an AbortSignal
+const ac = new AbortController();
+const pending = poker.parallelHandSimulationAsync(hole, board, 5_000_000, 99, 1, 4, { signal: ac.signal });
+ac.abort();
+await pending.catch((e) => console.log(e.name)); // AbortError
+```
+
+```text title="Output"
+0.760
+AbortError
+```
 
 ## See also
 
-[`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome) · [`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand)
+- [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcome)
+- [`exactHuEquityVsRandomHand`](/docs/reference/api/exact-equity/exact-hu-vs-random-hand#exactHuEquityVsRandomHand)
+- [AsyncOptions](/docs/reference/types/async-options)

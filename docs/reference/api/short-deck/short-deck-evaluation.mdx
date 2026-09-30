@@ -1,0 +1,121 @@
+---
+title: "Short deck evaluation"
+sidebar_label: "Short deck evaluation"
+sidebar_position: 1
+description: "Short Deck / 6+ Hold'em."
+api_functions: ["evaluateShortDeckBestHand", "evaluateShortDeckHandStrength", "evaluateShortDeckCategory", "shortDeckStraightIsWheel", "shortDeckVsHoldemCategoryFlip"]
+---
+
+# Short deck evaluation
+
+<ApiFamilyHeader category="Short deck" suit="♥" functions={["evaluateShortDeckBestHand","evaluateShortDeckHandStrength","evaluateShortDeckCategory","shortDeckStraightIsWheel","shortDeckVsHoldemCategoryFlip"]} />
+
+## `evaluateShortDeckBestHand` \{#evaluateShortDeckBestHand\}
+Short Deck / 6+ Hold'em. 36-card deck (ranks 6–A). Ranks 2–5 are rejected. Flush beats full house. Wheel is A6789 (not A2345). `rankCategory` uses 6+ order (fullHouse=5, flush=6), not NLHE order.
+
+```ts
+evaluateShortDeckBestHand(cards: CardInput): HandEvalResult;
+```
+
+<details>
+<summary>Types: <code>HandEvalResult</code></summary>
+
+```ts
+interface HandEvalResult {
+  /** Category label (interned at module load). */
+  rank: string;
+  /** 0..9 — same order as `handRankCategoryOrder` / `highCard` … `royalFlush`. */
+  rankCategory: number;
+  /** Same bit layout as `evaluateHandStrength` (`pack_hand_strength`). */
+  strength: number;
+  /** Five encoded kicker values (tie-break order); omitted when `format: 'slim'`. */
+  kickers: number[];
+}
+```
+
+Field notes: [`HandEvalResult`](/docs/reference/types/hand-eval-result)
+
+</details>
+
+Six-plus hold'em on the 36-card deck: a flush beats a full house and A-6-7-8-9 is the low straight.
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.evaluateShortDeckBestHand(['Ah', '6c', '7d', '8s', '9h', 'Kc', 'Qd']));
+```
+
+```text title="Output"
+{
+  rankCategory: 4,
+  strength: 67567616,
+  rank: 'straight',
+  kickers: [ 7, 0, 0, 0, 0 ]
+}
+```
+
+## `evaluateShortDeckHandStrength` \{#evaluateShortDeckHandStrength\}
+Encoded 6+ strength (flush ordinal above boat). Hole + board, 1–7 cards total.
+
+```ts
+evaluateShortDeckHandStrength(holeCards: CardInput, board: CardInput): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const flush = poker.evaluateShortDeckHandStrength(['Ah', 'Kh'], ['Qh', '9h', '7h', '6c', '6d']);
+const boat = poker.evaluateShortDeckHandStrength(['Qs', 'Qd'], ['Qh', '9h', '7h', '9c', '6d']);
+console.log(flush > boat); // true in short deck
+```
+
+```text title="Output"
+true
+```
+
+## `evaluateShortDeckCategory` \{#evaluateShortDeckCategory\}
+6+ category label (`highCard` … `royalFlush`); flush still named `flush`.
+
+```ts
+evaluateShortDeckCategory(holeCards: CardInput, board: CardInput): string;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.evaluateShortDeckCategory(['Ah', '6c'], ['7d', '8s', '9h']));
+```
+
+```text title="Output"
+straight
+```
+
+## `shortDeckStraightIsWheel` \{#shortDeckStraightIsWheel\}
+True when five cards are the A6789 wheel (straight or wheel straight flush).
+
+```ts
+shortDeckStraightIsWheel(cards: CardInput): boolean;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.shortDeckStraightIsWheel(['Ah', '6c', '7d', '8s', '9h']));
+```
+
+```text title="Output"
+true
+```
+
+## `shortDeckVsHoldemCategoryFlip` \{#shortDeckVsHoldemCategoryFlip\}
+True when NLHE vs 6+ **category labels** differ for the same 5–7 cards (all 6+). Wheel A6789 is the usual flip (`highCard`/`flush` vs `straight`/`straightFlush`). Flush vs boat does not rename a single hand; it only swaps which wins at showdown.
+
+```ts
+shortDeckVsHoldemCategoryFlip(cards: CardInput): boolean;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+// A-6-7-8-9 is a straight in short deck but ace-high in hold'em
+console.log(poker.shortDeckVsHoldemCategoryFlip(['Ah', '6c', '7d', '8s', '9h']));
+```
+
+```text title="Output"
+true
+```

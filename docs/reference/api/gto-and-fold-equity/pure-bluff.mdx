@@ -1,0 +1,108 @@
+---
+title: "Pure bluff"
+sidebar_label: "Pure bluff"
+sidebar_position: 3
+description: "FE when equity if called is 0."
+api_functions: ["breakevenFoldEquityPureBluff", "breakevenFoldEquityPureBluffWithRake", "breakevenFoldEquityPureBluffWithAnte"]
+---
+
+# Pure bluff
+
+<ApiFamilyHeader category="GTO & fold equity" suit="♣" functions={["breakevenFoldEquityPureBluff","breakevenFoldEquityPureBluffWithRake","breakevenFoldEquityPureBluffWithAnte"]} />
+
+## `breakevenFoldEquityPureBluff` \{#breakevenFoldEquityPureBluff\}
+FE when equity if called is 0.
+
+```ts
+breakevenFoldEquityPureBluff(potBeforeHeroBet: number, heroBetOrCallSize: number): number;
+```
+
+Pure air: how often villain must **fold** for your bet to break even if you always lose when called. Compare to population fold-to-bet stats or `betaBinomialFoldPosterior` beliefs.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pot = 100;
+const bet = 66;
+
+const fe = poker.breakevenFoldEquityPureBluff(pot, bet);
+console.log(fe); // ≈ bet / (pot + bet)
+
+const alpha = poker.alphaFrequency(pot, bet);
+console.log('alpha matches pure-bluff BE:', alpha);
+```
+
+```text title="Output"
+0.39759036144578314
+alpha matches pure-bluff BE: 0.39759036144578314
+```
+
+## `breakevenFoldEquityPureBluffWithRake` \{#breakevenFoldEquityPureBluffWithRake\}
+pure-bluff breakeven FE when fold wins `pot+bet` minus rake on shipped pot.
+
+```ts
+breakevenFoldEquityPureBluffWithRake(
+  potBeforeHeroBet: number,
+  heroBetOrCallSize: number,
+  rakeFraction: number,
+  rakeCap: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pot = 100;
+const bet = 70;
+const rakeFraction = 0.05;
+const rakeCap = 4;
+
+const fe = poker.breakevenFoldEquityPureBluffWithRake(
+  pot,
+  bet,
+  rakeFraction,
+  rakeCap
+);
+console.log(fe);
+
+console.log(poker.breakevenFoldEquityPureBluff(pot, bet));
+```
+
+```text title="Output"
+0.2966101694915254
+0.4117647058823529
+```
+
+## `breakevenFoldEquityPureBluffWithAnte` \{#breakevenFoldEquityPureBluffWithAnte\}
+Pure-bluff fold equity with ante in won pot.
+
+```ts
+breakevenFoldEquityPureBluffWithAnte(
+  potBeforeHeroBet: number,
+  heroBetOrCallSize: number,
+  anteToPost: number
+): number;
+```
+
+Pure-bluff fold equity when hero still posts an **ante** into the won pot.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const pot = 100;
+const bet = 50;
+const ante = 5;
+
+const fe = poker.breakevenFoldEquityPureBluffWithAnte(pot, bet, ante);
+const fe0 = poker.breakevenFoldEquityPureBluff(pot, bet);
+console.log({ fe, fe0 });
+```
+
+```text title="Output"
+{ fe: 0.3548387096774194, fe0: 0.3333333333333333 }
+```
+
+## See also
+
+- [`twoStreetPureBluffEv`](/docs/reference/api/gto-and-fold-equity/multi-street-bluffs#twoStreetPureBluffEv)
+- [`breakevenCallEquityWithRake`](/docs/reference/api/pot-odds-and-ev/rake#breakevenCallEquityWithRake)

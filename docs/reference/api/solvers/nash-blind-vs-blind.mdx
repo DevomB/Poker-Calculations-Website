@@ -1,0 +1,73 @@
+---
+title: "Nash blind vs blind"
+sidebar_label: "Nash blind vs blind"
+sidebar_position: 6
+description: "SB vs BB jam/fold (SB blind is dead in the pot)."
+api_functions: ["nashBlindVsBlindSolve"]
+---
+
+# Nash blind vs blind
+
+<ApiFamilyHeader category="Solvers" suit="♠" functions={["nashBlindVsBlindSolve"]} />
+
+## `nashBlindVsBlindSolve` \{#nashBlindVsBlindSolve\}
+SB vs BB jam/fold (SB blind is dead in the pot). Same solve as HU Nash; complete-or-jam is not modeled.
+
+```ts
+nashBlindVsBlindSolve(
+  stackBbOrOptions: number | NashPushFoldOptions,
+  smallBlind?: number,
+  bigBlind?: number,
+  ante?: number
+): NashJamCallSolveResult;
+```
+
+<details>
+<summary>Types: <code>NashJamCallSolveResult</code>, <code>NashPushFoldOptions</code></summary>
+
+```ts
+interface NashJamCallSolveResult {
+  jam: Float64Array;
+  call: Float64Array;
+  heroEv: number;
+  villainEv: number;
+  iterations: number;
+}
+
+interface NashPushFoldOptions {
+  stackBb?: number;
+  heroStack?: number;
+  villainStack?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  /** Total ante already in the pot (chips). */
+  ante?: number;
+  maxIterations?: number;
+  tolerance?: number;
+  equityIterations?: number;
+  equitySeed?: number;
+  otherStacks?: F64VectorInput;
+  payouts?: F64VectorInput;
+  maxStackBb?: number;
+  nOpponents?: number;
+  stacks?: F64VectorInput;
+  shoverStack?: number;
+  callerStacks?: F64VectorInput;
+}
+
+/** 81-class 6+ range: notations, notation-weight map, or Float64Array 81 / 169 (2–5 weights must be 0). */
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const r = poker.nashBlindVsBlindSolve({ stackBb: 12, ante: 0.1, equityIterations: 60 });
+const share = (v) => (v.reduce((a, b) => a + b, 0) / v.length).toFixed(2);
+console.log({ sbJams: share(r.jam), bbCalls: share(r.call) });
+```
+
+```text title="Output"
+{ sbJams: '0.66', bbCalls: '0.37' }
+```

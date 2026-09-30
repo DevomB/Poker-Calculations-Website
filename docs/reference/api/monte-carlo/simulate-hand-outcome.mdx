@@ -1,37 +1,31 @@
 ---
-title: simulateHandOutcome
-sidebar_position: 11
+title: "Simulate a hand"
+sidebar_label: "Simulate a hand"
+sidebar_position: 1
+description: "Estimated equity vs one or more random villain hands (default villains = 1)."
+api_functions: ["simulateHandOutcome", "simulateHandOutcomeAsync", "simulateHandOutcomeDetailed"]
 ---
 
-# `simulateHandOutcome`
+# Simulate a hand
 
+<ApiFamilyHeader category="Monte Carlo equity" suit="♥" functions={["simulateHandOutcome","simulateHandOutcomeAsync","simulateHandOutcomeDetailed"]} />
+
+## `simulateHandOutcome` \{#simulateHandOutcome\}
 Estimated equity vs one or more random villain hands (default `villains = 1`).
 
-<div className="apiSignature">{`simulateHandOutcome(holeCards: CardInput, board: CardInput, numSimulations: number, seed: number, villains?: number): number`}</div>
-
-`CardInput` is `string[]` or `Uint8Array` of deck ids `0..51`. See [Card notation](/docs/concepts/card-notation).
-
-## Import
-
-```js
-const poker = require('poker-calculations');
+```ts
+simulateHandOutcome(
+  holeCards: CardInput,
+  board: CardInput,
+  numSimulations: number,
+  seed: number,
+  villains?: number
+): number;
 ```
-
-ESM (Node):
-
-```js
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const poker = require('poker-calculations');
-```
-
-## When to use
 
 Use when you need fast equity estimates on partial or full boards and exact enumeration would be too slow—trainers, bots, and range studies. Fix `seed` (and `numSimulations`) when you need reproducible numbers across runs.
 
-## How to use
-
-```js
+```js title="Example"
 const poker = require('poker-calculations');
 
 const equity = poker.simulateHandOutcome(
@@ -44,12 +38,90 @@ const equity = poker.simulateHandOutcome(
 console.log(equity.toFixed(4));
 ```
 
-Increase `numSimulations` until the standard error is acceptable; pair with [`monteCarloStandardError`](/docs/reference/api/statistics-and-risk/monte-carlo-standard-error).
+```text title="Output"
+0.7658
+```
+
+Increase `numSimulations` until the standard error is acceptable; pair with [`monteCarloStandardError`](/docs/reference/api/statistics/monte-carlo-error#monteCarloStandardError).
 
 ### Showdown scoring
 
 With `villains = 1`, equity is heads-up win/chop/loss style over trials. With `villains > 1`, when hero ties for the best hand, hero receives **`1 / tiedAtBest`** of the pot share for that trial. See [Numerical semantics](/docs/concepts/numerical-semantics#showdown-equity).
 
+## `simulateHandOutcomeAsync` \{#simulateHandOutcomeAsync\}
+Same as `simulateHandOutcome`; runs on the libuv thread pool (non-blocking).
+
+```ts
+simulateHandOutcomeAsync(
+  holeCards: CardInput,
+  board: CardInput,
+  numSimulations: number,
+  seed: number,
+  villains?: number,
+  options?: AsyncOptions
+): Promise<number>;
+```
+
+Same as [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcome), but the work runs on the libuv thread pool so your event loop stays responsive—HTTP servers, Electron, and batch UIs.
+
+Pass optional [`AsyncOptions`](/docs/reference/types/async-options) to cancel long runs via `AbortSignal`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const eq = await poker.simulateHandOutcomeAsync(['Ah', 'Kh'], ['Qh', 'Jh', '2c'], 20000, 42, 1);
+console.log(eq.toFixed(3));
+```
+
+```text title="Output"
+0.760
+```
+
+## `simulateHandOutcomeDetailed` \{#simulateHandOutcomeDetailed\}
+Monte Carlo equity with standard error and Wilson CI.
+
+```ts
+simulateHandOutcomeDetailed(
+  holeCards: CardInput,
+  board: CardInput,
+  numSimulations: number,
+  seed: number,
+  villains?: number
+): McEquityDetailedResult;
+```
+
+<details>
+<summary>Types: <code>McEquityDetailedResult</code></summary>
+
+```ts
+interface McEquityDetailedResult {
+  estimate: number;
+  se: number;
+  ciLow: number;
+  ciHigh: number;
+  n: number;
+}
+```
+
+Field notes: [`McEquityDetailedResult`](/docs/reference/types/mc-equity-detailed-result)
+
+</details>
+
+Use when you need `{ estimate, se, ciLow, ciHigh, n }` without composing `monteCarloStandardError` yourself.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const r = poker.simulateHandOutcomeDetailed(['Ah', 'Kh'], ['Qh', 'Jh', '2c'], 10_000, 42, 1);
+console.log(r.estimate.toFixed(4), '±', (1.96 * r.se).toFixed(4));
+console.log('95% Wilson interval:', r.ciLow.toFixed(4), '-', r.ciHigh.toFixed(4));
+```
+
+```text title="Output"
+0.7643 ± 0.0083
+95% Wilson interval: 0.7559 - 0.7725
+```
+
 ## See also
 
-[`parallelHandSimulation`](/docs/reference/api/monte-carlo/parallel-hand-simulation) · [Monte Carlo equity guide](/docs/guides/monte-carlo-equity)
+- [`parallelHandSimulation`](/docs/reference/api/monte-carlo/parallel-hand-simulation#parallelHandSimulation)
+- [Monte Carlo equity guide](/docs/guides/monte-carlo-equity)
+- [AsyncOptions](/docs/reference/types/async-options)

@@ -1,0 +1,155 @@
+---
+title: "Blockers and removal"
+sidebar_label: "Blockers and removal"
+sidebar_position: 6
+description: "Dense **1326** combo weights after removing hero, board, and optional dead cards — plus combo count, weight sum, and Shannon entropy."
+api_functions: ["materializeVillainRangeAfterBlockers", "rangeBlockerPressureByCard", "blockerMatrixByCard", "rangeRemovalSensitivityVsHero"]
+---
+
+# Blockers and removal
+
+<ApiFamilyHeader category="Ranges" suit="♦" functions={["materializeVillainRangeAfterBlockers","rangeBlockerPressureByCard","blockerMatrixByCard","rangeRemovalSensitivityVsHero"]} />
+
+## `materializeVillainRangeAfterBlockers` \{#materializeVillainRangeAfterBlockers\}
+Dense **1326** combo weights after removing hero, board, and optional dead cards — plus combo count, weight sum, and Shannon entropy.
+
+```ts
+materializeVillainRangeAfterBlockers(
+  range: Float64Array | SparseRangeSpec,
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  knownDead?: CardInput
+): MaterializedVillainRangeResult;
+```
+
+<details>
+<summary>Types: <code>MaterializedVillainRangeResult</code></summary>
+
+```ts
+interface MaterializedVillainRangeResult {
+  weights1326: Float64Array;
+  liveComboCount: number;
+  weightSum: number;
+  shannonEntropy: number;
+}
+```
+
+Field notes: [`MaterializedVillainRangeResult`](/docs/reference/types/materialized-villain-range-result)
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const { weights1326, liveComboCount, weightSum, shannonEntropy } =
+  poker.materializeVillainRangeAfterBlockers(
+    range,
+    ['Ah', 'Kh'],
+    ['Qh', 'Jh', '2c'],
+  );
+
+console.log({ liveComboCount, weightSum, shannonEntropy });
+console.log('First live weight:', weights1326.find((w) => w > 0));
+```
+
+```text title="Output"
+{
+  liveComboCount: 1081,
+  weightSum: 0.8152337858220184,
+  shannonEntropy: 6.985641817639109
+}
+First live weight: 0.0007541478129713424
+```
+
+## `rangeBlockerPressureByCard` \{#rangeBlockerPressureByCard\}
+Measure how much range mass each deck card blocks.
+
+```ts
+rangeBlockerPressureByCard(range: SparseRangeSpec | Float64Array, deadCards?: CardInput): Float64Array;
+```
+
+Use `rangeBlockerPressureByCard` when you need to measure how much range mass each deck card blocks.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const result = poker.rangeBlockerPressureByCard(range, 5);
+console.log(result);
+```
+
+```text title="Output"
+Float64Array(52) [
+  0.03846153846153846, 0.03846153846153846, 0.03846153846153846,
+  0.03846153846153846, 0.03846153846153846, 0.03846153846153846,
+  0.03846153846153846, 0.03846153846153846, 0.03846153846153846,
+  0.03846153846153846, 0.03846153846153846, 0.03846153846153846,
+  0.03846153846153846, 0.03846153846153846, 0.03846153846153846,
+  0.03846153846153846, 0.03846153846153846, 0.03846153846153846,
+  0.03846153846153846, 0.03846153846153846, 0.03846153846153846,
+  0.03846153846153846, 0.03846153846153846, 0.03846153846153846,
+  0.03846153846153846, 0.03846153846153846, 0.03846153846153846,
+  0.03846153846153846, 0.03846153846153846, 0.03846153846153846,
+  0.03846153846153846, 0.03846153846153846, 0.03846153846153846,
+  0.03846153846153846, 0.03846153846153846, 0.03846153846153846,
+  0.03846153846153846, 0.03846153846153846, 0.03846153846153846,
+  0.03846153846153846, 0.03846153846153846, 0.03846153846153846,
+  0.03846153846153846, 0.03846153846153846, 0.03846153846153846,
+…
+```
+
+## `blockerMatrixByCard` \{#blockerMatrixByCard\}
+Same as `rangeBlockerPressureByCard`: for each deck id `0..51`, the share of the range weight whose combos contain that card.
+
+```ts
+blockerMatrixByCard(range: SparseRangeSpec | Float64Array, board?: CardInput): Float64Array;
+```
+
+Use `blockerMatrixByCard` when you need to return per-card blocker pressure for board and range analysis.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = poker.rangeFromNotationWeights([{ notation: 'AKs', weight: 1 }, { notation: 'QQ', weight: 1 }]);
+const a = poker.blockerMatrixByCard(range, ['Qh', 'Jh', '2c']);
+const b = poker.rangeBlockerPressureByCard(range, ['Qh', 'Jh', '2c']);
+console.log(a.every((x, i) => x === b[i])); // identical results
+```
+
+```text title="Output"
+true
+```
+
+## `rangeRemovalSensitivityVsHero` \{#rangeRemovalSensitivityVsHero\}
+Estimate hero-equity sensitivity to removing each live card from villain range.
+
+```ts
+rangeRemovalSensitivityVsHero(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  range: SparseRangeSpec | Float64Array
+): Float64Array;
+```
+
+Use `rangeRemovalSensitivityVsHero` when you need to estimate hero-equity sensitivity to removing each live card from villain range.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = poker.rangeFromNotationWeights([{ notation: 'AKs', weight: 1 }, { notation: 'QQ', weight: 1 }, { notation: 'JTs', weight: 1 }]);
+const s = poker.rangeRemovalSensitivityVsHero(['Ah', 'Qd'], ['Qh', 'Jc', '2s'], range);
+console.log(s.length);
+```
+
+```text title="Output"
+52
+```
+
+## See also
+
+- [`exactHuEquityVsRange`](/docs/reference/api/exact-equity/exact-hu-vs-range#exactHuEquityVsRange)
+- [Range equity (exact)](/docs/guides/range-equity-exact)
+- [Sparse range input](/docs/concepts/sparse-range-input)
+- [Range equity](/docs/concepts/range-equity)

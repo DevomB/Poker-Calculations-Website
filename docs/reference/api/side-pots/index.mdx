@@ -1,19 +1,17 @@
 ---
-title: 'Side Pots'
-unlisted: true
+title: "Side pots"
+sidebar_label: "Side pots"
+description: "Build side-pot layers from commitments and turn equities into chip EV."
 ---
 
 # Side pots
 
-Build **side-pot ladders** from per-player commitments, sum layer sizes, and compute **chip EV** per player when each layer has its own win-equity matrix.
+<p className="apiLead">Build side-pot layers from commitments and turn equities into chip EV.</p>
 
-Layer equities: each column (layer) must sum to `1` across players.
+6 functions on 3 pages.
 
-| Export | Summary |
+| Page | Functions |
 | --- | --- |
-| [`sidePotLadderFromCommitments`](/docs/reference/api/side-pots/side-pot-ladder-from-commitments) | Main + side layers from commitments. |
-| [`layeredPotChipEvFromEquities`](/docs/reference/api/side-pots/layered-pot-chip-ev-from-equities) | Chip EV per player from layer equities. |
-| [`sidePotLayersTotalChips`](/docs/reference/api/side-pots/side-pot-layers-total-chips) | Sum of `potChips` across layers. |
-| [`sidePotLayerCount`](/docs/reference/api/side-pots/side-pot-layer-count) | Number of side-pot layers. |
-| [`sidePotBreakevenCallEquity`](/docs/reference/api/side-pots/side-pot-breakeven-call-equity) | Breakeven equity for hero side-pot layer. |
-| [`layeredPotChipEvFromEquitiesWithRake`](/docs/reference/api/side-pots/layered-pot-chip-ev-from-equities-with-rake) | Layered chip EV with rake per pot. |
+| [Side-pot ladder](./side-pot-ladder) | [`sidePotLadderFromCommitments`](./side-pot-ladder#sidePotLadderFromCommitments) · [`sidePotLayersTotalChips`](./side-pot-ladder#sidePotLayersTotalChips) · [`sidePotLayerCount`](./side-pot-ladder#sidePotLayerCount) |
+| [Layered pot EV](./layered-pot-ev) | [`layeredPotChipEvFromEquities`](./layered-pot-ev#layeredPotChipEvFromEquities) · [`layeredPotChipEvFromEquitiesWithRake`](./layered-pot-ev#layeredPotChipEvFromEquitiesWithRake) |
+| [Side-pot breakeven](./side-pot-breakeven) | [`sidePotBreakevenCallEquity`](./side-pot-breakeven#sidePotBreakevenCallEquity) |

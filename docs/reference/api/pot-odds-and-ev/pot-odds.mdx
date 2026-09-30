@@ -1,0 +1,80 @@
+---
+title: "Pot odds"
+sidebar_label: "Pot odds"
+sidebar_position: 1
+description: "Breakeven call equity from chip counts: toCall / (pot + toCall)."
+api_functions: ["potOddsRatio", "breakevenCallEquity"]
+---
+
+# Pot odds
+
+<ApiFamilyHeader category="Pot odds & EV" suit="♥" functions={["potOddsRatio","breakevenCallEquity"]} />
+
+## `potOddsRatio` \{#potOddsRatio\}
+Breakeven call equity from chip counts: `toCall / (pot + toCall)`. Returns `0` when `toCall <= 0` or the denominator is non-positive.
+
+```ts
+potOddsRatio(pot: number, toCall: number): number;
+```
+
+Use when you know the pot size **before** your call and the amount you must put in, and want the minimum equity fraction to break even on a one-street call (no rake, no implied odds). Same numeric result as [`breakevenCallEquity`](/docs/reference/api/pot-odds-and-ev/pot-odds#breakevenCallEquity); this name matches older C++ / trainer wording.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+// Pot 100, facing a 50 call → need 50 / 150 ≈ 33.3% equity
+const need = poker.potOddsRatio(100, 50);
+console.log(need);
+
+// Free call (toCall 0) → 0 (use display helpers for ∞:1 labels)
+console.log(poker.potOddsRatio(100, 0));
+```
+
+```text title="Output"
+0.3333333333333333
+0
+```
+
+Pass **pot before your call** (not including the chips you are about to put in). Compare your estimated win probability against this fraction to decide call vs fold.
+
+**Returns** `number` — `toCall / (pot + toCall)` when `toCall > 0` and `pot + toCall > 0`; otherwise `0`.
+
+## `breakevenCallEquity` \{#breakevenCallEquity\}
+Same fraction as `potOddsRatio(potBeforeCall, toCall)` for chip calls.
+
+```ts
+breakevenCallEquity(potBeforeCall: number, toCall: number): number;
+```
+
+Use in trainers, HUDs, or scripts where you have **pot before call** and **to call** and need a quick threshold (e.g. “need 33%”). Prefer [`breakevenCallEquityFromPotOddsDisplayRatio`](/docs/reference/api/pot-odds-and-ev/odds-display#breakevenCallEquityFromPotOddsDisplayRatio) when the user already thinks in **pot : call** display odds (e.g. 2:1).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const potBeforeCall = 100;
+const toCall = 50;
+
+const need = poker.breakevenCallEquity(potBeforeCall, toCall);
+console.log(need); // 1/3
+
+// Same number via potOddsRatio (parameter name `pot` = pot before call)
+console.log(poker.potOddsRatio(potBeforeCall, toCall));
+
+// Compare to Monte Carlo or exact equity
+const myEquity = 0.42;
+console.log(myEquity >= need ? 'call' : 'fold');
+```
+
+```text title="Output"
+0.3333333333333333
+0.3333333333333333
+call
+```
+
+**Returns** `number` — `toCall / (potBeforeCall + toCall)` when `toCall > 0` and the denominator is positive; `0` when `toCall === 0` or `potBeforeCall + toCall ≤ 0`.
+
+## See also
+
+- [`expectedValueCall`](/docs/reference/api/pot-odds-and-ev/expected-value-call#expectedValueCall)
+- [`formatPotOddsReducedFraction`](/docs/reference/api/pot-odds-and-ev/odds-display#formatPotOddsReducedFraction)
+- [`breakevenCallEquityFromPotOddsDisplayRatio`](/docs/reference/api/pot-odds-and-ev/odds-display#breakevenCallEquityFromPotOddsDisplayRatio)

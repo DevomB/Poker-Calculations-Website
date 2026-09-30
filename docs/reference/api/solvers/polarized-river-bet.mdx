@@ -1,0 +1,69 @@
+---
+title: "Polarized river bet"
+sidebar_label: "Polarized river bet"
+sidebar_position: 4
+description: "Polarized **river bet size** where villain is indifferent to call — MDF-based root find on value/bluff combo counts."
+api_functions: ["solveRiverPolarizedIndifferenceBet"]
+---
+
+# Polarized river bet
+
+<ApiFamilyHeader category="Solvers" suit="♠" functions={["solveRiverPolarizedIndifferenceBet"]} />
+
+## `solveRiverPolarizedIndifferenceBet` \{#solveRiverPolarizedIndifferenceBet\}
+Polarized **river bet size** where villain is indifferent to call — MDF-based root find on value/bluff combo counts.
+
+```ts
+solveRiverPolarizedIndifferenceBet(
+  potBeforeBet: number,
+  numValueCombos: number,
+  numBluffCombos: number,
+  mdf?: number
+): RiverIndifferenceBetResult;
+```
+
+<details>
+<summary>Types: <code>RiverIndifferenceBetResult</code></summary>
+
+```ts
+interface RiverIndifferenceBetResult {
+  betSize: number;
+  /** Share of the bluff supply needed at `betSize` (1 when the whole range bets). */
+  bluffFrequency: number;
+  /** `mdf` when supplied, else pot/(pot + betSize). */
+  defenderMdf: number;
+  /** Villain's bluff-catch EV at `betSize`; 0 at indifference. */
+  evAtIndifference: number;
+}
+```
+
+Field notes: [`RiverIndifferenceBetResult`](/docs/reference/types/river-indifference-bet-result)
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const r = poker.solveRiverPolarizedIndifferenceBet(
+  100,
+  30,
+  10,
+);
+
+console.log('Bet size:', r.betSize);
+console.log('Bluff frequency:', r.bluffFrequency);
+console.log('Defender MDF:', r.defenderMdf);
+console.log('Villain call EV at solution:', r.evAtIndifference);
+```
+
+```text title="Output"
+Bet size: 50
+Bluff frequency: 1
+Defender MDF: 0.6666666666666666
+Villain call EV at solution: 0
+```
+
+## See also
+
+- [`minimumDefenseFrequency`](/docs/reference/api/gto-and-fold-equity/minimum-defense-frequency#minimumDefenseFrequency)
+- [`decideAction`](/docs/reference/api/bots/decide-action#decideAction)

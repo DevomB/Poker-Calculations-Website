@@ -1,0 +1,116 @@
+---
+title: "Batch bot policy"
+sidebar_label: "Batch bot policy"
+sidebar_position: 2
+description: "Run native policy diagnostics over many states."
+api_functions: ["runBotPolicyBatch"]
+---
+
+# Batch bot policy
+
+<ApiFamilyHeader category="Bots & game state" suit="♥" functions={["runBotPolicyBatch"]} />
+
+## `runBotPolicyBatch` \{#runBotPolicyBatch\}
+Run native policy diagnostics over many states.
+
+```ts
+runBotPolicyBatch(
+  states: Array<NativePokerState | PokerStateBytes>,
+  config: NativeBotConfig,
+  opponentModels?: Array<NativeOpponentModel | null>
+): DecisionDiagnosticResult[];
+```
+
+<details>
+<summary>Types: <code>DecisionDiagnosticResult</code>, <code>NativePokerState</code>, <code>NativeBotConfig</code>, <code>NativeOpponentModel</code>, <code>DecisionResult</code></summary>
+
+```ts
+interface DecisionDiagnosticResult {
+  decision: DecisionResult;
+  legalActions: LegalActionSummaryResult;
+  ev?: ActionEvBreakdownResult;
+  reason: string;
+  error?: string;
+}
+
+interface NativePokerState {
+  players: Array<{
+    name?: string;
+    holeCards: CardInput;
+    stack?: number;
+    committedThisStreet?: number;
+    totalCommittedHand?: number;
+    folded?: boolean;
+    seat?: number;
+  }>;
+  communityCards: CardInput;
+  phase: string;
+  pot?: number;
+  currentBet?: number;
+  buttonSeat?: number;
+  smallBlind?: number;
+  bigBlind?: number;
+  actingIndex?: number;
+  lastRaiseIncrement?: number;
+  streetOpeningIndex?: number;
+  actedThisStreet: boolean[];
+}
+
+interface NativeBotConfig {
+  aggressionThreshold?: number;
+  riskTolerance?: number;
+  monteCarloSimulations?: number;
+  monteCarloVillains?: number;
+  raisePotFraction?: number;
+  opponentAggressionWeight?: number;
+  rngSeed?: number;
+}
+
+interface NativeOpponentModel {
+  aggressionFactor?: number;
+  callFrequency?: number;
+  foldFrequency?: number;
+}
+
+/** `format: 'slim'` on `evaluateBestHand` — category ordinal + encoded strength only. */
+
+interface DecisionResult {
+  action: 'fold' | 'call' | 'raise' | 'check';
+  raiseBy: number;
+}
+```
+
+Field notes: [`DecisionDiagnosticResult`](/docs/reference/types/decision-diagnostic-result) · [`NativePokerState`](/docs/reference/types/native-poker-state) · [`NativeBotConfig`](/docs/reference/types/native-bot-config) · [`NativeOpponentModel`](/docs/reference/types/native-opponent-model) · [`DecisionResult`](/docs/reference/types/decision-result)
+
+</details>
+
+Use `runBotPolicyBatch` when you need to run native policy diagnostics over many states.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const state = {
+  players: [
+    { holeCards: ['Ah', 'Kh'], stack: 200, seat: 0, committedThisStreet: 0 },
+    { holeCards: ['7c', '7d'], stack: 180, seat: 1, committedThisStreet: 10 },
+  ],
+  communityCards: ['Qh', 'Jh', '2c'],
+  phase: 'flop',
+  pot: 30,
+  currentBet: 10,
+  smallBlind: 1,
+  bigBlind: 2,
+  actingIndex: 0,
+  actedThisStreet: [false, true],
+};
+const results = poker.runBotPolicyBatch([state, state], { monteCarloSimulations: 500, rngSeed: 1 });
+console.log(results.map((r) => r.decision.action));
+```
+
+```text title="Output"
+[ 'raise', 'raise' ]
+```
+
+## See also
+
+- [`decideAction`](/docs/reference/api/bots/decide-action#decideAction)
+- [NativePokerState](/docs/reference/types/native-poker-state)

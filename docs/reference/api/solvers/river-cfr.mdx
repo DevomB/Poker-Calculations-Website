@@ -1,0 +1,196 @@
+---
+title: "River CFR"
+sidebar_label: "River CFR"
+sidebar_position: 1
+description: "HU river CFR."
+api_functions: ["cfrRiverBetCallFoldSolve", "solveHuRiverCheckBetTree", "fictitiousPlayRiver"]
+---
+
+# River CFR
+
+<ApiFamilyHeader category="Solvers" suit="♠" functions={["cfrRiverBetCallFoldSolve","solveHuRiverCheckBetTree","fictitiousPlayRiver"]} />
+
+## `cfrRiverBetCallFoldSolve` \{#cfrRiverBetCallFoldSolve\}
+HU river CFR. Tree: bettor Check or Bet; vs Check defender checks back to showdown; vs Bet defender Fold or Call. Showdown via exact 7-card compare. `heroRange` is the bettor. Default 400 iterations.
+
+```ts
+cfrRiverBetCallFoldSolve(
+  pot: number,
+  betSize: number,
+  heroRange: SparseRangeSpec | Float64Array,
+  villainRange: SparseRangeSpec | Float64Array,
+  board: CardInput,
+  iterations?: number
+): CfrRiverSolveResult;
+```
+
+<details>
+<summary>Types: <code>CfrRiverSolveResult</code></summary>
+
+```ts
+interface CfrRiverSolveResult {
+  betFreq: number;
+  callFreq: number;
+  evBettor: number;
+  evDefender: number;
+  iterations: number;
+  betMix: Float64Array;
+  callMix: Float64Array;
+}
+```
+
+
+</details>
+
+Solves a single river decision: the bettor checks or bets one size, the defender calls or folds. Ranges are 1326-combo weights.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const board = ['Ks', '8d', '5c', '2h', '2s'];
+const bettor = poker.rangeFromNotationWeights([
+  { notation: 'KQs', weight: 1 }, { notation: 'AQs', weight: 1 }, { notation: '76s', weight: 1 },
+]);
+const caller = poker.rangeFromNotationWeights([
+  { notation: 'KJs', weight: 1 }, { notation: 'QQ', weight: 1 }, { notation: '99', weight: 1 },
+]);
+const r = poker.cfrRiverBetCallFoldSolve(100, 75, bettor, caller, board, 300);
+console.log({ betFreq: r.betFreq.toFixed(3), callFreq: r.callFreq.toFixed(3), evBettor: r.evBettor.toFixed(2) });
+```
+
+```text title="Output"
+{ betFreq: '0.459', callFreq: '0.600', evBettor: '32.00' }
+```
+
+## `solveHuRiverCheckBetTree` \{#solveHuRiverCheckBetTree\}
+Full river check/bet CFR plus air/draw/made/strong frequencies and top-k bet combos.
+
+```ts
+solveHuRiverCheckBetTree(
+  pot: number,
+  betSize: number,
+  heroRange: SparseRangeSpec | Float64Array,
+  villainRange: SparseRangeSpec | Float64Array,
+  board: CardInput,
+  iterations?: number,
+  topK?: number
+): HuRiverCheckBetTreeResult;
+```
+
+<details>
+<summary>Types: <code>HuRiverCheckBetTreeResult</code>, <code>CfrRiverSolveResult</code>, <code>RiverHandClassFreqs</code>, <code>RiverTopBetCombo</code></summary>
+
+```ts
+interface HuRiverCheckBetTreeResult extends CfrRiverSolveResult {
+  classes: RiverHandClassFreqs;
+  topBetCombos: RiverTopBetCombo[];
+}
+
+/** Vanilla CFR on a HU flop check/bet tree in EHS2-bucket space (K mixed actions). */
+
+interface CfrRiverSolveResult {
+  betFreq: number;
+  callFreq: number;
+  evBettor: number;
+  evDefender: number;
+  iterations: number;
+  betMix: Float64Array;
+  callMix: Float64Array;
+}
+
+interface RiverHandClassFreqs {
+  airBet: number;
+  drawBet: number;
+  madeBet: number;
+  strongBet: number;
+  airCall: number;
+  drawCall: number;
+  madeCall: number;
+  strongCall: number;
+}
+
+interface RiverTopBetCombo {
+  comboIndex: number;
+  cardA: number;
+  cardB: number;
+  betFrequency: number;
+  weight: number;
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const board = ['Ks', '8d', '5c', '2h', '2s'];
+const bettor = poker.rangeFromNotationWeights([{ notation: 'KQs', weight: 1 }, { notation: '76s', weight: 1 }]);
+const caller = poker.rangeFromNotationWeights([{ notation: 'KJs', weight: 1 }, { notation: '99', weight: 1 }]);
+const r = poker.solveHuRiverCheckBetTree(100, 75, bettor, caller, board, 300, 3);
+console.log(r.classes);
+console.log(r.topBetCombos);
+```
+
+```text title="Output"
+{
+  airBet: 0,
+  drawBet: 0.41559286707986726,
+  madeBet: 0.9983333333333334,
+  strongBet: 0,
+  airCall: 0,
+  drawCall: 0,
+  madeCall: 0.5796425146103126,
+  strongCall: 0
+}
+[
+  {
+    comboIndex: 1263,
+    cardA: 40,
+    cardB: 44,
+    betFrequency: 0.9983333333333333,
+…
+```
+
+## `fictitiousPlayRiver` \{#fictitiousPlayRiver\}
+Fictitious play on the same river check/bet tree as `cfrRiverBetCallFoldSolve`.
+
+```ts
+fictitiousPlayRiver(
+  pot: number,
+  betSize: number,
+  heroRange: SparseRangeSpec | Float64Array,
+  villainRange: SparseRangeSpec | Float64Array,
+  board: CardInput,
+  iterations?: number
+): CfrRiverSolveResult;
+```
+
+<details>
+<summary>Types: <code>CfrRiverSolveResult</code></summary>
+
+```ts
+interface CfrRiverSolveResult {
+  betFreq: number;
+  callFreq: number;
+  evBettor: number;
+  evDefender: number;
+  iterations: number;
+  betMix: Float64Array;
+  callMix: Float64Array;
+}
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+const board = ['Ks', '8d', '5c', '2h', '2s'];
+const bettor = poker.rangeFromNotationWeights([{ notation: 'KQs', weight: 1 }, { notation: '76s', weight: 1 }]);
+const caller = poker.rangeFromNotationWeights([{ notation: 'KJs', weight: 1 }, { notation: '99', weight: 1 }]);
+const r = poker.fictitiousPlayRiver(100, 75, bettor, caller, board, 200);
+console.log({ betFreq: r.betFreq.toFixed(3), callFreq: r.callFreq.toFixed(3) });
+```
+
+```text title="Output"
+{ betFreq: '0.606', callFreq: '0.558' }
+```

@@ -5,7 +5,7 @@ sidebar_position: 19
 
 # `IcmChopNegotiationAnalysisResult`
 
-Returned by [`icmChopNegotiationAnalysis`](/docs/reference/api/cooperative-icm/icm-chop-negotiation-analysis).
+Returned by [`icmChopNegotiationAnalysis`](/docs/reference/api/icm/deals-and-chops#icmChopNegotiationAnalysis).
 
 | Field | Type | Meaning |
 | --- | --- | --- |
@@ -35,6 +35,19 @@ surplus.forEach((s, i) => {
 console.log(paretoPairs);
 ```
 
+```text title="Output"
+0 surplus 1905.804975897856
+1 surplus 78.1869981869977
+2 deficit -878.825016286316
+3 deficit -1105.1669577985367
+[
+  { i: 0, j: 2, maxTransfer: 878.825016286316 },
+  { i: 0, j: 3, maxTransfer: 1105.1669577985367 },
+  { i: 1, j: 2, maxTransfer: 78.1869981869977 },
+  { i: 1, j: 3, maxTransfer: 78.1869981869977 }
+]
+```
+
 ## See also
 
-[`IcmChopParetoPair`](/docs/reference/types/icm-chop-pareto-pair) · [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts) · [`icmChopNegotiationAnalysis`](/docs/reference/api/cooperative-icm/icm-chop-negotiation-analysis)
+[`IcmChopParetoPair`](/docs/reference/types/icm-chop-pareto-pair) · [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts) · [`icmChopNegotiationAnalysis`](/docs/reference/api/icm/deals-and-chops#icmChopNegotiationAnalysis)

@@ -1,6 +1,6 @@
 {
   "installCommand": "pnpm install",
-  "buildCommand": "pnpm fetch:downloads && pnpm check:docs && pnpm validate:snippets && pnpm build",
+  "buildCommand": "pnpm fetch:downloads && pnpm check:docs && pnpm check:examples && pnpm build",
   "outputDirectory": "build",
   "framework": null,
   "redirects": [
@@ -12,6 +12,1666 @@
     {
       "source": "/docs/api/:path*",
       "destination": "/docs/reference/api/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture/blocker-matrix-by-card",
+      "destination": "/docs/reference/api/ranges/range-blockers#blockerMatrixByCard",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture/board-equity-shift-distribution",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture/board-flush-pressure",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture/board-nut-advantage-approx",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture/board-pairedness-index",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture/board-range-interaction-score",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture/board-river-scare-card-score",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture/board-staticness-index",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture/board-straight-pressure",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture/board-texture-score",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture/board-turn-volatility",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture/board-wetness-score",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture/classify-board-texture",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture/enumerate-scare-cards",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture/hero-board-connectivity-score",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture/range-board-coverage",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/delayed-cbet-runout-score",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/equity-denial-value",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/equity-realization-penalty",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient-async",
+      "destination": "/docs/reference/api/runout-analysis/card-removal#exactEquityCardRemovalGradientAsync",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/exact-equity-card-removal-gradient",
+      "destination": "/docs/reference/api/runout-analysis/card-removal#exactEquityCardRemovalGradient",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/exact-equity-distribution-vs-range",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/exact-equity-percentile-vs-range",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/exact-equity-realization-estimate",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/exact-hero-category-at-least-flop-to-river-async",
+      "destination": "/docs/reference/api/runout-analysis/hand-category-by-river#exactHeroCategoryAtLeastFlopToRiverAsync",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/exact-hero-category-at-least-flop-to-river",
+      "destination": "/docs/reference/api/runout-analysis/hand-category-by-river#exactHeroCategoryAtLeastFlopToRiver",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/exact-hero-category-joint-flop-to-river",
+      "destination": "/docs/reference/api/runout-analysis/hand-category-by-river#exactHeroCategoryJointFlopToRiver",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles-async",
+      "destination": "/docs/reference/api/runout-analysis/runout-equity-quantiles#exactHeroEquityRunoutQuantilesAsync",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/exact-hero-equity-runout-quantiles",
+      "destination": "/docs/reference/api/runout-analysis/runout-equity-quantiles#exactHeroEquityRunoutQuantiles",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/exact-hero-runout-vulnerability-async",
+      "destination": "/docs/reference/api/runout-analysis/runout-vulnerability#exactHeroRunoutVulnerabilityAsync",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/exact-hero-runout-vulnerability",
+      "destination": "/docs/reference/api/runout-analysis/runout-vulnerability#exactHeroRunoutVulnerability",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/exact-range-dominated-combo-fraction",
+      "destination": "/docs/reference/api/runout-analysis/dominated-combos#exactRangeDominatedComboFraction",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/exact-villain-leapfrog-out-counts",
+      "destination": "/docs/reference/api/runout-analysis/villain-leapfrog-outs#exactVillainLeapfrogOutCounts",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/protection-bet-benefit",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/river-call-threshold-distribution",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/showdown-value-index",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact/turn-barrel-runout-ev-distribution",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/cooperative-icm/icm-chip-leader-premium-vs-equal-chop",
+      "destination": "/docs/reference/api/icm/deals-and-chops#icmChipLeaderPremiumVsEqualChop",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/cooperative-icm/icm-chop-negotiation-analysis",
+      "destination": "/docs/reference/api/icm/deals-and-chops#icmChopNegotiationAnalysis",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/cooperative-icm/icm-chop-surplus-vs-equal-split",
+      "destination": "/docs/reference/api/icm/deals-and-chops#icmChopSurplusVsEqualSplit",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/cooperative-icm/icm-expected-payouts-delta-from-chip-chop",
+      "destination": "/docs/reference/api/icm/deals-and-chops#icmExpectedPayoutsDeltaFromChipChop",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/cooperative-icm/icm-field-pressure-index",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/cooperative-icm/icm-harville-skill-adjusted-payouts",
+      "destination": "/docs/reference/api/icm/icm-expected-payouts#icmHarvilleSkillAdjustedPayouts",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/cooperative-icm/icm-harville-stack-jacobian",
+      "destination": "/docs/reference/api/icm/stack-sensitivity#icmHarvilleStackJacobian",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/cooperative-icm/icm-shapley-values",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/cooperative-icm/side-pot-layer-tournament-ev-delta",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/cooperative-icm/tournament-duel-absorption-probabilities",
+      "destination": "/docs/reference/api/icm/tournament-duel#tournamentDuelAbsorptionProbabilities",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/fold-equity/breakeven-fold-equity-first-street-pure-bluff",
+      "destination": "/docs/reference/api/gto-and-fold-equity/multi-street-bluffs#breakevenFoldEquityFirstStreetPureBluff",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/fold-equity/breakeven-fold-equity-pure-bluff-with-ante",
+      "destination": "/docs/reference/api/gto-and-fold-equity/pure-bluff#breakevenFoldEquityPureBluffWithAnte",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/fold-equity/breakeven-fold-equity-pure-bluff-with-rake",
+      "destination": "/docs/reference/api/gto-and-fold-equity/pure-bluff#breakevenFoldEquityPureBluffWithRake",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/fold-equity/breakeven-fold-equity-pure-bluff",
+      "destination": "/docs/reference/api/gto-and-fold-equity/pure-bluff#breakevenFoldEquityPureBluff",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/fold-equity/breakeven-fold-equity-second-street-pure-bluff",
+      "destination": "/docs/reference/api/gto-and-fold-equity/multi-street-bluffs#breakevenFoldEquitySecondStreetPureBluff",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/fold-equity/breakeven-fold-equity-semi-bluff-with-ante",
+      "destination": "/docs/reference/api/gto-and-fold-equity/semi-bluff#breakevenFoldEquitySemiBluffWithAnte",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/fold-equity/breakeven-fold-equity-semi-bluff-with-rake",
+      "destination": "/docs/reference/api/gto-and-fold-equity/semi-bluff#breakevenFoldEquitySemiBluffWithRake",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/fold-equity/breakeven-fold-equity-semi-bluff",
+      "destination": "/docs/reference/api/gto-and-fold-equity/semi-bluff#breakevenFoldEquitySemiBluff",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/fold-equity/three-street-pure-bluff-ev",
+      "destination": "/docs/reference/api/gto-and-fold-equity/multi-street-bluffs#threeStreetPureBluffEv",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/fold-equity/three-street-pure-bluff-same-fold-equity",
+      "destination": "/docs/reference/api/gto-and-fold-equity/multi-street-bluffs#threeStreetPureBluffSameFoldEquity",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/fold-equity/two-street-pure-bluff-ev-with-rake",
+      "destination": "/docs/reference/api/gto-and-fold-equity/multi-street-bluffs#twoStreetPureBluffEvWithRake",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/fold-equity/two-street-pure-bluff-ev",
+      "destination": "/docs/reference/api/gto-and-fold-equity/multi-street-bluffs#twoStreetPureBluffEv",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/fold-equity/two-street-pure-bluff-same-fold-equity",
+      "destination": "/docs/reference/api/gto-and-fold-equity/multi-street-bluffs#twoStreetPureBluffSameFoldEquity",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/gto-frequencies/alpha-frequency-with-rake",
+      "destination": "/docs/reference/api/gto-and-fold-equity/minimum-defense-frequency#alphaFrequencyWithRake",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/gto-frequencies/alpha-frequency",
+      "destination": "/docs/reference/api/gto-and-fold-equity/minimum-defense-frequency#alphaFrequency",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/gto-frequencies/bluff-to-value-ratio-with-rake",
+      "destination": "/docs/reference/api/gto-and-fold-equity/bluff-to-value#bluffToValueRatioWithRake",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/gto-frequencies/bluff-to-value-ratio",
+      "destination": "/docs/reference/api/gto-and-fold-equity/bluff-to-value#bluffToValueRatio",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/gto-frequencies/minimum-defense-frequency-with-rake",
+      "destination": "/docs/reference/api/gto-and-fold-equity/minimum-defense-frequency#minimumDefenseFrequencyWithRake",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/gto-frequencies/value-to-bluff-ratio-with-rake",
+      "destination": "/docs/reference/api/gto-and-fold-equity/bluff-to-value#valueToBluffRatioWithRake",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/gto-frequencies/value-to-bluff-ratio",
+      "destination": "/docs/reference/api/gto-and-fold-equity/bluff-to-value#valueToBluffRatio",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity/benchmark-evaluator-throughput-async",
+      "destination": "/docs/reference/api/hand-evaluation/benchmark-evaluator#benchmarkEvaluatorThroughputAsync",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity/benchmark-evaluator-throughput",
+      "destination": "/docs/reference/api/hand-evaluation/benchmark-evaluator#benchmarkEvaluatorThroughput",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity/build-preflop-equity-matrix",
+      "destination": "/docs/reference/api/monte-carlo/preflop-equity-matrix#buildPreflopEquityMatrix",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity/canonical-card-string",
+      "destination": "/docs/reference/api/hand-evaluation/card-strings#canonicalCardString",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity/card-strings-have-duplicate",
+      "destination": "/docs/reference/api/hand-evaluation/card-strings#cardStringsHaveDuplicate",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity/compare-best-hands",
+      "destination": "/docs/reference/api/hand-evaluation/compare-best-hands#compareBestHands",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity/evaluate-best-hand",
+      "destination": "/docs/reference/api/hand-evaluation/evaluate-best-hand#evaluateBestHand",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity/evaluate-hand-category",
+      "destination": "/docs/reference/api/hand-evaluation/evaluate-best-hand#evaluateHandCategory",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity/evaluate-hand-strength-fast-batch",
+      "destination": "/docs/reference/api/hand-evaluation/evaluate-hand-strength#evaluateHandStrengthFastBatch",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity/evaluate-hand-strength-fast",
+      "destination": "/docs/reference/api/hand-evaluation/evaluate-hand-strength#evaluateHandStrengthFast",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity/evaluate-hand-strength",
+      "destination": "/docs/reference/api/hand-evaluation/evaluate-hand-strength#evaluateHandStrength",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity/exact-hu-equity-vs-known-hand",
+      "destination": "/docs/reference/api/exact-equity/exact-hu-vs-known-hand#exactHuEquityVsKnownHand",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity/exact-hu-equity-vs-range",
+      "destination": "/docs/reference/api/exact-equity/exact-hu-vs-range#exactHuEquityVsRange",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity/hand-rank-category-order",
+      "destination": "/docs/reference/api/hand-evaluation/evaluate-best-hand#handRankCategoryOrder",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity/parse-compact-card-list",
+      "destination": "/docs/reference/api/hand-evaluation/card-strings#parseCompactCardList",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity/validate-card-string",
+      "destination": "/docs/reference/api/hand-evaluation/card-strings#validateCardString",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/blocker-adjusted-outs",
+      "destination": "/docs/reference/api/draws-and-outs/blockers#blockerAdjustedOuts",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/duplication-adjusted-outs",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/equity-delta-if-card-removed",
+      "destination": "/docs/reference/api/runout-analysis/card-removal#equityDeltaIfCardRemoved",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/estimated-outs-from-rule-of-four",
+      "destination": "/docs/reference/api/draws-and-outs/rule-of-two-and-four#estimatedOutsFromRuleOfFour",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/estimated-outs-from-rule-of-two",
+      "destination": "/docs/reference/api/draws-and-outs/rule-of-two-and-four#estimatedOutsFromRuleOfTwo",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-disjoint-outs-sum",
+      "destination": "/docs/reference/api/draws-and-outs/at-least-one-hit#flopToRiverAtLeastOneHitDisjointOutsSum",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-probability",
+      "destination": "/docs/reference/api/draws-and-outs/at-least-one-hit#flopToRiverAtLeastOneHitProbability",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-union-four-categories",
+      "destination": "/docs/reference/api/draws-and-outs/overlapping-outs#flopToRiverAtLeastOneHitUnionFourCategories",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-union-three-categories",
+      "destination": "/docs/reference/api/draws-and-outs/overlapping-outs#flopToRiverAtLeastOneHitUnionThreeCategories",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/flop-to-river-at-least-one-hit-union-two-categories",
+      "destination": "/docs/reference/api/draws-and-outs/overlapping-outs#flopToRiverAtLeastOneHitUnionTwoCategories",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/flop-to-turn-at-least-one-hit-disjoint-outs-sum",
+      "destination": "/docs/reference/api/draws-and-outs/at-least-one-hit#flopToTurnAtLeastOneHitDisjointOutsSum",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/flop-to-turn-at-least-one-hit-probability",
+      "destination": "/docs/reference/api/draws-and-outs/at-least-one-hit#flopToTurnAtLeastOneHitProbability",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/flop-to-turn-at-least-one-hit-union-four-categories",
+      "destination": "/docs/reference/api/draws-and-outs/overlapping-outs#flopToTurnAtLeastOneHitUnionFourCategories",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/flop-to-turn-at-least-one-hit-union-three-categories",
+      "destination": "/docs/reference/api/draws-and-outs/overlapping-outs#flopToTurnAtLeastOneHitUnionThreeCategories",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/flop-to-turn-at-least-one-hit-union-two-categories",
+      "destination": "/docs/reference/api/draws-and-outs/overlapping-outs#flopToTurnAtLeastOneHitUnionTwoCategories",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/hypergeometric-one-card-hit-probability",
+      "destination": "/docs/reference/api/draws-and-outs/hypergeometric#hypergeometricOneCardHitProbability",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/hypergeometric-two-card-hit-probability",
+      "destination": "/docs/reference/api/draws-and-outs/hypergeometric#hypergeometricTwoCardHitProbability",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/hypergeometric-two-card-miss-probability",
+      "destination": "/docs/reference/api/draws-and-outs/hypergeometric#hypergeometricTwoCardMissProbability",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/implied-breakeven-future-win",
+      "destination": "/docs/reference/api/draws-and-outs/implied-odds#impliedBreakevenFutureWin",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/implied-breakeven-total-pot",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/implied-odds-required-equity-from-future-win",
+      "destination": "/docs/reference/api/draws-and-outs/implied-odds#impliedOddsRequiredEquityFromFutureWin",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/rule-of-four-equity",
+      "destination": "/docs/reference/api/draws-and-outs/rule-of-two-and-four#ruleOfFourEquity",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/rule-of-two-equity",
+      "destination": "/docs/reference/api/draws-and-outs/rule-of-two-and-four#ruleOfTwoEquity",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/runner-runner-backdoor-flush-one-card-probability",
+      "destination": "/docs/reference/api/draws-and-outs/runner-runner#runnerRunnerBackdoorFlushOneCardProbability",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/runner-runner-backdoor-flush-two-card-probability",
+      "destination": "/docs/reference/api/draws-and-outs/runner-runner#runnerRunnerBackdoorFlushTwoCardProbability",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/runner-runner-straight-draw-hit-probability",
+      "destination": "/docs/reference/api/draws-and-outs/runner-runner#runnerRunnerStraightDrawHitProbability",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/suit-blocker-fraction",
+      "destination": "/docs/reference/api/draws-and-outs/blockers#suitBlockerFraction",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/turn-to-river-at-least-one-hit-disjoint-outs-sum",
+      "destination": "/docs/reference/api/draws-and-outs/at-least-one-hit#turnToRiverAtLeastOneHitDisjointOutsSum",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/turn-to-river-at-least-one-hit-probability",
+      "destination": "/docs/reference/api/draws-and-outs/at-least-one-hit#turnToRiverAtLeastOneHitProbability",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/turn-to-river-at-least-one-hit-union-four-categories",
+      "destination": "/docs/reference/api/draws-and-outs/overlapping-outs#turnToRiverAtLeastOneHitUnionFourCategories",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/turn-to-river-at-least-one-hit-union-three-categories",
+      "destination": "/docs/reference/api/draws-and-outs/overlapping-outs#turnToRiverAtLeastOneHitUnionThreeCategories",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws/turn-to-river-at-least-one-hit-union-two-categories",
+      "destination": "/docs/reference/api/draws-and-outs/overlapping-outs#turnToRiverAtLeastOneHitUnionTwoCategories",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/icm/icm-deal-ev-per-chip",
+      "destination": "/docs/reference/api/icm/deals-and-chops#icmDealEvPerChip",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/icm/icm-equal-chop-payouts",
+      "destination": "/docs/reference/api/icm/deals-and-chops#icmEqualChopPayouts",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/icm/icm-expected-payouts-weitzman",
+      "destination": "/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayoutsWeitzman",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/icm/icm-expected-payouts",
+      "destination": "/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/icm/icm-harville-placement-probabilities",
+      "destination": "/docs/reference/api/icm/harville-probabilities#icmHarvillePlacementProbabilities",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/icm/icm-last-place-probabilities-harville",
+      "destination": "/docs/reference/api/icm/harville-probabilities#icmLastPlaceProbabilitiesHarville",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/icm/icm-pairwise-bubble-factor",
+      "destination": "/docs/reference/api/icm/bubble-factor#icmPairwiseBubbleFactor",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/icm/icm-payout-structure-gini",
+      "destination": "/docs/reference/api/icm/payout-structure#icmPayoutStructureGini",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/icm/icm-satellite-advance-probability",
+      "destination": "/docs/reference/api/icm/payout-structure#icmSatelliteAdvanceProbability",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/icm/icm-top-k-finish-probabilities",
+      "destination": "/docs/reference/api/icm/harville-probabilities#icmTopKFinishProbabilities",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/icm/icm-total-prize-pool",
+      "destination": "/docs/reference/api/icm/payout-structure#icmTotalPrizePool",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/icm/icm-win-probabilities-harville",
+      "destination": "/docs/reference/api/icm/harville-probabilities#icmWinProbabilitiesHarville",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/kelly-and-jam/chubukov-max-symmetric-jam-stack-binary-search",
+      "destination": "/docs/reference/api/solvers/chubukov#chubukovMaxSymmetricJamStackBinarySearch",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/kelly-and-jam/chubukov-max-symmetric-jam-stack-chips-binary-search",
+      "destination": "/docs/reference/api/solvers/chubukov#chubukovMaxSymmetricJamStackChipsBinarySearch",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/kelly-and-jam/chubukov-max-symmetric-jam-stack-from-hand-binary-search",
+      "destination": "/docs/reference/api/solvers/chubukov#chubukovMaxSymmetricJamStackFromHandBinarySearch",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/kelly-and-jam/chubukov-symmetric-jam-breakeven-stack",
+      "destination": "/docs/reference/api/solvers/chubukov#chubukovSymmetricJamBreakevenStack",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/kelly-and-jam/chubukov-symmetric-jam-ev",
+      "destination": "/docs/reference/api/solvers/chubukov#chubukovSymmetricJamEv",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/kelly-and-jam/eighth-kelly-criterion-binary",
+      "destination": "/docs/reference/api/statistics/kelly#eighthKellyCriterionBinary",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/kelly-and-jam/half-kelly-criterion-binary",
+      "destination": "/docs/reference/api/statistics/kelly#halfKellyCriterionBinary",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/kelly-and-jam/kelly-criterion-binary-clamped",
+      "destination": "/docs/reference/api/statistics/kelly#kellyCriterionBinaryClamped",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/kelly-and-jam/kelly-criterion-binary",
+      "destination": "/docs/reference/api/statistics/kelly#kellyCriterionBinary",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/kelly-and-jam/quarter-kelly-criterion-binary",
+      "destination": "/docs/reference/api/statistics/kelly#quarterKellyCriterionBinary",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand-async",
+      "destination": "/docs/reference/api/exact-equity/exact-hu-vs-random-hand#exactHuEquityVsRandomHandAsync",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand-batch",
+      "destination": "/docs/reference/api/exact-equity/exact-hu-vs-random-hand#exactHuEquityVsRandomHandBatch",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand",
+      "destination": "/docs/reference/api/exact-equity/exact-hu-vs-random-hand#exactHuEquityVsRandomHand",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/flush-made-flop-to-river-exact-probability-async",
+      "destination": "/docs/reference/api/runout-analysis/made-hand-probability#flushMadeFlopToRiverExactProbabilityAsync",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/flush-made-flop-to-river-exact-probability",
+      "destination": "/docs/reference/api/runout-analysis/made-hand-probability#flushMadeFlopToRiverExactProbability",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/full-house-made-flop-to-river-exact-probability-async",
+      "destination": "/docs/reference/api/runout-analysis/made-hand-probability#fullHouseMadeFlopToRiverExactProbabilityAsync",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/full-house-made-flop-to-river-exact-probability",
+      "destination": "/docs/reference/api/runout-analysis/made-hand-probability#fullHouseMadeFlopToRiverExactProbability",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/parallel-hand-simulation-async",
+      "destination": "/docs/reference/api/monte-carlo/parallel-hand-simulation#parallelHandSimulationAsync",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/parallel-hand-simulation",
+      "destination": "/docs/reference/api/monte-carlo/parallel-hand-simulation#parallelHandSimulation",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/simulate-equity-vs-range",
+      "destination": "/docs/reference/api/monte-carlo/simulate-equity-vs-range#simulateEquityVsRange",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/simulate-hand-outcome-async",
+      "destination": "/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcomeAsync",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/simulate-hand-outcome-batch-packed",
+      "destination": "/docs/reference/api/monte-carlo/simulate-hand-outcome-batch#simulateHandOutcomeBatchPacked",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/simulate-hand-outcome-batch",
+      "destination": "/docs/reference/api/monte-carlo/simulate-hand-outcome-batch#simulateHandOutcomeBatch",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/simulate-hand-outcome-detailed",
+      "destination": "/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcomeDetailed",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/simulate-hand-outcome",
+      "destination": "/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcome",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/straight-made-flop-to-river-exact-probability-async",
+      "destination": "/docs/reference/api/runout-analysis/made-hand-probability#straightMadeFlopToRiverExactProbabilityAsync",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/straight-made-flop-to-river-exact-probability",
+      "destination": "/docs/reference/api/runout-analysis/made-hand-probability#straightMadeFlopToRiverExactProbability",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/trips-made-flop-to-river-exact-probability-async",
+      "destination": "/docs/reference/api/runout-analysis/made-hand-probability#tripsMadeFlopToRiverExactProbabilityAsync",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/trips-made-flop-to-river-exact-probability",
+      "destination": "/docs/reference/api/runout-analysis/made-hand-probability#tripsMadeFlopToRiverExactProbability",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/two-pair-made-flop-to-river-exact-probability-async",
+      "destination": "/docs/reference/api/runout-analysis/made-hand-probability#twoPairMadeFlopToRiverExactProbabilityAsync",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/monte-carlo/two-pair-made-flop-to-river-exact-probability",
+      "destination": "/docs/reference/api/runout-analysis/made-hand-probability#twoPairMadeFlopToRiverExactProbability",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/multiway/multiway-expected-value-call",
+      "destination": "/docs/reference/api/pot-odds-and-ev/multiway-calls#multiwayExpectedValueCall",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/multiway/multiway-symmetric-breakeven-call-equity-with-rake",
+      "destination": "/docs/reference/api/pot-odds-and-ev/multiway-calls#multiwaySymmetricBreakevenCallEquityWithRake",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/multiway/multiway-symmetric-breakeven-call-equity-with-share-and-rake",
+      "destination": "/docs/reference/api/pot-odds-and-ev/multiway-calls#multiwaySymmetricBreakevenCallEquityWithShareAndRake",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/multiway/multiway-symmetric-breakeven-call-equity-with-share",
+      "destination": "/docs/reference/api/pot-odds-and-ev/multiway-calls#multiwaySymmetricBreakevenCallEquityWithShare",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/multiway/multiway-symmetric-breakeven-call-equity",
+      "destination": "/docs/reference/api/pot-odds-and-ev/multiway-calls#multiwaySymmetricBreakevenCallEquity",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/opponent-modeling/exploitative-bet-size-adjustment",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/opponent-modeling/exploitative-call-threshold-adjustment",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/opponent-modeling/opponent-aggression-factor",
+      "destination": "/docs/reference/api/opponent-modeling/aggression-factor#opponentAggressionFactor",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/opponent-modeling/opponent-fold-to-cbet-posterior",
+      "destination": "/docs/reference/api/opponent-modeling/fold-to-cbet#opponentFoldToCbetPosterior",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/opponent-modeling/opponent-range-elasticity-from-sizing",
+      "destination": "/docs/reference/api/opponent-modeling/range-elasticity#opponentRangeElasticityFromSizing",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/opponent-modeling/opponent-showdown-bias-estimate",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/opponent-modeling/villain-capped-range-score",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/opponent-modeling/villain-float-frequency-estimate",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/opponent-modeling/villain-line-range-shift",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/opponent-modeling/villain-polarized-range-score",
+      "destination": "/docs/reference/api/ranges/range-statistics#villainPolarizedRangeScore",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/breakeven-call-equity-from-pot-odds-display-ratio",
+      "destination": "/docs/reference/api/pot-odds-and-ev/odds-display#breakevenCallEquityFromPotOddsDisplayRatio",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/breakeven-call-equity-with-posted-ante",
+      "destination": "/docs/reference/api/pot-odds-and-ev/antes#breakevenCallEquityWithPostedAnte",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/breakeven-call-equity-with-rake",
+      "destination": "/docs/reference/api/pot-odds-and-ev/rake#breakevenCallEquityWithRake",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/breakeven-call-equity",
+      "destination": "/docs/reference/api/pot-odds-and-ev/pot-odds#breakevenCallEquity",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/breakeven-raise-equity",
+      "destination": "/docs/reference/api/pot-odds-and-ev/expected-value-raise#breakevenRaiseEquity",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/effective-pot-odds-display-after-rake",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/equity-to-winning-odds-against",
+      "destination": "/docs/reference/api/pot-odds-and-ev/odds-display#equityToWinningOddsAgainst",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/expected-value-call-with-rake",
+      "destination": "/docs/reference/api/pot-odds-and-ev/expected-value-call#expectedValueCallWithRake",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/expected-value-call",
+      "destination": "/docs/reference/api/pot-odds-and-ev/expected-value-call#expectedValueCall",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/expected-value-per-big-blind",
+      "destination": "/docs/reference/api/pot-odds-and-ev/ev-per-big-blind#expectedValuePerBigBlind",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/expected-value-raise-with-rake",
+      "destination": "/docs/reference/api/pot-odds-and-ev/expected-value-raise#expectedValueRaiseWithRake",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/expected-value-raise",
+      "destination": "/docs/reference/api/pot-odds-and-ev/expected-value-raise#expectedValueRaise",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/format-pot-odds-reduced-fraction",
+      "destination": "/docs/reference/api/pot-odds-and-ev/odds-display#formatPotOddsReducedFraction",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/net-pot-after-call-and-rake",
+      "destination": "/docs/reference/api/pot-odds-and-ev/rake#netPotAfterCallAndRake",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/net-pot-after-rake",
+      "destination": "/docs/reference/api/pot-odds-and-ev/rake#netPotAfterRake",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/pot-odds-display-ratio-from-breakeven-call-equity",
+      "destination": "/docs/reference/api/pot-odds-and-ev/odds-display#potOddsDisplayRatioFromBreakevenCallEquity",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/pot-odds-ratio",
+      "destination": "/docs/reference/api/pot-odds-and-ev/pot-odds#potOddsRatio",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/pot-size-after-hu-bet",
+      "destination": "/docs/reference/api/pot-odds-and-ev/pot-size#potSizeAfterHuBet",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/pot-size-after-hu-call",
+      "destination": "/docs/reference/api/pot-odds-and-ev/pot-size#potSizeAfterHuCall",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/rake-from-pot",
+      "destination": "/docs/reference/api/pot-odds-and-ev/rake#rakeFromPot",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev/winning-odds-against-to-equity",
+      "destination": "/docs/reference/api/pot-odds-and-ev/odds-display#winningOddsAgainstToEquity",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/intersect-sparse-ranges",
+      "destination": "/docs/reference/api/ranges/range-algebra#intersectSparseRanges",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/merge-sparse-ranges",
+      "destination": "/docs/reference/api/ranges/range-algebra#mergeSparseRanges",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/normalize-sparse-range",
+      "destination": "/docs/reference/api/ranges/range-algebra#normalizeSparseRange",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/prune-range-by-min-weight",
+      "destination": "/docs/reference/api/ranges/range-algebra#pruneRangeByMinWeight",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/range-blocker-pressure-by-card",
+      "destination": "/docs/reference/api/ranges/range-blockers#rangeBlockerPressureByCard",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/range-bucket-weights-by-hand-class",
+      "destination": "/docs/reference/api/ranges/range-buckets#rangeBucketWeightsByHandClass",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/range-bucket-weights-by-notation",
+      "destination": "/docs/reference/api/ranges/range-buckets#rangeBucketWeightsByNotation",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/range-combo-count",
+      "destination": "/docs/reference/api/ranges/range-statistics#rangeComboCount",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/range-cosine-similarity",
+      "destination": "/docs/reference/api/ranges/range-distance#rangeCosineSimilarity",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/range-coverage-fraction",
+      "destination": "/docs/reference/api/ranges/range-statistics#rangeCoverageFraction",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/range-distance-jensen-shannon",
+      "destination": "/docs/reference/api/ranges/range-distance#rangeDistanceJensenShannon",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/range-distance-l1",
+      "destination": "/docs/reference/api/ranges/range-distance#rangeDistanceL1",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/range-distance-l2",
+      "destination": "/docs/reference/api/ranges/range-distance#rangeDistanceL2",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/range-from-notation-weights",
+      "destination": "/docs/reference/api/ranges/range-buckets#rangeFromNotationWeights",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/range-gini-coefficient",
+      "destination": "/docs/reference/api/ranges/range-statistics#rangeGiniCoefficient",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/range-removal-sensitivity-vs-hero",
+      "destination": "/docs/reference/api/ranges/range-blockers#rangeRemovalSensitivityVsHero",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/range-shannon-entropy",
+      "destination": "/docs/reference/api/ranges/range-statistics#rangeShannonEntropy",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/range-top-combos",
+      "destination": "/docs/reference/api/ranges/range-statistics#rangeTopCombos",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/range-weight-top-k-mass",
+      "destination": "/docs/reference/api/ranges/range-statistics#rangeWeightTopKMass",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools/subtract-sparse-range",
+      "destination": "/docs/reference/api/ranges/range-algebra#subtractSparseRange",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/reverse-implied/geometric-pot-after-matched-pot-fractions",
+      "destination": "/docs/reference/api/stacks-and-sizing/geometric-sizing#geometricPotAfterMatchedPotFractions",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/reverse-implied/geometric-pot-after-single-matched-bet",
+      "destination": "/docs/reference/api/stacks-and-sizing/geometric-sizing#geometricPotAfterSingleMatchedBet",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/reverse-implied/reverse-implied-odds-max-future-loss",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/reverse-implied/reverse-implied-odds-min-equity",
+      "destination": "/docs/reference/api/draws-and-outs/implied-odds#reverseImpliedOddsMinEquity",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/side-pots/layered-pot-chip-ev-from-equities-with-rake",
+      "destination": "/docs/reference/api/side-pots/layered-pot-ev#layeredPotChipEvFromEquitiesWithRake",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/side-pots/layered-pot-chip-ev-from-equities",
+      "destination": "/docs/reference/api/side-pots/layered-pot-ev#layeredPotChipEvFromEquities",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/side-pots/side-pot-breakeven-call-equity",
+      "destination": "/docs/reference/api/side-pots/side-pot-breakeven#sidePotBreakevenCallEquity",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/side-pots/side-pot-ladder-from-commitments",
+      "destination": "/docs/reference/api/side-pots/side-pot-ladder#sidePotLadderFromCommitments",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/side-pots/side-pot-layer-count",
+      "destination": "/docs/reference/api/side-pots/side-pot-ladder#sidePotLayerCount",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/side-pots/side-pot-layers-total-chips",
+      "destination": "/docs/reference/api/side-pots/side-pot-ladder#sidePotLayersTotalChips",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/bet-as-pot-fraction",
+      "destination": "/docs/reference/api/stacks-and-sizing/bet-sizing#betAsPotFraction",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/bet-size-to-match-pot-fraction",
+      "destination": "/docs/reference/api/stacks-and-sizing/bet-sizing#betSizeToMatchPotFraction",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/bet-sizing-indifference-point",
+      "destination": "/docs/reference/api/stacks-and-sizing/value-sizing#betSizingIndifferencePoint",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/blocker-aware-bluff-frequency",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/bluff-catch-decision-score",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/cbet-size-ev-grid",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/check-raise-semi-bluff-ev",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/commitment-ratio-after-bet",
+      "destination": "/docs/reference/api/stacks-and-sizing/commitment#commitmentRatioAfterBet",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/commitment-ratio",
+      "destination": "/docs/reference/api/stacks-and-sizing/commitment#commitmentRatio",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/fold-equity-needed-by-street-plan",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/geometric-street-sizing-plan",
+      "destination": "/docs/reference/api/stacks-and-sizing/geometric-sizing#geometricStreetSizingPlan",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/multi-street-stack-off-threshold",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/overbet-polarization-score",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/probe-bet-ev-grid",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/river-bluff-candidate-score",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/river-value-bet-threshold",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/spr-after-bet",
+      "destination": "/docs/reference/api/stacks-and-sizing/spr#sprAfterBet",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/spr-after-call",
+      "destination": "/docs/reference/api/stacks-and-sizing/spr#sprAfterCall",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/spr-after-raise",
+      "destination": "/docs/reference/api/stacks-and-sizing/spr#sprAfterRaise",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/thin-value-margin",
+      "destination": "/docs/reference/api/stacks-and-sizing/value-sizing#thinValueMargin",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment/value-targeting-score",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/effective-stack",
+      "destination": "/docs/reference/api/stacks-and-sizing/effective-stack#effectiveStack",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/format-pot-odds",
+      "destination": "/docs/reference/api/pot-odds-and-ev/odds-display#formatPotOdds",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/harrington-m-effective-active-antes",
+      "destination": "/docs/reference/api/stacks-and-sizing/harrington-m#harringtonMEffectiveActiveAntes",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/harrington-m-effective",
+      "destination": "/docs/reference/api/stacks-and-sizing/harrington-m#harringtonMEffective",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/harrington-m",
+      "destination": "/docs/reference/api/stacks-and-sizing/harrington-m#harringtonM",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/harrington-q",
+      "destination": "/docs/reference/api/stacks-and-sizing/harrington-m#harringtonQ",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/minimum-defense-frequency",
+      "destination": "/docs/reference/api/gto-and-fold-equity/minimum-defense-frequency#minimumDefenseFrequency",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/nl-minimum-raise-to-total",
+      "destination": "/docs/reference/api/stacks-and-sizing/bet-sizing#nlMinimumRaiseToTotal",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/normalized-stack-fractions",
+      "destination": "/docs/reference/api/stacks-and-sizing/effective-stack#normalizedStackFractions",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/orbit-cost-chips",
+      "destination": "/docs/reference/api/stacks-and-sizing/harrington-m#orbitCostChips",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/pot-odds-ratio-display",
+      "destination": "/docs/reference/api/pot-odds-and-ev/odds-display#potOddsRatioDisplay",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/preflop-combos-from-notation-minus-blockers",
+      "destination": "/docs/reference/api/ranges/preflop-combos#preflopCombosFromNotationMinusBlockers",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/preflop-combos-from-notation",
+      "destination": "/docs/reference/api/ranges/preflop-combos#preflopCombosFromNotation",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/preflop-combos-from-notations-list",
+      "destination": "/docs/reference/api/ranges/preflop-combos#preflopCombosFromNotationsList",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/spr",
+      "destination": "/docs/reference/api/stacks-and-sizing/spr#spr",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/stack-in-big-blinds",
+      "destination": "/docs/reference/api/stacks-and-sizing/effective-stack#stackInBigBlinds",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display/stack-to-pot-after-call",
+      "destination": "/docs/reference/api/stacks-and-sizing/spr#stackToPotAfterCall",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/statistics-and-risk/agresti-coull-interval",
+      "destination": "/docs/reference/api/statistics/confidence-intervals#agrestiCoullInterval",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/statistics-and-risk/bankroll-for-target-ror-diffusion",
+      "destination": "/docs/reference/api/statistics/risk-of-ruin#bankrollForTargetRorDiffusion",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/statistics-and-risk/beta-binomial-fold-posterior",
+      "destination": "/docs/reference/api/statistics/fold-frequency-posterior#betaBinomialFoldPosterior",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/statistics-and-risk/binomial-proportion-ci-width",
+      "destination": "/docs/reference/api/statistics/confidence-intervals#binomialProportionCiWidth",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/statistics-and-risk/monte-carlo-standard-error",
+      "destination": "/docs/reference/api/statistics/monte-carlo-error#monteCarloStandardError",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/statistics-and-risk/monte-carlo-trials-for-hoeffding-bound",
+      "destination": "/docs/reference/api/statistics/monte-carlo-error#monteCarloTrialsForHoeffdingBound",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/statistics-and-risk/monte-carlo-trials-for-standard-error-bound",
+      "destination": "/docs/reference/api/statistics/monte-carlo-error#monteCarloTrialsForStandardErrorBound",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/statistics-and-risk/monte-carlo-trials-for-wilson-half-width",
+      "destination": "/docs/reference/api/statistics/monte-carlo-error#monteCarloTrialsForWilsonHalfWidth",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/statistics-and-risk/normal-wald-binomial-interval",
+      "destination": "/docs/reference/api/statistics/confidence-intervals#normalWaldBinomialInterval",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/statistics-and-risk/risk-of-ruin-diffusion-approx",
+      "destination": "/docs/reference/api/statistics/risk-of-ruin#riskOfRuinDiffusionApprox",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/statistics-and-risk/variance-to-standard-deviation-per-hand",
+      "destination": "/docs/reference/api/statistics/risk-of-ruin#varianceToStandardDeviationPerHand",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/statistics-and-risk/wilson-score-interval",
+      "destination": "/docs/reference/api/statistics/confidence-intervals#wilsonScoreInterval",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/strategy/action-ev-breakdown",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/strategy/action-mask-from-state",
+      "destination": "/docs/reference/api/bots/legal-actions#actionMaskFromState",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/strategy/candidate-action-set",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/strategy/decide-action-async",
+      "destination": "/docs/reference/api/bots/decide-action#decideActionAsync",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/strategy/decide-action-with-diagnostics",
+      "destination": "/docs/reference/api/bots/decide-action#decideActionWithDiagnostics",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/strategy/decide-action",
+      "destination": "/docs/reference/api/bots/decide-action#decideAction",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/strategy/decode-poker-state",
+      "destination": "/docs/reference/api/bots/poker-state#decodePokerState",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/strategy/encode-poker-state",
+      "destination": "/docs/reference/api/bots/poker-state#encodePokerState",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/strategy/explain-decision-factors",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/strategy/legal-action-summary",
+      "destination": "/docs/reference/api/bots/legal-actions#legalActionSummary",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/strategy/normalize-bot-config",
+      "destination": "/docs/reference/api/bots/bot-config#normalizeBotConfig",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/strategy/run-bot-policy-batch",
+      "destination": "/docs/reference/api/bots/bot-policy-batch#runBotPolicyBatch",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/strategy/state-to-feature-vector",
+      "destination": "/docs/reference/api/bots/poker-state#stateToFeatureVector",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/strategy/validate-poker-state",
+      "destination": "/docs/reference/api/bots/poker-state#validatePokerState",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/subgame-theory/bayesian-range-update-from-action",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/subgame-theory/call-or-fold-chip-ev-delta",
+      "destination": "/docs/reference/api/pot-odds-and-ev/expected-value-call#callOrFoldChipEvDelta",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/subgame-theory/exact-information-regret-vs-clairvoyant",
+      "destination": "/docs/reference/api/runout-analysis/information-regret#exactInformationRegretVsClairvoyant",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/subgame-theory/materialize-villain-range-after-blockers",
+      "destination": "/docs/reference/api/ranges/range-blockers#materializeVillainRangeAfterBlockers",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/subgame-theory/multiway-equity-independence-gap",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/subgame-theory/normalized-range-weight-sum",
+      "destination": "/docs/reference/api/ranges/range-algebra#normalizedRangeWeightSum",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/subgame-theory/open-raise-breakeven-fold-equity",
+      "destination": "/docs/reference/api/gto-and-fold-equity/open-raise#openRaiseBreakevenFoldEquity",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/subgame-theory/push-fold-symmetric-breakeven-equity",
+      "destination": "/docs/reference/api/solvers/symmetric-push-fold#pushFoldSymmetricBreakevenEquity",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/subgame-theory/push-fold-symmetric-ev",
+      "destination": "/docs/reference/api/solvers/symmetric-push-fold#pushFoldSymmetricEv",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/subgame-theory/solve-river-polarized-indifference-bet",
+      "destination": "/docs/reference/api/solvers/polarized-river-bet#solveRiverPolarizedIndifferenceBet",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/subgame-theory/solve-stage-minimax-regret-bet",
+      "destination": "/docs/reference/api",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/subgame-theory/solve-symmetric-push-fold-threshold",
+      "destination": "/docs/reference/api/solvers/symmetric-push-fold#solveSymmetricPushFoldThreshold",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/board-texture",
+      "destination": "/docs/reference/api/draws-and-outs",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/combinatorics-exact",
+      "destination": "/docs/reference/api/runout-analysis",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/cooperative-icm",
+      "destination": "/docs/reference/api/icm",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/fold-equity",
+      "destination": "/docs/reference/api/gto-and-fold-equity",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/gto-frequencies",
+      "destination": "/docs/reference/api/gto-and-fold-equity",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/hands-and-equity",
+      "destination": "/docs/reference/api/hand-evaluation",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/heuristics-and-draws",
+      "destination": "/docs/reference/api/draws-and-outs",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/kelly-and-jam",
+      "destination": "/docs/reference/api/statistics",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/multiway",
+      "destination": "/docs/reference/api/pot-odds-and-ev",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/pot-and-ev",
+      "destination": "/docs/reference/api/pot-odds-and-ev",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/range-tools",
+      "destination": "/docs/reference/api/ranges",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/reverse-implied",
+      "destination": "/docs/reference/api/draws-and-outs",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/sizing-and-commitment",
+      "destination": "/docs/reference/api/stacks-and-sizing",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/stacks-and-display",
+      "destination": "/docs/reference/api/stacks-and-sizing",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/statistics-and-risk",
+      "destination": "/docs/reference/api/statistics",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/strategy",
+      "destination": "/docs/reference/api/bots",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/api/subgame-theory",
+      "destination": "/docs/reference/api/solvers",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/types/icm-shapley-values-options",
+      "destination": "/docs/reference/types",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/types/icm-shapley-values-result",
+      "destination": "/docs/reference/types",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/types/icm-field-pressure-index-result",
+      "destination": "/docs/reference/types",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/types/stage-minimax-regret-bet-result",
+      "destination": "/docs/reference/types",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/types/multiway-independence-gap-result",
+      "destination": "/docs/reference/types",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/types/side-pot-layer-tournament-ev-row",
+      "destination": "/docs/reference/types",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/types/board-texture-result",
+      "destination": "/docs/reference/types",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/types/card-score",
+      "destination": "/docs/reference/types",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/types/equity-distribution-result",
+      "destination": "/docs/reference/types",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/types/range-coverage-result",
+      "destination": "/docs/reference/types",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/types/ev-grid-row",
+      "destination": "/docs/reference/types",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/types/ev-grid-result",
+      "destination": "/docs/reference/types",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/types/opponent-bias-result",
+      "destination": "/docs/reference/types",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/types/decision-factor",
+      "destination": "/docs/reference/types",
+      "permanent": true
+    },
+    {
+      "source": "/docs/reference/types/candidate-action",
+      "destination": "/docs/reference/types",
       "permanent": true
     }
   ]

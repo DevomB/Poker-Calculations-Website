@@ -1,0 +1,126 @@
+---
+title: "Seven-card stud"
+sidebar_label: "Seven-card stud"
+sidebar_position: 1
+description: "7-card stud hi."
+api_functions: ["evaluateStudBestHand", "exactHuStudEquityVsKnown", "simulateStudEquityVsRandom", "studDeadCardDeck"]
+---
+
+# Seven-card stud
+
+<ApiFamilyHeader category="Stud, razz & 2-7" suit="♦" functions={["evaluateStudBestHand","exactHuStudEquityVsKnown","simulateStudEquityVsRandom","studDeadCardDeck"]} />
+
+## `evaluateStudBestHand` \{#evaluateStudBestHand\}
+7-card stud hi. Best 5-card high from **3–7** cards. Same `HandEvalResult` as `evaluateBestHand`.
+
+```ts
+evaluateStudBestHand(cards: CardInput, options?: EvaluateBestHandOptions): HandEvalResult;
+evaluateStudBestHand(cards: CardInput, options: { format: 'slim' }): HandEvalResultSlim;
+```
+
+<details>
+<summary>Types: <code>HandEvalResultSlim</code>, <code>HandEvalResult</code>, <code>EvaluateBestHandOptions</code>, <code>EvaluateBestHandFormat</code></summary>
+
+```ts
+interface HandEvalResultSlim {
+  rankCategory: number;
+  strength: number;
+}
+
+interface HandEvalResult {
+  /** Category label (interned at module load). */
+  rank: string;
+  /** 0..9 — same order as `handRankCategoryOrder` / `highCard` … `royalFlush`. */
+  rankCategory: number;
+  /** Same bit layout as `evaluateHandStrength` (`pack_hand_strength`). */
+  strength: number;
+  /** Five encoded kicker values (tie-break order); omitted when `format: 'slim'`. */
+  kickers: number[];
+}
+
+interface EvaluateBestHandOptions {
+  format?: EvaluateBestHandFormat;
+}
+
+type EvaluateBestHandFormat = 'full' | 'slim';
+```
+
+Field notes: [`HandEvalResultSlim`](/docs/reference/types/hand-eval-result-slim) · [`HandEvalResult`](/docs/reference/types/hand-eval-result)
+
+</details>
+
+Best five-card high hand from three to seven stud cards.
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.evaluateStudBestHand(['Ah', 'Ad', 'Kc', 'Ks', '7h', '4d', '2c']));
+```
+
+```text title="Output"
+{
+  rankCategory: 2,
+  strength: 34387200,
+  rank: 'twoPair',
+  kickers: [ 12, 11, 5, 0, 0 ]
+}
+```
+
+## `exactHuStudEquityVsKnown` \{#exactHuStudEquityVsKnown\}
+Exact HU 7-card stud equity vs a known hand. Each side 3–7 cards; remaining streets come from the dead-aware deck. Both already 7 → one comparison. Ties count 0.5. `extraDead` = folded upcards.
+
+```ts
+exactHuStudEquityVsKnown(
+  heroCards: CardInput,
+  villainCards: CardInput,
+  extraDead?: CardInput
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+// Fifth street: aces up vs rolled-up nines, two cards to come.
+// Exact enumeration starts at fifth street; use simulateStudEquityVsRandom earlier.
+console.log(poker.exactHuStudEquityVsKnown(['Ah', 'Ad', 'Kc', 'Ks', '7h'], ['9s', '9c', '9h', '2d', '3d']).toFixed(4));
+```
+
+```text title="Output"
+0.1768
+```
+
+## `simulateStudEquityVsRandom` \{#simulateStudEquityVsRandom\}
+Monte Carlo stud hi: random matching-street villain, complete both to 7.
+
+```ts
+simulateStudEquityVsRandom(
+  heroCards: CardInput,
+  trials: number,
+  seed: number,
+  extraDead?: CardInput
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.simulateStudEquityVsRandom(['Ah', 'Ad', 'Kc'], 20000, 42).toFixed(3));
+```
+
+```text title="Output"
+0.768
+```
+
+## `studDeadCardDeck` \{#studDeadCardDeck\}
+Remaining deck after holes + upcards. Canonical strings, deck-index order.
+
+```ts
+studDeadCardDeck(deadCards: CardInput): string[];
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+const live = poker.studDeadCardDeck(['Ah', 'Ad', 'Kc', '9s', '9c', '9h']);
+console.log(live.length);
+```
+
+```text title="Output"
+46
+```

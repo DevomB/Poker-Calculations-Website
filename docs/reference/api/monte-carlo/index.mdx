@@ -1,33 +1,19 @@
 ---
-title: 'Monte Carlo'
-unlisted: true
+title: "Monte Carlo equity"
+sidebar_label: "Monte Carlo equity"
+description: "Seeded simulation against random hands or weighted ranges, sync, async, threaded, or batched."
 ---
 
-# Monte Carlo
+# Monte Carlo equity
 
-Hole, board, and dead-card arguments use **`CardInput`**: `string[]` or packed `Uint8Array` (deck ids `0..51`). See [Card notation](/docs/concepts/card-notation).
+<p className="apiLead">Seeded simulation against random hands or weighted ranges, sync, async, threaded, or batched.</p>
 
-- [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome) — Estimated equity vs one or more random villain hands (default `villains = 1`).
-- [`simulateHandOutcomeAsync`](/docs/reference/api/monte-carlo/simulate-hand-outcome-async) — Non-blocking MC equity (libuv thread pool); optional [`AbortSignal`](/docs/reference/types/async-options).
-- [`parallelHandSimulation`](/docs/reference/api/monte-carlo/parallel-hand-simulation) — Same with C++ worker threads and distinct seeds per chunk.
-- [`parallelHandSimulationAsync`](/docs/reference/api/monte-carlo/parallel-hand-simulation-async) — Non-blocking parallel MC; optional cancellation.
-- [`simulateHandOutcomeBatch`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch) — Many MC spots in one call → `Float64Array`.
-- [`simulateHandOutcomeBatchPacked`](/docs/reference/api/monte-carlo/simulate-hand-outcome-batch-packed) — Packed holes/boards/meta batch.
-- [`exactHuEquityVsRandomHand`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand) — Exact HU equity vs uniform random villain hand; preflop or board **3–5** cards.
-- [`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome-detailed) — MC equity with SE and Wilson CI.
-- [`simulateEquityVsRange`](/docs/reference/api/monte-carlo/simulate-equity-vs-range) — MC vs weighted villain range.
-- [`exactHuEquityVsRandomHandAsync`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand-async) — Non-blocking exact HU equity; optional cancellation · [`exactHuEquityVsRandomHandBatch`](/docs/reference/api/monte-carlo/exact-hu-equity-vs-random-hand-batch)
-- [`straightMadeFlopToRiverExactProbability`](/docs/reference/api/monte-carlo/straight-made-flop-to-river-exact-probability) — Exact probability of straight or better in hero’s best 7 after uniform random unordered turn+river from remaining deck.
-- [`straightMadeFlopToRiverExactProbabilityAsync`](/docs/reference/api/monte-carlo/straight-made-flop-to-river-exact-probability-async) — Non-blocking exact probability; optional cancellation
+9 functions on 5 pages.
 
-Multi-way MC (`villains > 1`) awards **`1 / tiedAtBest`** when hero ties for the best hand. See [Numerical semantics](/docs/concepts/numerical-semantics#showdown-equity).
-
-See [Batch equity](/docs/guides/batch-equity).
-| [`flushMadeFlopToRiverExactProbability`](/docs/reference/api/monte-carlo/flush-made-flop-to-river-exact-probability) | Exact flush+ by river enumeration. |
-| [`flushMadeFlopToRiverExactProbabilityAsync`](/docs/reference/api/monte-carlo/flush-made-flop-to-river-exact-probability-async) | Async flush made; optional AbortSignal. |
-| [`fullHouseMadeFlopToRiverExactProbability`](/docs/reference/api/monte-carlo/full-house-made-flop-to-river-exact-probability) | Exact full house+ by river. |
-| [`fullHouseMadeFlopToRiverExactProbabilityAsync`](/docs/reference/api/monte-carlo/full-house-made-flop-to-river-exact-probability-async) | Async full house made. |
-| [`tripsMadeFlopToRiverExactProbability`](/docs/reference/api/monte-carlo/trips-made-flop-to-river-exact-probability) | Exact trips+ by river. |
-| [`tripsMadeFlopToRiverExactProbabilityAsync`](/docs/reference/api/monte-carlo/trips-made-flop-to-river-exact-probability-async) | Async trips made. |
-| [`twoPairMadeFlopToRiverExactProbability`](/docs/reference/api/monte-carlo/two-pair-made-flop-to-river-exact-probability) | Exact two pair+ by river. |
-| [`twoPairMadeFlopToRiverExactProbabilityAsync`](/docs/reference/api/monte-carlo/two-pair-made-flop-to-river-exact-probability-async) | Async two pair+ made. |
+| Page | Functions |
+| --- | --- |
+| [Simulate a hand](./simulate-hand-outcome) | [`simulateHandOutcome`](./simulate-hand-outcome#simulateHandOutcome) · [`simulateHandOutcomeAsync`](./simulate-hand-outcome#simulateHandOutcomeAsync) · [`simulateHandOutcomeDetailed`](./simulate-hand-outcome#simulateHandOutcomeDetailed) |
+| [Threaded simulation](./parallel-hand-simulation) | [`parallelHandSimulation`](./parallel-hand-simulation#parallelHandSimulation) · [`parallelHandSimulationAsync`](./parallel-hand-simulation#parallelHandSimulationAsync) |
+| [Batch simulation](./simulate-hand-outcome-batch) | [`simulateHandOutcomeBatch`](./simulate-hand-outcome-batch#simulateHandOutcomeBatch) · [`simulateHandOutcomeBatchPacked`](./simulate-hand-outcome-batch#simulateHandOutcomeBatchPacked) |
+| [Equity vs a range](./simulate-equity-vs-range) | [`simulateEquityVsRange`](./simulate-equity-vs-range#simulateEquityVsRange) |
+| [Preflop equity matrix](./preflop-equity-matrix) | [`buildPreflopEquityMatrix`](./preflop-equity-matrix#buildPreflopEquityMatrix) |

@@ -1,0 +1,207 @@
+---
+title: "Range statistics"
+sidebar_label: "Range statistics"
+sidebar_position: 3
+description: "Count active combos in a dense or sparse range."
+api_functions: ["rangeComboCount", "rangeTopCombos", "rangeWeightTopKMass", "rangeCoverageFraction", "rangeShannonEntropy", "rangeGiniCoefficient", "villainPolarizedRangeScore"]
+---
+
+# Range statistics
+
+<ApiFamilyHeader category="Ranges" suit="♦" functions={["rangeComboCount","rangeTopCombos","rangeWeightTopKMass","rangeCoverageFraction","rangeShannonEntropy","rangeGiniCoefficient","villainPolarizedRangeScore"]} />
+
+## `rangeComboCount` \{#rangeComboCount\}
+Count active combos in a dense or sparse range.
+
+```ts
+rangeComboCount(range: SparseRangeSpec | Float64Array, minWeight?: number): number;
+```
+
+Use `rangeComboCount` when you need to count active combos in a dense or sparse range.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const result = poker.rangeComboCount(range, 5);
+console.log(result);
+```
+
+```text title="Output"
+0
+```
+
+## `rangeTopCombos` \{#rangeTopCombos\}
+List the highest-weight combos in a range.
+
+```ts
+rangeTopCombos(range: SparseRangeSpec | Float64Array, k: number): RangeComboWeight[];
+```
+
+<details>
+<summary>Types: <code>RangeComboWeight</code>, <code>Card52</code></summary>
+
+```ts
+interface RangeComboWeight {
+  comboIndex: number;
+  cardA: Card52;
+  cardB: Card52;
+  notation: string;
+  weight: number;
+}
+
+type Card52 = number;
+
+/** Hole/board/dead card lists: canonical strings or packed bytes (`Card52` per byte). */
+```
+
+Field notes: [`RangeComboWeight`](/docs/reference/types/range-combo-weight)
+
+</details>
+
+Use `rangeTopCombos` when you need to list the highest-weight combos in a range.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const result = poker.rangeTopCombos(range, 5);
+console.log(result);
+```
+
+```text title="Output"
+[
+  {
+    comboIndex: 0,
+    cardA: 0,
+    cardB: 1,
+    notation: '22',
+    weight: 0.0007541478129713424
+  },
+  {
+    comboIndex: 1,
+    cardA: 0,
+    cardB: 2,
+    notation: '22',
+    weight: 0.0007541478129713424
+  },
+  {
+…
+```
+
+## `rangeWeightTopKMass` \{#rangeWeightTopKMass\}
+Return the normalized probability mass held by the top weighted combos.
+
+```ts
+rangeWeightTopKMass(range: SparseRangeSpec | Float64Array, k: number): number;
+```
+
+Use `rangeWeightTopKMass` when you need to return the normalized probability mass held by the top weighted combos.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const result = poker.rangeWeightTopKMass(range, 5);
+console.log(result);
+```
+
+```text title="Output"
+0.0037707390648567245
+```
+
+## `rangeCoverageFraction` \{#rangeCoverageFraction\}
+Return the share of the 1326 combo grid with positive mass.
+
+```ts
+rangeCoverageFraction(range: SparseRangeSpec | Float64Array): number;
+```
+
+Use `rangeCoverageFraction` when you need to return the share of the 1326 combo grid with positive mass.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const result = poker.rangeCoverageFraction(range, 5);
+console.log(result);
+```
+
+```text title="Output"
+1
+```
+
+## `rangeShannonEntropy` \{#rangeShannonEntropy\}
+Measure how spread out a range is after normalization.
+
+```ts
+rangeShannonEntropy(range: SparseRangeSpec | Float64Array): number;
+```
+
+Use `rangeShannonEntropy` when you need to measure how spread out a range is after normalization.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const result = poker.rangeShannonEntropy(range, 5);
+console.log(result);
+```
+
+```text title="Output"
+7.1899221707456125
+```
+
+## `rangeGiniCoefficient` \{#rangeGiniCoefficient\}
+Measure how concentrated a range is across its combos.
+
+```ts
+rangeGiniCoefficient(range: SparseRangeSpec | Float64Array): number;
+```
+
+Use `rangeGiniCoefficient` when you need to measure how concentrated a range is across its combos.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = new Float64Array(1326);
+range.fill(1 / 1326);
+
+const result = poker.rangeGiniCoefficient(range, 5);
+console.log(result);
+```
+
+```text title="Output"
+2.886579864025407e-15
+```
+
+## `villainPolarizedRangeScore` \{#villainPolarizedRangeScore\}
+The Gini coefficient of the range weights (the same value as `rangeGiniCoefficient`), clamped to `[0, 1]`. Higher means the weight sits on fewer combos. The `board` argument is accepted but not used.
+
+```ts
+villainPolarizedRangeScore(range: SparseRangeSpec | Float64Array, board: CardInput): number;
+```
+
+Use `villainPolarizedRangeScore` when you need to score how polarized a villain range is.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const range = poker.rangeFromNotationWeights([{ notation: 'AA', weight: 1 }, { notation: '76s', weight: 0.25 }]);
+const board = ['Kh', '9d', '4c', '2s', 'Jh'];
+// The Gini coefficient of the range weights, clamped to [0, 1]; the board is not used
+console.log(poker.villainPolarizedRangeScore(range, board) === Math.min(1, Math.max(0, poker.rangeGiniCoefficient(range)))); // true
+```
+
+```text title="Output"
+true
+```
+
+## See also
+
+- [`materializeVillainRangeAfterBlockers`](/docs/reference/api/ranges/range-blockers#materializeVillainRangeAfterBlockers)
+- [Sparse range input](/docs/concepts/sparse-range-input)
+- [NativeOpponentModel](/docs/reference/types/native-opponent-model)

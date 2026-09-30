@@ -5,7 +5,7 @@ sidebar_position: 26
 
 # `McEquityDetailedResult`
 
-Returned by [`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome-detailed).
+Returned by [`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcome).
 
 | Field | Type | Meaning |
 | --- | --- | --- |
@@ -15,4 +15,4 @@ Returned by [`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simu
 | `ciHigh` | `number` | Wilson interval high |
 | `n` | `number` | Trials run |
 
-Wilson bounds use [`wilsonScoreInterval`](/docs/reference/api/statistics-and-risk/wilson-score-interval) with `successes = round(estimate × n)`. See [Numerical semantics](/docs/concepts/numerical-semantics#detailed-monte-carlo-intervals).
+Wilson bounds use [`wilsonScoreInterval`](/docs/reference/api/statistics/confidence-intervals#wilsonScoreInterval) with `successes = round(estimate × n)`. See [Numerical semantics](/docs/concepts/numerical-semantics#detailed-monte-carlo-intervals).

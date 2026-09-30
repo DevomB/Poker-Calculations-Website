@@ -1,0 +1,89 @@
+---
+title: "Payout structure"
+sidebar_label: "Payout structure"
+sidebar_position: 6
+description: "Sum of payout ladder."
+api_functions: ["icmTotalPrizePool", "icmPayoutStructureGini", "icmSatelliteAdvanceProbability"]
+---
+
+# Payout structure
+
+<ApiFamilyHeader category="ICM" suit="♥" functions={["icmTotalPrizePool","icmPayoutStructureGini","icmSatelliteAdvanceProbability"]} />
+
+## `icmTotalPrizePool` \{#icmTotalPrizePool\}
+Sum of payout ladder.
+
+```ts
+icmTotalPrizePool(payouts: F64VectorInput): number;
+```
+
+Sum of the payout ladder.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const payouts = [100, 50, 30];
+console.log(poker.icmTotalPrizePool(payouts)); // 180
+```
+
+```text title="Output"
+180
+```
+
+## `icmPayoutStructureGini` \{#icmPayoutStructureGini\}
+Inequality index of payout ladder.
+
+```ts
+icmPayoutStructureGini(payouts: F64VectorInput): number;
+```
+
+Inequality index of the payout ladder (0 when all payouts equal).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const equal = poker.icmPayoutStructureGini([100, 100, 100]);
+const steep = poker.icmPayoutStructureGini([10000, 3000, 1000]);
+console.log({ equal, steep });
+```
+
+```text title="Output"
+{ equal: 0, steep: 0.42857142857142855 }
+```
+
+## `icmSatelliteAdvanceProbability` \{#icmSatelliteAdvanceProbability\}
+Per-seat probability of cashing satellite.
+
+```ts
+icmSatelliteAdvanceProbability(
+  stacks: F64VectorInput,
+  paidPlaces: number,
+  returnFormat?: F64ReturnFormat
+): number[] | Float64Array;
+```
+
+Per-seat probability of finishing in the money in a **satellite** (`paidPlaces` paid spots).
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const stacks = [8000, 6000, 4000, 2000];
+const paidPlaces = 2;
+
+const advance = poker.icmSatelliteAdvanceProbability(stacks, paidPlaces);
+console.log(advance); // each in [0, 1]
+```
+
+```text title="Output"
+[
+  0.7158730158730159,
+  0.6083333333333334,
+  0.44126984126984126,
+  0.23452380952380952
+]
+```
+
+## See also
+
+- [`icmEqualChopPayouts`](/docs/reference/api/icm/deals-and-chops#icmEqualChopPayouts)
+- [`icmTopKFinishProbabilities`](/docs/reference/api/icm/harville-probabilities#icmTopKFinishProbabilities)

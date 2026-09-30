@@ -1,0 +1,101 @@
+---
+title: "Short deck equity"
+sidebar_label: "Short deck equity"
+sidebar_position: 2
+description: "Exact HU equity on the 36-card deck."
+api_functions: ["exactHuShortDeckEquityVsKnown", "simulateShortDeckEquityVsRandom", "simulateShortDeckEquityVsRange", "shortDeckRemainingComboCount"]
+---
+
+# Short deck equity
+
+<ApiFamilyHeader category="Short deck" suit="♥" functions={["exactHuShortDeckEquityVsKnown","simulateShortDeckEquityVsRandom","simulateShortDeckEquityVsRange","shortDeckRemainingComboCount"]} />
+
+## `exactHuShortDeckEquityVsKnown` \{#exactHuShortDeckEquityVsKnown\}
+Exact HU equity on the 36-card deck. 2-card holes, board 0–5. Ties count 0.5.
+
+```ts
+exactHuShortDeckEquityVsKnown(
+  heroHoleCards: CardInput,
+  villainHoleCards: CardInput,
+  boardCards: CardInput
+): number;
+```
+
+Exact heads-up equity on the 36-card deck, where preflop edges run smaller than in hold'em.
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.exactHuShortDeckEquityVsKnown(['Ah', 'Kh'], ['Qs', 'Qd'], ['Jh', '9c', '6d']).toFixed(4));
+```
+
+```text title="Output"
+0.4089
+```
+
+## `simulateShortDeckEquityVsRandom` \{#simulateShortDeckEquityVsRandom\}
+```ts
+simulateShortDeckEquityVsRandom(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  numSimulations: number,
+  seed: number
+): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.simulateShortDeckEquityVsRandom(['Ah', 'Kh'], [], 20000, 42).toFixed(3));
+```
+
+```text title="Output"
+0.608
+```
+
+## `simulateShortDeckEquityVsRange` \{#simulateShortDeckEquityVsRange\}
+MC vs a 6+ range. Valid classes are **81** (9 pairs + 36 suited + 36 offsuit), not 169 and not 91. Accepts `string[]` notations (`AKs`, `QQ`), `{ AKs: 1, QQ: 0.5 }`, `Float64Array(81)`, or `Float64Array(169)` with 2–5 class weights required to be 0.
+
+```ts
+simulateShortDeckEquityVsRange(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  range: ShortDeckRangeInput,
+  numSimulations: number,
+  seed: number
+): number;
+```
+
+<details>
+<summary>Types: <code>ShortDeckRangeInput</code></summary>
+
+```ts
+type ShortDeckRangeInput = string[] | Record<string, number> | Float64Array;
+```
+
+
+</details>
+
+```js title="Example"
+const poker = require('poker-calculations');
+// Short-deck ranges use 81 hand classes; pass notations or a weight map
+console.log(poker.simulateShortDeckEquityVsRange(['Ah', 'Kh'], [], { QQ: 1, JJ: 1, AQs: 0.5 }, 20000, 42).toFixed(3));
+```
+
+```text title="Output"
+0.544
+```
+
+## `shortDeckRemainingComboCount` \{#shortDeckRemainingComboCount\}
+`C(n,2)` remaining hole combos on the 36-card deck after dead cards.
+
+```ts
+shortDeckRemainingComboCount(deadCards: CardInput): number;
+```
+
+```js title="Example"
+const poker = require('poker-calculations');
+console.log(poker.shortDeckRemainingComboCount(['Ah', 'Kh'])); // C(34, 2)
+```
+
+```text title="Output"
+561
+```
