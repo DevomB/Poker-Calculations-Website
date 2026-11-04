@@ -61,7 +61,7 @@ p05 / p50 / p95: 0.36414141414141415 0.8767676767676768 1
 Runouts: 1081
 ```
 
-Omit `range` for equity vs a uniform random villain: every runout is equally likely. Pass `Float64Array(1326)` or a sparse spec for a weighted range (heavier); the statistics are then **predictive**. Villain's range makes some boards likelier (the cards villain holds cannot come), so each runout is weighted by the range mass that does not use its cards, runouts that no combo can coexist with are skipped, and `mean` equals [`exactHuEquityVsRange`](/docs/reference/api/exact-equity/exact-hu-vs-range#exactHuEquityVsRange) on the current board. Quantiles interpolate the weighted distribution (equal weights give the usual `q·(n − 1)` interpolation). The board may have at most **3** cards.
+Omit `range` for equity vs a uniform random villain: every runout is equally likely. Pass `Float64Array(1326)` or a sparse spec for a weighted range (heavier); the statistics are then **predictive**. Villain's range makes some boards likelier (the cards villain holds cannot come), so each runout is weighted by the range mass that does not use its cards, runouts that no combo can coexist with are skipped, and `mean` equals [`exactHuEquityVsRange`](/docs/reference/api/exact-equity/exact-hu-vs-range#exactHuEquityVsRange) on the current board. Quantiles interpolate the weighted distribution (equal weights give the usual `q·(n − 1)` interpolation). The board must be a **3-card flop**: any other length throws (the async form rejects), since preflop and partial-flop boards are not enumerated.
 
 ```js title="Example"
 const poker = require('poker-calculations');

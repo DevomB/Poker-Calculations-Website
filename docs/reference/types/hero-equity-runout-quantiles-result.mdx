@@ -18,7 +18,7 @@ Returned by [`exactHeroEquityRunoutQuantiles`](/docs/reference/api/runout-analys
 
 ## Semantics
 
-Enumerates every completion of a board of at most **3** cards. Without `range`, equity is vs a uniform random villain and every runout is equally likely. With optional `range` (dense `Float64Array(1326)` or [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec)), equity is vs that weighted range on each runout, and each runout is weighted by the range mass that does not use its cards: the probability of that board given villain's range. Runouts no combo can coexist with are skipped, and `mean` equals the direct exact equity on the current board. Quantiles interpolate the sorted per-runout equities by weight; equal weights give the usual `q·(n − 1)` interpolation.
+Enumerates every turn and river of a **3-card flop**; other board lengths throw. Without `range`, equity is vs a uniform random villain and every runout is equally likely. With optional `range` (dense `Float64Array(1326)` or [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec)), equity is vs that weighted range on each runout, and each runout is weighted by the range mass that does not use its cards: the probability of that board given villain's range. Runouts no combo can coexist with are skipped, and `mean` equals the direct exact equity on the current board. Quantiles interpolate the sorted per-runout equities by weight; equal weights give the usual `q·(n − 1)` interpolation.
 
 Use the async export with a weighted range or when enumeration would block the event loop; optional [`AsyncOptions`](/docs/reference/types/async-options) apply.
 

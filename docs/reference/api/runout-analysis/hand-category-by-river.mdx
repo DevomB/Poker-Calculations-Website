@@ -2,7 +2,7 @@
 title: "Hand category by the river"
 sidebar_label: "Hand category by the river"
 sidebar_position: 4
-description: "Joint distribution of hero **hand category on the turn** and **category on the river** after enumerating all turn/river runouts from a fixed flop."
+description: "Joint distribution of hero **hand category on the turn** and **category on the river** over every ordered turn-then-river deal from a fixed flop."
 api_functions: ["exactHeroCategoryJointFlopToRiver", "exactHeroCategoryAtLeastFlopToRiver", "exactHeroCategoryAtLeastFlopToRiverAsync"]
 ---
 
@@ -12,7 +12,7 @@ api_functions: ["exactHeroCategoryJointFlopToRiver", "exactHeroCategoryAtLeastFl
 
 ## `exactHeroCategoryJointFlopToRiver` \{#exactHeroCategoryJointFlopToRiver\}
 
-Joint distribution of hero **hand category on the turn** and **category on the river** after enumerating all turn/river runouts from a fixed flop.
+Joint distribution of hero **hand category on the turn** and **category on the river** over every ordered turn-then-river deal from a fixed flop. Each pair of live cards counts once in each order, since either can come first, and the turn category scores hero's six real cards.
 
 ```ts
 exactHeroCategoryJointFlopToRiver(
