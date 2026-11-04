@@ -74,7 +74,7 @@ const state = {
   actedThisStreet: [false, true],
 };
 
-const result = poker.validatePokerState(state, {monteCarloSimulations: 0});
+const result = poker.validatePokerState(state);
 console.log(result);
 ```
 
@@ -281,7 +281,7 @@ const state = {
   actedThisStreet: [false, true],
 };
 
-const result = poker.stateToFeatureVector(state, {monteCarloSimulations: 0});
+const result = poker.stateToFeatureVector(state);
 console.log(result);
 ```
 

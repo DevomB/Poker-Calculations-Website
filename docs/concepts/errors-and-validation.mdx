@@ -4,7 +4,7 @@ title: 'Errors & validation'
 
 # Errors and validation
 
-Every problem with your input comes back as an ordinary JavaScript `Error` (usually a `TypeError` for the wrong shape or a plain `Error` for impossible poker), so a `try`/`catch` is all you need. No input crashes the Node process: every export is swept with thousands of malformed and edge-case calls before each release.
+Every problem with your input comes back as an ordinary JavaScript `Error` (usually a `TypeError` for the wrong shape or a plain `Error` for impossible poker), so a `try`/`catch` is all you need. Bad input should never take the Node process down: the package's crash sweep calls every export with thousands of malformed and edge-case inputs in child processes and fails if any call terminates one.
 
 ```js
 const poker = require('poker-calculations');

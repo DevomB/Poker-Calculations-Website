@@ -41,30 +41,17 @@ Use `normalizeBotConfig` when you need to fill and clamp bot configuration field
 
 ```js title="Example"
 const poker = require('poker-calculations');
-const state = {
-  players: [
-    {holeCards: ['Ah', 'Kh'], stack: 200, seat: 0, committedThisStreet: 0},
-    {holeCards: ['7c', '7d'], stack: 180, seat: 1, folded: false},
-  ],
-  communityCards: ['Qh', 'Jh', '2c'],
-  phase: 'flop',
-  pot: 30,
-  currentBet: 10,
-  smallBlind: 1,
-  bigBlind: 2,
-  actingIndex: 0,
-  actedThisStreet: [false, true],
-};
 
-const result = poker.normalizeBotConfig(state, {monteCarloSimulations: 0});
+// Missing fields take their defaults; out-of-range ones are clamped.
+const result = poker.normalizeBotConfig({aggressionThreshold: 1.4, monteCarloSimulations: 2000});
 console.log(result);
 ```
 
 ```text title="Output"
 {
-  aggressionThreshold: 0.550000011920929,
+  aggressionThreshold: 1,
   riskTolerance: 0.9200000166893005,
-  monteCarloSimulations: 800,
+  monteCarloSimulations: 2000,
   monteCarloVillains: 1,
   raisePotFraction: 0.550000011920929,
   opponentAggressionWeight: 0.05000000074505806,

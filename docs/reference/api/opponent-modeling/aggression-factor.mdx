@@ -12,22 +12,23 @@ api_functions: ["opponentAggressionFactor"]
 
 ## `opponentAggressionFactor` \{#opponentAggressionFactor\}
 
-Compute opponent aggression factor from bets, raises, and calls.
+The conventional aggression factor `(bets + raises) / calls` from observed action counts. With no calls the denominator is treated as 1, so the result is `bets + raises`.
 
 ```ts
 opponentAggressionFactor(bets: number, raises: number, calls: number): number;
 ```
 
-Use `opponentAggressionFactor` when you need to compute opponent aggression factor from bets, raises, and calls.
+It is a point estimate: a handful of observed actions says little about a player. It is a different quantity from the `aggressionFactor` field of [`NativeOpponentModel`](/docs/reference/types/native-opponent-model), which is a 0–1 score.
 
 ```js title="Example"
 const poker = require('poker-calculations');
-const result = poker.opponentAggressionFactor(1, 1, 7, 5);
+// 3 bets and 1 raise against 2 calls.
+const result = poker.opponentAggressionFactor(3, 1, 2);
 console.log(result);
 ```
 
 ```text title="Output"
-0.2857142857142857
+2
 ```
 
 ## See also

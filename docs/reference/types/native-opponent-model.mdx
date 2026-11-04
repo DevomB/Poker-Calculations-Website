@@ -9,6 +9,8 @@ Optional third argument to [`decideAction`](/docs/reference/api/bots/decide-acti
 
 | Field | Role |
 | --- | --- |
-| `aggressionFactor` | Opponent aggression |
-| `callFrequency` | Call tendency |
-| `foldFrequency` | Fold tendency |
+| `aggressionFactor` | Normalized aggression score in [0, 1], 0.5 neutral (default 0.5). Not the `(bets + raises) / calls` ratio of [`opponentAggressionFactor`](/docs/reference/api/opponent-modeling/aggression-factor#opponentAggressionFactor). |
+| `callFrequency` | Call frequency in [0, 1]. Not read by `decideAction`. |
+| `foldFrequency` | Fold frequency in [0, 1]. Not read by `decideAction`. |
+
+`decideAction` adds `(aggressionFactor − 0.5) × opponentAggressionWeight` to hero's estimated equity before comparing it with pot odds. That is a heuristic adjustment, not a model of the opponent's range.

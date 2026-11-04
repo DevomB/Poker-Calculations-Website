@@ -2,7 +2,7 @@
 title: "decideAction"
 sidebar_label: "decideAction"
 sidebar_position: 1
-description: "Rule-based action using MC equity (or strength fallback when sim count is 0), pot odds, call EV; see [decideAction contract](/docs/reference/types/native-poker-state)."
+description: "Rule-based action from Monte Carlo equity, pot odds, and call EV; see [decideAction contract](/docs/reference/types/native-poker-state)."
 api_functions: ["decideAction", "decideActionAsync", "decideActionWithDiagnostics"]
 ---
 
@@ -12,7 +12,7 @@ api_functions: ["decideAction", "decideActionAsync", "decideActionWithDiagnostic
 
 ## `decideAction` \{#decideAction\}
 
-Rule-based action using MC equity (or strength fallback when sim count is 0), pot odds, call EV; see [decideAction contract](/docs/reference/types/native-poker-state).
+Rule-based action from Monte Carlo equity, pot odds, and call EV; see [decideAction contract](/docs/reference/types/native-poker-state).
 
 ```ts
 decideAction(
@@ -301,13 +301,13 @@ const state = {
   actedThisStreet: [false, true],
 };
 
-const result = poker.decideActionWithDiagnostics(state, {monteCarloSimulations: 0});
+const result = poker.decideActionWithDiagnostics(state, {monteCarloSimulations: 2000, rngSeed: 1}, null, 0);
 console.log(result);
 ```
 
 ```text title="Output"
 {
-  decision: { action: 'fold', raiseBy: 0 },
+  decision: { action: 'raise', raiseBy: 17 },
   legalActions: {
     canFold: true,
     canCheck: false,

@@ -80,7 +80,7 @@ const state = {
   actedThisStreet: [false, true],
 };
 
-const result = poker.legalActionSummary(state, {monteCarloSimulations: 0});
+const result = poker.legalActionSummary(state);
 console.log(result);
 ```
 
@@ -156,7 +156,7 @@ const state = {
   actedThisStreet: [false, true],
 };
 
-const result = poker.actionMaskFromState(state, {monteCarloSimulations: 0});
+const result = poker.actionMaskFromState(state);
 console.log(result);
 ```
 

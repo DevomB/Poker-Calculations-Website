@@ -17,4 +17,4 @@ Tuning object for [`decideAction`](/docs/reference/api/bots/decide-action#decide
 | `opponentAggressionWeight` | `number` | `0.05` |
 | `rngSeed` | `number` | `2463534242` |
 
-Set `monteCarloSimulations` to `0` to use hand-strength fallback instead of Monte Carlo equity.
+`decideAction` estimates equity by Monte Carlo, so `monteCarloSimulations` must be at least 1; more trials give a steadier decision near the call threshold. `opponentAggressionWeight` scales the [`NativeOpponentModel`](/docs/reference/types/native-opponent-model) adjustment.

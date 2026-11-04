@@ -66,7 +66,7 @@ const TRUST = [
   },
   {
     title: 'Swept for crashes',
-    body: 'Every export is called with 17 kinds of broken input: 6,256 calls, zero crashes. Bad input throws an ordinary Error.',
+    body: 'Every export is called with 17 kinds of broken input in child processes, and any call that kills the process fails the check. Bad input throws an ordinary Error.',
   },
   {
     title: 'Checked against brute force',
@@ -142,7 +142,7 @@ export default function Home(): React.ReactNode {
               </Link>
             ) : null}
             <h1 className={styles.title}>
-              Poker math, <em>solved.</em>
+              Poker math, <em>computed.</em>
             </h1>
             <p className={styles.subtitle}>
               Exact and Monte Carlo equity, pot odds, ICM, bounties, solvers, and eight poker variants. Written in
@@ -215,7 +215,7 @@ export default function Home(): React.ReactNode {
         <section className={styles.section}>
           <div className="container">
             <p className={styles.eyebrow}>Checked, not claimed</p>
-            <h2 className={styles.h2}>Numbers you can put in front of players.</h2>
+            <h2 className={styles.h2}>How the numbers are tested.</h2>
             <div className={styles.trust}>
               {TRUST.map((t, i) => (
                 <div key={t.title} className={styles.trustItem}>
