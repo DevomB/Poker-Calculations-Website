@@ -7,7 +7,7 @@ title: Packed card input
 Most APIs that take hole cards, board cards, or dead cards accept **`CardInput`**:
 
 - **`string[]`** — canonical card strings (`Ah`, `Th`, `10c`, …)
-- **`Uint8Array`** — one byte per card, each byte a **deck id** `0..51` (Node **`Buffer`** works as a byte view)
+- **`Uint8Array`** — one byte per card, each byte a **deck id** `0..51` (Node **`Buffer`** works as a byte view; other typed arrays and `DataView` are rejected)
 
 ## Deck id encoding
 

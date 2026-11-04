@@ -53,10 +53,14 @@ A row-major `169 × 169` matrix filled by Monte Carlo, with the two hands dealt 
 Each trial pays hero a share in [0, 1]: 1 for a win, `1/k` for a k-way chop, 0 for a loss. Because chops make the payoff fractional, [`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcomeDetailed) and [`simulateEquityVsRanges`](/docs/reference/api/monte-carlo/simulate-equity-vs-range#simulateEquityVsRanges) do not treat trials as win/lose coin flips:
 
 - `se` is `sqrt(s² / n)` with `s²` the sample variance of the payoffs. A single trial has no sample variance, so `se` is 0.5, the largest standard deviation a [0, 1] payoff can have.
-- `ciLow` / `ciHigh` is the 95% Wilson score interval at the mean. A [0, 1] payoff with mean μ has variance at most μ(1 − μ), so the interval is conservative when chops are common. It does not shrink to zero when every sample is the same (a board everyone plays gives `se = 0`), because a sample can miss rare outcomes.
+- `ciLow` / `ciHigh` is the 95% Wilson score interval at the mean, `(x̄ + z²/2n ± z √(x̄(1 − x̄)/n + z²/4n²)) / (1 + z²/n)` with `z = 1.96`. A [0, 1] payoff with mean μ has variance at most μ(1 − μ), so the interval is conservative when chops are common. It does not shrink to zero when every sample is the same (a board everyone plays gives `se = 0`), because a sample can miss rare outcomes.
 - Both are large-sample approximations of Monte Carlo error only.
 
 [`monteCarloStandardError`](/docs/reference/api/statistics/monte-carlo-error#monteCarloStandardError) remains the coin-flip formula `sqrt(p (1 − p) / n)`.
+
+## Range weights
+
+Range weights are relative: scaling every weight by the same factor describes the same range, and every exact and Monte Carlo function gives the same result. Weights must be finite and non-negative. See [Sparse range input](/docs/concepts/sparse-range-input).
 
 ## ICM
 

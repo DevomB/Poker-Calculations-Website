@@ -14,7 +14,7 @@ api_functions: ["flushMadeFlopToRiverExactProbability", "flushMadeFlopToRiverExa
 
 Exact flush+ by river enumeration.
 
-Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation). `knownDead` cards must not repeat hero's cards or the flop; an overlap throws.
 
 ```ts
 flushMadeFlopToRiverExactProbability(
@@ -45,7 +45,7 @@ console.log(pFlush);
 
 Async flush made; optional AbortSignal.
 
-Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation). `knownDead` cards must not repeat hero's cards or the flop; an overlap throws.
 
 Optional trailing `{ signal?: AbortSignal }` via [`AsyncOptions`](/docs/reference/types/async-options).
 
@@ -130,7 +130,7 @@ console.log(p.toFixed(4));
 
 Exact full house+ by river.
 
-Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation). `knownDead` cards must not repeat hero's cards or the flop; an overlap throws.
 
 ```ts
 fullHouseMadeFlopToRiverExactProbability(
@@ -160,7 +160,7 @@ console.log(poker.fullHouseMadeFlopToRiverExactProbability(hole, flop, dead));
 
 Async full house made.
 
-Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation). `knownDead` cards must not repeat hero's cards or the flop; an overlap throws.
 
 Optional trailing `{ signal?: AbortSignal }` via [`AsyncOptions`](/docs/reference/types/async-options).
 
@@ -193,7 +193,7 @@ console.log(p);
 
 Exact trips+ by river.
 
-Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation). `knownDead` cards must not repeat hero's cards or the flop; an overlap throws.
 
 ```ts
 tripsMadeFlopToRiverExactProbability(
@@ -222,7 +222,7 @@ console.log(poker.tripsMadeFlopToRiverExactProbability(hole, flop, []));
 
 Async trips made.
 
-Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation). `knownDead` cards must not repeat hero's cards or the flop; an overlap throws.
 
 Optional trailing `{ signal?: AbortSignal }` via [`AsyncOptions`](/docs/reference/types/async-options).
 
@@ -255,7 +255,7 @@ console.log(p);
 
 Exact two pair+ by river.
 
-Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation). `knownDead` cards must not repeat hero's cards or the flop; an overlap throws.
 
 ```ts
 twoPairMadeFlopToRiverExactProbability(
@@ -284,7 +284,7 @@ console.log(poker.twoPairMadeFlopToRiverExactProbability(hole, flop, []));
 
 Async two pair+ made.
 
-Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation).
+Card lists use `CardInput` (`string[]` or packed `Uint8Array`). See [Card notation](/docs/concepts/card-notation). `knownDead` cards must not repeat hero's cards or the flop; an overlap throws.
 
 Optional trailing `{ signal?: AbortSignal }` via [`AsyncOptions`](/docs/reference/types/async-options).
 

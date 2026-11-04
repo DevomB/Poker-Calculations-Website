@@ -12,7 +12,7 @@ api_functions: ["wilsonScoreInterval", "agrestiCoullInterval", "normalWaldBinomi
 
 ## `wilsonScoreInterval` \{#wilsonScoreInterval\}
 
-Wilson score interval for a binomial proportion.
+Wilson score interval for a binomial proportion: `(p + z²/2n ± z √(p(1 − p)/n + z²/4n²)) / (1 + z²/n)` with `p = successes / nTrials`. With every trial a success the upper bound is 1.
 
 ```ts
 wilsonScoreInterval(successes: number, nTrials: number, z: number): WilsonScoreInterval;

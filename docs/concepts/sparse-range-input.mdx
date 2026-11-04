@@ -9,4 +9,4 @@ Pass a villain range as:
 - **Dense:** `Float64Array` of length **1326** (canonical pair index order), or
 - **Sparse:** `{ indices: number[] | Int32Array, weights: number[] | Float64Array }` with two deck indices per combo.
 
-Weights must be non-negative; zero-weight combos are skipped.
+Weights must be finite and non-negative: a `NaN`, infinite, or negative weight throws instead of being dropped. Zero-weight combos are skipped. Only ratios matter, so `[1, 1]` and `[1e308, 1e308]` describe the same range and give the same results; the package rescales extreme weights by an exact power of two before forming any total. Results reported in weight units (for example `materializeVillainRangeAfterBlockers` weights or `handPotentialBreakdown` counts) keep your units, and throw if their total would exceed the largest double.

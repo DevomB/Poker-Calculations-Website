@@ -12,7 +12,7 @@ api_functions: ["benchmarkEvaluatorThroughput", "benchmarkEvaluatorThroughputAsy
 
 ## `benchmarkEvaluatorThroughput` \{#benchmarkEvaluatorThroughput\}
 
-Benchmark legacy vs forge evaluator throughput on random 7-card spots.
+Benchmark legacy vs forge evaluator throughput on random 7-card spots. `iterations` is an integer from 1 to 100,000,000 (default 200,000); anything else throws.
 
 ```ts
 benchmarkEvaluatorThroughput(iterations?: number): EvaluatorBenchmarkResult;
