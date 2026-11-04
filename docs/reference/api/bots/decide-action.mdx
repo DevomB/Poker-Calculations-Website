@@ -80,6 +80,11 @@ Field notes: [`DecisionResult`](/docs/reference/types/decision-result) · [`Nati
 
 Wire a rule-based villain or research bot in your own engine—automated opponents in simulators, not live assistance on third-party sites. Pass a complete `NativePokerState` snapshot each decision.
 
+- Hero is the player in `heroSeat`, or the acting player when it is omitted. It throws when that seat is empty, hero has folded or is all-in, or the hand is over, and when `monteCarloSimulations` is below 1.
+- Equity is estimated against `monteCarloVillains` random hands, not the actual opponents' cards.
+- A call that puts hero all-in for less is priced on what hero can win: the call costs hero's stack, and only the part of each bet hero matches counts (the rest is a side pot or returned).
+- `raiseBy` is the chips added on top of the call, kept between the minimum raise and all-in.
+
 ```js title="Example"
 const poker = require('poker-calculations');
 
@@ -282,7 +287,7 @@ Field notes: [`DecisionDiagnosticResult`](/docs/reference/types/decision-diagnos
 
 </details>
 
-Use `decideActionWithDiagnostics` when you need to run native decision logic and include legal-action and EV diagnostics.
+Use `decideActionWithDiagnostics` when you also want hero's legal actions next to the decision, to check or log it. The `ev` field is not filled in.
 
 ```js title="Example"
 const poker = require('poker-calculations');

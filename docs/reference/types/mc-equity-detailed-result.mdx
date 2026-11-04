@@ -5,14 +5,14 @@ sidebar_position: 26
 
 # `McEquityDetailedResult`
 
-Returned by [`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcome).
+Returned by [`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcomeDetailed); [`simulateEquityVsRanges`](/docs/reference/api/monte-carlo/simulate-equity-vs-range#simulateEquityVsRanges) adds `attempts`.
 
 | Field | Type | Meaning |
 | --- | --- | --- |
 | `estimate` | `number` | Mean equity share |
-| `se` | `number` | Monte Carlo standard error |
-| `ciLow` | `number` | Wilson interval low |
-| `ciHigh` | `number` | Wilson interval high |
+| `se` | `number` | Standard error from the sampled payoff variance (0.5 when `n` is 1) |
+| `ciLow` | `number` | 95% Wilson score interval at the mean, low |
+| `ciHigh` | `number` | 95% Wilson score interval at the mean, high |
 | `n` | `number` | Trials run |
 
-Wilson bounds use [`wilsonScoreInterval`](/docs/reference/api/statistics/confidence-intervals#wilsonScoreInterval) with `successes = round(estimate × n)`. See [Numerical semantics](/docs/concepts/numerical-semantics#detailed-monte-carlo-intervals).
+Split pots make each trial's payoff fractional, so these are not binomial formulas. See [Numerical semantics](/docs/concepts/numerical-semantics#detailed-monte-carlo-intervals).

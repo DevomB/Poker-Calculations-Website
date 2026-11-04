@@ -88,9 +88,10 @@
             },
             {
               "slug": "simulate-equity-vs-range",
-              "title": "Equity vs a range",
+              "title": "Equity vs ranges",
               "functions": [
-                "simulateEquityVsRange"
+                "simulateEquityVsRange",
+                "simulateEquityVsRanges"
               ]
             },
             {

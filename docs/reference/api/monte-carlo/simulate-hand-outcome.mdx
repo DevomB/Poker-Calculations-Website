@@ -40,7 +40,7 @@ console.log(equity.toFixed(4));
 ```
 
 ```text title="Output"
-0.7658
+0.7596
 ```
 
 Increase `numSimulations` until the standard error is acceptable; pair with [`monteCarloStandardError`](/docs/reference/api/statistics/monte-carlo-error#monteCarloStandardError).
@@ -75,12 +75,12 @@ console.log(eq.toFixed(3));
 ```
 
 ```text title="Output"
-0.760
+0.762
 ```
 
 ## `simulateHandOutcomeDetailed` \{#simulateHandOutcomeDetailed\}
 
-Monte Carlo equity with standard error and Wilson CI.
+`simulateHandOutcome` with its uncertainty: the standard error from the sampled payoffs and a 95% Wilson interval ([how they are computed](/docs/concepts/numerical-semantics#detailed-monte-carlo-intervals)). `numSimulations` must be at least 1.
 
 ```ts
 simulateHandOutcomeDetailed(
@@ -109,7 +109,7 @@ Field notes: [`McEquityDetailedResult`](/docs/reference/types/mc-equity-detailed
 
 </details>
 
-Use when you need `{ estimate, se, ciLow, ciHigh, n }` without composing `monteCarloStandardError` yourself.
+Use it instead of `simulateHandOutcome` plus `monteCarloStandardError`, which treats every trial as a win or a loss and overstates the error when pots are split.
 
 ```js title="Example"
 const poker = require('poker-calculations');
@@ -119,8 +119,8 @@ console.log('95% Wilson interval:', r.ciLow.toFixed(4), '-', r.ciHigh.toFixed(4)
 ```
 
 ```text title="Output"
-0.7643 ± 0.0083
-95% Wilson interval: 0.7559 - 0.7725
+0.7603 ± 0.0083
+95% Wilson interval: 0.7518 - 0.7685
 ```
 
 ## See also

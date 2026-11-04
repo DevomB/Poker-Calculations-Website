@@ -40,6 +40,34 @@ TypeError: invalid card at index 0
 
 Chip and probability arguments must be finite numbers. Negative stacks, pots, and bets throw, and an argument of the wrong type throws a `TypeError`. A few functions clamp instead of throwing where a clamp is the natural answer (for example the Kelly fraction never exceeds 1).
 
+## Table state
+
+State objects and PKST bytes go through one set of rules, listed under [NativePokerState](/docs/reference/types/native-poker-state#validity). [`validatePokerState`](/docs/reference/api/bots/poker-state#validatePokerState) returns every problem at once; the other state functions throw with the same messages. Field type problems (a missing array, a fractional or out-of-range number) are reported first, because the consistency checks need a well-formed state.
+
+```js
+const report = poker.validatePokerState({
+  players: [
+    { holeCards: ['Ah', 'Kh'], stack: -5, seat: 0 },
+    { holeCards: ['Ah', '7d'], stack: 100, seat: 0 },
+  ],
+  communityCards: ['Qh', 'Jh'],
+  phase: 'flop',
+  pot: 10,
+  actedThisStreet: [false],
+});
+console.log(report.errors);
+```
+
+```text title="Output"
+[
+  'phase Flop needs 3 community cards (got 2)',
+  'players[0].stack must be non-negative (got -5)',
+  'players[1].seat 0 is used twice',
+  'card Ah appears twice (players[1].holeCards)',
+  'actedThisStreet must have one flag per player (got 1 for 2 players)'
+]
+```
+
 ## Async functions
 
 A rejected promise carries the same `Error`. Aborting through an `AbortSignal` rejects with an `AbortError` instead.

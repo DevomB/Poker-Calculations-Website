@@ -85,7 +85,7 @@ Field notes: [`DecisionDiagnosticResult`](/docs/reference/types/decision-diagnos
 
 </details>
 
-Use `runBotPolicyBatch` when you need to run native policy diagnostics over many states.
+Use `runBotPolicyBatch` to decide for the acting player in many states at once. `opponentModels[i]` (or `null`) applies to state `i`. A state that is invalid or that nobody can act on returns `{ error }` in its row instead of failing the whole batch.
 
 ```js title="Example"
 const poker = require('poker-calculations');

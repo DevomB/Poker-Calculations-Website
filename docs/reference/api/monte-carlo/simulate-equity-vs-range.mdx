@@ -1,14 +1,14 @@
 ---
-title: "Equity vs a range"
-sidebar_label: "Equity vs a range"
+title: "Equity vs ranges"
+sidebar_label: "Equity vs ranges"
 sidebar_position: 4
-description: "Monte Carlo equity vs weighted villain range."
-api_functions: ["simulateEquityVsRange"]
+description: "Monte Carlo equity vs one weighted villain range, or one range per opponent."
+api_functions: ["simulateEquityVsRange", "simulateEquityVsRanges"]
 ---
 
-# Equity vs a range
+# Equity vs ranges
 
-<ApiFamilyHeader category="Monte Carlo equity" suit="♥" functions={["simulateEquityVsRange"]} />
+<ApiFamilyHeader category="Monte Carlo equity" suit="♥" functions={["simulateEquityVsRange","simulateEquityVsRanges"]} />
 
 ## `simulateEquityVsRange` \{#simulateEquityVsRange\}
 
@@ -33,5 +33,56 @@ console.log(poker.simulateEquityVsRange(['Ah', 'Kh'], ['Qh', 'Jh', '2c'], range,
 ```
 
 ```text title="Output"
-0.448
+0.456
+```
+
+## `simulateEquityVsRanges` \{#simulateEquityVsRanges\}
+
+Monte Carlo showdown equity against one weighted range per opponent (1–9 ranges, each a dense `Float64Array(1326)` or a [sparse range](/docs/concepts/sparse-range-input)). Combos that use hero's cards, the board, or `deadCards` are dropped from every range.
+
+```ts
+simulateEquityVsRanges(
+  heroHoleCards: CardInput,
+  boardCards: CardInput,
+  ranges: Array<Float64Array | SparseRangeSpec>,
+  numSimulations: number,
+  seed: number,
+  options?: RangesEquityOptions
+): RangesEquityResult;
+```
+
+<details>
+<summary>Types: <code>RangesEquityResult</code>, <code>RangesEquityOptions</code></summary>
+
+```ts
+interface RangesEquityResult extends McEquityDetailedResult {
+  attempts: number;
+}
+
+interface RangesEquityOptions {
+  deadCards?: CardInput;
+  maxAttempts?: number;
+}
+```
+
+Field notes: [`McEquityDetailedResult`](/docs/reference/types/mc-equity-detailed-result)
+
+</details>
+
+Each trial draws a hand from every range and keeps the whole set only if no two opponents share a card, then deals the rest of the board. The opponents' hands therefore follow the joint distribution of the ranges: drawing one hand at a time and renormalising the later ranges would weight the first range's hands wrongly. Ties pay `1/k`; there are no side pots. The result carries the same `estimate`, `se`, and Wilson interval as [`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcomeDetailed), plus `attempts`, the number of draws (`n / attempts` is the share of draws that were card-disjoint).
+
+If fewer than `numSimulations` draws are card-disjoint within `maxAttempts` (default `100 × numSimulations + 10000`, an acceptance rate below about 1%), it throws instead of running on; that happens when the ranges all need the same few cards. A range with no combo left after blockers also throws.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const villainA = poker.rangeFromNotationWeights([{ notation: 'QQ', weight: 1 }, { notation: 'AKo', weight: 1 }]);
+const villainB = poker.rangeFromNotationWeights([{ notation: 'JJ', weight: 1 }, { notation: 'TT', weight: 1 }, { notation: 'KQs', weight: 1 }]);
+const r = poker.simulateEquityVsRanges(['Ah', 'Kh'], ['Qh', 'Jh', '2c'], [villainA, villainB], 20000, 42);
+console.log(r.estimate.toFixed(3), '±', (1.96 * r.se).toFixed(3));
+console.log('card-disjoint draws:', (r.n / r.attempts).toFixed(2));
+```
+
+```text title="Output"
+0.370 ± 0.006
+card-disjoint draws: 0.83
 ```

@@ -61,7 +61,7 @@ Field notes: [`LegalActionSummaryResult`](/docs/reference/types/legal-action-sum
 
 </details>
 
-Use `legalActionSummary` when you need to return legal action flags and raise bounds for a poker state.
+It reports the acting player (player 0 when `actingIndex` is -1). `toCall` can exceed the stack, in which case calling is all-in. `minRaiseTo` is the current bet plus the last full raise, or all-in when the stack is shorter. A player who already acted and now faces only a short all-in raise may call or fold but not raise again. Once the hand is over, or for a folded or all-in player, every flag is false.
 
 ```js title="Example"
 const poker = require('poker-calculations');

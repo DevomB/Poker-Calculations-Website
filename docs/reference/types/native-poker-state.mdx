@@ -39,7 +39,22 @@ interface NativePokerState {
 ## Notes
 
 - `holeCards` and `communityCards` accept canonical card strings or packed `Uint8Array` (deck ids `0..51`). See [Packed card input](/docs/concepts/packed-card-input).
-- `phase` is case-insensitive in native code (`preflop`, `flop`, `turn`, `river`, `showdown`, `handcomplete`).
+- `phase` accepts `PreFlop`, `Flop`, `Turn`, `River`, `Showdown`, and `HandComplete`, or the same words in lower case.
+- `holeCards: []` marks an unknown hand. [PKST bytes](/docs/concepts/packed-poker-state) always store two cards per player, so such a state cannot be encoded.
 - Pair with [NativeBotConfig](/docs/reference/types/native-bot-config) and optional [NativeOpponentModel](/docs/reference/types/native-opponent-model).
+
+## Validity
+
+Every state API checks objects and PKST bytes with the same rules and throws on the first problem; [`validatePokerState`](/docs/reference/api/bots/poker-state#validatePokerState) lists all of them.
+
+- 2–10 players with unique seats `0..255`.
+- Chip fields (`stack`, `committedThisStreet`, `totalCommittedHand`, `pot`, `currentBet`, blinds, `lastRaiseIncrement`) are non-negative integers that fit in 32 bits, and `pot` plus all stacks is at most `2^31 − 1`. A value such as `2.5` or `1e12` is reported, never rounded or wrapped.
+- `pot` includes every player's `committedThisStreet`, and `currentBet` is at least the largest of them.
+- Hole cards are two known cards or `[]`; no card appears twice anywhere.
+- The board matches the phase: 0 cards preflop, 3 on the flop, 4 on the turn, 5 on the river or at showdown, and any of those once the hand is complete.
+- `actedThisStreet` has one boolean per player.
+- `actingIndex` is `-1` or a player who can act (not folded, chips behind); it is `-1` once the hand is over.
+
+A finished hand is still a valid snapshot. Whether anyone can act on it is a separate question, answered by [`legalActionSummary`](/docs/reference/api/bots/legal-actions#legalActionSummary): [`decideAction`](/docs/reference/api/bots/decide-action#decideAction) throws when hero cannot act.
 
 Guide: [decideAction](/docs/guides/decide-action).
