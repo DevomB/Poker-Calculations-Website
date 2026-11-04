@@ -37,6 +37,8 @@ Float64Array(4) [ 0.4, 0.3, 0.2, 0.1 ] Float64Array(4) [
 ] 16
 ```
 
+The same validation applies to both input types: ICM stacks must be positive and finite, payouts finite and non-negative, and the vectors the same length. Shares are scaled before summing, so `Float64Array` stacks near the limits of the type (`1e308`, `1e-308`) keep their proportions. The full placement matrix is limited to 20 players; see [`icmHarvillePlacementProbabilities`](/docs/reference/api/icm/harville-probabilities#icmHarvillePlacementProbabilities).
+
 ## Covered exports
 
 - `icmWinProbabilitiesHarville`

@@ -9,7 +9,7 @@ title: Preflop equity matrix
 ```js
 const poker = require('poker-calculations');
 
-const m = poker.buildPreflopEquityMatrix({ iterations: 300, seed: 42, threads: 8 });
+const m = poker.buildPreflopEquityMatrix({ iterations: 300, seed: 42 });
 console.log(m.length);
 ```
 
@@ -17,7 +17,7 @@ console.log(m.length);
 28561
 ```
 
-`iterations` is the number of Monte Carlo trials per cell and `threads` the number of native worker threads. A few hundred trials is enough to explore; use thousands for tables you publish.
+`iterations` is the number of Monte Carlo trials per cell. A few hundred trials is enough to explore; use thousands for tables you publish. The matrix is built on the calling thread: the old `threads` option is deprecated and ignored, so use a Worker if you need to keep the main thread free. Each class is represented by one combo with fixed suits, so cells approximate class-vs-class equity.
 
 ## Finding a hand
 
@@ -42,9 +42,9 @@ console.log('22 vs AKo', equity('22', 'AKo').toFixed(3));
 
 ```text title="Output"
 22 AA
-AA vs KK  0.805
-AKs vs QQ 0.520
-22 vs AKo 0.523
+AA vs KK  0.840
+AKs vs QQ 0.453
+22 vs AKo 0.563
 ```
 
 At 300 trials per cell each number carries a few points of Monte Carlo noise (AA vs KK is about 0.82 exactly); raise `iterations` when you need tighter values.

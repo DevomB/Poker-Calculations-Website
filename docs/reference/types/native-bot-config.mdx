@@ -17,4 +17,6 @@ Tuning object for [`decideAction`](/docs/reference/api/bots/decide-action#decide
 | `opponentAggressionWeight` | `number` | `0.05` |
 | `rngSeed` | `number` | `2463534242` |
 
-`decideAction` estimates equity by Monte Carlo, so `monteCarloSimulations` must be at least 1; more trials give a steadier decision near the call threshold. `monteCarloVillains` is the number of random opponents when hero has nothing to call; a call is priced against the players actually left in each side-pot layer. `opponentAggressionWeight` scales the [`NativeOpponentModel`](/docs/reference/types/native-opponent-model) adjustment.
+[`normalizeBotConfig`](/docs/reference/api/bots/bot-config#normalizeBotConfig) shows the values actually used: `aggressionThreshold` and `riskTolerance` are clamped to [0, 1] and `raisePotFraction` to at least 0; `NaN` or infinite values keep the default; finite values outside the 32-bit float range throw.
+
+`decideAction` is a strategy heuristic driven by a Monte Carlo equity estimate, so `monteCarloSimulations` must be at least 1; more trials give a steadier decision near the call threshold. `monteCarloVillains` is the number of random opponents when hero has nothing to call; a call is priced against the players actually left in each side-pot layer. `opponentAggressionWeight` scales the [`NativeOpponentModel`](/docs/reference/types/native-opponent-model) adjustment.

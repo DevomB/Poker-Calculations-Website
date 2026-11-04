@@ -110,7 +110,7 @@ console.log(
 
 ## `chubukovMaxSymmetricJamStackBinarySearch` \{#chubukovMaxSymmetricJamStackBinarySearch\}
 
-largest integer jam stack in `[1, maxStackChips]` with nonnegative symmetric-jam EV using exact HU equity vs a random hand (`exactHuEquityVsRandomHand`); board 3–5. `maxStackChips` is a double (clamped to int range in native code).
+largest integer jam stack in `[1, maxStackChips]` with nonnegative symmetric-jam EV using exact HU equity vs a random hand (`exactHuEquityVsRandomHand`); board 3–5 (preflop throws). `maxStackChips` is a double (clamped to int range in native code).
 
 ```ts
 chubukovMaxSymmetricJamStackBinarySearch(
@@ -121,7 +121,7 @@ chubukovMaxSymmetricJamStackBinarySearch(
 ): number;
 ```
 
-Push/fold study on a **concrete flop/turn/river**: equity comes from `exactHuEquityVsRandomHand`, then binary search finds max +EV jam depth. Board must have 3–5 cards.
+Push/fold study on a **concrete flop/turn/river**: equity comes from `exactHuEquityVsRandomHand`, then binary search finds max +EV jam depth. Board must have 3–5 cards: an empty (preflop) board throws before any work. Before 4.2.0 a preflop board was accepted and ran exact enumeration over every board for each search. The equity is exact; the jam model itself is a toy (symmetric stacks, a single all-in, no ICM).
 
 ```js title="Example"
 const poker = require('poker-calculations');
@@ -150,7 +150,7 @@ equity vs random: 0.5230954316523234
 
 ## `chubukovMaxSymmetricJamStackFromHandBinarySearch` \{#chubukovMaxSymmetricJamStackFromHandBinarySearch\}
 
-same integer search as `chubukovMaxSymmetricJamStackBinarySearch` (equity from the hand, then `chubukovMaxSymmetricJamStackChipsBinarySearch`). `maxStackChips` is coerced with **int32** semantics in native code.
+same integer search as `chubukovMaxSymmetricJamStackBinarySearch` (equity from the hand, then `chubukovMaxSymmetricJamStackChipsBinarySearch`). `maxStackChips` must be an integer (fractions, NaN, and values outside the int32 range throw).
 
 ```ts
 chubukovMaxSymmetricJamStackFromHandBinarySearch(
@@ -161,7 +161,7 @@ chubukovMaxSymmetricJamStackFromHandBinarySearch(
 ): number;
 ```
 
-Identical workflow to `chubukovMaxSymmetricJamStackBinarySearch` but **`maxStackChips` is coerced with int32 semantics** in native code—use when your cap must match int32 ranges or you need parity with the alternate binding path.
+Identical workflow to `chubukovMaxSymmetricJamStackBinarySearch` (board 3–5; preflop throws), but **`maxStackChips` must be an int32 integer**: fractions, `NaN`, and values outside the int32 range throw instead of being truncated or wrapped as they were before 4.2.0.
 
 ```js title="Example"
 const poker = require('poker-calculations');

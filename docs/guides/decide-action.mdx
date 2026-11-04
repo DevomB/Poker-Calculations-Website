@@ -22,7 +22,7 @@ See [NativePokerState](/docs/reference/types/native-poker-state). You may pass P
 
 See [NativeBotConfig](/docs/reference/types/native-bot-config) and optional [NativeOpponentModel](/docs/reference/types/native-opponent-model).
 
-[`normalizeBotConfig`](/docs/reference/api/bots/bot-config#normalizeBotConfig) fills missing fields and clamps values before you call policy exports.
+[`normalizeBotConfig`](/docs/reference/api/bots/bot-config#normalizeBotConfig) fills missing fields and clamps values before you call policy exports: `aggressionThreshold` and `riskTolerance` to [0, 1], `raisePotFraction` to at least 0. `NaN` or infinite values keep the default, and finite values outside the 32-bit float range (such as `1e300`) throw.
 
 `monteCarloSimulations` must be at least 1: there is no non-simulated fallback, and `normalizeBotConfig` clamps it to at least 1. With nothing to call, equity is against `monteCarloVillains` random hands. A call is priced side-pot layer by layer: hero can win only the layers it puts chips into, each against random hands for the players still in that layer, so an all-in player who covers only part of the bet competes only for the part they matched. Set `totalCommittedHand` on every player (summing to `pot`) to layer earlier streets too; otherwise earlier-street chips count as one layer contested by everyone still in the hand.
 

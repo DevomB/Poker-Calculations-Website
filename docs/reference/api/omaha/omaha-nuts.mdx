@@ -18,7 +18,7 @@ True iff hero’s Omaha Hi hand is unbeaten by every other 4-card combo that avo
 omahaNutsOnBoard(heroHoleCards: CardInput, boardCards: CardInput, extraDead?: CardInput): boolean;
 ```
 
-Whether hero holds the absolute nuts right now, checked against every possible opposing holding.
+Whether hero holds the absolute nuts right now, checked against every possible opposing holding. The check is exact. Because an Omaha hand uses exactly two hole cards, it tests every pair of live cards instead of every full four-card holding, which gives the same answer much faster (since 4.2.0).
 
 ```js title="Example"
 const poker = require('poker-calculations');
@@ -88,6 +88,8 @@ console.log(poker.omahaWrapDrawOuts(['Kh', 'Qd', '9c', '8s'], ['Jd', 'Tc', '2h']
 ```text title="Output"
 { outs: 20, nutOuts: 14 }
 ```
+
+Exact counting. The nut check on each turn card tests pairs of live cards (exactly two hole cards play), so this example returns the same 20 outs and 14 nut outs in milliseconds; before 4.2.0 it enumerated every full holding and took about 7 seconds.
 
 ## `omahaComboCount` \{#omahaComboCount\}
 

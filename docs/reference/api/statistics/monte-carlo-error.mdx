@@ -39,13 +39,13 @@ trials for SE ≤ 0.5%: 9691
 
 ## `monteCarloTrialsForStandardErrorBound` \{#monteCarloTrialsForStandardErrorBound\}
 
-Smallest integer `n` so `monteCarloStandardError(pHat, n) <= targetSe` (ceil of `p(1-p)/targetSe²`). Requires `pHat` strictly between `0` and `1`.
+Smallest integer `n` so `monteCarloStandardError(pHat, n) <= targetSe` (about `p(1-p)/targetSe²`, checked on the standard error itself). Requires `pHat` strictly between `0` and `1`; counts above 2^53 − 1 throw.
 
 ```ts
 monteCarloTrialsForStandardErrorBound(pHat: number, targetSe: number): number;
 ```
 
-Pick a Monte Carlo trial count **before** running equity sims so standard error stays below a target. Requires interior `pHat` strictly between `0` and `1` (use a pilot estimate or 0.5 as conservative planning value).
+Pick a Monte Carlo trial count **before** running equity sims so standard error stays below a target. Requires interior `pHat` strictly between `0` and `1` (use a pilot estimate or 0.5 as conservative planning value). A target so small that the count cannot be represented exactly (above 2^53 − 1, e.g. `targetSe = 1e-200`) throws instead of returning a wrapped number.
 
 ```js title="Example"
 const poker = require('poker-calculations');
@@ -72,7 +72,7 @@ equity: 0.5474826097488403
 
 ## `monteCarloTrialsForWilsonHalfWidth` \{#monteCarloTrialsForWilsonHalfWidth\}
 
-Trials needed for target Wilson half-width.
+Smallest trial count whose Wilson interval half-width at `pHat` is at most `targetHalfWidth`.
 
 ```ts
 monteCarloTrialsForWilsonHalfWidth(
@@ -82,22 +82,22 @@ monteCarloTrialsForWilsonHalfWidth(
 ): number;
 ```
 
-How many Monte Carlo trials you need so Wilson half-width is at most `targetHalfWidth` at estimate `pHat`.
+How many Monte Carlo trials you need so the Wilson half-width `z √(p(1−p)/n + z²/4n²) / (1 + z²/n)` is at most `targetHalfWidth` at estimate `pHat`. The half-width strictly decreases in `n`, so the answer `n` meets the target and `n − 1` does not. Before 4.2.0 this used a normal-approximation standard error, which is far too optimistic near 0 or 1: for `pHat = 0.001` and half-width 0.01 it returned 39 trials, whose actual Wilson half-width is 0.046. Counts above 2^53 − 1 throw.
 
 ```js title="Example"
 const poker = require('poker-calculations');
 
-const pHat = 0.5;
-const targetHalfWidth = 0.02;
 const z = 1.96;
+const halfWidth = (p, n) => (z * Math.sqrt((p * (1 - p)) / n + (z * z) / (4 * n * n))) / (1 + (z * z) / n);
 
-const n = poker.monteCarloTrialsForWilsonHalfWidth(pHat, targetHalfWidth, z);
-const interval = poker.wilsonScoreInterval(Math.floor(pHat * n), n, z);
-console.log((interval.upper - interval.lower) / 2); // <= targetHalfWidth
+const n = poker.monteCarloTrialsForWilsonHalfWidth(0.001, 0.01, z);
+console.log(n); // 209
+console.log(halfWidth(0.001, n) <= 0.01, halfWidth(0.001, n - 1) > 0.01); // true true: the smallest such n
 ```
 
 ```text title="Output"
-0.01998401744392536
+209
+true true
 ```
 
 ## `monteCarloTrialsForHoeffdingBound` \{#monteCarloTrialsForHoeffdingBound\}
@@ -126,7 +126,7 @@ console.log({ nHoeffding, nSeAtPHalf: nSe });
 { nHoeffding: 18445, nSeAtPHalf: 2500 }
 ```
 
-**Returns** `number` — smallest integer n with n ≥ ln(2/δ) / (2ε²) (Hoeffding bound for a proportion in [0, 1]).
+**Returns** `number` — smallest integer n with n ≥ ln(2/δ) / (2ε²) (Hoeffding bound for a proportion in [0, 1]). Throws when that exceeds 2^53 − 1 (for example ε = 1e-10).
 
 ## See also
 

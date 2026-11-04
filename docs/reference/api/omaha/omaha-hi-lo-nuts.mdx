@@ -55,6 +55,8 @@ console.log(poker.omahaHiLoNuttedness(['Ah', '2h', '3c', 'Kd'], ['4s', '5d', '8c
 
 True iff hero has a qualifying low unbeaten by any other 4-card combo.
 
+Exact. Exactly two hole cards play, so the check tests pairs of live cards rather than every 4-card holding.
+
 ```ts
 omahaLoNutsOnBoard(heroHoleCards: CardInput, boardCards: CardInput, extraDead?: CardInput): boolean;
 ```

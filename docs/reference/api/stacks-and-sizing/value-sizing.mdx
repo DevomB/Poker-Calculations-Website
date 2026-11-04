@@ -2,7 +2,7 @@
 title: "Thin value"
 sidebar_label: "Thin value"
 sidebar_position: 7
-description: "Return the chip-EV margin of a thin value bet."
+description: "Chip EV of a called value bet, and the largest bet that breaks even."
 api_functions: ["thinValueMargin", "betSizingIndifferencePoint"]
 ---
 
@@ -18,42 +18,47 @@ Return the chip-EV margin of a thin value bet.
 thinValueMargin(heroEquityWhenCalled: number, pot: number, betSize: number): number;
 ```
 
-Use `thinValueMargin` when you need to return the chip-EV margin of a thin value bet.
+Chip EV of a bet that is called: `equity × (pot + 2 × betSize) − betSize`. Positive means the bet makes money when called, so it is worth betting for value.
 
 ```js title="Example"
 const poker = require('poker-calculations');
-const range = new Float64Array(1326);
-range.fill(1 / 1326);
 
-const result = poker.thinValueMargin(range, range, ['Qh', 'Jh', '2c'], 100, [33, 66, 100]);
-console.log(result);
+// 60% when called, 50 into 100: 0.6 × 200 − 50 = +70.
+console.log(poker.thinValueMargin(0.6, 100, 50));
+// 20% when called: 0.2 × 200 − 50 = −10, a loss when called.
+console.log(poker.thinValueMargin(0.2, 100, 50));
 ```
 
 ```text title="Output"
-0
+70
+-10
 ```
 
 ## `betSizingIndifferencePoint` \{#betSizingIndifferencePoint\}
 
-Solve a simple bet-size indifference point from fold frequency and called equity.
+Largest bet that breaks even given fold frequency and equity when called; `Infinity` when every size is profitable.
 
 ```ts
 betSizingIndifferencePoint(pot: number, foldFrequency: number, equityWhenCalled: number): number;
 ```
 
-Use `betSizingIndifferencePoint` when you need to solve a simple bet-size indifference point from fold frequency and called equity.
+Betting `B` into `pot` is worth `EV(B) = fe × pot + (1 − fe) × (eq × (pot + 2B) − B)`. That falls as `B` grows when `eq < 0.5`, and the returned size is where it reaches 0: `(fe + eq (1 − fe)) pot / ((1 − fe)(1 − 2 eq))`. Pot 100, fold 20%, 30% when called: 137.5. When no finite size breaks even (`fe = 1`, or `eq ≥ 0.5`, where betting is profitable at every size) it returns `Infinity`; before 4.2.0 it clamped the zero denominator and returned 5e10. Inputs outside [0, 1] or a negative pot throw.
 
 ```js title="Example"
 const poker = require('poker-calculations');
-const range = new Float64Array(1326);
-range.fill(1 / 1326);
 
-const result = poker.betSizingIndifferencePoint(range, range, ['Qh', 'Jh', '2c'], 100, [33, 66, 100]);
-console.log(result);
+const b = poker.betSizingIndifferencePoint(100, 0.2, 0.3);
+console.log(b); // 137.5
+// Check: EV at that size is 0.
+console.log(0.2 * 100 + 0.8 * (0.3 * (100 + 2 * b) - b));
+
+console.log(poker.betSizingIndifferencePoint(100, 0, 0.5)); // Infinity: EV is +50 at every size
 ```
 
 ```text title="Output"
-0
+137.49999999999997
+1.0658141036401503e-14
+Infinity
 ```
 
 ## See also

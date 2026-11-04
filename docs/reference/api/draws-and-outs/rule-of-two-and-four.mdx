@@ -62,47 +62,48 @@ console.log(
 
 ## `estimatedOutsFromRuleOfTwo` \{#estimatedOutsFromRuleOfTwo\}
 
-Algebraic inverse of the uncapped rule-of-two line: `equity * unseen / 2` clamped to `[0, unseen]` (not a full inverse of capped `ruleOfTwoEquity`).
+Outs implied by the rule of two (2% per out): `equity × 50`, the uncapped inverse of `ruleOfTwoEquity` (0.18 → 9 outs), at most `unseenCards`. `equity` must be in [0, 1].
 
 ```ts
 estimatedOutsFromRuleOfTwo(equity: number, unseenCards: number): number;
 ```
 
-Back-solve approximate out counts from a one-street equity target—rough inverse of the rule-of-two line, not a perfect inverse of capped [`ruleOfTwoEquity`](/docs/reference/api/draws-and-outs/rule-of-two-and-four#ruleOfTwoEquity).
+Back-solve the out count behind a one-street equity estimate. It inverts [`ruleOfTwoEquity`](/docs/reference/api/draws-and-outs/rule-of-two-and-four#ruleOfTwoEquity) exactly below that rule's cap: 9 outs × 2% is 0.18, and 0.18 gives back 9. The forward rule saturates (48 outs, equity 1), so equities near 1 have no unique inverse; the result never exceeds `unseenCards`. Before 4.2.0 this multiplied by `unseenCards / 2` instead of 50 and returned 4.23 for 0.18.
 
 ```js title="Example"
 const poker = require('poker-calculations');
 
-const outs = poker.estimatedOutsFromRuleOfTwo(0.32, 47);
-console.log(outs);
+const equity = poker.ruleOfTwoEquity(9); // 0.18
+console.log(poker.estimatedOutsFromRuleOfTwo(equity, 47)); // 9
+console.log(poker.estimatedOutsFromRuleOfTwo(1, 47)); // capped at the 47 unseen cards
 ```
 
 ```text title="Output"
-7.5200000000000005
+9
+47
 ```
 
 ## `estimatedOutsFromRuleOfFour` \{#estimatedOutsFromRuleOfFour\}
 
-Same for two streets vs the rule-of-four line: `equity * unseen / 4` clamped to `[0, unseen]`.
+Rule of four (4% per out, two cards to come): `equity × 25` (0.36 → 9 outs), at most `unseenCards`.
 
 ```ts
 estimatedOutsFromRuleOfFour(equity: number, unseenCards: number): number;
 ```
 
-Convert **flop→river equity** into an implied out count for teaching or UI sliders. Clamped to valid out counts; not guaranteed to match `ruleOfFourEquity` in reverse because the forward rule is capped.
+Convert **flop→river equity** into an implied out count for teaching or UI sliders. It inverts [`ruleOfFourEquity`](/docs/reference/api/draws-and-outs/rule-of-two-and-four#ruleOfFourEquity) below its cap: a 9-out flush draw is 36% by the rule, and 0.36 gives back 9. The exact two-card hit rate for those 9 outs is a little lower, which is why the rule of four is a heuristic.
 
 ```js title="Example"
 const poker = require('poker-calculations');
 
-const equity = 0.35;
 const unseenAfterFlop = 47;
-console.log(poker.estimatedOutsFromRuleOfFour(equity, unseenAfterFlop));
+console.log(poker.estimatedOutsFromRuleOfFour(0.36, unseenAfterFlop)); // 9
 
-console.log(poker.flopToRiverAtLeastOneHitProbability(9, unseenAfterFlop));
+console.log(poker.flopToRiverAtLeastOneHitProbability(9, unseenAfterFlop)); // exact: ~0.35
 ```
 
 ```text title="Output"
-4.1125
+9
 0.3496762257169288
 ```
 

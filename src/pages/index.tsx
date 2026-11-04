@@ -55,7 +55,7 @@ const { jam, call } = poker.nashHeadsUpJamCallSolve({
 });
 const share = (v) => (v.reduce((a, b) => a + b) / 169).toFixed(2);
 [share(jam), share(call)];`,
-    out: "[ '0.71', '0.41' ]",
+    out: "[ '0.63', '0.39' ]",
   },
 ];
 

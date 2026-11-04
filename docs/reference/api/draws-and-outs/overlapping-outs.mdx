@@ -23,7 +23,9 @@ flopToRiverAtLeastOneHitUnionTwoCategories(
 ): number;
 ```
 
-Combine **flush outs and straight outs** when some cards count toward both (overlap). Union size is `outsA + outsB - sharedAb` before the two-street hit formula runs.
+Combine **flush outs and straight outs** when some cards count toward both (overlap). Union size is `outsA + outsB - sharedAb` before the two-street hit formula runs. The result is exact: `1 − C(unseen − union, 2) / C(unseen, 2)`. In the example the union is 9 + 4 − 1 = 12 outs, so `1 − C(35, 2) / C(47, 2) = 1 − 595 / 1081`.
+
+Every `*Union*Categories` helper checks that the sizes describe real sets: no intersection may exceed a set it belongs to, every Venn region must be non-negative, and the union cannot exceed the unseen cards. Inconsistent inputs throw; before 4.2.0 they returned a number. For example, `(47, 4, 9, 5)` throws because 5 shared cards cannot fit in a 4-card category.
 
 ```js title="Example"
 const poker = require('poker-calculations');
@@ -164,7 +166,7 @@ console.log(p); // 12/47 — same union logic as flop→river, one card only
 
 ## `flopToTurnAtLeastOneHitUnionThreeCategories` \{#flopToTurnAtLeastOneHitUnionThreeCategories\}
 
-Three categories with inclusion–exclusion, one street.
+P(at least one out on the turn) for the union of three out categories, from their sizes and every intersection (inclusion–exclusion). The sizes must describe real sets: no intersection may exceed a set it belongs to, and every Venn region must be non-negative, or it throws. The other `*Union*Categories` helpers apply the same check.
 
 ```ts
 flopToTurnAtLeastOneHitUnionThreeCategories(

@@ -61,7 +61,7 @@ Field notes: [`LegalActionSummaryResult`](/docs/reference/types/legal-action-sum
 
 </details>
 
-It reports the acting player (player 0 when `actingIndex` is -1). `toCall` can exceed the stack, in which case calling is all-in. `minRaiseTo` is the current bet plus the last full raise, or all-in when the stack is shorter. Raising also needs another player still in the hand with chips: against opponents who are all in, the choices are call (or check) and fold. A player who already acted and now faces only a short all-in raise may call or fold but not raise again. Once the hand is over, or for a folded or all-in player, every flag is false.
+It reports the acting player (player 0 when `actingIndex` is -1). `toCall` can exceed the stack, in which case calling is all-in. `minRaiseTo` is the current bet plus the last full raise, or all-in when the stack is shorter. It is formed in 64-bit integers, so large chip counts no longer overflow: before 4.2.0 a valid state with a 1.2e9 bet reported a `minRaiseTo` of −1,894,967,296. Raising also needs another player still in the hand with chips: against opponents who are all in, the choices are call (or check) and fold. A player who already acted and now faces only a short all-in raise may call or fold but not raise again. Once the hand is over, or for a folded or all-in player, every flag is false.
 
 ```js title="Example"
 const poker = require('poker-calculations');

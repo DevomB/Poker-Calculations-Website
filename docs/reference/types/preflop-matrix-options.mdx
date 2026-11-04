@@ -5,10 +5,10 @@ sidebar_position: 33
 
 # `PreflopMatrixOptions`
 
-| Field | Type | Default |
-| --- | --- | --- |
-| `iterations` | `number` | `5000` |
-| `seed` | `number` | `1` |
-| `threads` | `number` | `1` |
+| Field | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| `iterations` | `number` | `5000` | Monte Carlo trials per hand-class matchup |
+| `seed` | `number` | `1` | Seed for the matrix's random number generator |
+| `threads` | `number` | — | **Deprecated, ignored.** The matrix is computed on the calling thread; run it in a Worker to keep the main thread free. |
 
 Passed to [`buildPreflopEquityMatrix`](/docs/reference/api/monte-carlo/preflop-equity-matrix#buildPreflopEquityMatrix).

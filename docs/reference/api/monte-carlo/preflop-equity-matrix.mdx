@@ -12,7 +12,7 @@ api_functions: ["buildPreflopEquityMatrix"]
 
 ## `buildPreflopEquityMatrix` \{#buildPreflopEquityMatrix\}
 
-Preflop 169×169 equity matrix (row-major `Float64Array`, length `169*169`).
+Preflop 169×169 equity matrix (row-major `Float64Array`, length `169*169`): Monte Carlo equity of one representative combo per class against another (suits fixed per class, so class-level card removal is approximate). Computed on one thread; `threads` is ignored.
 
 ```ts
 buildPreflopEquityMatrix(options?: PreflopMatrixOptions): Float64Array;
@@ -35,10 +35,12 @@ Field notes: [`PreflopMatrixOptions`](/docs/reference/types/preflop-matrix-optio
 
 Use for heatmaps, correlation studies, or batch preflop analysis.
 
+Each cell is a Monte Carlo estimate with `iterations` trials (default 5000), and each class is represented by one combo, so the matrix approximates class-vs-class equity rather than averaging over every suit combination. For `i ≠ j`, `M[j][i] = 1 − M[i][j]`. The `threads` option is deprecated and ignored: the matrix is computed on the calling thread, so run it in a Worker if the main thread must stay free.
+
 ```js title="Example"
 const poker = require('poker-calculations');
 // 169×169 hand classes, row-major; a few hundred trials per cell is enough to explore
-const m = poker.buildPreflopEquityMatrix({ iterations: 200, seed: 1, threads: 4 });
+const m = poker.buildPreflopEquityMatrix({ iterations: 200, seed: 1 });
 console.log(m.length); // 28561
 ```
 

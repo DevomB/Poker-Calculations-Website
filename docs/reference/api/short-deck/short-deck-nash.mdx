@@ -14,6 +14,8 @@ api_functions: ["shortDeckNashHuJamRange"]
 
 HU jam/fold Nash frequencies, length 81, stacks in BB. Same fictitious-play idea as `nashHeadsUpJamRange` but 6+ equities.
 
+Called jams are accounted the same way as in [`nashHeadsUpJamCallSolve`](/docs/reference/api/solvers/nash-heads-up#nashHeadsUpJamCallSolve): each player commits the smaller total stack and the excess is returned (before 4.2.0 both were charged the smaller remaining stack). Equities come from a cached 81×81 class matrix; each solve reads an immutable snapshot of it, so concurrent solves do not interfere.
+
 ```ts
 shortDeckNashHuJamRange(
   stackBbOrOptions: number | ShortDeckNashOptions,
@@ -50,5 +52,5 @@ console.log(jam.length, jam[80], jam[0].toFixed(2));
 ```
 
 ```text title="Output"
-81 1 0.01
+81 1 0.00
 ```

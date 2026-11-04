@@ -134,13 +134,17 @@ const rakeFraction = 0.05;
 const rakeCap = 3;
 
 const net = poker.netPotAfterCallAndRake(potBeforeCall, toCall, rakeFraction, rakeCap);
-const finalPot = potBeforeCall + 2 * toCall;
+// potBeforeCall already includes villain's bet, so the call adds only toCall: 90 + 30 = 120.
+// Rake is min(0.05 × 120, 3) = 3, leaving 117.
+const finalPot = potBeforeCall + toCall;
 console.log({ finalPot, net });
 ```
 
 ```text title="Output"
-{ finalPot: 150, net: 117 }
+{ finalPot: 120, net: 117 }
 ```
+
+The final pot is `potBeforeCall + toCall` (the [pot convention](/docs/concepts/numerical-semantics#pot-convention-chip-math)), and the rake is `min(rakeFraction × finalPot, rakeCap)`. `potBeforeCall` and `toCall` must be finite and non-negative; a negative pot throws (before 4.2.0 it was accepted).
 
 ## See also
 

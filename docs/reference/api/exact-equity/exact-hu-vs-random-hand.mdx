@@ -18,7 +18,7 @@ exact HU vs random villain hand; board empty or 3–5 cards.
 exactHuEquityVsRandomHand(heroHoleCards: CardInput, boardCards: CardInput): number;
 ```
 
-Use for **preflop** (empty `boardCards`) and for flop, turn, or river (3–5 board cards) when you need exact equity vs a random unknown hand—study spots, preflop tools, or feeding [`chubukovMaxSymmetricJamStackBinarySearch`](/docs/reference/api/solvers/chubukov#chubukovMaxSymmetricJamStackBinarySearch). Prefer [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcome) when the board has **1–2** cards (incomplete board) or you need multi-villain Monte Carlo sampling.
+Use for **preflop** (empty `boardCards`) and for flop, turn, or river (3–5 board cards) when you need exact equity vs a random unknown hand—study spots, preflop tools, or feeding [`chubukovMaxSymmetricJamStackBinarySearch`](/docs/reference/api/solvers/chubukov#chubukovMaxSymmetricJamStackBinarySearch) (which takes only a 3–5 card board; a preflop board throws there). Prefer [`simulateHandOutcome`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcome) when the board has **1–2** cards (incomplete board) or you need multi-villain Monte Carlo sampling.
 
 ```js title="Example"
 const poker = require('poker-calculations');

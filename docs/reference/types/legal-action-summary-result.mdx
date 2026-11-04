@@ -22,6 +22,18 @@ interface LegalActionSummaryResult {
 }
 ```
 
+## Fields
+
+| Field | Meaning |
+| --- | --- |
+| `canFold`, `canCheck`, `canCall`, `canRaise` | Legal actions for the acting player. All false once the hand is over, or for a folded or all-in player. |
+| `toCall` | Chips needed to call. It may exceed the stack, in which case a call is all-in. |
+| `minRaiseTo` | Smallest legal raise **total**: the current bet plus the last full raise, or all-in when the stack is shorter. Formed in 64-bit integers, so large chip counts do not overflow. |
+| `maxRaiseTo` | Largest raise total: all-in. |
+| `actingIndex` | Index of the player these flags describe (player 0 when the state's `actingIndex` is -1). |
+
+Raising needs another player still in the hand with chips; against opponents who are all in, the choices are call (or check) and fold. A player who already acted and faces less than a full raise (a short all-in) cannot re-raise.
+
 ## See also
 
 `candidateActionSet` · [`DecisionDiagnosticResult`](/docs/reference/types/decision-diagnostic-result)

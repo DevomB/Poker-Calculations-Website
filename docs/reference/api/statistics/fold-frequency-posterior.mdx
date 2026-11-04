@@ -12,7 +12,7 @@ api_functions: ["betaBinomialFoldPosterior"]
 
 ## `betaBinomialFoldPosterior` \{#betaBinomialFoldPosterior\}
 
-Beta–Binomial update on fold frequency.
+Beta–Binomial update on fold frequency. The posterior mean is formed with scaling, so huge counts or priors keep their proportions: `alpha = beta = 1e308` gives a mean of 0.5.
 
 ```ts
 betaBinomialFoldPosterior(
@@ -60,7 +60,7 @@ console.log(post);
 ```
 
 ```text title="Output"
-{ alpha: 9, beta: 5, posteriorMean: 0.6428571428571429 }
+{ alpha: 9, beta: 5, posteriorMean: 0.6428571428571428 }
 ```
 
 **Returns** `BetaBinomialFoldPosterior` — `{ alpha: number, beta: number, posteriorMean: number }` where posteriorMean = alpha / (alpha + beta) after the conjugate update.

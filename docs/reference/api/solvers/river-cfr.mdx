@@ -2,7 +2,7 @@
 title: "River CFR"
 sidebar_label: "River CFR"
 sidebar_position: 1
-description: "HU river CFR."
+description: "Heads-up river check/bet CFR with reach-weighted regrets, plus a fictitious-play variant."
 api_functions: ["cfrRiverBetCallFoldSolve", "solveHuRiverCheckBetTree", "fictitiousPlayRiver"]
 ---
 
@@ -12,7 +12,7 @@ api_functions: ["cfrRiverBetCallFoldSolve", "solveHuRiverCheckBetTree", "fictiti
 
 ## `cfrRiverBetCallFoldSolve` \{#cfrRiverBetCallFoldSolve\}
 
-HU river CFR. Tree: bettor Check or Bet; vs Check defender checks back to showdown; vs Bet defender Fold or Call. Showdown via exact 7-card compare. `heroRange` is the bettor. Default 400 iterations.
+HU river CFR. Tree: bettor Check or Bet; vs Check defender checks back to showdown; vs Bet defender Fold or Call. Showdown via exact 7-card compare. `heroRange` is the bettor. Default 400 iterations (at most 20,000). Regrets are counterfactual: the defender's call values keep the bettor's bet frequencies as opponent reach. Returns the average strategy; on value-vs-bluff-catcher spots it approaches the analytic equilibrium.
 
 ```ts
 cfrRiverBetCallFoldSolve(
@@ -45,6 +45,8 @@ interface CfrRiverSolveResult {
 
 Solves a single river decision: the bettor checks or bets one size, the defender calls or folds. Ranges are 1326-combo weights.
 
+The result is a numerical approximation: an average strategy after a fixed number of vanilla CFR iterations, which approaches equilibrium as iterations grow. Since 4.2.0 the defender's regrets weight each call value by how often the bettor's hand actually bets (opponent reach). Earlier versions used call values conditional on a bet, which dropped the bettor's bet frequency and converged to the wrong mix: on value vs bluff catcher (pot 100, bet 50), 20,000 iterations gave aggregate betting 0.7338 instead of the equilibrium 2/3.
+
 ```js title="Example"
 const poker = require('poker-calculations');
 const board = ['Ks', '8d', '5c', '2h', '2s'];
@@ -59,12 +61,30 @@ console.log({ betFreq: r.betFreq.toFixed(3), callFreq: r.callFreq.toFixed(3), ev
 ```
 
 ```text title="Output"
-{ betFreq: '0.459', callFreq: '0.600', evBettor: '32.00' }
+{ betFreq: '0.391', callFreq: '0.638', evBettor: '32.09' }
+```
+
+A spot with a known answer shows the convergence. On a paired board the bettor holds AA (always best) or 76s (never best) with equal weight, and the defender holds QQ, a pure bluff catcher. With pot 100 and bet 50, a bluff is 50 / 200 = 1/4 of the betting range at equilibrium, so the bettor bets every AA and a third of 76s: aggregate betting `(1 + 1/3) / 2 = 2/3`. QQ calls 2/3 of the time, which makes a bluff break even (`100 × 1/3 = 50 × 2/3`). The bettor's EV is `(100 + 2/3 × 50) / 2 = 66.67`.
+
+```js title="Example"
+const poker = require('poker-calculations');
+const board = ['Ks', '8d', '5c', '2h', '2s'];
+const bettor = poker.rangeFromNotationWeights([
+  { notation: 'AA', weight: 1 }, { notation: '76s', weight: 1 },
+]);
+const catcher = poker.rangeFromNotationWeights([{ notation: 'QQ', weight: 1 }]);
+const r = poker.cfrRiverBetCallFoldSolve(100, 50, bettor, catcher, board, 20000);
+// Equilibrium: betFreq 2/3, callFreq 2/3, evBettor 66.67
+console.log({ betFreq: r.betFreq.toFixed(3), callFreq: r.callFreq.toFixed(3), evBettor: r.evBettor.toFixed(2) });
+```
+
+```text title="Output"
+{ betFreq: '0.665', callFreq: '0.669', evBettor: '66.67' }
 ```
 
 ## `solveHuRiverCheckBetTree` \{#solveHuRiverCheckBetTree\}
 
-Full river check/bet CFR plus air/draw/made/strong frequencies and top-k bet combos.
+Full river check/bet CFR plus air/draw/made/strong frequencies and top-k bet combos. Same solver and reach-weighted regrets as `cfrRiverBetCallFoldSolve`; the strategy fields are its average strategy.
 
 ```ts
 solveHuRiverCheckBetTree(
@@ -135,12 +155,12 @@ console.log(r.topBetCombos);
 ```text title="Output"
 {
   airBet: 0,
-  drawBet: 0.41559286707986726,
+  drawBet: 0.3077022076728586,
   madeBet: 0.9983333333333334,
   strongBet: 0,
   airCall: 0,
   drawCall: 0,
-  madeCall: 0.5796425146103126,
+  madeCall: 0.5576158529595986,
   strongCall: 0
 }
 [
@@ -154,7 +174,7 @@ console.log(r.topBetCombos);
 
 ## `fictitiousPlayRiver` \{#fictitiousPlayRiver\}
 
-Fictitious play on the same river check/bet tree as `cfrRiverBetCallFoldSolve`.
+Fictitious play on the same river check/bet tree as `cfrRiverBetCallFoldSolve`. Each iteration best-responds to the opponent's average strategy; this was unchanged by the 4.2.0 CFR fix.
 
 ```ts
 fictitiousPlayRiver(

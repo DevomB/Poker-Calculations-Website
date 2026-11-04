@@ -14,6 +14,8 @@ api_functions: ["nashBlindVsBlindSolve"]
 
 SB vs BB jam/fold (SB blind is dead in the pot). Same solve as HU Nash; complete-or-jam is not modeled.
 
+Called jams and root EVs follow [`nashHeadsUpJamCallSolve`](/docs/reference/api/solvers/nash-heads-up#nashHeadsUpJamCallSolve): each player commits the smaller total stack and the excess is returned, and `heroEv` (small blind) plus `villainEv` (big blind) equals the ante.
+
 ```ts
 nashBlindVsBlindSolve(
   stackBbOrOptions: number | NashPushFoldOptions,
@@ -70,5 +72,5 @@ console.log({ sbJams: share(r.jam), bbCalls: share(r.call) });
 ```
 
 ```text title="Output"
-{ sbJams: '0.66', bbCalls: '0.37' }
+{ sbJams: '0.58', bbCalls: '0.36' }
 ```

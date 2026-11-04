@@ -12,7 +12,7 @@ api_functions: ["regretMatchingStrategy", "cfrNodeReachUpdate"]
 
 ## `regretMatchingStrategy` \{#regretMatchingStrategy\}
 
-Regret matching: `max(r,0)/sum`. Uniform if every regret is ≤ 0.
+Regret matching: `max(r,0)/sum`. Uniform if every regret is ≤ 0. Positive regrets are scaled before summing, so `[1e308, 1e308, -1]` gives `[0.5, 0.5, 0]` instead of overflowing.
 
 ```ts
 regretMatchingStrategy(regrets: F64VectorInput): Float64Array;

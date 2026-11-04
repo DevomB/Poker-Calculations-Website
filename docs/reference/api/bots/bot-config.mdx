@@ -2,7 +2,7 @@
 title: "Bot config"
 sidebar_label: "Bot config"
 sidebar_position: 5
-description: "Fill and clamp bot configuration fields to native defaults."
+description: "Fill defaults and clamp bot configuration fields: thresholds to [0, 1], at least one simulation and one villain."
 api_functions: ["normalizeBotConfig"]
 ---
 
@@ -12,7 +12,7 @@ api_functions: ["normalizeBotConfig"]
 
 ## `normalizeBotConfig` \{#normalizeBotConfig\}
 
-Fill and clamp bot configuration fields to native defaults.
+Fills defaults and clamps: `aggressionThreshold` and `riskTolerance` to [0, 1], `raisePotFraction` to at least 0, at least 1 simulation and 1 villain. NaN or infinite numbers keep the default; finite numbers outside the 32-bit float range throw (they would become Infinity).
 
 ```ts
 normalizeBotConfig(config: Partial<NativeBotConfig>): NativeBotConfig;
@@ -37,20 +37,21 @@ Field notes: [`NativeBotConfig`](/docs/reference/types/native-bot-config)
 
 </details>
 
-Use `normalizeBotConfig` when you need to fill and clamp bot configuration fields to native defaults.
+Use `normalizeBotConfig` to see the exact configuration `decideAction` will run with. Fields are stored as 32-bit floats natively, which is why the defaults print as `0.9200000166893005` rather than `0.92`. Before 4.2.0 `riskTolerance` was not clamped despite the documentation, and a value such as `opponentAggressionWeight: 1e300` silently became Infinity; it now throws.
 
 ```js title="Example"
 const poker = require('poker-calculations');
 
-// Missing fields take their defaults; out-of-range ones are clamped.
-const result = poker.normalizeBotConfig({aggressionThreshold: 1.4, monteCarloSimulations: 2000});
+// Missing fields take their defaults; out-of-range ones are clamped
+// (aggressionThreshold 1.4 → 1, riskTolerance 1.5 → 1).
+const result = poker.normalizeBotConfig({aggressionThreshold: 1.4, riskTolerance: 1.5, monteCarloSimulations: 2000});
 console.log(result);
 ```
 
 ```text title="Output"
 {
   aggressionThreshold: 1,
-  riskTolerance: 0.9200000166893005,
+  riskTolerance: 1,
   monteCarloSimulations: 2000,
   monteCarloVillains: 1,
   raisePotFraction: 0.550000011920929,

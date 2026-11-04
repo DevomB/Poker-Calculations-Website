@@ -55,7 +55,7 @@ console.log({
 { point: 0.42, lower: 0.327982249185113, upper: 0.5179369200110473 }
 ```
 
-**Returns** `WilsonScoreInterval` — `{ lower: number, upper: number }` with both bounds in `[0, 1]` for the success proportion successes/nTrials at critical value `z`.
+**Returns** `WilsonScoreInterval` — `{ lower: number, upper: number }` with both bounds in `[0, 1]` for the success proportion successes/nTrials at critical value `z`. `successes` and `nTrials` must be integers in the int32 range: fractions, NaN, and larger values such as 4294967297 throw (they used to be truncated or wrapped, so 4294967297 successes became 1). The same holds for the other interval helpers on this page.
 
 ## `agrestiCoullInterval` \{#agrestiCoullInterval\}
 

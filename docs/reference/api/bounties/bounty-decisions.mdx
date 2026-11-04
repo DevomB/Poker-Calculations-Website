@@ -12,7 +12,7 @@ api_functions: ["pkoCallEvVsShove", "pkoJamEvVsFold", "pkoCoveringHuntEv"]
 
 ## `pkoCallEvVsShove` \{#pkoCallEvVsShove\}
 
-$EV(call all-in) vs $EV(fold) when villain has a bounty. Fold leaves stacks as given (pot already posted). Call uses ICM on post-hand stacks; hero collects villain's bounty if the villain busts.
+$EV(call all-in) vs $EV(fold) when villain has a bounty. `stacks` are the chips behind and `pot` is what is already in the middle (in no stack). Folding gives the pot to the villain; calling resolves the all-in (the covered amount from each, plus the pot) and hero collects villain's bounty if villain busts. Both use ICM plus expected bounties on the resulting stacks.
 
 ```ts
 pkoCallEvVsShove(
@@ -44,6 +44,8 @@ type PkoOutcomeInput = number | F64VectorInput;
 
 Deciding whether to call an all-in when the shover carries a bounty you collect by winning.
 
+Every terminal is a physical outcome: the chips actually move before ICM is applied. Harville ICM and the stack-ratio knockout matrix behind the expected bounties are simplified tournament models. Before 4.2.0 the fold terminal left the stacks unchanged and dropped the pot, which overstated folding.
+
 ```js title="Example"
 const poker = require('poker-calculations');
 // Seat 0 (hero) faces a 2000-chip shove from seat 2, 55% equity
@@ -54,14 +56,27 @@ console.log(r);
 ```text title="Output"
 {
   callEv: 415.9353813861768,
-  foldEv: 415.5668693009119,
-  delta: 0.36851208526491064
+  foldEv: 411.1837005854929,
+  delta: 4.751680800683914
 }
+```
+
+A two-player spot can be checked by hand. Each player has 100 behind, 100 is already in the pot, the winner takes the 100 prize, and there are no bounties. Folding gives villain the pot, leaving 100 vs 200 chips, so hero's ICM value is `100 × 100 / 300 = 33.33` (before 4.2.0 it was 50, as if the pot had vanished). Calling at 50% equity ends with hero holding all 300 chips or none, worth 50.
+
+```js title="Example"
+const poker = require('poker-calculations');
+// stacks behind, payouts, bounties, hero, villain, pot, hero equity if called
+const r = poker.pkoCallEvVsShove([100, 100], [100, 0], [0, 0], 0, 1, 100, 0.5);
+console.log(r); // callEv 50, foldEv 100 / 3
+```
+
+```text title="Output"
+{ callEv: 50, foldEv: 33.33333333333333, delta: 16.66666666666667 }
 ```
 
 ## `pkoJamEvVsFold` \{#pkoJamEvVsFold\}
 
-$EV(jam) vs $EV(fold) including bounties. Villain folds with `foldEquity`: hero is assigned `pot`. Called: same all-in resolution as `pkoCallEvVsShove`.
+$EV(jam) vs $EV(fold) including bounties. Hero folding gives `pot` to the villain; after a jam the villain folds with `foldEquity` (hero takes `pot`) or calls (same all-in resolution as `pkoCallEvVsShove`).
 
 ```ts
 pkoJamEvVsFold(
@@ -107,14 +122,16 @@ console.log(r);
 ```text title="Output"
 {
   jamEv: 283.9100363478118,
-  foldEv: 296.9924812030075,
-  delta: -13.082444855195718
+  foldEv: 294.96261509938216,
+  delta: -11.052578751570366
 }
 ```
 
 ## `pkoCoveringHuntEv` \{#pkoCoveringHuntEv\}
 
-Isolate vs a covered shorter stack (HU all-in, rest fold). Default equity is the stack-ratio proxy hunter / (hunter + prey). Check-down is the fold $EV.
+Isolate vs a covered shorter stack (HU all-in, rest fold). Default equity is the stack-ratio proxy hunter / (hunter + prey). `checkDownEv` is the alternative of putting no more chips in: the pot goes to the showdown winner at the same equity.
+
+The stack-ratio default is a heuristic, not a hand equity; pass `equity` when you know it. For example, `([200, 100], [100, 0], [0, 0], 0, 1, 100)` uses equity 2/3. Hunting moves the covered 100 from each player plus the 100 pot: hero ends with 400 chips (worth 100) or 100 against 300 (worth 25), so `huntEv = 2/3 × 100 + 1/3 × 25 = 75`. Checking down moves only the pot: 300 vs 100 (75) or 200 vs 200 (50), so `checkDownEv = 2/3 × 75 + 1/3 × 50 = 66.67`. Before 4.2.0 the check-down was valued as a fold.
 
 ```ts
 pkoCoveringHuntEv(
@@ -152,8 +169,8 @@ console.log(poker.pkoCoveringHuntEv([5000, 3000, 2000], [500, 300, 200], [50, 30
 ```text title="Output"
 {
   huntEv: 440.4228342288563,
-  checkDownEv: 415.5668693009119,
-  delta: 24.8559649279444,
+  checkDownEv: 417.59304528363396,
+  delta: 22.829788945222333,
   equityUsed: 0.7142857142857143
 }
 ```

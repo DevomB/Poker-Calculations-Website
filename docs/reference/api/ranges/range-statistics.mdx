@@ -193,7 +193,7 @@ The Gini coefficient of the range weights (the same value as `rangeGiniCoefficie
 villainPolarizedRangeScore(range: SparseRangeSpec | Float64Array, board: CardInput): number;
 ```
 
-Use `villainPolarizedRangeScore` when you need to score how polarized a villain range is.
+Despite its name, this measures **concentration**, not polarization: it says how unevenly weight is spread across combos, not whether the range is split between strong hands and bluffs. A range of only the top 20 combos and a range of only the bottom 20 combos score the same. To study a polarized betting range, look at hand strength against the board, for example with [`solveRiverPolarizedIndifferenceBet`](/docs/reference/api/solvers/polarized-river-bet#solveRiverPolarizedIndifferenceBet) or [`comboEhsTableVsRange`](/docs/reference/api/hand-potential/combo-ehs-table#comboEhsTableVsRange).
 
 ```js title="Example"
 const poker = require('poker-calculations');

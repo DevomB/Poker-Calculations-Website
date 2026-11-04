@@ -22,7 +22,7 @@ exactHuEquityVsKnownHand(
 ): number;
 ```
 
-Use for hand-vs-hand analysis on the flop, turn, or river, or preflop with an empty board (enumerates all runouts).
+Use for hand-vs-hand analysis on the flop, turn, or river, or preflop with an empty board (enumerates all runouts). Every card must be distinct across hero, villain, and the board; a duplicate, including two identical villain cards, throws (before 4.2.0 a duplicate villain card was accepted).
 
 ```js title="Example"
 const poker = require('poker-calculations');

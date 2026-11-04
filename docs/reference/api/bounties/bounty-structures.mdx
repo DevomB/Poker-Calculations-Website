@@ -36,7 +36,7 @@ console.log(posted);
 
 ## `mysteryBountyExpectedValue` \{#mysteryBountyExpectedValue\}
 
-Remaining mystery prizes: weighted mean of one knockout, leftover-pool sum, and optional E[sum of k draws] (`k` omitted or 0 skips the sample). Equal weights if `weights` omitted.
+Remaining mystery prizes: weighted mean of one knockout, leftover-pool sum, and optional expected total of `k` draws without replacement (`k` omitted or 0 skips it). `weights` are relative draw chances of each bounty (equal if omitted); unequal weights with `0 < k < n` use the Harville top-k inclusion probabilities, bounded like ICM (fields over 20 need few draws).
 
 ```ts
 mysteryBountyExpectedValue(
@@ -69,6 +69,23 @@ console.log(poker.mysteryBountyExpectedValue(prizes));
 
 ```text title="Output"
 { oneDraw: 190.625, allRemaining: 1525, sampleK: 0, k: 0 }
+```
+
+Each entry of `values` is one bounty envelope, and each draw takes one of the remaining envelopes with probability proportional to its weight, without replacement. So `oneDraw = Σ wᵢ valueᵢ / Σ wᵢ`, and `sampleK = Σ valueᵢ × P(i is among the k draws)`. With equal weights that is `k × mean` (pass `k` as the second argument to keep equal weights); with unequal weights it uses exact inclusion probabilities. `sampleK` never exceeds `allRemaining`, rises with `k`, and equals it at `k = n`. Before 4.2.0 unequal weights were treated as if draws were with replacement: `([100, 1, 1], [1000, 1, 1], 2)` returned 199.6 from a 102 pool.
+
+```js title="Example"
+const poker = require('poker-calculations');
+// A 100 bounty that is 1000 times as likely to be drawn as each of two 1-chip bounties.
+// Two draws almost surely include the 100 plus one of the 1s (about 101); three draws take the whole 102.
+for (const k of [1, 2, 3]) {
+  console.log(k, poker.mysteryBountyExpectedValue([100, 1, 1], [1000, 1, 1], k).sampleK);
+}
+```
+
+```text title="Output"
+1 99.80239520958082
+2 100.99980259261694
+3 102
 ```
 
 ## `pkoWinnerTakeRemainingBounties` \{#pkoWinnerTakeRemainingBounties\}

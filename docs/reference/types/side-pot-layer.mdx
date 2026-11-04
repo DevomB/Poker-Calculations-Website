@@ -7,7 +7,11 @@ sidebar_position: 40
 
 Layer from [`sidePotLadderFromCommitments`](/docs/reference/api/side-pots/side-pot-ladder#sidePotLadderFromCommitments).
 
-| Field | Type |
-| --- | --- |
-| `potChips` | `number` |
-| `playerCapContribution` | `number[]` |
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `potChips` | `number` | Chips in this layer: the sum of `playerCapContribution` |
+| `playerCapContribution` | `number[]` | Per seat, what that seat put into this layer (`level − previous level`, or 0 if it did not reach the level) |
+
+## Semantics
+
+Layers are ordered from the main pot up, one per distinct positive commitment level. Commitments are compared exactly, so the layers add up to the commitments and a seat with nothing in contributes to no layer. A top layer with a single contributor is an uncalled excess returned to that player. Folded seats' chips are included, so deciding who may win each layer is up to the caller.

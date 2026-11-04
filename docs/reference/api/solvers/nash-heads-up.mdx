@@ -11,6 +11,8 @@ api_functions: ["nashHeadsUpJamCallSolve", "nashHeadsUpJamRange", "nashHeadsUpCa
 
 ## `nashHeadsUpJamCallSolve` \{#nashHeadsUpJamCallSolve\}
 
+HU Nash jam frequencies and call frequencies (169 classes each) for the small blind's jam and the big blind's call, in chip EV, with root EVs for both players.
+
 ```ts
 nashHeadsUpJamCallSolve(
   stackBbOrOptions: number | NashPushFoldOptions,
@@ -61,6 +63,12 @@ interface NashPushFoldOptions {
 
 Heads-up jam/fold equilibrium for the small blind and the big blind. The first call in a process builds a 169×169 preflop equity table (seconds, more with larger `equityIterations`); later calls reuse it.
 
+The result is a numerical approximation: an iterated equilibrium over hand classes, with class-vs-class equities from a Monte Carlo matrix that uses one representative combo per class (so class blockers and suits are approximated). Stacks include the posted blinds, and the ante is dead money.
+
+- **Called jams.** A called jam commits the smaller total stack `M` from each player and returns the bigger stack's excess, so the pot is `2M + ante`. Before 4.2.0 both players were charged the smaller *remaining* stack: with 10 and 10 stacks and 0.5/1 blinds, the pot was 19.5 and the loser kept 0.5.
+- **`heroEv` and `villainEv`.** Root values for the small blind (`heroEv`) and the big blind (`villainEv`) over the same joint deal of hand classes: expected final stack minus starting stack, in chips. They sum to the ante, because that is the only money neither player started with.
+- **Concurrency.** Each solve reads an immutable snapshot of the cached equity matrix, so concurrent solves with different settings do not interfere.
+
 ```js title="Example"
 const poker = require('poker-calculations');
 const r = poker.nashHeadsUpJamCallSolve({ stackBb: 10, equityIterations: 60 });
@@ -69,7 +77,20 @@ console.log({ jamShare: mass(r.jam).toFixed(2), callShare: mass(r.call).toFixed(
 ```
 
 ```text title="Output"
-{ jamShare: '0.71', callShare: '0.41' }
+{ jamShare: '0.63', callShare: '0.39' }
+```
+
+The two root values add up to the dead money. With a 1-chip ante (1 bb here), the jammer and caller split it between them:
+
+```js title="Example"
+const poker = require('poker-calculations');
+const r = poker.nashHeadsUpJamCallSolve({ stackBb: 10, ante: 1, equityIterations: 60 });
+// Chip mode: heroEv + villainEv = ante = 1
+console.log({ heroEv: r.heroEv.toFixed(3), villainEv: r.villainEv.toFixed(3), sum: (r.heroEv + r.villainEv).toFixed(3) });
+```
+
+```text title="Output"
+{ heroEv: '0.425', villainEv: '0.575', sum: '1.000' }
 ```
 
 ## `nashHeadsUpJamRange` \{#nashHeadsUpJamRange\}
@@ -125,7 +146,7 @@ console.log(jam.length, jam[168], share.toFixed(2));
 ```
 
 ```text title="Output"
-169 1 0.71
+169 1 0.63
 ```
 
 ## `nashHeadsUpCallRange` \{#nashHeadsUpCallRange\}
@@ -184,7 +205,7 @@ console.log(call[168], call[0]); // AA, 22
 
 ## `nashIcmHeadsUpJamCallSolve` \{#nashIcmHeadsUpJamCallSolve\}
 
-HU Nash with Harville ICM $EV. `otherStacks` are remaining table stacks; `payouts` is first-to-last prize. Showdown ties use equity split (no chop vector).
+HU Nash with Harville ICM $EV. `otherStacks` are remaining table stacks; `payouts` is first-to-last prize. Showdown ties use equity split (no chop vector). A called jam commits the smaller total stack from each player (the excess is returned); `heroEv` and `villainEv` are prize EVs over the same joint deal, so heads-up they sum to the prize pool.
 
 ```ts
 nashIcmHeadsUpJamCallSolve(options: NashPushFoldOptions): NashJamCallSolveResult;
@@ -245,7 +266,9 @@ console.log({ chip: { jam: share(chip.jam), call: share(chip.call) }, icm: { jam
 
 ```text title="Output"
 {
-  chip: { jam: '0.71', call: '0.41' },
-  icm: { jam: '0.72', call: '0.30' }
+  chip: { jam: '0.63', call: '0.39' },
+  icm: { jam: '0.64', call: '0.28' }
 }
 ```
+
+With ICM, `heroEv` and `villainEv` are expected prizes. Heads-up they sum to the prize pool; with other seats they sum to the pool less those seats' expected share. Before 4.2.0 a heads-up ICM solve returned 49.60 + 50.09 = 99.69 of a 100 pool. A seat that busts in a terminal takes the bottom prize, and the remaining players are valued by Harville ICM.

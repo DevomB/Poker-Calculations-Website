@@ -70,7 +70,7 @@ Symmetric push/fold chip EV.
 pushFoldSymmetricEv(equity: number, jamStackChips: number, deadMoneyChips: number): number;
 ```
 
-Symmetric push/fold chip EV — alias of [`chubukovSymmetricJamEv`](/docs/reference/api/solvers/chubukov#chubukovSymmetricJamEv).
+Symmetric push/fold chip EV, `equity × (2 × jamStack + deadMoney) − jamStack` — the same value as [`chubukovSymmetricJamEv`](/docs/reference/api/solvers/chubukov#chubukovSymmetricJamEv), with `equity` first instead of last.
 
 ```js title="Example"
 const poker = require('poker-calculations');
@@ -79,14 +79,15 @@ const equity = 0.48;
 const jamStack = 100;
 const deadMoney = 15;
 
+// Same quantity, different argument order: 0.48 × (2 × 100 + 15) − 100 = 3.2
 console.log(
   poker.pushFoldSymmetricEv(equity, jamStack, deadMoney),
-  poker.chubukovSymmetricJamEv(equity, jamStack, deadMoney),
+  poker.chubukovSymmetricJamEv(jamStack, deadMoney, equity),
 );
 ```
 
 ```text title="Output"
-3.200000000000003 100.47999999999999
+3.200000000000003 3.200000000000003
 ```
 
 ## `pushFoldSymmetricBreakevenEquity` \{#pushFoldSymmetricBreakevenEquity\}

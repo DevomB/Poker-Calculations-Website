@@ -2,7 +2,7 @@
 title: "Side-pot ladder"
 sidebar_label: "Side-pot ladder"
 sidebar_position: 1
-description: "side-pot ladder from per-player committed chips."
+description: "Main pot and side pots from each player's total commitment, with exact comparisons and the uncalled excess as its own layer."
 api_functions: ["sidePotLadderFromCommitments", "sidePotLayersTotalChips", "sidePotLayerCount"]
 ---
 
@@ -12,7 +12,7 @@ api_functions: ["sidePotLadderFromCommitments", "sidePotLayersTotalChips", "side
 
 ## `sidePotLadderFromCommitments` \{#sidePotLadderFromCommitments\}
 
-side-pot ladder from per-player committed chips.
+Main pot and side pots from each player's total commitment: one layer per distinct positive commitment level, holding `level − previous level` from every player who reached that level (exact comparisons, so the layers add up to the commitments and a player with nothing in contributes to nothing). A top layer with a single contributor is an uncalled excess returned to that player. Folded players' chips are included; who may win each layer is up to the caller.
 
 ```ts
 sidePotLadderFromCommitments(committedChips: F64VectorInput): SidePotLayer[];
@@ -33,6 +33,8 @@ Field notes: [`SidePotLayer`](/docs/reference/types/side-pot-layer)
 </details>
 
 All-in side pots: pass each player’s **total chips committed** this hand to get ordered layers `{ potChips, playerCapContribution[] }`. Feed layers into equity-by-layer EV or display pot breakdown UIs.
+
+This is exact chip accounting. Commitments are compared exactly; before 4.2.0 an absolute 1e-12 tolerance could create chips (`[1e-13, 2e-13]` totalled 4e-13) and count a player who had nothing in. Now `[1e-13, 2e-13]` gives a 2e-13 layer for both players and a 1e-13 layer for the second player alone, 3e-13 in total.
 
 ```js title="Example"
 const poker = require('poker-calculations');
@@ -90,7 +92,7 @@ Number of side-pot layers.
 sidePotLayerCount(committedChips: F64VectorInput): number;
 ```
 
-Number of side-pot layers from committed chip counts — same as `sidePotLadderFromCommitments(...).length`.
+Number of side-pot layers from committed chip counts — same as `sidePotLadderFromCommitments(...).length`. In the example, `[100, 200, 500]` gives a 300 main pot, a 200 side pot between seats 1 and 2, and 300 that only seat 2 put in: that top layer is the uncalled excess returned to seat 2.
 
 ```js title="Example"
 const poker = require('poker-calculations');

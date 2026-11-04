@@ -14,6 +14,22 @@ The conventions every function shares: how pots are counted, how ties split, how
 - Rake variants take rake from that final pot and reduce to their unraked version at zero rake.
 - Multi-street pure bluffs: a fold on street *k* wins the pot plus villain's earlier calls; being called down loses the sum of hero's bets.
 
+## Kinds of result
+
+Results fall into five kinds, and reference pages say which one applies where it matters:
+
+| Kind | Meaning | Examples |
+| --- | --- | --- |
+| Exact calculation | Closed form or full enumeration; the only error is floating-point rounding | [`exactHuEquityVsRange`](/docs/reference/api/exact-equity/exact-hu-vs-range#exactHuEquityVsRange), [`breakevenCallEquity`](/docs/reference/api/pot-odds-and-ev/pot-odds#breakevenCallEquity), [`monteCarloTrialsForWilsonHalfWidth`](/docs/reference/api/statistics/monte-carlo-error#monteCarloTrialsForWilsonHalfWidth) |
+| Monte Carlo estimate | Sampled; repeatable for a seed, with sampling error that shrinks as `1/√trials` | [`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcomeDetailed), [`buildPreflopEquityMatrix`](/docs/reference/api/monte-carlo/preflop-equity-matrix#buildPreflopEquityMatrix) |
+| Numerical approximation | Iterative or finite-difference result of a well-defined quantity | [`icmHarvilleStackJacobian`](/docs/reference/api/icm/stack-sensitivity#icmHarvilleStackJacobian), [`cfrRiverBetCallFoldSolve`](/docs/reference/api/solvers/river-cfr#cfrRiverBetCallFoldSolve) |
+| Simplified tournament model | Exact within a stated model that real tournaments only approximate | Harville ICM, [`tournamentDuelAbsorptionProbabilities`](/docs/reference/api/icm/tournament-duel#tournamentDuelAbsorptionProbabilities), the PKO knockout matrix |
+| Strategy heuristic | A rule of thumb or scoring rule, not a solution | [`ruleOfTwoEquity`](/docs/reference/api/draws-and-outs/rule-of-two-and-four#ruleOfTwoEquity), [`decideAction`](/docs/reference/api/bots/decide-action#decideAction) |
+
+## Integer arguments
+
+Counts, indices, and sizes must be integers in the 32-bit signed range in every native export. Before 4.2.0 they were truncated or wrapped (1.9 became 1, `NaN` became 0, and 4294967297 became 1); they now throw. Seeds are the exception: they keep their documented modulo-2^32 conversion.
+
 ## Showdown equity
 
 | Mode | Hero share when tied for best |
@@ -46,7 +62,7 @@ Arrays with one entry per preflop hand class (Nash charts, [`buildPreflopEquityM
 
 ## Preflop equity matrix
 
-A row-major `169 × 169` matrix filled by Monte Carlo, with the two hands dealt disjoint suits in each cell. For `i ≠ j`, `M[j][i] = 1 − M[i][j]`.
+A row-major `169 × 169` matrix filled by Monte Carlo, with one representative combo per class and the two hands dealt disjoint suits in each cell. For `i ≠ j`, `M[j][i] = 1 − M[i][j]`. It is computed on the calling thread; the `threads` option is ignored and deprecated.
 
 ## Detailed Monte Carlo intervals
 
@@ -64,9 +80,12 @@ Range weights are relative: scaling every weight by the same factor describes th
 
 ## ICM
 
-- [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts) is Harville: P(first) is proportional to stack, and later places follow recursively.
-- [`icmExpectedPayoutsWeitzman`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts) is an independent chip-utility model (`stack^alpha`, default `alpha = 2`), not Harville.
-- Seats with zero chips have already busted: they take the bottom prizes, and everyone else plays for the rest.
+- [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts) is Harville, a simplified tournament model: each place goes to a remaining player with probability proportional to their stack among the players still unplaced. First place is therefore each stack's chip share.
+- Placements are accumulated over subsets of already-placed players, not finishing orders, and payouts only resolve the places paying more than last place: `EV_i = last + Σ_{j<K} P(i at j) × (pay_j − last)`. Every place is supported for up to 20 players; larger fields work when the paid places need at most 2^20 subset states, and bigger requests throw.
+- Each step's shares are scaled over the players still unplaced, so huge or tiny stacks keep their proportions: `([1e308, 1e-308, 1e-308], [100, 50, 0])` gives `[100, 25, 25]`.
+- [`icmHarvilleStackJacobian`](/docs/reference/api/icm/stack-sensitivity#icmHarvilleStackJacobian) uses central differences with a step of about 6e-6 × each stack. Its columns sum to 0, and each row satisfies `Σ_j s_j × ∂EV_i/∂s_j = 0`.
+- [`icmExpectedPayoutsWeitzman`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayoutsWeitzman) is deprecated and is not a payout model: it splits the whole pool by `stack^alpha` and ignores finishing positions (`([1, 3], [100, 100])` gives `[20, 180]`, although both players are guaranteed 100).
+- `icmExpectedPayouts` requires positive stacks. The helpers that value the result of a hand (blind posting, dead pots, PKO and Nash push/fold terminals) treat a seat left with zero chips as already busted: it takes the bottom prizes, and everyone else plays for the rest.
 
 ## Bounties
 
@@ -74,7 +93,11 @@ Range weights are relative: scaling every weight by the same factor describes th
 
 ## Tournament duel
 
-[`tournamentDuelAbsorptionProbabilities`](/docs/reference/api/icm/tournament-duel#tournamentDuelAbsorptionProbabilities) is gambler's ruin with `h = ⌈heroStack / chipsPerAllIn⌉` and `v = ⌈villainStack / chipsPerAllIn⌉` steps: `P(hero) = (1 − rʰ) / (1 − rʰ⁺ᵛ)` with `r = (1 − p) / p`, or `h / (h + v)` at `p = 0.5`.
+[`tournamentDuelAbsorptionProbabilities`](/docs/reference/api/icm/tournament-duel#tournamentDuelAbsorptionProbabilities) is gambler's ruin with `h = ⌈heroStack / chipsPerAllIn⌉` and `v = ⌈villainStack / chipsPerAllIn⌉` steps: `P(hero) = (1 − rʰ) / (1 − rʰ⁺ᵛ)` with `r = (1 − p) / p`, or `h / (h + v)` at `p = 0.5`. Expected all-ins are `(h − (h + v) P) / (1 − 2p)`, or `h × v` at `p = 0.5`. `rʰ⁺ᵛ` overflows in long, uneven duels, so the formula is evaluated with `log1p` / `expm1`: 1000 vs 1000 one-chip all-ins at `p = 0.1` gives `P` ≈ 0 and 1250 expected all-ins.
+
+## Normalization at extreme scales
+
+[`normalizedStackFractions`](/docs/reference/api/stacks-and-sizing/effective-stack#normalizedStackFractions), the ICM family, and the other helpers that normalize weights (mystery bounties, regret matching, beta-binomial fold posteriors, Weitzman's power utilities) scale before summing. `[1e308, 1e308]` gives equal shares instead of zeros.
 
 ## Cooperative cancellation
 

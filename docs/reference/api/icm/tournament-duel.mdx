@@ -2,7 +2,7 @@
 title: "Tournament duel"
 sidebar_label: "Tournament duel"
 sidebar_position: 8
-description: "Discrete **heads-up duel** Markov model: absorption probability, expected hands until elimination, and optional prize EV for the hero."
+description: "Heads-up gambler's ruin in closed form: hero's probability of winning the duel, expected all-ins until someone busts, and optional prize EV."
 api_functions: ["tournamentDuelAbsorptionProbabilities"]
 ---
 
@@ -12,7 +12,16 @@ api_functions: ["tournamentDuelAbsorptionProbabilities"]
 
 ## `tournamentDuelAbsorptionProbabilities` \{#tournamentDuelAbsorptionProbabilities\}
 
-Discrete **heads-up duel** Markov model: absorption probability, expected hands until elimination, and optional prize EV for the hero.
+Exact closed-form **gambler's ruin** for a heads-up duel: each all-in moves `chipsPerAllIn` chips, hero wins each one with a fixed probability `p`, and the duel ends when either player busts. Returns hero's probability of winning, the expected number of all-ins, and `heroWinProbability × winnerPrize`.
+
+This is a simplified tournament model, not an equity calculation: every all-in is the same size and has the same `p`. Hero busts after `h = ceil(heroStack / chipsPerAllIn)` net losses and wins after `v = ceil(villainStack / chipsPerAllIn)` net wins. With `r = (1 − p) / p` and `N = h + v`:
+
+- `heroWinProbability = (1 − rʰ) / (1 − rᴺ)`, which is the chip share `h / N` at `p = 0.5`.
+- `expectedHands = (h − N × heroWinProbability) / ((1 − p) − p)`, which is `h × v` at `p = 0.5`.
+
+`rᴺ` overflows in long, uneven duels, so the formula is evaluated with `log1p` / `expm1`, and near `p = 0.5` the expected-hands numerator is formed without cancellation. For example, 1000 vs 1000 one-chip all-ins at `p = 0.1` gives a win probability of about 0 and 1250 expected all-ins. Before 4.2.0 that case returned `NaN`.
+
+Both stacks and `chipsPerAllIn` must be positive and finite, `winProbabilityPerHand` must be in [0, 1], and `winnerPrize` (default 0) must be finite and non-negative. Anything else throws; a `NaN` stack used to pass.
 
 ```ts
 tournamentDuelAbsorptionProbabilities(
@@ -43,6 +52,7 @@ Field notes: [`TournamentDuelAbsorptionResult`](/docs/reference/types/tournament
 ```js title="Example"
 const poker = require('poker-calculations');
 
+// 25k vs 15k in 5k all-ins: h = 5 steps, v = 3 steps, p = 0.55.
 const r = poker.tournamentDuelAbsorptionProbabilities(
   25_000,
   15_000,
@@ -57,9 +67,9 @@ console.log('Hero prize EV:', r.heroPrizeEv);
 ```
 
 ```text title="Output"
-Hero win probability: 0.792498687775579
-Expected hands: 13.399895022046302
-Hero prize EV: 79249.8687775579
+Hero win probability: 0.7924986877755789
+Expected hands: 13.3998950220463
+Hero prize EV: 79249.86877755789
 ```
 
 ## See also

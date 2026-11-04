@@ -2,7 +2,7 @@
 title: "ICM payouts"
 sidebar_label: "ICM payouts"
 sidebar_position: 1
-description: "ICM expected payouts (prize vector length = players)."
+description: "Harville ICM expected payouts (prize vector length = players), plus a skill-adjusted variant and the deprecated Weitzman split."
 api_functions: ["icmExpectedPayouts", "icmExpectedPayoutsWeitzman", "icmHarvilleSkillAdjustedPayouts"]
 ---
 
@@ -12,7 +12,7 @@ api_functions: ["icmExpectedPayouts", "icmExpectedPayoutsWeitzman", "icmHarville
 
 ## `icmExpectedPayouts` \{#icmExpectedPayouts\}
 
-ICM expected payouts (prize vector length = players).
+Harville ICM expected payouts (prize vector length = players).
 
 ```ts
 icmExpectedPayouts(
@@ -22,7 +22,14 @@ icmExpectedPayouts(
 ): number[] | Float64Array;
 ```
 
-Convert stacks and a **fixed payout ladder** into expected dollar (or chip) equity per seat—deal making, bubble pressure, and `icmPairwiseBubbleFactor` all build on this vector.
+Convert stacks and a **fixed payout ladder** into expected dollar (or chip) equity per seat. Deal making, bubble pressure, and `icmPairwiseBubbleFactor` all build on this vector.
+
+This is the Harville model, a simplified tournament model: a player finishes first with probability equal to their chip share, and each later place is filled the same way among the players still unplaced. Within that model the result is exact, not sampled.
+
+- **What gets enumerated.** Placements are accumulated over subsets of already-placed players, and only the places that pay more than last place are resolved (every seat is paid at least the last-place prize). Equal prizes therefore cost nothing: twelve equal stacks with twelve equal prizes return instantly.
+- **Field size.** Every place can be resolved for up to 20 players. Fields of up to 31 players work when the paid places need at most 2^20 subset states (for example, 3 paid places for 31 players). Larger requests throw rather than running for hours.
+- **Extreme stacks.** Shares are scaled over the players still unplaced, so huge or tiny stacks keep their proportions: `([1e308, 1e-308, 1e-308], [100, 50, 0])` gives `[100, 25, 25]`.
+- **Validation.** `payouts` must have one entry per player, each finite and non-negative. Stacks must be positive and finite; a `NaN` stack throws.
 
 ```js title="Example"
 const poker = require('poker-calculations');
@@ -48,7 +55,7 @@ console.log(poker.icmWinProbabilitiesHarville(stacks));
 
 ## `icmExpectedPayoutsWeitzman` \{#icmExpectedPayoutsWeitzman\}
 
-Independent Weitzman chip-utility ICM (`alpha` defaults to 2).
+**Deprecated in 4.2.0.** Splits the whole prize pool in proportion to `stack^alpha` (`alpha` defaults to 2). Not a payout model; use `icmExpectedPayouts`.
 
 ```ts
 icmExpectedPayoutsWeitzman(
@@ -59,14 +66,14 @@ icmExpectedPayoutsWeitzman(
 ): number[] | Float64Array;
 ```
 
-**Not Harville placement.** Splits each prize tier independently using chip utility `stack^alpha` (default `alpha = 2`). Use when you want a Weitzman-style model instead of [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts) Harville math.
+**Not a tournament payout model.** Each seat gets `totalPool × stack^alpha / Σ stack^alpha`, regardless of finishing positions. Prizes that every player is guaranteed are not respected: `([1, 3], [100, 100])` gives `[20, 180]`, although both players receive 100 whatever happens. Use [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts) for payouts by finishing position. The power utilities are scaled before summing, so extreme stacks no longer collapse to zeros.
 
 ```js title="Example"
 const poker = require('poker-calculations');
 const stacks = [5000, 3000, 2000];
 const payouts = [500, 300, 200];
 console.log(poker.icmExpectedPayouts(stacks, payouts).map((x) => x.toFixed(1)));        // Harville
-console.log(poker.icmExpectedPayoutsWeitzman(stacks, payouts).map((x) => x.toFixed(1))); // Weitzman, alpha = 2
+console.log(poker.icmExpectedPayoutsWeitzman(stacks, payouts).map((x) => x.toFixed(1))); // deprecated: 1000 × stack² / Σ stack²
 ```
 
 ```text title="Output"
@@ -105,11 +112,15 @@ console.log('Skill-adjusted seat 0:', adjusted[0]);
 ```
 
 ```text title="Output"
-Standard ICM seat 0: 6983.083912991033
-Skill-adjusted seat 0: 6691.511027965358
+Standard ICM seat 0: 6983.083912991034
+Skill-adjusted seat 0: 6691.511027965359
 ```
 
-`stacks`, `payouts`, and `skillWeights` must have the same length; stacks must be positive; skill weights must be non-negative with a positive sum.
+Each seat's Harville weight is `(1 − blend) × chipShare + blend × skillShare`, where both shares are normalized to sum to 1. It uses the same subset engine and bounds as `icmExpectedPayouts`, so this is still a simplified tournament model.
+
+`stacks`, `payouts`, and `skillWeights` must have the same length. Stacks must be positive and finite, payouts finite and non-negative, skill weights finite and non-negative, and `blend` in [0, 1]. When `blend > 0` the skill weights need a positive sum. Before 4.2.0, `NaN` stacks and negative prizes were accepted; they now throw.
+
+With `blend = 1`, a seat whose skill weight is 0 has a first-place weight of 0. Such seats finish after every positive-weight seat, in a uniformly random order among themselves.
 
 **Returns** Length-`n` vector of expected payouts (`number[]` or `Float64Array` with `returnFormat: 'float64'`).
 

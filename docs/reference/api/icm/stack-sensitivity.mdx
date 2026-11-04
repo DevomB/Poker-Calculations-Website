@@ -2,7 +2,7 @@
 title: "Stack sensitivity"
 sidebar_label: "Stack sensitivity"
 sidebar_position: 3
-description: "n×n matrix of partial derivatives of Harville ICM expected payout (row i) with respect to each player's stack (column j), via symmetric finite differences."
+description: "n×n matrix of partial derivatives of Harville ICM expected payout (row i) with respect to each player's stack (column j), by central differences with a step relative to each stack."
 api_functions: ["icmHarvilleStackJacobian"]
 ---
 
@@ -12,7 +12,7 @@ api_functions: ["icmHarvilleStackJacobian"]
 
 ## `icmHarvilleStackJacobian` \{#icmHarvilleStackJacobian\}
 
-`n×n` matrix of partial derivatives of Harville ICM expected payout (row `i`) with respect to each player's stack (column `j`), via symmetric finite differences.
+`J[i * n + j]` = ∂(ICM EV of seat `i`) / ∂(stack `j`), by central differences with a step of about 6e-6 × stack `j` (two ICM evaluations per column). Columns sum to 0 (the prize pool is fixed) and `Σ_j stack_j × J[i * n + j] = 0` (ICM depends only on stack ratios). Stacks must be positive.
 
 ```ts
 icmHarvilleStackJacobian(
@@ -38,15 +38,19 @@ console.log('∂EV(hero)/∂(seat 2 stack):', j[0 * n + 2].toFixed(4));
 
 const flat = poker.icmHarvilleStackJacobian(stacks, payouts, 'float64');
 console.log(flat.length === stacks.length * stacks.length);
+
+// Two players, winner takes 100: EV(seat 0) = 100a / (a + b), so ∂/∂a = 100b / (a + b)² = 25 at a = b = 1.
+console.log(poker.icmHarvilleStackJacobian([1, 1], [100, 0]).map((x) => x.toFixed(2)));
 ```
 
 ```text title="Output"
 ∂EV(hero)/∂(hero stack): 0.1559
 ∂EV(hero)/∂(seat 2 stack): -0.1355
 true
+[ '25.00', '-25.00', '-25.00', '25.00' ]
 ```
 
-Each column `j` bumps `stacks[j]` by `eps = max(1, 1e-6 × stacks[j])` and divides the payout change by `eps`.
+This is a numerical approximation of the Harville model's derivatives. Each column `j` evaluates ICM at `stacks[j] ± h` with `h ≈ 6e-6 × stacks[j]` and divides the payout difference by `2h`, so the error is second order in `h` and the step scales with the stack. Before 4.2.0 it used a one-sided step of at least one chip, which was far too coarse for small stacks: `([1, 1], [100, 0])` gave ±16.67 instead of `[25, −25, −25, 25]`.
 
 **Returns** a flat row-major `number[]` of length `n²` (entry `i × n + k` is ∂EV(seat i) / ∂stack(seat k)), or a `Float64Array` when `returnFormat` is `'float64'`.
 

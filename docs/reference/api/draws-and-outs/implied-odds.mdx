@@ -78,7 +78,7 @@ console.log(future); // ≈ futureWin
 
 ## `reverseImpliedOddsMinEquity` \{#reverseImpliedOddsMinEquity\}
 
-Minimum equity for reverse-implied bound.
+Equity a call needs when losing also costs `maxFutureLoss` later: `(toCall + L) / (potBeforeCall + toCall + L)`.
 
 ```ts
 reverseImpliedOddsMinEquity(
@@ -88,16 +88,19 @@ reverseImpliedOddsMinEquity(
 ): number;
 ```
 
-Minimum equity for a call when you cap future **losses** at `maxFutureLoss`.
+Minimum equity for a call when being behind also costs `maxFutureLoss` (L) on later streets. With `potBeforeCall` including villain's bet, `equity × pot − (1 − equity) × (toCall + L) = 0` gives `(toCall + L) / (pot + toCall + L)`, which is [`breakevenCallEquity`](/docs/reference/api/pot-odds-and-ev/pot-odds#breakevenCallEquity)`(pot, toCall + L)`. Extra losses can only raise the threshold. Before 4.2.0 this returned `toCall / (pot + toCall + L)`, which lowered it (0.25 instead of 0.5 for pot 100, call 50, L = 50).
 
 ```js title="Example"
 const poker = require('poker-calculations');
-// Call 50 into 100, but you expect to lose another 200 on later streets when behind
-console.log(poker.reverseImpliedOddsMinEquity(100, 50, 200).toFixed(3));
+// Call 50 into 100 (villain's bet included), and lose another 50 later when behind:
+// risking 100 to win 100 needs 50%.
+console.log(poker.reverseImpliedOddsMinEquity(100, 50, 50)); // 0.5
+console.log(poker.breakevenCallEquity(100, 50)); // 1/3 without the later loss
 ```
 
 ```text title="Output"
-0.143
+0.5
+0.3333333333333333
 ```
 
 ## See also

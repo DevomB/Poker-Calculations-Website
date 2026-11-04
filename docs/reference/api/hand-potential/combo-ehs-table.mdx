@@ -35,7 +35,7 @@ interface ComboEhsTableOptions {
 
 </details>
 
-Builds the EHS of every hero combo at once, the input for bucketed abstractions. Exact enumeration against a wide range takes minutes, so pass `{ trials, seed }` or keep the range small.
+Builds the EHS of every hero combo at once, the input for bucketed abstractions. Exact enumeration against a wide range takes minutes, so pass `{ trials, seed }` or keep the range small. A duplicate board card throws (before 4.2.0 it was accepted).
 
 ```js title="Example"
 const poker = require('poker-calculations');

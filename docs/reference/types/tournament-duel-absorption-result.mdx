@@ -9,13 +9,15 @@ Returned by [`tournamentDuelAbsorptionProbabilities`](/docs/reference/api/icm/to
 
 | Field | Type | Meaning |
 | --- | --- | --- |
-| `heroWinProbability` | `number` | Probability hero wins the duel (absorption at hero-favored boundary) |
-| `expectedHands` | `number` | Expected hands until absorption |
+| `heroWinProbability` | `number` | Probability that hero wins the duel (villain busts first) |
+| `expectedHands` | `number` | Expected number of all-ins until someone busts |
 | `heroPrizeEv` | `number` | `heroWinProbability × winnerPrize` |
 
 ## Semantics
 
-Models a heads-up duel as a Markov chain on stack differential in steps of `chipsPerAllIn`, with fixed per-hand win probability `winProbabilityPerHand`. Each hand moves the state up or down by one step until hero or villain is eliminated. `expectedHands` is the mass-weighted mean hands played until absorption. If `winnerPrize` is omitted on the API, it defaults to `0` and `heroPrizeEv` is zero.
+Closed-form gambler's ruin. Each all-in moves `chipsPerAllIn` chips, and hero wins it with the fixed probability `p = winProbabilityPerHand`. Hero busts after `h = ceil(heroStack / chipsPerAllIn)` net losses and wins after `v = ceil(villainStack / chipsPerAllIn)` net wins. With `r = (1 − p) / p` and `N = h + v`, `heroWinProbability = (1 − rʰ) / (1 − rᴺ)` and `expectedHands = (h − N × heroWinProbability) / (1 − 2p)`. At `p = 0.5` these become the chip share `h / N` and `h × v`.
+
+The formula is evaluated with `log1p` / `expm1`, so long, uneven duels stay finite: 1000 vs 1000 one-chip all-ins at `p = 0.1` gives a win probability of about 0 and 1250 expected all-ins. Before 4.2.0 that case returned `NaN`. Stacks and `chipsPerAllIn` must be positive and finite, `p` must be in [0, 1], and `winnerPrize` must be finite and non-negative. If `winnerPrize` is omitted, it defaults to `0` and `heroPrizeEv` is zero.
 
 ## Example
 
@@ -35,9 +37,9 @@ console.log(r);
 
 ```text title="Output"
 {
-  heroWinProbability: 0.792498687775579,
-  expectedHands: 13.399895022046302,
-  heroPrizeEv: 79249.8687775579
+  heroWinProbability: 0.7924986877755789,
+  expectedHands: 13.3998950220463,
+  heroPrizeEv: 79249.86877755789
 }
 ```
 

@@ -24,7 +24,7 @@ console.log(ev.map((x) => Math.round(x)));
 [ 3467, 2889, 2202, 1442 ]
 ```
 
-The chip leader holds 43% of the chips but gets well under 43% of the prize pool, and the short stack is worth far more than its 11% of the chips suggests. [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts) uses the Harville model; [`icmExpectedPayoutsWeitzman`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts) is an alternative chip-utility model if you want a second opinion.
+The chip leader holds 43% of the chips but gets well under 43% of the prize pool, and the short stack is worth far more than its 11% of the chips suggests. [`icmExpectedPayouts`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayouts) uses the Harville model, a simplified tournament model in which each place goes to a remaining player in proportion to their stack. [`icmExpectedPayoutsWeitzman`](/docs/reference/api/icm/icm-expected-payouts#icmExpectedPayoutsWeitzman) is deprecated and is not an alternative: it splits the whole pool by `stack^alpha` and ignores finishing positions.
 
 ## Who finishes where
 
@@ -45,7 +45,7 @@ seat 2: 0.18  0.23  0.31  0.28
 seat 3: 0.11  0.15  0.23  0.51
 ```
 
-Each row is a seat and each column a finishing place. Multiplying this matrix by the payouts is exactly what `icmExpectedPayouts` does.
+Each row is a seat and each column a finishing place. Multiplying this matrix by the payouts gives `icmExpectedPayouts`; that function reaches the same numbers faster by resolving only the places that pay more than last. The full matrix is supported for up to 20 players.
 
 ## The bubble factor
 
@@ -98,7 +98,7 @@ console.log(layers);
 ]
 ```
 
-Each layer lists its size and who can win it. Give each eligible player an equity for each layer and [`layeredPotChipEvFromEquities`](/docs/reference/api/side-pots/layered-pot-ev#layeredPotChipEvFromEquities) returns expected chips. With known hands, [`exactMultiwaySidePotChipEv`](/docs/reference/api/exact-equity/exact-multiway-side-pot-ev#exactMultiwaySidePotChipEv) does the whole thing exactly:
+Each layer lists its size and what each seat put into it; seat 1 has nothing in, so it contributes to no layer. The ladder does not know who folded: folded seats' chips are included, and deciding who can win each layer is up to you. Give each eligible player an equity for each layer and [`layeredPotChipEvFromEquities`](/docs/reference/api/side-pots/layered-pot-ev#layeredPotChipEvFromEquities) returns expected chips. With known hands, [`exactMultiwaySidePotChipEv`](/docs/reference/api/exact-equity/exact-multiway-side-pot-ev#exactMultiwaySidePotChipEv) does the whole thing exactly:
 
 ```js
 const chipEv = poker.exactMultiwaySidePotChipEv(

@@ -37,6 +37,8 @@ Uint8Array(3) [ 50, 46, 42 ] [ 'Ah', 'Kh', 'Qh' ]
 50 Ah
 ```
 
+`cardStringToDeckIndex` takes a card string such as `'Ah'` or `'10h'` (case-insensitive); anything that is not a string throws. Before 4.2.0 objects were coerced through `toString`.
+
 Pre-pack once in your app, then pass `Uint8Array` into hot paths (`simulateHandOutcome`, `evaluateHandStrength`, `exactHuEquityVsRandomHand`, `decideAction` state, etc.) to avoid per-card string parsing at the N-API boundary.
 
 You can also obtain packed bytes directly from compact text:

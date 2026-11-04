@@ -100,6 +100,8 @@ console.log(poker.evaluateBigOHandStrength(['Ah', 'Kh', 'Qd', 'Jd', '2c'], ['Th'
 
 True iff hero’s Big O hand is unbeaten by every other 5-card combo that avoids `boardCards` and optional `extraDead`.
 
+Exact. Since a Big O hand plays exactly two hole cards, the check tests every pair of live cards rather than every 5-card holding: same answer, far less work.
+
 ```ts
 bigONutsOnBoard(heroHoleCards: CardInput, boardCards: CardInput, extraDead?: CardInput): boolean;
 ```

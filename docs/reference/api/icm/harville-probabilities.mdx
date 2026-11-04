@@ -12,7 +12,7 @@ api_functions: ["icmHarvillePlacementProbabilities", "icmWinProbabilitiesHarvill
 
 ## `icmHarvillePlacementProbabilities` \{#icmHarvillePlacementProbabilities\}
 
-Full Harville placement matrix, row-major `n × n`: entry `player * n + place` is the probability that `player` finishes in `place` (0 = first). A `Float64Array` when `returnFormat` is `'float64'`.
+Full Harville placement matrix, row-major `n × n`: entry `player * n + place` is the probability that `player` finishes in `place` (0 = first). A `Float64Array` when `returnFormat` is `'float64'`. Computed over subsets of already-placed players (2^n states), so it is supported for up to 20 players; larger fields throw (use `icmTopKFinishProbabilities` or payouts with few paid places).
 
 ```ts
 icmHarvillePlacementProbabilities(
@@ -22,6 +22,8 @@ icmHarvillePlacementProbabilities(
 ```
 
 You need the full **finish distribution** per player (1st through nth) for custom payout structures or visualization. The result is flat: row `i` (player `i`) is `slice(i * n, i * n + n)`, and column `0` is first place.
+
+Harville is a simplified tournament model: first place goes to each player with probability equal to their chip share, and each later place is filled the same way among the players still unplaced. Given that model, the matrix is exact. Shares are scaled over the unplaced players, so extreme stacks such as `1e308` and `1e-308` keep their proportions.
 
 ```js title="Example"
 const poker = require('poker-calculations');
@@ -44,7 +46,7 @@ P(player 2 last): 0.533
 
 ## `icmWinProbabilitiesHarville` \{#icmWinProbabilitiesHarville\}
 
-Harville first-place probabilities.
+Harville first-place probabilities: each stack's share of the chips (no enumeration; up to 31 players).
 
 ```ts
 icmWinProbabilitiesHarville(stacks: F64VectorInput, returnFormat?: F64ReturnFormat): number[] | Float64Array;
@@ -65,12 +67,7 @@ console.log(poker.icmExpectedPayouts(stacks, payouts));
 
 ```text title="Output"
 [ 0.4, 0.3, 0.2, 0.1 ]
-[
-  6876.190476190476,
-  6157.142857142857,
-  5200.000000000001,
-  3766.666666666667
-]
+[ 6876.190476190476, 6157.142857142858, 5200, 3766.6666666666665 ]
 ```
 
 ## `icmTopKFinishProbabilities` \{#icmTopKFinishProbabilities\}
@@ -86,6 +83,8 @@ icmTopKFinishProbabilities(
 ```
 
 Prize pools that pay **top k** (e.g. final-table chop thinking, satellite “top 3 win seat”) need summed placement mass without manual matrix reduction.
+
+Only the first `k` places are resolved, so fields larger than 20 players work while those places need at most 2^20 subset states (for example, `k = 2` with 25 players).
 
 ```js title="Example"
 const poker = require('poker-calculations');
@@ -124,7 +123,7 @@ icmLastPlaceProbabilitiesHarville(
 ): number[] | Float64Array;
 ```
 
-Short stacks care about **bust-out risk** before win equity—last-place probabilities from Harville highlight who is most likely to exit next. Equivalent to the last column of `icmHarvillePlacementProbabilities`.
+Short stacks care about **bust-out risk** before win equity—last-place probabilities from Harville highlight who is most likely to exit next. Equivalent to the last column of `icmHarvillePlacementProbabilities`, and bounded the same way (up to 20 players).
 
 ```js title="Example"
 const poker = require('poker-calculations');
@@ -142,14 +141,14 @@ console.log(Array.from({ length: n }, (_, i) => matrix[i * n + n - 1]));
 ```text title="Output"
 [
   0.03347042584998759,
-  0.05233287908482568,
-  0.29332556709466723,
+  0.05233287908482569,
+  0.2933255670946673,
   0.6208711279705194
 ]
 [
   0.03347042584998759,
-  0.05233287908482568,
-  0.29332556709466723,
+  0.05233287908482569,
+  0.2933255670946673,
   0.6208711279705194
 ]
 ```

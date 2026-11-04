@@ -67,6 +67,8 @@ normalizedStackFractions(
 
 Show **chip share of the table** (who owns what fraction of total chips). This is raw chip normalization, not ICM dollar equity—use Harville exports when payouts matter.
 
+Stacks are scaled before summing, so extreme values keep their proportions: `[1e308, 1e308]` gives `[0.5, 0.5]` (before 4.2.0 the sum overflowed and the result was zeros). Stacks must be finite and non-negative with a positive sum.
+
 ```js title="Example"
 const poker = require('poker-calculations');
 
