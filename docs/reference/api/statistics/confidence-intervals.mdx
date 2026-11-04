@@ -52,7 +52,7 @@ console.log({
 ```
 
 ```text title="Output"
-{ point: 0.42, lower: 0.3297825389454565, upper: 0.5161366302507038 }
+{ point: 0.42, lower: 0.327982249185113, upper: 0.5179369200110473 }
 ```
 
 **Returns** `WilsonScoreInterval` — `{ lower: number, upper: number }` with both bounds in `[0, 1]` for the success proportion successes/nTrials at critical value `z`.
@@ -97,7 +97,7 @@ console.log({ agrestiCoull: ac, wilson });
 ```text title="Output"
 {
   agrestiCoull: { lower: 0.30699132975881616, upper: 0.601771124166223 },
-  wilson: { lower: 0.313545359660539, upper: 0.5952170942645003 }
+  wilson: { lower: 0.30705075280944694, upper: 0.6017117011155924 }
 }
 ```
 
@@ -143,7 +143,7 @@ console.log({ wald, wilson, pHat: successes / nTrials });
 ```text title="Output"
 {
   wald: { lower: 0.4561730676410041, upper: 0.5438269323589959 },
-  wilson: { lower: 0.4565068971192643, upper: 0.5434931028807357 },
+  wilson: { lower: 0.45634046916507415, upper: 0.5436595308349258 },
   pHat: 0.5
 }
 ```
@@ -173,7 +173,7 @@ console.log(w, interval.upper - interval.lower);
 ```
 
 ```text title="Output"
-0.18635409130524727 0.18635409130524727
+0.1899546708259343 0.1899546708259343
 ```
 
 ## See also
