@@ -15,8 +15,9 @@ api_functions: ["evaluateStudBestHand", "exactHuStudEquityVsKnown", "simulateStu
 7-card stud hi. Best 5-card high from **3–7** cards. Same `HandEvalResult` as `evaluateBestHand`.
 
 ```ts
-evaluateStudBestHand(cards: CardInput, options?: EvaluateBestHandOptions): HandEvalResult;
-evaluateStudBestHand(cards: CardInput, options: { format: 'slim' }): HandEvalResultSlim;
+evaluateStudBestHand(cards: CardInput, options: EvaluateBestHandSlimOptions): HandEvalResultSlim;
+evaluateStudBestHand(cards: CardInput, options?: EvaluateBestHandFullOptions): HandEvalResult;
+evaluateStudBestHand(cards: CardInput, options?: EvaluateBestHandOptions): HandEvalResult | HandEvalResultSlim;
 ```
 
 <details>

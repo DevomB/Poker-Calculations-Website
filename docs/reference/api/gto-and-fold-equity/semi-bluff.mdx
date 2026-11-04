@@ -42,7 +42,7 @@ console.log(poker.breakevenFoldEquitySemiBluff(pot, bet, equityWhenCalled, total
 
 ## `breakevenFoldEquitySemiBluffWithRake` \{#breakevenFoldEquitySemiBluffWithRake\}
 
-semi-bluff FE with rake on `totalPotIfCalled`.
+Semi-bluff breakeven fold equity with rake on both outcomes.
 
 ```ts
 breakevenFoldEquitySemiBluffWithRake(
@@ -54,6 +54,8 @@ breakevenFoldEquitySemiBluffWithRake(
   rakeCap: number
 ): number;
 ```
+
+Uses the payouts of [`expectedValueRaiseWithRake`](/docs/reference/api/pot-odds-and-ev/expected-value-raise#expectedValueRaiseWithRake): a fold wins `potBeforeHeroBet − rake(potBeforeHeroBet + heroBetSize)`, a call pays `equityWhenCalled × (totalPotIfCalled − rake(totalPotIfCalled)) − heroBetSize`. The result is the fold equity at which that EV is 0, and 0 when the called branch alone is profitable. For pot 100, bet 50, 10% equity when called, final pot 200, and 5% rake, the threshold is `31 / 123.5 ≈ 25.10%`.
 
 ```js title="Example"
 const poker = require('poker-calculations');
@@ -70,6 +72,9 @@ console.log(fe);
 
 const noRake = poker.breakevenFoldEquitySemiBluff(90, 60, 0.28, 210);
 console.log('without rake:', noRake);
+
+// The raise EV with rake is 0 at the threshold.
+console.log('EV at threshold:', poker.expectedValueRaiseWithRake(0.28, 90, 60, fe, 210, 0.05, 5).toFixed(9));
 ```
 
 ```text title="Output"

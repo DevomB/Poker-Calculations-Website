@@ -19,11 +19,11 @@ runBotPolicyBatch(
   states: Array<NativePokerState | PokerStateBytes>,
   config: NativeBotConfig,
   opponentModels?: Array<NativeOpponentModel | null>
-): DecisionDiagnosticResult[];
+): Array<DecisionDiagnosticResult | DecisionBatchErrorRow>;
 ```
 
 <details>
-<summary>Types: <code>DecisionDiagnosticResult</code>, <code>NativePokerState</code>, <code>NativeBotConfig</code>, <code>NativeOpponentModel</code>, <code>DecisionResult</code></summary>
+<summary>Types: <code>DecisionDiagnosticResult</code>, <code>DecisionBatchErrorRow</code>, <code>NativePokerState</code>, <code>NativeBotConfig</code>, <code>NativeOpponentModel</code>, <code>DecisionResult</code></summary>
 
 ```ts
 interface DecisionDiagnosticResult {
@@ -31,7 +31,13 @@ interface DecisionDiagnosticResult {
   legalActions: LegalActionSummaryResult;
   ev?: ActionEvBreakdownResult;
   reason: string;
-  error?: string;
+  /** Never set on a decision; lets `row.error !== undefined` tell error rows apart. */
+  error?: undefined;
+}
+
+/** A row for a state that is invalid or cannot be acted on: only `error`. */
+interface DecisionBatchErrorRow {
+  error: string;
 }
 
 interface NativePokerState {
@@ -73,8 +79,6 @@ interface NativeOpponentModel {
   foldFrequency?: number;
 }
 
-/** `format: 'slim'` on `evaluateBestHand` — category ordinal + encoded strength only. */
-
 interface DecisionResult {
   action: 'fold' | 'call' | 'raise' | 'check';
   raiseBy: number;
@@ -85,7 +89,7 @@ Field notes: [`DecisionDiagnosticResult`](/docs/reference/types/decision-diagnos
 
 </details>
 
-Use `runBotPolicyBatch` to decide for the acting player in many states at once. `opponentModels[i]` (or `null`) applies to state `i`. A state that is invalid or that nobody can act on returns `{ error }` in its row instead of failing the whole batch.
+Use `runBotPolicyBatch` to decide for the acting player in many states at once. `opponentModels[i]` (or `null`) applies to state `i`. A state that is invalid or that nobody can act on returns `{ error }` in its row instead of failing the whole batch; that row has no `decision` or `legalActions`. In TypeScript the rows are `DecisionDiagnosticResult | DecisionBatchErrorRow`, so check `row.error !== undefined` before reading decision fields. Calls are priced as in [`decideAction`](/docs/reference/api/bots/decide-action#decideAction), side-pot layer by layer.
 
 ```js title="Example"
 const poker = require('poker-calculations');
@@ -104,7 +108,7 @@ const state = {
   actedThisStreet: [false, true],
 };
 const results = poker.runBotPolicyBatch([state, state], { monteCarloSimulations: 500, rngSeed: 1 });
-console.log(results.map((r) => r.decision.action));
+console.log(results.map((r) => (r.error !== undefined ? r.error : r.decision.action)));
 ```
 
 ```text title="Output"

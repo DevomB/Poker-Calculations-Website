@@ -18,13 +18,18 @@ Best 5-card Big O hand: exactly 2 hole + exactly 3 board. `holeCards` must be 5 
 evaluateBigOBestHand(
   holeCards: CardInput,
   boardCards: CardInput,
-  options?: EvaluateBestHandOptions
+  options: EvaluateBestHandSlimOptions
+): HandEvalResultSlim;
+evaluateBigOBestHand(
+  holeCards: CardInput,
+  boardCards: CardInput,
+  options?: EvaluateBestHandFullOptions
 ): HandEvalResult;
 evaluateBigOBestHand(
   holeCards: CardInput,
   boardCards: CardInput,
-  options: { format: 'slim' }
-): HandEvalResultSlim;
+  options?: EvaluateBestHandOptions
+): HandEvalResult | HandEvalResultSlim;
 ```
 
 <details>

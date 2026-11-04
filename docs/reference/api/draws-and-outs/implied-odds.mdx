@@ -12,13 +12,13 @@ api_functions: ["impliedBreakevenFutureWin", "impliedOddsRequiredEquityFromFutur
 
 ## `impliedBreakevenFutureWin` \{#impliedBreakevenFutureWin\}
 
-Average extra future win needed for a neutral call; `+∞` if equity ≤ 0.
+Extra chips hero must win later for a call to break even: `max(0, toCall / equity − potBeforeCall − toCall)`; `+∞` if equity ≤ 0.
 
 ```ts
 impliedBreakevenFutureWin(potBeforeCall: number, toCall: number, equity: number): number;
 ```
 
-Quantify **how much extra you must win on later streets** when your current-street call equity alone is below breakeven—implied odds in chip terms. Compare the result to realistic future winnings when chasing draws.
+Quantify **how much extra you must win on later streets** when your current-street call equity alone is below breakeven—implied odds in chip terms. With `potBeforeCall` including villain's bet, the call breaks even when `equity × (potBeforeCall + W) − (1 − equity) × toCall = 0`. Pot 100, call 50, 25% equity: the call loses 12.5 now and needs `W = 50` more. Returns 0 when the call is already profitable. Compare the result to realistic future winnings when chasing draws.
 
 ```js title="Example"
 const poker = require('poker-calculations');
@@ -32,6 +32,9 @@ console.log('extra future win needed:', need);
 
 const be = poker.breakevenCallEquity(pot, toCall);
 console.log('breakeven without implied:', be);
+
+// With those future winnings the required equity is exactly hero's equity.
+console.log(poker.impliedOddsRequiredEquityFromFutureWin(pot, toCall, need));
 ```
 
 ```text title="Output"
@@ -51,7 +54,7 @@ impliedOddsRequiredEquityFromFutureWin(
 ): number;
 ```
 
-Inverse of [`impliedBreakevenFutureWin`](/docs/reference/api/draws-and-outs/implied-odds#impliedBreakevenFutureWin): equity needed when you expect a fixed extra win on later streets.
+Equity needed when you expect a fixed extra win on later streets: `toCall / (potBeforeCall + toCall + futureWin)`. Inverse of [`impliedBreakevenFutureWin`](/docs/reference/api/draws-and-outs/implied-odds#impliedBreakevenFutureWin) wherever that result is positive.
 
 ```js title="Example"
 const poker = require('poker-calculations');

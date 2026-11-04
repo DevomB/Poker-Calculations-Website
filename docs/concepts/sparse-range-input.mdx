@@ -7,6 +7,8 @@ title: Sparse range input
 Pass a villain range as:
 
 - **Dense:** `Float64Array` of length **1326** (canonical pair index order), or
-- **Sparse:** `{ indices: number[] | Int32Array, weights: number[] | Float64Array }` with two deck indices per combo.
+- **Sparse:** `{ indices: number[] | Int32Array | Uint32Array, weights: number[] | Float64Array }` with two deck indices per combo.
 
-Weights must be finite and non-negative: a `NaN`, infinite, or negative weight throws instead of being dropped. Zero-weight combos are skipped. Only ratios matter, so `[1, 1]` and `[1e308, 1e308]` describe the same range and give the same results; the package rescales extreme weights by an exact power of two before forming any total. Results reported in weight units (for example `materializeVillainRangeAfterBlockers` weights or `handPotentialBreakdown` counts) keep your units, and throw if their total would exceed the largest double.
+Every export that takes a range accepts all three `indices` forms. Each entry must be an integer deck id `0..51`; `NaN`, fractions such as `1.9`, and out-of-range values such as `4294967297` throw instead of being converted to another card. A combo listed more than once is one combo carrying the sum of its weights.
+
+Weights must be finite and non-negative: a `NaN`, infinite, or negative weight throws instead of being dropped. Zero-weight combos are skipped. Only ratios matter, so `[1, 1]` and `[1e308, 1e308]` describe the same range and give the same results, and weights far apart (`1e200` and `1e-200`) both count. The package keeps your weights; each calculation scales them by an exact power of two chosen from the largest weight among the combos that actually take part (after hero's cards, the board, and card conflicts), so a dominant combo that drops out cannot erase the rest. Results reported in weight units (for example `materializeVillainRangeAfterBlockers` weights or `handPotentialBreakdown` counts) keep your units, and throw if their total would exceed the largest double.

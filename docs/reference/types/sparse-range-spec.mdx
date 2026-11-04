@@ -7,10 +7,10 @@ sidebar_position: 43
 
 ```ts
 interface SparseRangeSpec {
-  /** Parallel deck ids: two entries per combo (hero villain hole cards). */
+  /** Parallel deck ids: two entries per combo (villain hole cards), each an integer 0..51. */
   indices: number[] | Int32Array | Uint32Array;
   weights: number[] | Float64Array; // F64VectorInput
 }
 ```
 
-Used by [`exactHuEquityVsRange`](/docs/reference/api/exact-equity/exact-hu-vs-range#exactHuEquityVsRange), [`simulateEquityVsRange`](/docs/reference/api/monte-carlo/simulate-equity-vs-range#simulateEquityVsRange), and [`equityDeltaIfCardRemoved`](/docs/reference/api/runout-analysis/card-removal#equityDeltaIfCardRemoved). See [Sparse range input](/docs/concepts/sparse-range-input).
+Every export that takes a range accepts all three `indices` forms with the same validation. A combo listed more than once carries the sum of its weights. Used by [`exactHuEquityVsRange`](/docs/reference/api/exact-equity/exact-hu-vs-range#exactHuEquityVsRange), [`simulateEquityVsRange`](/docs/reference/api/monte-carlo/simulate-equity-vs-range#simulateEquityVsRange), and [`equityDeltaIfCardRemoved`](/docs/reference/api/runout-analysis/card-removal#equityDeltaIfCardRemoved). See [Sparse range input](/docs/concepts/sparse-range-input).

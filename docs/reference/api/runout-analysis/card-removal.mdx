@@ -30,19 +30,15 @@ interface CardRemovalGradientResult {
   gradient: Float64Array;
   baseEquity: number;
 }
-
-/**
- * Polarized river bet that makes a bluff-catcher indifferent when the whole range bets:
- * with value share v = value/(value+bluffs), `betSize = (1 − v) × pot / (2v − 1)` (requires
- * v > 0.5; otherwise `betSize` is `Infinity` because every size is a profitable call).
- */
 ```
 
 Field notes: [`CardRemovalGradientResult`](/docs/reference/types/card-removal-gradient-result)
 
 </details>
 
-You need **exact** card-removal effects on equity vs a weighted range — for blocker analysis, study backends, or comparing to the Monte Carlo heuristic [`equityDeltaIfCardRemoved`](/docs/reference/api/runout-analysis/card-removal#equityDeltaIfCardRemoved).
+You need **exact** card-removal effects on equity vs a weighted range — for blocker analysis, study backends, or a full-deck view of [`equityDeltaIfCardRemoved`](/docs/reference/api/runout-analysis/card-removal#equityDeltaIfCardRemoved) (which reports the opposite sign, `after − base`, for one card).
+
+`gradient[c]` is `baseEquity` minus hero's equity with card `c` dead (out of villain's range and the runout). Hero's and the board's cards are `0`. When every live combo holds `c`, villain cannot have a hand with `c` dead, so that entry is `NaN` rather than an invented equity.
 
 ```js title="Example"
 const poker = require('poker-calculations');
@@ -78,12 +74,6 @@ interface CardRemovalGradientResult {
   gradient: Float64Array;
   baseEquity: number;
 }
-
-/**
- * Polarized river bet that makes a bluff-catcher indifferent when the whole range bets:
- * with value share v = value/(value+bluffs), `betSize = (1 − v) × pot / (2v − 1)` (requires
- * v > 0.5; otherwise `betSize` is `Infinity` because every size is a profitable call).
- */
 ```
 
 Field notes: [`CardRemovalGradientResult`](/docs/reference/types/card-removal-gradient-result)

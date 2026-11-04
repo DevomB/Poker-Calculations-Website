@@ -71,7 +71,7 @@ Field notes: [`McEquityDetailedResult`](/docs/reference/types/mc-equity-detailed
 
 Each trial draws a hand from every range and keeps the whole set only if no two opponents share a card, then deals the rest of the board. The opponents' hands therefore follow the joint distribution of the ranges: drawing one hand at a time and renormalising the later ranges would weight the first range's hands wrongly. Ties pay `1/k`; there are no side pots. The result carries the same `estimate`, `se`, and Wilson interval as [`simulateHandOutcomeDetailed`](/docs/reference/api/monte-carlo/simulate-hand-outcome#simulateHandOutcomeDetailed), plus `attempts`, the number of draws (`n / attempts` is the share of draws that were card-disjoint).
 
-If fewer than `numSimulations` draws are card-disjoint within `maxAttempts` (default `100 × numSimulations + 10000`, an acceptance rate below about 1%), it throws instead of running on; that happens when the ranges all need the same few cards. A range with no combo left after blockers also throws.
+If fewer than `numSimulations` draws are card-disjoint within `maxAttempts` (default `100 × numSimulations + 10000`, an acceptance rate below about 1%), it throws instead of running on; that happens when the ranges all need the same few cards. Each sample needs at least one draw, so a `maxAttempts` below `numSimulations` throws up front. A range with no combo left after blockers also throws.
 
 ```js title="Example"
 const poker = require('poker-calculations');

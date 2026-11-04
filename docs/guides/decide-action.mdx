@@ -24,7 +24,7 @@ See [NativeBotConfig](/docs/reference/types/native-bot-config) and optional [Nat
 
 [`normalizeBotConfig`](/docs/reference/api/bots/bot-config#normalizeBotConfig) fills missing fields and clamps values before you call policy exports.
 
-When `monteCarloSimulations` is `0`, strategy falls back to encoded hand strength instead of simulated equity.
+`monteCarloSimulations` must be at least 1: there is no non-simulated fallback, and `normalizeBotConfig` clamps it to at least 1. With nothing to call, equity is against `monteCarloVillains` random hands. A call is priced side-pot layer by layer: hero can win only the layers it puts chips into, each against random hands for the players still in that layer, so an all-in player who covers only part of the bet competes only for the part they matched. Set `totalCommittedHand` on every player (summing to `pot`) to layer earlier streets too; otherwise earlier-street chips count as one layer contested by everyone still in the hand.
 
 ## Example
 

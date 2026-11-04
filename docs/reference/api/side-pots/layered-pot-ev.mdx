@@ -23,7 +23,7 @@ layeredPotChipEvFromEquities(
 ): number[] | Float64Array;
 ```
 
-Each side-pot layer may have **different winners** (short stack eligible only for main, etc.). Supply pot size per layer and a matrix `equityPlayerByLayer[player][layer]` where each layer column sums to `1`.
+Each side-pot layer may have **different winners** (short stack eligible only for main, etc.). Supply pot size per layer and a matrix `equityPlayerByLayer[player][layer]` where each layer column sums to `1`. Every row must have one entry per layer; a row of another length throws (the rake variant too).
 
 ```js title="Example"
 const poker = require('poker-calculations');

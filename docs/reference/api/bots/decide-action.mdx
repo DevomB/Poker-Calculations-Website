@@ -70,8 +70,6 @@ interface NativeOpponentModel {
   callFrequency?: number;
   foldFrequency?: number;
 }
-
-/** `format: 'slim'` on `evaluateBestHand` — category ordinal + encoded strength only. */
 ```
 
 Field notes: [`DecisionResult`](/docs/reference/types/decision-result) · [`NativePokerState`](/docs/reference/types/native-poker-state) · [`NativeBotConfig`](/docs/reference/types/native-bot-config) · [`NativeOpponentModel`](/docs/reference/types/native-opponent-model)
@@ -81,8 +79,8 @@ Field notes: [`DecisionResult`](/docs/reference/types/decision-result) · [`Nati
 Wire a rule-based villain or research bot in your own engine—automated opponents in simulators, not live assistance on third-party sites. Pass a complete `NativePokerState` snapshot each decision.
 
 - Hero is the player in `heroSeat`, or the acting player when it is omitted. It throws when that seat is empty, hero has folded or is all-in, or the hand is over, and when `monteCarloSimulations` is below 1.
-- Equity is estimated against `monteCarloVillains` random hands, not the actual opponents' cards.
-- A call that puts hero all-in for less is priced on what hero can win: the call costs hero's stack, and only the part of each bet hero matches counts (the rest is a side pot or returned).
+- Equity is estimated against random hands, not the actual opponents' cards. With nothing to call it is against `monteCarloVillains` random hands.
+- A call is priced pot layer by pot layer. Hero's chips are added to the commitments and the pot is split into side-pot layers; hero can win only the layers it contributes to, and in each it faces random hands for the players still in that layer. The call is worth the expected winnings from those layers minus its cost (hero's stack when it is short). Earlier streets count as one layer unless every player's `totalCommittedHand` is set consistently. When every layer has `monteCarloVillains` opponents (heads-up, for example) this is the plain equity estimate applied to the pot.
 - `raiseBy` is the chips added on top of the call, kept between the minimum raise and all-in.
 
 ```js title="Example"
@@ -177,8 +175,6 @@ interface NativeOpponentModel {
   callFrequency?: number;
   foldFrequency?: number;
 }
-
-/** `format: 'slim'` on `evaluateBestHand` — category ordinal + encoded strength only. */
 ```
 
 Field notes: [`DecisionResult`](/docs/reference/types/decision-result) · [`NativePokerState`](/docs/reference/types/native-poker-state) · [`NativeBotConfig`](/docs/reference/types/native-bot-config) · [`NativeOpponentModel`](/docs/reference/types/native-opponent-model)
@@ -233,7 +229,8 @@ interface DecisionDiagnosticResult {
   legalActions: LegalActionSummaryResult;
   ev?: ActionEvBreakdownResult;
   reason: string;
-  error?: string;
+  /** Never set on a decision (see runBotPolicyBatch error rows). */
+  error?: undefined;
 }
 
 interface NativePokerState {
@@ -274,8 +271,6 @@ interface NativeOpponentModel {
   callFrequency?: number;
   foldFrequency?: number;
 }
-
-/** `format: 'slim'` on `evaluateBestHand` — category ordinal + encoded strength only. */
 
 interface DecisionResult {
   action: 'fold' | 'call' | 'raise' | 'check';

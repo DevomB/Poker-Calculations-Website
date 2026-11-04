@@ -128,7 +128,7 @@ true
 
 ## `rangeRemovalSensitivityVsHero` \{#rangeRemovalSensitivityVsHero\}
 
-Estimate hero-equity sensitivity to removing each live card from villain range.
+Per card, the change in hero's exact equity when villain's combos holding that card are removed.
 
 ```ts
 rangeRemovalSensitivityVsHero(
@@ -138,7 +138,7 @@ rangeRemovalSensitivityVsHero(
 ): Float64Array;
 ```
 
-Use `rangeRemovalSensitivityVsHero` when you need to estimate hero-equity sensitivity to removing each live card from villain range.
+Entry `c` is hero's equity when villain is known not to hold card `c` (its combos with `c` removed; `c` can still come on the board) minus hero's equity against the full range. Hero's and the board's cards are `0`. When every live combo holds `c`, villain cannot lack it, so the entry is `NaN` rather than an invented equity. Invalid cards, or a range with no live combo, throw. For a card that is dead (out of the runout too), see [`exactEquityCardRemovalGradient`](/docs/reference/api/runout-analysis/card-removal#exactEquityCardRemovalGradient).
 
 ```js title="Example"
 const poker = require('poker-calculations');

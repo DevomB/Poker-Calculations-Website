@@ -18,13 +18,18 @@ Best 5-card Omaha Hi hand: exactly 2 hole + exactly 3 board. `holeCards` must be
 evaluateOmahaBestHand(
   holeCards: CardInput,
   boardCards: CardInput,
-  options?: EvaluateBestHandOptions
+  options: EvaluateBestHandSlimOptions
+): HandEvalResultSlim;
+evaluateOmahaBestHand(
+  holeCards: CardInput,
+  boardCards: CardInput,
+  options?: EvaluateBestHandFullOptions
 ): HandEvalResult;
 evaluateOmahaBestHand(
   holeCards: CardInput,
   boardCards: CardInput,
-  options: { format: 'slim' }
-): HandEvalResultSlim;
+  options?: EvaluateBestHandOptions
+): HandEvalResult | HandEvalResultSlim;
 ```
 
 <details>

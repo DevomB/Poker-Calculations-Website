@@ -11,12 +11,12 @@ Returned by [`materializeVillainRangeAfterBlockers`](/docs/reference/api/ranges/
 | --- | --- | --- |
 | `weights1326` | `Float64Array` | Dense combo weights (length 1326) after blockers |
 | `liveComboCount` | `number` | Combos with positive weight |
-| `weightSum` | `number` | Sum of live weights |
+| `weightSum` | `number` | Sum of `weights1326`, in your weight units |
 | `shannonEntropy` | `number` | Shannon entropy of normalized live weights |
 
 ## Semantics
 
-Hero hole cards, board, and optional `knownDead` remove combos from the prior range (dense `Float64Array(1326)` or [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec)). Remaining weights are written into `weights1326`; blocked combos are zero. Entropy uses normalized probabilities over positive entries only.
+Hero hole cards, board, and optional `knownDead` remove combos from the prior range (dense `Float64Array(1326)` or [`SparseRangeSpec`](/docs/reference/types/sparse-range-spec)). Remaining weights are written into `weights1326` in your units; blocked combos are zero. A sparse combo listed more than once gets the sum of its weights, so `weightSum` always equals the sum of `weights1326` and `liveComboCount` the number of positive entries. Entropy uses normalized probabilities over positive entries only. Weights far apart (`1e200` and `1e-200`) are both kept; a `weightSum` past the largest double throws.
 
 `bayesianRangeUpdateFromAction` applies a strength-based likelihood update (fold / call / raise) before materializing.
 

@@ -5,7 +5,7 @@ sidebar_position: 8
 
 # `DecisionDiagnosticResult`
 
-Combined policy output from [`decideActionWithDiagnostics`](/docs/reference/api/bots/decide-action#decideActionWithDiagnostics): decision, legality, optional EV breakdown, and reason or error.
+Combined policy output from [`decideActionWithDiagnostics`](/docs/reference/api/bots/decide-action#decideActionWithDiagnostics) and the successful rows of [`runBotPolicyBatch`](/docs/reference/api/bots/bot-policy-batch#runBotPolicyBatch): decision, legality, optional EV breakdown, and reason.
 
 ## Shape
 
@@ -15,7 +15,25 @@ interface DecisionDiagnosticResult {
   legalActions: LegalActionSummaryResult;
   ev?: ActionEvBreakdownResult;
   reason: string;
-  error?: string;
+  /** Never set on a decision; lets `row.error !== undefined` tell batch error rows apart. */
+  error?: undefined;
+}
+
+/** A runBotPolicyBatch row for a state that is invalid or cannot be acted on. */
+interface DecisionBatchErrorRow {
+  error: string;
+}
+```
+
+`runBotPolicyBatch` returns `Array<DecisionDiagnosticResult | DecisionBatchErrorRow>`. Narrow each row before reading its decision:
+
+```ts
+for (const row of poker.runBotPolicyBatch(states, config)) {
+  if (row.error !== undefined) {
+    console.warn(row.error);
+  } else {
+    console.log(row.decision.action);
+  }
 }
 ```
 

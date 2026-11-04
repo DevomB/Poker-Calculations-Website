@@ -2,7 +2,7 @@
 title: "Equity quantiles"
 sidebar_label: "Equity quantiles"
 sidebar_position: 2
-description: "Exact **distribution** of hero equity over all turn/river runouts — mean, variance, and p05/p50/p95 — vs a random villain or an optional weighted range."
+description: "Exact **distribution** of hero equity over all runouts — mean, variance, and p05/p50/p95 — vs a random villain or, predictively, a weighted range."
 api_functions: ["exactHeroEquityRunoutQuantiles", "exactHeroEquityRunoutQuantilesAsync"]
 ---
 
@@ -61,7 +61,24 @@ p05 / p50 / p95: 0.36414141414141415 0.8767676767676768 1
 Runouts: 1081
 ```
 
-Omit `range` for equity vs a uniform random villain; pass `Float64Array(1326)` or sparse spec for a weighted range (heavier). Board must be **3 or 4** cards.
+Omit `range` for equity vs a uniform random villain: every runout is equally likely. Pass `Float64Array(1326)` or a sparse spec for a weighted range (heavier); the statistics are then **predictive**. Villain's range makes some boards likelier (the cards villain holds cannot come), so each runout is weighted by the range mass that does not use its cards, runouts that no combo can coexist with are skipped, and `mean` equals [`exactHuEquityVsRange`](/docs/reference/api/exact-equity/exact-hu-vs-range#exactHuEquityVsRange) on the current board. Quantiles interpolate the weighted distribution (equal weights give the usual `q·(n − 1)` interpolation). The board may have at most **3** cards.
+
+```js title="Example"
+const poker = require('poker-calculations');
+
+const hero = ['Ah', 'Ad'];
+const flop = ['2c', '7d', '9s'];
+// KhKd once, 9c9d nine times as often, 3c4d once.
+const range = { indices: [45, 46, 28, 29, 4, 9], weights: [1, 9, 1] };
+
+const q = poker.exactHeroEquityRunoutQuantiles(hero, flop, range);
+console.log('Mean:', q.mean);
+console.log('Direct equity:', poker.exactHuEquityVsRange(hero, flop, range));
+console.log('Possible runouts:', q.n);
+```
+
+```text title="Output"
+```
 
 **Returns** [`HeroEquityRunoutQuantilesResult`](/docs/reference/types/hero-equity-runout-quantiles-result).
 
@@ -96,7 +113,7 @@ Field notes: [`HeroEquityRunoutQuantilesResult`](/docs/reference/types/hero-equi
 
 </details>
 
-Same as sync, but with a **weighted villain range** or when enumeration would block the server — use `await` and optional cancellation.
+Same as sync (including the predictive weighting with a range), for a **weighted villain range** or when enumeration would block the server — use `await` and optional cancellation.
 
 ```js title="Example"
 const poker = require('poker-calculations');

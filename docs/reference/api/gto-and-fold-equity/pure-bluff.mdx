@@ -40,7 +40,7 @@ alpha matches pure-bluff BE: 0.39759036144578314
 
 ## `breakevenFoldEquityPureBluffWithRake` \{#breakevenFoldEquityPureBluffWithRake\}
 
-pure-bluff breakeven FE when fold wins `pot+bet` minus rake on shipped pot.
+Pure-bluff breakeven fold equity `bet / (pot − rake(pot + bet) + bet)`.
 
 ```ts
 breakevenFoldEquityPureBluffWithRake(
@@ -50,6 +50,8 @@ breakevenFoldEquityPureBluffWithRake(
   rakeCap: number
 ): number;
 ```
+
+When villain folds, hero's bet comes back and hero wins the pot before the bet, less the rake taken on `pot + bet`; when called, hero loses the bet. These are the payouts of [`expectedValueRaiseWithRake`](/docs/reference/api/pot-odds-and-ev/expected-value-raise#expectedValueRaiseWithRake), so the EV there is 0 at this threshold. Rake only shrinks the fold win, so the threshold is at least [`breakevenFoldEquityPureBluff`](#breakevenFoldEquityPureBluff) (`1/3` for a half-pot bet with no rake). Throws when the rake exceeds the pot hero would win on a fold.
 
 ```js title="Example"
 const poker = require('poker-calculations');
@@ -68,6 +70,9 @@ const fe = poker.breakevenFoldEquityPureBluffWithRake(
 console.log(fe);
 
 console.log(poker.breakevenFoldEquityPureBluff(pot, bet));
+
+// At the threshold a pure bluff (equity 0 when called) breaks even.
+console.log(poker.expectedValueRaiseWithRake(0, pot, bet, fe, pot + 2 * bet, rakeFraction, rakeCap).toFixed(9));
 ```
 
 ```text title="Output"

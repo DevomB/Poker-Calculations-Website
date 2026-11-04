@@ -5,7 +5,7 @@ sidebar_position: 16
 
 # HandEvalResultSlim
 
-Return type of [`evaluateBestHand`](/docs/reference/api/hand-evaluation/evaluate-best-hand#evaluateBestHand) when `format` is `'slim'`.
+Return type of [`evaluateBestHand`](/docs/reference/api/hand-evaluation/evaluate-best-hand#evaluateBestHand) (and the Omaha, Big O, stud, and razz evaluators) when `format` is `'slim'`. TypeScript selects it from a literal `{ format: 'slim' }` (`EvaluateBestHandSlimOptions`); the slim result has no `rank` or `kickers` at runtime.
 
 | Field | Type | Meaning |
 | --- | --- | --- |

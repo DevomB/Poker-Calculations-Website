@@ -15,15 +15,13 @@ api_functions: ["evaluateBestHand", "evaluateHandCategory", "handRankCategoryOrd
 Best five of **1–7** cards. Default return is `HandEvalResult` (`rank`, `rankCategory`, `strength`, `kickers`). Pass `{ format: 'slim' }` for `HandEvalResultSlim` (no string rank or kickers).
 
 ```ts
-evaluateBestHand(cards: CardInput, options?: EvaluateBestHandOptions): HandEvalResult;
-evaluateBestHand(
-  cards: CardInput,
-  options: { format: 'slim' }
-): HandEvalResultSlim;
+evaluateBestHand(cards: CardInput, options: EvaluateBestHandSlimOptions): HandEvalResultSlim;
+evaluateBestHand(cards: CardInput, options?: EvaluateBestHandFullOptions): HandEvalResult;
+evaluateBestHand(cards: CardInput, options?: EvaluateBestHandOptions): HandEvalResult | HandEvalResultSlim;
 ```
 
 <details>
-<summary>Types: <code>HandEvalResultSlim</code>, <code>HandEvalResult</code>, <code>EvaluateBestHandOptions</code>, <code>EvaluateBestHandFormat</code></summary>
+<summary>Types: <code>HandEvalResultSlim</code>, <code>HandEvalResult</code>, <code>EvaluateBestHandOptions</code>, <code>EvaluateBestHandSlimOptions</code>, <code>EvaluateBestHandFullOptions</code>, <code>EvaluateBestHandFormat</code></summary>
 
 ```ts
 interface HandEvalResultSlim {
@@ -46,6 +44,16 @@ interface EvaluateBestHandOptions {
   format?: EvaluateBestHandFormat;
 }
 
+/** Options selecting the slim result (`HandEvalResultSlim`). */
+interface EvaluateBestHandSlimOptions {
+  format: 'slim';
+}
+
+/** Options selecting the full result (`HandEvalResult`); the default. */
+interface EvaluateBestHandFullOptions {
+  format?: 'full';
+}
+
 type EvaluateBestHandFormat = 'full' | 'slim';
 ```
 
@@ -55,7 +63,7 @@ Field notes: [`HandEvalResultSlim`](/docs/reference/types/hand-eval-result-slim)
 
 Use when you need the made hand at showdown or on a partial board—hand history tools, showdown validators, or comparing seven-card combinations without Monte Carlo noise.
 
-Use `{ format: 'slim' }` when you only need `rankCategory` and `strength` for sorting or filtering.
+Use `{ format: 'slim' }` when you only need `rankCategory` and `strength` for sorting or filtering. TypeScript infers `HandEvalResultSlim` from a literal `{ format: 'slim' }` and `HandEvalResult` from `{ format: 'full' }` or no options; options whose format is only known at runtime give the union.
 
 ```js title="Example"
 const poker = require('poker-calculations');

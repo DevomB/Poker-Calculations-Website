@@ -15,8 +15,9 @@ api_functions: ["evaluateRazzHand", "exactHuRazzEquityVsKnown", "simulateRazzEqu
 Razz (7-card A-to-5 low). Aces low. Straights and flushes do **not** count. Best 5 from **3–7** cards. Lower `strength` is better. Wheel is A2345. `kickers` are ace-low values (A=0 … K=12), unlike the hold'em evaluators; hands with fewer than 5 cards pad with 13. Distinct from 2-7 lowball.
 
 ```ts
-evaluateRazzHand(cards: CardInput, options?: EvaluateBestHandOptions): HandEvalResult;
-evaluateRazzHand(cards: CardInput, options: { format: 'slim' }): HandEvalResultSlim;
+evaluateRazzHand(cards: CardInput, options: EvaluateBestHandSlimOptions): HandEvalResultSlim;
+evaluateRazzHand(cards: CardInput, options?: EvaluateBestHandFullOptions): HandEvalResult;
+evaluateRazzHand(cards: CardInput, options?: EvaluateBestHandOptions): HandEvalResult | HandEvalResultSlim;
 ```
 
 <details>

@@ -32,7 +32,7 @@ console.log(q);
 }
 ```
 
-Use `exactHeroEquityRunoutQuantilesAsync` when you pass a weighted villain range or need a non-blocking call in a server.
+Pass a weighted villain range to get predictive statistics: each runout is weighted by how likely it is given that range, so `mean` matches [`exactHuEquityVsRange`](/docs/reference/api/exact-equity/exact-hu-vs-range#exactHuEquityVsRange) on the current board. Use `exactHeroEquityRunoutQuantilesAsync` for a weighted range or a non-blocking call in a server.
 
 ## 2. Deal math (`icmChopSurplusVsEqualSplit`)
 
@@ -57,7 +57,7 @@ For a full comparison of ICM, chip chop, and equal split in one call, use [`icmC
 
 ## 3. Information regret on one street (`exactInformationRegretVsClairvoyant`)
 
-Measure how much call/fold EV you give up when you only see the current board, not the final runout, against a weighted range:
+Measure how much call/fold EV you give up when you only see the current board, not the final runout, against a weighted range. Both sides choose the better of calling and folding, so the value is never negative and is 0 when no runout makes the call profitable:
 
 ```js
 const range = new Float64Array(1326);
