@@ -39,8 +39,9 @@ console.log('bluff share', poker.breakevenCallEquity(pot + bet, bet));
 ```
 
 ```text title="Output"
-bluff:value combo ratio 0.3
-value:bluff 3.3333333333333335
+bluffs per value bet 0.42857142857142855
+value bets per bluff 2.3333333333333335
+bluff share 0.3
 ```
 
 ## `valueToBluffRatio` \{#valueToBluffRatio\}
@@ -66,8 +67,8 @@ console.log(poker.valueToBluffRatio(pot, 0)); // Infinity
 ```
 
 ```text title="Output"
-3
-0.3333333333333333
+2
+0.5
 Infinity
 ```
 
@@ -99,7 +100,7 @@ console.log(ratio);
 ```
 
 ```text title="Output"
-0.25380710659898476
+0.3401360544217687
 ```
 
 ## `valueToBluffRatioWithRake` \{#valueToBluffRatioWithRake\}

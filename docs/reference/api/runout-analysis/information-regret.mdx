@@ -44,7 +44,7 @@ console.log('EV gap (chips):', regret);
 ```
 
 ```text title="Output"
-EV gap (chips): 0.060269670079506454
+EV gap (chips): 0.06026967007892381
 ```
 
 Both sides pick the better of calling and folding (EV 0): hero now, with its equity on the current board, and a clairvoyant who first sees the rest of the board. The result is the average over runouts of `max(0, callEV)` minus `max(0, callEV)` now, with runouts weighted by their probability given the range (the range mass that does not use their cards), so the clairvoyant's average equity equals hero's equity now. It is never negative, 0 on the river, and 0 when no runout makes the call profitable. `potBeforeCall` (villain's bet included) and `toCall` are the pot and call size when hero acts; the board may have 3, 4, or 5 cards.
